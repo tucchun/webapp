@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>新康医疗后台管理系统</title>
+    <link rel="stylesheet" href="../static/css/style.css"/>
+    <link rel="stylesheet" href="../static/assets/zTree/css/zTreeStyle/zTreeStyle.css" />
+</head>
+<body>
+
+<div class="header">
+    <div class="hd-title">
+        <span class="logo"><img src="../static/sprite/new_logo.png" alt="logo"></span>
+        <span class="title">后台管理系统V1.0</span>
+    </div>
+    <div class="hd-operate">
+        <span class="icon icon-avatar"></span>
+        <span>小安南</span>
+        <span>|</span>
+        <span><a href="javascript:void(0);" id="js-update-pwd">修改密码</a></span>
+        <span>|</span>
+        <span><a href="javascript:void(0);" id="js-msgCenter"><i class="icon icon-msg"></i><span class="msgCount">99+</span></a></span>
+        <span>退出</span>
+    </div>
+</div>
+<div class="menu" id="js-menu">
+    <div class="wrap-menu">
+    <!--<ul id="tree" class="ztree"></ul>-->
+        <ul class="sidebar-menu">
+
+            <li class="treeview">
+                <a>
+                    <i class="icon icon-example"></i><span class="tree-txt">功能例子</span><i class="icon icon-arrow-r pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                  <li class="treeview">
+                     <a data-key="reactdemo" data-name="reactdemo" data-uri="./dev/index"><span class="tree-txt">reactdemo</span></a>
+                 </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<ul id="myTabs" class="nav nav-tabs my-nav-tabs" role="tablist">
+  <li class="tab-menu js-tab-menu hide" id="js-tab-menu">
+    <div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <span class="caret"></span>
+      </button>
+      <ul id="js-min-tab-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+        <!--<li><a>Action</a></li>-->
+        <!--<li><a>Another action</a></li>-->
+        <!--<li><a>Something else here</a></li>-->
+        <!--<li role="separator" class="divider"></li>-->
+        <!--<li><a>Separated link</a></li>-->
+      </ul>
+    </div>
+  </li>
+</ul>
+<div class="content">
+    <div class="bs-example bs-example-tabs content-inner" data-example-id="togglable-tabs">
+
+        <div id="myTabContent" class="tab-content">
+
+        </div>
+
+    </div>
+
+</div>
+<div class="modal  fade" id="myModal" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog loading text-center  modal-sm" role="document">
+        <canvas id = "canvas" ></canvas>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../static/assets/require/require-2.1.5.js" data-ctx="" data-main="../static/js/main" id="js-main"></script>
+<script>
+</script>
+</html>

@@ -18,7 +18,7 @@ module.exports = Merge(CommonConfig, {
     ]
   },*/
   plugins: [
-    new CleanWebpackPlugin('./WEB-INF/views/public'),
+    new CleanWebpackPlugin('./app/dev/'),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin()
   ],
@@ -35,7 +35,7 @@ module.exports = Merge(CommonConfig, {
   output: {
     filename: '[name].[hash].js',
     chunkFilename: '[name].[hash].js',
-    publicPath: './views/public',
-    path: path.join(__dirname, './WEB-INF/views/public')
+    publicPath: './dev/',
+    path: path.join(__dirname, './app/dev')
   }
 });

@@ -110,7 +110,7 @@ define([
   common.createTab = function(opts) {
 
     common.tab.add({
-      url: './views/' + opts.uri + '.html',
+      url: opts.uri + '.html',
       // url: opts.uri,
       id: opts.key,
       data: opts.data,
