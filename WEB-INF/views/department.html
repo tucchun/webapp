@@ -1,0 +1,103 @@
+<div class="wrap hospital">
+    <div class="tb-head">科室列表</div>
+    <div class="tb-content">
+        <div class="tb-wrap">
+            <div class="opt clearfix">
+                <div class="pull-left">
+                    <form action="#" class="form-inline" onsubmit="return false">
+                        <select name="#" class="form-control">
+                            <option value="一级科室">一级科室</option>
+                            <option value="一级科室">二级科室</option>
+                        </select>
+                        <input type="submit" class="btn btn-main" value="查询" />
+                    </form>
+                </div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-main">新增</button>
+                    <button type="button" class="btn btn-main">删除</button>
+                </div>
+            </div>
+            <table cellspacing="0" class="table table-striped table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th class="col-sm-1"><input type="checkbox" name="allCheck" /></th>
+                    <th class="col-sm-1">序号</th>
+                    <th>一级科室</th>
+                    <th>二级科室</th>
+                    <th class="col-sm-1">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>内科</td>
+                    <td>呼吸内科</td>
+                    <td class="optCol"><a href="#">编辑</a></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>内科</td>
+                    <td>呼吸内科</td>
+                    <td class="optCol"><a href="#">编辑</a></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>内科</td>
+                    <td>呼吸内科</td>
+                    <td class="optCol"><a href="#">编辑</a></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>内科</td>
+                    <td>呼吸内科</td>
+                    <td class="optCol"><a href="#">编辑</a></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>内科</td>
+                    <td>呼吸内科</td>
+                    <td class="optCol"><a href="#">编辑</a></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>内科</td>
+                    <td>呼吸内科</td>
+                    <td class="optCol"><a href="#">编辑</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="pagenation clearfix">
+                <a href="#">上一页</a>
+                <a href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <span>...</span>
+                <a href="#">15</a>
+                <a href="#">下一页</a>
+                <form action="#" method="post">
+                    <span>共5页</span><span>到第<input type="text" value="1">页 <input type="submit" class="btn btn-main" value="确定"/></span>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        require(['jquery'],function($){
+            var _self = $('#department');
+            _self.on('click','input[name=allCheck]',function(){
+//               console.log(this.checked);
+                var obj_checkbox = _self.find('table tbody input[type=checkbox]');
+                if(this.checked){
+                    $(obj_checkbox).prop('checked','checked');
+                }else{
+                    $(obj_checkbox).prop('checked','');
+                }
+            });
+        });
+    </script>
+</div>

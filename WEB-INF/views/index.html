@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>index</title>
+
+    <!-- Bootstrap -->
+    <link href="assets/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/zTree_v3/css/zTreeStyle/zTreeStyle.css"/>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/header.css"/>
+    <link rel="stylesheet" href="css/content.css"/>
+    <link rel="stylesheet" href="css/page.css"/>
+</head>
+<body>
+
+<div class="header">
+    <div class="hd-title">
+        <h1 class="title">后台管理系统</h1>
+    </div>
+    <div class="hd-operate">
+        <span>当前帐号: <span>admin</span></span>
+        <button class="btn btn-default">修改密码</button>
+        <button class="btn btn-default">退出</button>
+    </div>
+</div>
+<div class="menu">
+    <nav class="navbar navbar-default">
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+            <ul id="tree" class="ztree"></ul>
+
+        </div>
+    </nav>
+
+</div>
+<div class="content">
+    <div style="padding-top: 10px">
+
+        <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+            <ul id="myTabs" class="nav nav-tabs" role="tablist">
+                <li role="presentation" class=""><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="false">下社区管理</a></li>
+                <li role="presentation" class="active"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="true">体检管理</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div role="tabpanel" class="tab-pane fade" id="home" aria-labelledby="home-tab">
+                    <div class="tb-head">
+                        <div class="tb-title">
+                            <h2 class="tb-title-txt">下社区活动</h2>
+                        </div>
+                        <div class="tb-operate">
+                            <button class="btn btn-default">新增</button>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Username</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Larry</td>
+                            <td>the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <ul class="page clearfix">
+                        <li class="pageBtn">上一页</li>
+                        <li class="pageBtn">1</li>
+                        <li class="pageBtn">2</li>
+                        <li class="pageBtn">3</li>
+                        <li>...</li>
+                        <li class="pageBtn">15</li>
+                        <li class="pageBtn">下一页</li>
+                        <li>共5页</li>
+                        <li>到第<input type="text" value="1"/>页</li>
+                        <li class="pageBtn">确认</li>
+                    </ul>
+                </div>
+                <div role="tabpanel" class="tab-pane fade active in" id="profile" aria-labelledby="profile-tab">
+                    <div class="tb-head">
+                        <div class="tb-title">
+                            <h2 class="tb-title-txt">体检管理</h2>
+                        </div>
+                        <div class="tb-operate">
+                            <button class="btn btn-default">新增</button>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Username</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Larry</td>
+                            <td>the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <ul class="page clearfix">
+                        <li class="pageBtn">上一页</li>
+                        <li class="pageBtn">1</li>
+                        <li class="pageBtn">2</li>
+                        <li class="pageBtn">3</li>
+                        <li>...</li>
+                        <li class="pageBtn">15</li>
+                        <li class="pageBtn">下一页</li>
+                        <li>共5页</li>
+                        <li>到第<input type="text" value="1"/>页</li>
+                        <li class="pageBtn">确认</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+<script src="assets/jquery/jquery-1.9.1.min.js"></script>
+<script src="assets/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="assets/zTree_v3/js/jquery.ztree.core.min.js"></script>
+
+<script>
+    var zTree;
+    var demoIframe;
+
+    var setting = {
+        view: {
+            dblClickExpand: false,
+            showLine: true,
+            selectedMulti: false
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "pId",
+                rootPId: ""
+            }
+        },
+        callback: {
+            beforeClick: function (treeId, treeNode) {
+                var zTree = $.fn.zTree.getZTreeObj("tree");
+                if (treeNode.isParent) {
+                    zTree.expandNode(treeNode);
+                    return false;
+                } else {
+                    demoIframe.attr("src", treeNode.file + ".html");
+                    return true;
+                }
+            }
+        }
+    };
+
+    var zNodes = [
+        {name: "角色管理"},
+        {name: "用户管理"},
+        {
+            name: "活动管理",
+            children: [
+                {
+                    name: "下社区管理",
+                    children: [
+                        {name: "下社区活动"},
+                        {name: "下社区活动详情"}
+                    ]
+
+                },
+                {
+                    name: "体检管理",
+                    children: [
+                        {name: "体检"},
+                        {name: "新增体检"},
+                        {name: "体检详情"}
+                    ]
+
+                },
+                {
+                    name: "健康知识讲座管理",
+                    children: [
+                        {name: "健康知识讲座"},
+                        {name: "新健康知识讲座"},
+                        {name: "讲座详情"}
+                    ]
+
+                }
+            ]
+        }
+
+    ];
+
+    $(document).ready(function () {
+        var t = $("#tree");
+        t = $.fn.zTree.init(t, setting, zNodes);
+        demoIframe = $("#testIframe");
+        demoIframe.bind("load", loadReady);
+        var zTree = $.fn.zTree.getZTreeObj("tree");
+        zTree.selectNode(zTree.getNodeByParam("id", 101));
+
+
+	    $('#myTabs a').click(function (e) {
+		    e.preventDefault()
+		    $(this).tab('show')
+	    })
+    });
+
+    function loadReady() {
+        var bodyH = demoIframe.contents().find("body").get(0).scrollHeight,
+                htmlH = demoIframe.contents().find("html").get(0).scrollHeight,
+                maxH = Math.max(bodyH, htmlH), minH = Math.min(bodyH, htmlH),
+                h = demoIframe.height() >= maxH ? minH : maxH;
+        if (h < 530) h = 530;
+        demoIframe.height(h);
+    }
+</script>
+</html>

@@ -1,0 +1,45 @@
+<div class="container">
+  <table class="tb tb-auto tb-border">
+    <tbody>
+    <tr>
+      <td colspan="4" class="text-left bgColor">会诊记录表</td>
+    </tr>
+    <tr>
+      <td class="text-right bgColor label w200">姓名</td>
+      <td class="text-left">{{= it.residentName}}</td>
+      <td class="text-right bgColor label w200">编号</td>
+      <td class="text-left">{{= it.residentNo}}</td>
+    </tr>
+    <tr>
+      <td class="text-right bgColor label">会诊原因</td>
+      <td class="text-left" colspan="3">{{= it.reason}}</td>
+    </tr>
+    <tr>
+      <td class="text-right bgColor label">会诊意见</td>
+      <td class="text-left" colspan="3">{{= it.opinion}}</td>
+    </tr>
+    {{~ it.consulationHospitalList :value:index}}
+      <tr>
+        <td class="text-right bgColor label" rowspan="3">会诊医疗卫生机构名称</td>
+        <td class="text-left" rowspan="3">{{= value.hospitalName}}</td>
+        <td class="text-right bgColor label">会诊医生签字</td>
+        <td class="text-left">{{= value.doctorSign1}}</td>
+      </tr>
+      <tr>
+        <td class="text-right bgColor label">会诊医生签字</td>
+        <td class="text-left">{{= value.doctorSign2}}</td>
+      </tr>
+      <tr>
+        <td class="text-right bgColor label">会诊医生签字</td>
+        <td class="text-left">{{= value.doctorSign3}}</td>
+      </tr>
+    {{~}}
+    <tr>
+      <td class="text-right bgColor label">会诊日期</td>
+      <td class="text-left">{{= it.Util.formatDate(it.conDate)}}</td>
+      <td class="text-right bgColor label">责任医生签字</td>
+      <td class="text-left">{{= it.doctorSign}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

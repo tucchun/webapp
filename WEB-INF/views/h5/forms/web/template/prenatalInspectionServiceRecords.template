@@ -1,0 +1,266 @@
+<div class="container">
+  <table class="tb tb-auto tb-border">
+    <thead>
+    <th colspan="6" class="bgColor text-left">
+      第1次产前检查服务记录表
+    </th>
+    </thead>
+    <tbody>
+    <tr>
+      <td class="label text-right bgColor w200">姓名:</td>
+      <td class="text-left w630">{{= it.residentName}}</td>
+      <td class="label text-right bgColor w200">编号:</td>
+      <td class="text-left">{{= it.residentNo}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">填表日期:</td>
+      <td class="text-left w630">{{= "暂时缺失字段"}}</td>
+      <td class="label text-right bgColor w200">填表孕周:</td>
+      <td class="text-left">{{= it.gestationalWeeksRecord}}<span>周</span></td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">孕妇年龄:</td>
+      <td class="text-left">{{= it.residentAge}}</td>
+      <td class="label text-right bgColor">丈夫姓名:</td>
+      <td class="text-left">{{= it.anteHusbandName}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">丈夫年龄:</td>
+      <td class="text-left">{{= it.anteHusbandAge}}</td>
+      <td class="label text-right bgColor">丈夫电话:</td>
+      <td class="text-left">{{= it.anteHusbandMobile}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">孕次:</td>
+      <td class="text-left">{{= it.antePregnancyTime}}</td>
+      <td class="label text-right bgColor">产次:</td>
+      <td class="text-left">阴道分娩{{= it.anteDelivery}}，剖宫产{{= it.anteCesarean}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">末次月经:</td>
+      <td class="text-left">{{= it.Util.formatDate(it.anteMenstruationLast)}}</td>
+      <td class="label text-right bgColor">预产期:</td>
+      <td class="text-left">{{= it.Util.formatDate(it.anteExpectedDate)}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">既往史:</td>
+      <td class="text-left" colspan="3">{{= it.familyDiseaseStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">家族史:</td>
+      <td class="text-left" colspan="3">{{= it.geneticDiseaseDes}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">个人史:</td>
+      <td class="text-left" colspan="3">{{= it.exposureHistoryStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">妇科手术史:</td>
+      <td class="text-left" colspan="3">{{= it.anteGynaecologyOperationText}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">孕产史:</td>
+      <td class="text-left" colspan="3">{{= it.pregancyHistoryText}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">身高:</td>
+      <td class="text-left">{{= it.anteHight}}<span>cm</span></td>
+      <td class="label text-right bgColor">体重:</td>
+      <td class="text-left">{{= it.anteWeight}}<span>Kg</span></td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">体质指数（kg/m2）:</td>
+      <td class="text-left">{{= it.bodyMassIndex}}<span>kg/m2</span></td>
+      <td class="label text-right bgColor">血压（mmHg）:</td>
+      <td class="text-left">{{= it.bloodPressureLow}}/{{= it.bloodPressureHigh}}<span>mmHg</span></td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="tb tb-auto tb-border border-top-none">
+    <tbody>
+    <tr>
+      <td class="label text-center bgColor w200" rowspan="2">听诊</td>
+      <td class="label text-right bgColor" colspan="2">心脏:</td>
+      <td class="text-left">{{= it.anteHeartText}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor" colspan="2">肺部:</td>
+      <td class="text-left">{{= it.anteLungsText}}</td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor w200" rowspan="5">妇科检查</td>
+      <td class="label text-right bgColor" colspan="2">外阴:</td>
+      <td class="text-left">{{= it.gynaecology.gynaVulvadDes}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor" colspan="2">阴道:</td>
+      <td class="text-left">{{= it.gynaecology.gynaVaginaDes}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor" colspan="2">子宫:</td>
+      <td class="text-left">{{= it.gynaecology.gynaCervicalDes}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor" colspan="2">宫颈:</td>
+      <td class="text-left">{{= it.gynaecology.gynaPalaceDes}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor" colspan="2">附件:</td>
+      <td class="text-left">{{= it.gynaecology.gynaEnclosureDes}}</td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor w200" rowspan="29">辅助检查</td>
+      <td class="label text-right bgColor w115" rowspan="4">血常规:</td>
+      <td class="label text-right bgColor w200">血红蛋白值（g/L）:</td>
+      <td class="text-left">{{= it.instrumentCheck.bloodHgb}}<span>g/L</span></td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">血小板计数值（/L）</td>
+      <td class="text-left">{{= it.instrumentCheck.bloodPlt}}<span>/L</span></td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">白细胞计数值（/L）</td>
+      <td class="text-left">{{= it.instrumentCheck.bloodWbc}}<span>/L</span></td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">其他:</td>
+      <td class="text-left">{{= it.instrumentCheck.bloodOther}}</td>
+    </tr>
+
+    <tr>
+      <td class="label text-right bgColor w115" rowspan="5">尿常规:</td>
+      <td class="label text-right bgColor w200">尿蛋白:</td>
+      <td class="text-left">{{= it.instrumentCheck.urinePro}}</td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">尿糖:</td>
+      <td class="text-left">{{= it.instrumentCheck.urineGlu}}</td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">尿酮体:</td>
+      <td class="text-left">{{= it.instrumentCheck.urineKet}}</td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">尿潜血:</td>
+      <td class="text-left">{{= it.instrumentCheck.urineBld}}</td>
+    </tr>
+
+    <tr>
+      <td class="label text-center bgColor">其他:</td>
+      <td class="text-left">{{= it.instrumentCheck.urineOther}}</td>
+    </tr>
+
+    <tr>
+      <td class="label text-right bgColor w115" rowspan="2">血型:</td>
+      <td class="label text-right bgColor w200">ABO:</td>
+      <td class="text-left">{{= it.bloodTypeStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">Rh*:</td>
+      <td class="text-left">{{= it.rhBloodTypeStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor" colspan="2">血糖*:</td>
+      <td class="text-left">{{= it.instrumentCheck.bloodGlucose1}}<span>mmol/L</span></td>
+    </tr>
+
+    <tr>
+      <td class="label text-right bgColor w115" rowspan="5">肝功能:</td>
+      <td class="label text-right bgColor w200">血清谷丙转氨酶:</td>
+      <td class="text-left">***{{= it.instrumentCheck.liverXqgbzam}}<span>U/L</span></td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">血清谷草转氨酶:</td>
+      <td class="text-left">{{= it.instrumentCheck.liverXqgczam}}<span>U/L</span></td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">白蛋白:</td>
+      <td class="text-left">{{= it.instrumentCheck.liverBdb}}<span>g/L</span></td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">总胆红素:</td>
+      <td class="text-left">{{= it.instrumentCheck.liverZdhs}}<span>μmol/L</span></td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">结合胆红素:</td>
+      <td class="text-left">{{= it.instrumentCheck.liverJhdhs}}<span>μmol/L</span></td>
+    </tr>
+
+
+    <tr>
+      <td class="label text-right bgColor w115" rowspan="2">肾功能:</td>
+      <td class="label text-right bgColor w200">血清肌酐:</td>
+      <td class="text-left">***{{= it.instrumentCheck.kidneyXqjs}}<span>μmol/L</span></td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">血尿素氮:</td>
+      <td class="text-left">{{= it.instrumentCheck.kidneyXnsd}}<span>mmol/L</span></td>
+    </tr>
+
+    <tr>
+      <td class="label text-right bgColor w115" rowspan="2">阴道分泌物*:</td>
+      <td class="text-left" colspan="2">{{= it.instrumentCheck.vaginalSecretionText}}</td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">阴道清洁度:</td>
+      <td class="text-left">{{= it.instrumentCheck.vaginalCleanlinessLevelText}}</td>
+    </tr>
+
+    <tr>
+      <td class="label text-right bgColor w115" rowspan="5">乙型肝炎五项:</td>
+      <td class="label text-right bgColor w200">乙型肝炎表面抗原:</td>
+      <td class="text-left">{{= it.instrumentCheck.surfaceAntigen}}</td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">乙型肝炎表面抗体:</td>
+      <td class="text-left">{{= it.instrumentCheck.surfaceAntibody}}</td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">乙型肝炎e抗原:</td>
+      <td class="text-left">{{= it.instrumentCheck.eAntigen}}</td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">乙型肝炎e抗体:</td>
+      <td class="text-left">{{= it.instrumentCheck.eAntibody}}</td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor">乙型肝炎核心抗体:</td>
+      <td class="text-left">{{= it.instrumentCheck.coreAntibody}}</td>
+    </tr>
+
+    <tr>
+      <td class="label text-center bgColor" colspan="2">梅毒血清学试验*:</td>
+      <td class="text-left">{{= it.instrumentCheck.syphilisText}}</td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor" colspan="2">HIV抗体检测*:</td>
+      <td class="text-left">{{= it.instrumentCheck.hivText}}</td>
+    </tr>
+    <tr>
+      <td class="label text-center bgColor" colspan="2">B超*:</td>
+      <td class="text-left">{{= it.instrumentCheck.ultrasonographyOtherExce}}</td>
+    </tr>
+
+    </tbody>
+  </table>
+  <table class="tb tb-auto tb-border border-top-none">
+    <tbody>
+    <tr>
+      <td class="label text-right bgColor w200">总体评估:</td>
+      <td class="text-left ">{{= it.anteAssessmentText}}</td>
+      <td class="label text-right bgColor w200">保健指导:</td>
+      <td class="text-left">{{= it.healthGuideText}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">转诊:</td>
+      <td class="text-left " colspan="3">{{= it.anteReferralText}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor ">下次随访日期:</td>
+      <td class="text-left w630">{{= it.Util.formatDate(it.nextVisitDate)}}</td>
+      <td class="label text-right bgColor">随访医生签名:</td>
+      <td class="text-left">{{= it.anteVisitDoctor}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

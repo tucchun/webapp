@@ -1,0 +1,85 @@
+<div class="container">
+  <table class="tb tb-auto tb-border border-top-none">
+    <tbody>
+    <tr>
+      <td colspan="4" class="text-left bgColor">{{= it.visitAge}}岁儿童健康检查记录表</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">姓名:</td>
+      <td class="text-left w630">{{= it.residentName}}</td>
+      <td class="label text-right bgColor w200">编号:</td>
+      <td class="text-left">{{= it.residentNo}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">随访日期:</td>
+      <td class="text-left">{{= it.Util.formatDate(it.visitDate)}}</td>
+      <td class="label text-right bgColor">体重/kg:</td>
+      <td class="text-left">{{= it.visitWeight}}{{= it.visitWeightLevelName}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">身长/cm:</td>
+      <td class="text-left">{{= it.visitHeight}}{{= it.visitHeightLevelName}}</td>
+      <td class="label text-right bgColor">体重/身高<</td>
+      <td class="text-left">{{= it.onemBMI}}{{= it.onemBMILevel}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">体格发育评价:</td>
+      <td class="text-left" colspan="3">{{= it.visitDevelopmentEvaluationName}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="tb tb-auto tb-border border-top-none">
+    <tbody>
+    <tr>
+      <td class="label text-center bgColor w200" rowspan="7">体格检查</td>
+      <td class="label text-right bgColor w200">视力</td>
+      <td class="text-left" colspan="2">左眼：{{= it.visitVisionLeft}}/右眼：{{= it.visitVisionRight}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">听力</td>
+      <td class="text-left" colspan="2">{{= it.visitListenName}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">出牙 /龋齿数(颗)</td>
+      <td class="text-left" colspan="2">{{= it.visitTooth}}/{{= it.visitDentalCaries}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">胸部</td>
+      <td class="text-left" colspan="2">{{= it.visitChestName}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">腹部</td>
+      <td class="text-left" colspan="2">{{= it.visitAbdomenName}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">血红蛋白值</td>
+      <td class="text-left" colspan="2">{{= it.visitHemoglobin}}g/L</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">其他</td>
+      <td class="text-left" colspan="2">{{= it.visitBodyOther}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="tb tb-auto tb-border border-top-none">
+    <tbody>
+    <tr>
+      <td class="label text-right bgColor w200">两次随访间患病情况:</td>
+      <td class="text-left w630">{{= it.visitPeriodIllName}}</td>
+      <td class="label text-right bgColor w200">转诊建议:</td>
+      <td class="text-left">原因：{{= it.visitReferralReason}}；机构及科室：{{= it.visitReferralHospital}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">指导:</td>
+      <td class="text-left">{{= it.healthGuideText}}</td>
+      <td class="label text-right bgColor">下次随访日期:</td>
+      <td class="text-left">{{= it.Util.formatDate(it.nextVisitDate)}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">随访医生签名:</td>
+      <td class="text-left" colspan="3">{{= it.visitDoctor}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>

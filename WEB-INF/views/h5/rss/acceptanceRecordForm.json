@@ -1,0 +1,17 @@
+{
+    "ret_code": 1,
+    "ret_data": {
+        "arId": 1,
+        "actId": 0,
+        "userId": 101,
+        "subjectiveData": "123123123",
+        "objectiveData": "123123123123",
+        "assessment": "afsd",
+        "disposalPlan": "asfd",
+        "acceptanceDate": 1241,
+        "doctorSign": "dfsa",
+        "impactDataUrl": "12312312",
+        "residentNo": "42118200100100012",
+        "residentName": "居民2"
+    }
+}

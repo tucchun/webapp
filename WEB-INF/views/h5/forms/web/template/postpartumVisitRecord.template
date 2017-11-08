@@ -1,0 +1,76 @@
+<div class="container">
+  <table class="tb tb-auto tb-border">
+    <tbody>
+    <tr>
+      <td colspan="4" class="text-left bgColor">产后访视记录表</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">姓名:</td>
+      <td class="text-left w630">{{= it.residentName}}</td>
+      <td class="label text-right bgColor w200">编号:</td>
+      <td class="text-left">{{= it.residentNo}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">随访日期:</td>
+      <td class="text-left">{{= it.Util.formatDate(it.createDate)}}</td>
+      <td class="label text-right bgColor">分娩日期:</td>
+      <td class="text-left">{{= it.Util.formatDate(it.interChildbirthDate)}}</td>
+
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">出院日期:</td>
+      <td class="text-left">{{= it.Util.formatDate(it.interLeaveDate)}}</td>
+      <td class="label text-right bgColor">体温（℃）:</td>
+      <td class="text-left">{{= it.interTemperature}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">一般健康情况:</td>
+      <td class="text-left">{{= it.interHealthStaus}}</td>
+      <td class="label text-right bgColor">一般心理状况:</td>
+      <td class="text-left">{{= it.interPsychologicalStatus}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">血压（ mmHg ）:</td>
+      <td class="text-left" colspan="3">{{= it.bloodPressureLow}}/{{= it.bloodPressureHigh}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">乳房:</td>
+      <td class="text-left" colspan="3"> {{= it.interBreastName}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">恶露:</td>
+      <td class="text-left" colspan="3">{{= it.interLochiaName}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">子宫:</td>
+      <td class="text-left" colspan="3">{{= it.interUterusName}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">伤口:</td>
+      <td class="text-left" colspan="3">{{= it.interWoundName}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">其他:</td>
+      <td class="text-left" colspan="3">{{= it.interOther}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">分类:</td>
+      <td class="text-left" colspan="3">{{= it.interClassificationName}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">指导:</td>
+      <td class="text-left" colspan="3">{{= "暂时缺失字段"}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">转诊:</td>
+      <td class="text-left" colspan="3">{{= it.interReferralName}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">下次随访日期:</td>
+      <td class="text-left">{{= it.Util.formatDate(it.nextVisitDate)}}</td>
+      <td class="label text-right bgColor">随访医生签名:</td>
+      <td class="text-left">{{=it.visitDoctor}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

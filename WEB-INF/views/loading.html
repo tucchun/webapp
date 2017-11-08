@@ -1,0 +1,46 @@
+<div id="js-loading">
+  <button type="button" class="btn btn-main" id="js-show">show</button>
+  <button type="button" class="btn btn-main" id="js-hide">hide</button>
+  <button type="button" class="btn btn-main" id="js-reload">reload</button>
+</div>
+
+
+<script>
+  require([
+  	'jquery',
+  	'js/loading'
+  ], function ($, Loading) {
+
+  	window.Loading = Loading;
+  	var $self = $("#js-loading");
+  	$self.find("#js-show").on("click", function(){
+		  Loading.show();
+    })
+	  $self.find("#js-hide").on("click", function(){
+		  Loading.hide();
+	  })
+	  $self.find("#js-reload").on("click", function(){
+		  /**
+		   * 加载页面
+		   * @param opts
+		   *  opts: {
+       *     container: '页面容器ID'
+       *     url      : '待装入 HTML 网页网址'
+       *     data:    : '发送至服务器的 key/value 数据'
+       *     callback : '载入成功时回调函数'
+       *  }
+		   */
+      Loading.show()
+      common.load({
+        container: 'Loading',
+        url: './views/loading.html',
+        data: {},
+        callback: function(){
+
+			  	alert("reload");
+	        Loading.hide();
+        }
+      });
+	  })
+  })
+</script>

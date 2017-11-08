@@ -1,0 +1,22 @@
+{
+  "ret_code": 1,
+  "ret_data": {
+    "residentName": "居民2",
+    "residentSexStr": "男",
+    "birthday": 1496029880545,
+    "residentNo": "42118200100100012",
+    "bloodTypeStr": 1,
+    "diseaseStr": null,
+    "duryDescribe": "过敏情况:青霉素过敏",
+    "residentAddress": "西新村社区居委会11栋1单元",
+    "familyPhone": null,
+    "contactsName": "",
+    "contactsMobile": "13908585855",
+    "docUnitName": "",
+    "docUnitPhone": null,
+    "docDoctor": null,
+    "docDoctorMobile": null,
+    "cardDescribe": null,
+    "rhTypeStr":"RH阳性"
+  }
+}

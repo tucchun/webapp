@@ -1,0 +1,56 @@
+.mt29{
+    margin-top: .29rem;
+}
+
+.mt75{
+    margin-top: .75rem;
+}
+
+.mt15{
+    margin-top: .15rem;
+}
+
+.w300{
+    width: 3rem!important;
+}
+
+.w139{
+    width: 1.39rem!important;
+}
+
+.w522{
+    width: 5.22rem!important;
+}
+
+.w199{
+    width: 1.99rem!important;
+}
+
+.w120{
+    width: 1.2rem!important;
+}
+
+.w594{
+    width: 5.94rem!important;
+}
+
+.textarea{
+    width: 15.36rem!important;
+    height: 4.42rem;
+}
+
+.width-auto{
+    width: 93%!important
+}
+
+.inline-space input{
+    margin: 0 .14rem;
+}
+
+.tb th{
+    font-size: .28rem;
+}
+
+.tb td, .tb th{
+    height: .84rem;
+}

@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>第1次产前检查服务记录表</title>
+  <script src="static/assets/adaptive-master/js/adaptive-version2.js"></script>
+  <script>
+		// 设计图宽度
+		window['adaptive'].desinWidth = 1920;
+		// body 字体大小 会将body字体大小设置为 baseFont / 100 + 'rem'
+		window['adaptive'].baseFont = 24;
+		window['adaptive'].maxWidth = 1920;
+		window['adaptive'].init();
+  </script>
+  <!--<link rel="stylesheet" href="./static/assets/bootstrap/dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="./static/css/style.css">
+  <link rel="stylesheet" href="static/css/theFirstPrenatalInspection.css">
+</head>
+<body>
+<div class="newcare-form-header">
+  第1次产前检查服务记录表
+</div>
+<div class="newcare-form-container">
+  <table class="tb newcare-form-baseInfo newcare-tb">
+    <tr>
+      <td class="newcare-form-label text-right">
+        姓名
+      </td>
+      <td>
+        <input type="text" class="form-control">
+      </td>
+      <td class="newcare-form-label text-right">
+        编号
+      </td>
+      <td class="newcare-form-code">
+        <input type="text" class="code-primary">
+        <i class="icon icon-bars"></i>
+        <input type="text" class="code-secondary">
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="tFPI-container container mt40">
+  <div class="text-right">
+    <button type="button" class="uploadBtn">只需上传影像资料</button>
+  </div>
+  <div class="tFPI-container-info">
+    <table class="tb tb-border">
+      <tr>
+        <td class="w222">
+          填表日期
+        </td>
+        <td class="w341">
+          <input type="date">
+          <!--<span>日期</span>-->
+        </td>
+        <td class="w219">填表孕周</td>
+        <td class="w339">
+          <input type="text">
+          <span>周</span>
+        </td>
+        <td class="w220">孕妇年龄</td>
+        <td class="w342">
+          <input type="text">
+          <span>岁</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          丈夫姓名
+        </td>
+        <td>
+          <input type="text">
+        </td>
+        <td>
+          丈夫电话
+        </td>
+        <td>
+          <input type="text">
+        </td>
+        <td>
+          丈夫年龄
+        </td>
+        <td>
+          <input type="text">
+          <span>岁</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          孕次
+        </td>
+        <td colspan="2">
+          <input type="text">
+          <span>次</span>
+        </td>
+        <td>
+          产次
+        </td>
+        <td colspan="2">
+          <input type="text">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          末次月经
+        </td>
+        <td colspan="2">
+          <input type="text">
+          <input type="radio">
+          <span>不详</span>
+        </td>
+        <td>
+          预产期
+        </td>
+        <td colspan="2">
+          <input type="text">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          既往史
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>心脏病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>肾脏疾病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>肝脏疾病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>高血压</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>贫血</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>糖尿病</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <span>其它</span>
+              <textarea class="textarea"></textarea>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          家族史
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>遗传性疾病史</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>精神疾病史</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <span>其它</span>
+              <textarea class="textarea"></textarea>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          个人史
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>吸烟</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>饮酒</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>服用药物</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>接触有毒害物质</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>接触放射线</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <span>其它</span>
+              <textarea class="textarea"></textarea>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          妇科手术史
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <span>其它</span>
+              <textarea class="textarea"></textarea>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          妇科手术史
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst td-lst-inlink">
+            <li>
+              <span>流产</span>
+              <input type="text">
+            </li>
+            <li>
+              <span>,死胎</span>
+              <input type="text">
+            </li>
+            <li>
+              <span>,死产</span>
+              <input type="text">
+            </li>
+            <li>
+              <span>,新生儿死亡</span>
+              <input type="text">
+            </li>
+            <li>
+              <span>,出生缺陷儿</span>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+    <table class="tb tb-border sub-tb">
+      <tr class="sub-input">
+        <td>
+          身高
+        </td>
+        <td>
+          <input type="text">
+        </td>
+        <td>
+          体重(kg)
+        </td>
+        <td>
+          <input type="text">
+        </td>
+        <td>
+          体质指数(kg/m2)
+        </td>
+        <td>
+          <input type="text">
+        </td>
+        <td>
+          血压(mmHg)
+        </td>
+        <td>
+          <input type="text">
+          <span>/</span>
+          <input type="text">
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2">听诊</td>
+        <td colspan="2" class="text-center">
+          心脏
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>未见异常</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>异常</span>
+              <div>
+                <textarea class="w800"></textarea>
+              </div>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          肺部
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>未见异常</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>异常</span>
+              <div>
+                <textarea class="w800"></textarea>
+              </div>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="5" class="col-txt text-center">
+          <span>妇</span>
+          <span>科</span>
+          <span>检</span>
+          <span>查</span>
+        </td>
+        <td colspan="2" class="text-center">
+          外阴
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>未见异常</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>异常</span>
+              <div>
+                <textarea class="w800"></textarea>
+              </div>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          阴道
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>未见异常</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>异常</span>
+              <div>
+                <textarea class="w800"></textarea>
+              </div>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          子宫
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>未见异常</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>异常</span>
+              <div>
+                <textarea class="w800"></textarea>
+              </div>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          宫颈
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>未见异常</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>异常</span>
+              <div>
+                <textarea class="w800"></textarea>
+              </div>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          附件
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>未见异常</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>异常</span>
+              <div>
+                <textarea class="w800"></textarea>
+              </div>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="12" class="col-txt text-center">
+          <span>辅</span>
+          <span>助</span>
+          <span>检</span>
+          <span>查</span>
+        </td>
+        <td colspan="2" class="text-center">
+          血常规
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <span>血红蛋白值（g/L）</span>
+              <input type="text"  class="w125">
+            </li>
+            <li>
+              <span>血小板计数值（/L）</span>
+              <input type="text" class="w125">
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <span>白细胞计数值（/L）</span>
+              <input type="text"  class="w125">
+            </li>
+            <li>
+              <span>其他</span>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          尿常规
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <span>尿蛋白</span>
+              <input type="text" class="w125">
+            </li>
+            <li>
+              <span>尿酮体</span>
+              <input type="text" class="w125">
+            </li>
+            <li>
+              <span>尿潜血</span>
+              <input type="text" class="w125">
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <span>尿糖</span>
+              <input type="text" class="w125">
+            </li>
+            <li>
+              <span>其他</span>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2" class="text-center">
+          血型
+        </td>
+        <td class="text-center">
+          ABO
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>A型</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>B型</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>AB型</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>O型</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>不详</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          Rh*
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>Rh阳性</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>Rh阴性</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>不详</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          血糖 *
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+              <span>mmol/L</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          肝功能
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <span>白蛋白</span>
+              <input type="text" class="w125">
+              <span>g/L</span>
+            </li>
+            <li>
+              <span>总胆红素</span>
+              <input type="text" class="w125">
+              <span>μmol/L</span>
+            </li>
+            <li>
+              <span>结合胆红素</span>
+              <input type="text" class="w125">
+              <span>μmol/L</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <span>血清谷丙转氨酶</span>
+              <input type="text" class="w125">
+              <span>U/L</span>
+            </li>
+            <li>
+              <span>血清谷草转氨酶</span>
+              <input type="text" class="w125">
+              <span>U/L</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          肾功能
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <span>血清肌酐</span>
+              <input type="text" class="w125">
+              <span>μmol/L</span>
+            </li>
+            <li>
+              <span>血尿素氮</span>
+              <input type="text" class="w125">
+              <span>μmol/L</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          阴道分泌物 *
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>未见异常</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>滴虫</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>假丝酵母菌</span>
+            </li>
+            <li>
+              <span>其他</span>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          乙型肝炎五项
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <span class="w219">乙型肝炎表面抗原</span>
+              <input type="text">
+            </li>
+            <li>
+              <span>乙型肝炎表面抗体</span>
+              <input type="text">
+            </li>
+            <li>
+              <span>乙型肝炎 e抗原</span>
+              <input type="text">
+            </li>
+            <li>
+              <span>乙型肝炎 e抗体</span>
+              <input type="text">
+            </li>
+            <li>
+              <span>乙型肝炎核心抗体</span>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          梅毒血清学试验 *
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>阴性</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>阳性</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          HIV抗体检测 *
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>阴性</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>阳性</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          B超*
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text" class="w800">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          总体评估
+        </td>
+        <td colspan="6">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>未见异常</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>异常</span>
+              <input type="text"  class="w800">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          保健指导
+        </td>
+        <td colspan="6">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>生活方式</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>心理</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>营养</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>避免致畸因素和疾病对胚胎的不良影响</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>产前筛查宣传告知</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>心理</span>
+            </li>
+            <li>
+              <span>其他</span>
+              <input type="text" class="w800">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          转诊
+        </td>
+        <td colspan="6">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <span>原因：</span>
+              <input type="text">
+            </li>
+            <li>
+              <span>机构及科室：</span>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          下次随访日期
+        </td>
+        <td colspan="2">
+          <input type="date">
+        </td>
+        <td colspan="2">
+          随访医生签名
+        </td>
+        <td colspan="2">
+          <input type="text">
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>

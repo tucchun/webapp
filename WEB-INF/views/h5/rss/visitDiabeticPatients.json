@@ -1,0 +1,78 @@
+{
+    "ret_code": 1,
+    "ret_data": {
+        "residentName": "test01",
+        "residentNo": "11011300103100011",
+        "datetabSet": [
+            {
+                "docCreateDate": 123131,
+                "docId": 1
+            },
+            {
+            "docCreateDate": 123131,
+            "docId": 2
+            },
+            {
+            "docCreateDate": 123131,
+            "docId": 3
+            },
+            {
+            "docCreateDate": 123131,
+            "docId": 4
+            }
+        ],
+        "useMedicationList": [],
+        "bodySymptomList": [],
+        "diabId": 1,
+        "actId": null,
+        "userId": 2039,
+        "diabVisitType": 2,
+        "diabVisitDate": 1496027502824,
+        "diabBloodpreLow": 89,
+        "diabBloodpreHigh": 138,
+        "diabCurrentWeight": 55,
+        "diabTargetWeight": 77,
+        "diabCurrentBodyspi": 21,
+        "diabTargetBodyspi": 35,
+        "diabDorsalisPedis": 1,
+        "diabBodyOther": "xxx",
+        "diabCurrentSmoking": 5,
+        "diabTargetSmoking": 9,
+        "diabCurrentDrink": 3,
+        "diabTargetDrink": 5,
+        "diabCurrentSportcount": 3,
+        "diabCurrentSporttime": 30,
+        "diabTargetSportcount": 5,
+        "diabTargetSporttime": 45,
+        "diabCurrentFood": 200,
+        "diabTargerFood": 400,
+        "diabPsychologicalAdjust": 2,
+        "diabComplianceBehavior": 3,
+        "diabBloodGlucose": 45,
+        "diabOtherInspection": "xxx",
+        "diabGlycosylatedHemoglobin": 30,
+        "diabOtherDate": 1496027502824,
+        "diabMedicationCompliance": 2,
+        "diabDrugReaction": 2,
+        "diabDrugReactionDescribe": "",
+        "diabHypoglyReaction": 3,
+        "diabVisitClassification": 3,
+        "diabReferralReason": "xxx",
+        "diabReferralHospital": "xxx",
+        "nextVisitDate": 1496027502824,
+        "diabVisitDoctor": "xxx",
+        "createBy": 0,
+        "createDate": 0,
+        "updateBy": 0,
+        "updateDate": 0,
+        "diabVisitTypeStr": "家庭",
+        "diabPsychologicalAdjustStr": "一般",
+        "diabComplianceBehaviorStr": "差",
+        "diabMedicationComplianceStr": "间断",
+        "diabDrugReactionStr": "无",
+        "diabVisitClassificationStr": "不良反应",
+        "diabHypoglyReactionStr": "频繁",
+        "diabDorsalisPedisStr": "触及",
+        "bodySymptomStr": "12312"
+    }
+}

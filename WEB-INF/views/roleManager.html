@@ -1,0 +1,129 @@
+<div class="wrap roleManager">
+    <div class="tb-head">角色管理</div>
+    <div class="tb-content">
+        <div class="tb-wrap">
+            <div class="opt">
+                <button class="btn btn-main" type="button" data-toggle="modal" data-target="#modal_roleManager">添加</button>
+                <button class="btn btn-main" type="button">删除</button>
+                <button class="btn btn-main" type="button">修改</button>
+            </div>
+            <table cellspacing="0" class="table table-striped table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" name="allCheck"></th>
+                    <th>序号</th>
+                    <th>角色</th>
+                    <th>角色描述</th>
+                    <th>修改时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>健教专干</td>
+                    <td>健康教育专业干事员</td>
+                    <td>2012-01-01 00:00:00</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>健教专干</td>
+                    <td>健康教育专业干事员</td>
+                    <td>2012-01-01 00:00:00</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>健教专干</td>
+                    <td>健康教育专业干事员</td>
+                    <td>2012-01-01 00:00:00</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>健教专干</td>
+                    <td>健康教育专业干事员</td>
+                    <td>2012-01-01 00:00:00</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>健教专干</td>
+                    <td>健康教育专业干事员</td>
+                    <td>2012-01-01 00:00:00</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="pagenation clearfix">
+                <a href="#">上一页</a>
+                <a href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <span>...</span>
+                <a href="#">15</a>
+                <a href="#">下一页</a>
+                <form action="#" method="post">
+                    <span>共5页</span><span>到第<input type="text" value="1">页 <input type="submit" class="btn btn-main" value="确定"/></span>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal_roleManager" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="modal_roleLabel">添加角色</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal form-tb clearfix" method="post" onsubmit="return false;">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><span class="required">*</span>角色名:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" placeholder="角色名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><span class="required">*</span>角色描述:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" placeholder="角色描述" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><span class="required">*</span>权限配置:</label>
+                        <div class="col-sm-10 power">
+                            <div class="title">请在下方勾选</div>
+                            <fieldset>
+                                <legend>角色管理</legend>
+                                <div>
+                                    <label><input type="checkbox" name="role">添加角色</label>
+                                    <label><input type="checkbox" name="role">修改角色</label>
+                                    <label><input type="checkbox" name="role">删除角色</label>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>用户管理</legend>
+                                <div>
+                                    <label><input type="checkbox" name="usr">添加用户</label>
+                                    <label><input type="checkbox" name="usr">修改用户</label>
+                                    <label><input type="checkbox" name="usr">删除用户</label>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>档案管理</legend>
+                                <div>
+                                    <label><input type="checkbox" name="files">添加档案</label>
+                                    <label><input type="checkbox" name="files">修改档案</label>
+                                    <label><input type="checkbox" name="files">删除档案</label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="operation"><button type="submit" class="btn btn-main">确认</button><button type="button" class="btn btn-cancel" data-dismiss="modal" aria-hidden="true">取消</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

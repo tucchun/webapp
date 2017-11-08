@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="../../../../static/css/reset.css" />
+    <link rel="stylesheet" href="../static/asset/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../static/css/goodsdetail.css" />
+    <script type="text/javascript" src="../static/js/lib/adaptive-version2.js"></script>
+    <script type="text/javascript" src="../../../../static/assets/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../../../../static/assets/doT-master/doT.min.js"></script>
+    <script type="text/javascript" src="../static/js/tempUtil.js"></script>
+    <script>
+        window['adaptive'].desinWidth = 1720;// 设计图宽度
+        window['adaptive'].baseFont = 30;// 没有缩放时的字体大小
+        window['adaptive'].maxWidth = 1720;// 页面最大宽度 默认540
+        window['adaptive'].init();// 调用初始化方法
+    </script>
+    <title>商城-商品详情</title>
+</head>
+<body id="goodsDetail"></body>
+<script type="text/x-dot-template" id="temp-goods">
+    {{~ it :value :index}}
+    <div class="box wrap-content">
+        <div class="thumb"><img src="../static/img/pic/detaildemo.png" alt="商品图片"></div>
+        <div class="flex description">
+            <ul>
+                <li class="goodsName fz30">{{=value.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=value.specifications}}</li>
+                <li class="cred tips">{{=value.title}}</li>
+                <li>品牌：{{=value.brand}}</li>
+                <li>规格：{{=value.specifications}}</li>
+                <li class="goodsName">价格&nbsp;&nbsp;&nbsp;&nbsp;<span class="cred fz30">¥ {{=(value.price/100)}}</span></li>
+            </ul>
+            <div class="details">
+                <table>
+                    <caption class="goodsName fz30">药品介绍</caption>
+                    <tr>
+                        <td colspan="2">产品名称：{{=value.name}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">品牌: {{=value.brand}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="details desimg">
+                {{=value.content}}
+            </div>
+        </div>
+    </div>
+    {{~}}
+</script>
+<script type="text/javascript">
+    $(function(){
+        common.demoUrl = "../rss/getGoodsDetail.json";
+        common.fetch({
+            url:'http://192.168.1.34:8080/api/business/inhabitant/getGoodsDetails',
+            data:{
+                id:common.getUrlParam("id")
+            },
+            type:"GET",
+            dataType:"json",
+            success:function(data){
+                if(data.ret_code === 1){
+                    var redData = data["ret_data"];
+                    console.log(redData);
+                    common.render($("#temp-goods"),$("#goodsDetail"),redData);
+//                    $('.mainImg').unslider();
+                }
+            },
+            error:function(err){
+                console.log(JSON.stringify(err));
+            }
+        });
+        console.log(common.getUrlParam("id"));
+    });
+</script>
+</html>

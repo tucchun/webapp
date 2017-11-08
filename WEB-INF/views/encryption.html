@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>encryption</title>
+</head>
+<body>
+<form action="">
+    <dl>
+        <dt>用户名：</dt>
+        <dd><input type="text" name="username"></dd>
+    </dl>
+    <dl>
+        <dt>密&nbsp;码：</dt>
+        <dd><input type="text" name="username"></dd>
+    </dl>
+    <dl>
+        <dt></dt>
+        <dd>
+            <button type="button">提交</button>
+        </dd>
+    </dl>
+</form>
+<script>
+    require([
+        'jquery',
+//		'js/encryption/forge.min',
+        'js/security'
+    ], function ($, security) {
+//    debugger
+
+        var str = "12345";
+        var rpwd = security.aes.encode({target: str});
+        console.log("aes加密", rpwd);
+        var repwd = security.aes.decode({target: security.forge.util.bytesToHex(rpwd)});
+        console.log("aes解密", repwd)
+
+        var md5Str = security.md5.encode(str)
+        console.log("md5", md5Str)
+
+        var base64 = security.base64.encode(str);
+        console.log("base64加密", base64);
+        var deBase64 = security.base64.decode(base64);
+        console.log("base64解密", deBase64);
+
+        var now = security.now();
+        console.log("当前时间", now);
+
+        var random = security.random();
+        console.log("32Byte随机密钥", random);
+
+        var convertedPassword = security.convertedPassword(str);
+        console.log("变换后的密码", convertedPassword);
+
+        var transferPassword = security.transferPassword(str);
+        console.log("传输密码", transferPassword);
+// D9A6DC6384E38C54A32119B85A8AACC1 12345 20170603151358 185819421A7F979E32EE2828C62B9F9B
+        var authStr = security.authStr({
+            randomCode: "D9A6DC6384E38C54A32119B85A8AACC1",
+            username: str,
+            date: "20170603151358",
+            passowrd: "185819421A7F979E32EE2828C62B9F9B"
+        });
+        console.log("认证字符串", authStr)
+
+        // 创建认证结果字串
+        // 32Byte传输密钥
+//        var transferCode = security.random();
+//        var now2 = security.now();
+//        console.log("32Byte传输密钥", "登录名", "系统时间", "32Byte随机密钥", transferCode,str, now2, random);
+//        var autoAesStr = security.aes.encode({
+//            target: [transferCode, str, now2].join(""),
+//            key: random
+//        });
+//        var autoBase64Str = security.base64.encode(autoAesStr);
+//        console.log("认证结果字串", autoBase64Str);
+
+        var deAutoStr = security.deAuthResultStr({
+            target: "yyU+g4DeFcOugLzxqMhIajG6wXq2DcjOMM8LalVT/1anl9M4MGupooh2ILSf/i5Bxulyi/U=",
+            key: "E67D3C1CDBE023F73502BBF09A1CE869"
+        });
+        console.log("解密认证结果", deAutoStr)
+
+        var communicationCertificationStr = security.communicationCertification({
+            username: str,
+            key: deAutoStr[0]
+        });
+        console.log("通信认证字串", communicationCertificationStr);
+    });
+
+
+</script>
+</body>
+</html>

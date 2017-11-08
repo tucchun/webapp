@@ -1,0 +1,94 @@
+<div class="wrap">
+  <div class="tb-head">健康教育印刷资料接收记录表&gt;&gt;新增印刷资料接收记录</div>
+  <div class="tb-content">
+    <div class="tb-wrap">
+      <table class="table wrap-table">
+        <tbody>
+          <tr>
+            <td>材料下发或制作机构:</td>
+            <td>
+              <div class="col-sm-5">
+                <input type="text" class="form-control" placeholder="材料下发或制作机构">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>材料名称:</td>
+            <td>
+              <div class="col-sm-3">
+                <input type="text" class="form-control" placeholder="材料名称">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>材料类型:</td>
+            <td>
+              <div class="col-sm-3">
+                <select class="form-control" name="">
+                  <option value="">请选择</option>
+                </select>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>接收数量:</td>
+            <td>
+              <div class="col-sm-2 input-group">
+                <input type="text" class="form-control" placeholder="材料名称">
+                <span class="input-group-addon">份</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>接收日期:</td>
+            <td>
+              <div class="input-group date form_date col-sm-3" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                <input id="js-new-seminar-date" class="form-control" size="16" type="text" value="" readonly="">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>接收人:</td>
+            <td>
+              <div class="col-sm-3">
+                <select class="form-control" name="">
+                  <option value="">请选择</option>
+                </select>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>接收机构:</td>
+            <td>
+              XXXXXXX社区服务站
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <div class="col-sm-12 form-submit-btns text-center">
+                <button type="submit" class="btn btn-main btn-lg">保存</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+	require([
+		'jquery'
+	], function($){
+		$('#js-new-seminar-date').datetimepicker({
+			language:  'zh-CN',
+			weekStart: 1,
+			todayBtn:  1,
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			minView: 2,
+			forceParse: 0
+		});
+	});
+</script>

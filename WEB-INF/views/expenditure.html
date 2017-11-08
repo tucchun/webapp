@@ -1,0 +1,156 @@
+<div class="wrap expenditure">
+    <div class="tb-head">经费开支管理</div>
+    <div class="tb-content">
+        <div class="tb-wrap">
+            <div class="opt clearfix">
+                <div class="pull-left">
+                    <form action="#" class="form-inline" onsubmit="return false">
+                        <select name="#" class="form-control">
+                            <option value="2016">2016年</option>
+                        </select>
+                        <input type="submit" class="btn btn-main" value="查询" />
+                    </form>
+                </div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-main" data-toggle="modal" data-target="#modal_expenditure">新增</button>
+                    <button type="button" class="btn btn-main" data-toggle="modal" data-target="#modal_expenditure">修改</button>
+                    <button type="button" class="btn btn-main">删除</button>
+                </div>
+            </div>
+            <table cellspacing="0" class="table table-striped table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th class="col-xs-1">序号</th>
+                    <th>日期</th>
+                    <th>支出项目</th>
+                    <th>支出金额</th>
+                    <th>备注</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>2012-05-12</td>
+                    <td>其他</td>
+                    <td>￥2550.00</td>
+                    <td>采购建交设备之列的东西</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>2012-05-12</td>
+                    <td>其他</td>
+                    <td>￥2550.00</td>
+                    <td>采购建交设备之列的东西</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>2012-05-12</td>
+                    <td>其他</td>
+                    <td>￥2550.00</td>
+                    <td>采购建交设备之列的东西</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>2012-05-12</td>
+                    <td>其他</td>
+                    <td>￥2550.00</td>
+                    <td>采购建交设备之列的东西</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>2012-05-12</td>
+                    <td>其他</td>
+                    <td>￥2550.00</td>
+                    <td>采购建交设备之列的东西</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>2012-05-12</td>
+                    <td>其他</td>
+                    <td>￥2550.00</td>
+                    <td>采购建交设备之列的东西</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="pagenation clearfix">
+                <a href="#">上一页</a>
+                <a href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <span>...</span>
+                <a href="#">15</a>
+                <a href="#">下一页</a>
+                <form action="#" method="post">
+                    <span>共5页</span><span>到第<input type="text" value="1">页 <input type="submit" class="btn btn-main" value="确定"/></span>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="modal_expenditure" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="modal_expenditureLabel">新增经费开支</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="#">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td class="col-sm-2">社区服务站</td>
+                                <td>西山社区卫生服务站</td>
+                            </tr>
+                            <tr>
+                                <td><span class="required">*</span>支出项目</td>
+                                <td><input type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td><span class="required">*</span>支出金额</td>
+                                <td>
+                                    <div class="input-group date form_date col-sm-3" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                        <input id="js-new-seminar-date" class="form-control" size="16" type="text" value="" readonly="">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="required">*</span>日期</td>
+                                <td><input type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>备注</td>
+                                <td><textarea name="" class="form-control"></textarea></td>
+                            </tr>
+                        </table>
+                    </form>
+                    <div class="operation">
+                        <button class="btn btn-main" type="submit">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    require([
+        'jquery'
+    ], function($){
+        $('#js-new-seminar-date').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+    });
+</script>

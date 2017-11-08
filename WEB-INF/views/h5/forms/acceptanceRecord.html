@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>接诊记录表</title>
+  <script src="static/assets/adaptive-master/js/adaptive-version2.js"></script>
+  <script>
+		// 设计图宽度
+		window['adaptive'].desinWidth = 1920;
+		// body 字体大小 会将body字体大小设置为 baseFont / 100 + 'rem'
+		window['adaptive'].baseFont = 24;
+		window['adaptive'].maxWidth = 1920;
+		window['adaptive'].init();
+  </script>
+  <!--<link rel="stylesheet" href="./static/assets/bootstrap/dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="./static/css/style.css">
+  <link rel="stylesheet" href="static/css/acceptanceRecord.css">
+</head>
+<body>
+<div class="newcare-form-header">
+  接诊记录表
+</div>
+<div class="newcare-form-container">
+  <table class="tb newcare-form-baseInfo newcare-tb">
+    <tr>
+      <td class="newcare-form-label text-right">
+        姓名
+      </td>
+      <td>
+        <input type="text" class="form-control">
+      </td>
+      <td class="newcare-form-label text-right">
+        编号
+      </td>
+      <td class="newcare-form-code">
+        <input type="text" class="code-primary">
+        <i class="icon icon-bars"></i>
+        <input type="text" class="code-secondary">
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="container mt40">
+  <div class="text-right">
+    <button type="button" class="uploadBtn">只需上传影像资料</button>
+  </div>
+  <div class="">
+    <table class="tb tb-border tb-auto mt40">
+      <tr>
+        <td class="text-center tb-label">
+          就诊者的主观资料
+        </td>
+        <td class="tb-textarea">
+          <textarea class="textarea"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center tb-label">
+          就诊者的客观资料
+        </td>
+        <td class="tb-textarea">
+          <textarea class="textarea"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center tb-label">
+          评估
+        </td>
+        <td class="tb-textarea">
+          <textarea class="textarea"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center tb-label">
+          处置计划
+        </td>
+        <td class="tb-textarea">
+          <textarea class="textarea"></textarea>
+        </td>
+      </tr>
+    </table>
+    <table class="tb tb-border sub-tb tb-auto">
+      <tr>
+        <td class="text-center">
+          接诊日期
+        </td>
+        <td class="text-center">
+          <input class="auto" type="date">
+        </td>
+        <td class="text-center">
+          医生签字
+        </td>
+        <td class="text-center">
+          <input class="auto" type="text">
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+article .author,article h1{
+    padding:0 .2rem;
+    line-height:1.5;
+}
+article h1{
+    font-size:.15rem;
+    font-weight:normal;
+    padding-top:.2rem;
+    color: #333333;
+}
+article .author{
+    font-size:.12rem;
+    font-weight:normal;
+    color:#999;
+    margin:.1rem 0;
+}
+article .author span:last-child{
+    margin-left:.15rem;
+}
+article img{
+    width:100%;
+    vertical-align: top;
+}
+article .article_content{
+    font-size:.14rem;
+}
+article .article_content div{
+    padding:.1rem .2rem 0 .2rem;
+    color:#666666;
+    line-height:1.5;
+}

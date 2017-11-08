@@ -1,0 +1,93 @@
+<div class="wrap">
+  <div class="tb-head">组织机构管理&gt;&gt;新增组织机构及管理账户</div>
+  <div class="tb-content">
+    <div class="tb-wrap">
+      <table class="table wrap-table">
+        <tbody>
+        <tr>
+          <td colspan="2" >
+            <h2 class="text-left">机构信息</h2>
+          </td>
+        </tr>
+        <tr>
+          <td>组织机构名称：</td>
+          <td>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="组织机构名称">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>是否为卫生站:</td>
+          <td>
+            <div class="form-inline">
+              <input type="radio"><span>否</span>
+              <input type="radio"><span>是</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>上级组织机构:</td>
+          <td>
+            <div class="col-sm-4">
+              <select class="form-control"></select>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <h2 class="text-left">账户信息</h2>
+           </td>
+        </tr>
+        <tr>
+          <td>姓名:</td>
+          <td>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="姓名">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>登录账号:</td>
+          <td>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="登录账号">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>密码:</td>
+          <td>
+            <div class="col-sm-4">
+              <input type="password" class="form-control" placeholder="密码">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>所属角色:</td>
+          <td>
+            <div class="col-sm-4">
+              <select class="form-control" name="">
+                <option value="">请选择</option>
+              </select>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="col-sm-12 form-submit-btns text-center">
+              <button type="submit" class="btn btn-main btn-lg">保存</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+  require([
+    'jquery','js/newClinic'
+  ], function($,newClinic){
+  });
+</script>

@@ -1,0 +1,20 @@
+<div>
+  获得表单打印数据
+  <div id=js-result></div>
+</div>
+<script>
+require(['jquery', 'js/printForm/print_form'], function($, print_form) {
+  var $self = $('#__getPrintFromData__');
+  common.Util.demo = true;
+  print_form.getFormData({
+    'doc_id': 1,
+    'user_id_doc': 2026,
+    'doc_type': 30
+  }).done(function(data) {
+    $self.find('#js-result').html(data);
+    console.log(data);
+  }).fail(function(err) {
+    common.alert(err);
+  });
+});
+</script>

@@ -1,0 +1,116 @@
+<div class="wrap">
+    <div class="tb-head">商品管理&gt;&gt;新增商品</div>
+    <div class="tb-content">
+        <div class="tb-wrap">
+            <form action="#">
+                <table class="table wrap-table">
+                    <tbody>
+                    <tr>
+                        <td>所属分类:</td>
+                        <td>
+                            <div class="col-sm-10 form-inline">
+                                <select name="" class="form-control">
+                                    <option value="">一级分类</option>
+                                </select>
+                                <select name="" class="form-control">
+                                    <option value="">二级分类</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>商品名称:</td>
+                        <td>
+                            <div class="form-inline"><input type="text" class="form-control" placeholder="商品名称"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>商品副标题:</td>
+                        <td>
+                            <div class="form-inline"><input type="text" class="form-control" placeholder="商品副标题"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>商品品牌:</td>
+                        <td>
+                            <div class="form-inline"><input type="text" class="form-control" placeholder="商品品牌"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>规格:</td>
+                        <td>
+                            <div class="form-inline"><input type="text" class="form-control" placeholder="规格"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>价格:</td>
+                        <td>
+                            <div class="form-inline"><input type="text" class="form-control" placeholder="价格"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>商品图片:</td>
+                        <td>
+                            <input type="file"><span class="mr10">支持jpg、png的图片格式，最大1M，最多可上传5张图片</span>
+                            <!--<button type="button" class="btn btn-main">上传</button>-->
+                            <div class="imglist clearfix">
+                                <div class="pull-left">
+                                    <img src="http://192.168.1.232:8081/hca/web/management/upload/img/group1/M00/00/10/wKgB-llKjxeALGQQAAh_BlAeAEY3336967" alt="" class="form-img">
+                                    <input type="hidden" name="picurl" value="group1/M00/00/10/wKgB-llKjxeALGQQAAh_BlAeAEY3336967">
+                                    <a href="#">删除</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>商品详情:</td>
+                        <td>
+                            <div class="edit">
+                                <textarea name="" id="kindEditor_newGoods" style="width:776px;height:360px;"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>状态:</td>
+                        <td>
+                            <div class="form-inline">
+                                <select name="" class="form-control">
+                                    <option value="">上架</option>
+                                    <option value="">下架</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="col-sm-12 form-submit-btns text-center">
+                                <button type="submit" class="btn btn-main btn-lg">保存</button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    require(["jquery","KindEditor","zh_CN"], function ($,zh_CN,K) {
+        var editor = KindEditor.create('#kindEditor_newGoods', {
+//          allowFileManager : true,
+          resizeType : 1,
+          allowPreviewEmoticons: false,
+          allowImageUpload:true,//允许上传图片
+          allowFileManager:true, //允许对上传图片进行管理
+          uploadJson:'<%=basePath%>js/kindeditor-4.1.10/jsp/upload_json.jsp', //上传图片的java代码，只不过放在jsp中
+          fileManagerJson:'<%=basePath%>js/kindeditor-4.1.10/jsp/file_manager_json.jsp',
+          afterUpload: function(){this.sync();}, //图片上传后，将上传内容同步到textarea中
+          afterBlur: function(){this.sync();},   ////失去焦点时，将上传内容同步到textarea中
+          items : [
+            'fontname','fontsize', '|','forecolor', 'hilitecolor','bold', 'italic','underline',
+            'removeformat','|', 'justifyleft','justifycenter', 'justifyright','insertorderedlist',
+            'insertunorderedlist','|', 'emoticons','link','media','|','image'
+          ]
+        });
+    });
+</script>

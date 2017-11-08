@@ -1,0 +1,36 @@
+.w140{
+    width: 1.4rem!important;
+}
+.w100{
+    width: 1rem!important;
+}
+.resident-form-item{
+    padding: .1rem 0;
+}
+
+.resident-form-item dt,
+.resident-form-item dd{
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+.resident-form-item dt{
+    width: 2rem;
+    line-height: .6rem;
+}
+
+.resident-form-item > dd > input[type='text']{
+    width: 6.1rem;
+    height: .6rem;
+    border: 1px solid #a0a0a0;
+}
+
+.ul-inline > li{
+    margin: 0 .1rem 0 .05rem;
+}
+
+.resident-form,
+.resident-code{
+    width: 8.2rem!important;
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../../../static/css/reset.css" />
+    <link rel="stylesheet" href="../../../../static/css/layout_inhabitant.css" />
+    <link rel="stylesheet" href="../../../../static/css/goods_detail_inhabitant.css" />
+    <script type="text/javascript" src="../../../../static/assets/adaptive/adaptive-version2.js"></script>
+    <script type="text/javascript" src="../../../../static/assets/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../../../../static/assets/unslider/unslider.min.js"></script>
+    <script type="text/javascript" src="../../../../static/assets/doT-master/doT.min.js"></script>
+    <script type="text/javascript" src="../static/js/tempUtil.js"></script>
+    <script>
+        window['adaptive'].desinWidth = 750;// 设计图宽度
+        window['adaptive'].baseFont = 30;// 没有缩放时的字体大小
+        window['adaptive'].maxWidth = 750;// 页面最大宽度 默认540
+        window['adaptive'].init();// 调用初始化方法
+    </script>
+    <title>商城-商品详情</title>
+</head>
+<body id="goodsDetail"></body>
+<script type="text/x-dot-template" id="temp-detail">
+    {{~ it :value :index}}
+    <div class="mainInfo">
+        <div class="mainImg">
+            <ul>
+                {{~ value.picList :picObj :index}}
+                <li>
+                    <img src="../static/img/pic/shop_detail_inhabitant.png" alt="商品主图">
+                </li>
+                {{~}}
+            </ul>
+        </div>
+        <p class="pinfo"><span>{{=value.name}}</span><span class="specification">{{=value.specifications}}</span></p>
+        <div class="price">
+            <p><span>￥</span><span>{{=(value.price/100)}}</span></p>
+            <p>{{=value.title}}</p>
+        </div>
+    </div>
+    <div class="normalInfo">
+        <ul>
+            <li>品牌：{{=value.brand}}</li>
+        </ul>
+    </div>
+    <div class="introduction">
+        <div class="title">药品介绍</div>
+        <div class="introductionContent">
+            {{=value.content}}
+        </div>
+    </div>
+    {{~}}
+</script>
+<script type="text/javascript">
+    $(function() {
+        common.demoUrl = "../rss/getGoodsDetail.json";
+        common.fetch({
+            url:'http://192.168.1.34:8080/api/business/inhabitant/getGoodsDetails',
+            data:{
+                id:common.getUrlParam("id")
+            },
+            type:"GET",
+            dataType:"json",
+            success:function(data){
+                if(data.ret_code === 1){
+                    var redData = data["ret_data"];
+                    console.log(redData);
+                    common.render($("#temp-detail"),$("#goodsDetail"),redData);
+                    $('.mainImg').unslider();
+                }
+            },
+            error:function(err){
+                console.log(JSON.stringify(err));
+            }
+        });
+        console.log(common.getUrlParam("id"));
+    });
+</script>
+</html>

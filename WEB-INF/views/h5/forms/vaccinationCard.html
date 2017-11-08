@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>预防接种卡</title>
+  <script src="static/assets/adaptive-master/js/adaptive-version2.js"></script>
+  <script>
+		// 设计图宽度
+		window['adaptive'].desinWidth = 1920;
+		// body 字体大小 会将body字体大小设置为 baseFont / 100 + 'rem'
+		window['adaptive'].baseFont = 24;
+		window['adaptive'].maxWidth = 1920;
+		window['adaptive'].init();
+  </script>
+  <!--<link rel="stylesheet" href="./static/assets/bootstrap/dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="./static/css/style.css">
+  <style>
+    .w150{
+      width: 1.8rem!important;
+    }
+  </style>
+</head>
+<body>
+<div class="newcare-form-header">
+  预防接种卡
+</div>
+<div class="newcare-form-container container">
+  <table class="tb newcare-form-baseInfo newcare-tb">
+    <tr>
+      <td class="newcare-form-label text-right">
+        姓名
+      </td>
+      <td>
+        <input type="text" class="form-control">
+      </td>
+      <td class="newcare-form-label text-right">
+        编号
+      </td>
+      <td class="newcare-form-code">
+        <input type="text" class="code-primary">
+        <i class="icon icon-bars"></i>
+        <input type="text" class="code-secondary">
+      </td>
+    </tr>
+    <tr>
+      <td class="newcare-form-label text-right">
+        性别
+      </td>
+      <td>
+        <select>
+          <option value="">男</option>
+        </select>
+      </td>
+      <td class="newcare-form-label text-right">
+        出生日期
+      </td>
+      <td class="newcare-form-code">
+        <input type="date">
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+<div class="mt40 newcare-form-baseInfo-twoLevel container">
+  <table class="newcare-tb tb-auto">
+    <tbody>
+      <tr>
+        <td class="text-right w222 newcare-form-label">监护人姓名</td>
+        <td>
+            <input type="text">
+        </td>
+        <td class="text-right w222 newcare-form-label">与儿童关系</td>
+        <td>
+            <input type="text">
+        </td>
+        <td class="text-right w222 newcare-form-label">联系电话</td>
+        <td>
+            <input type="text">
+        </td>
+      </tr>
+      <tr>
+        <td class="text-right newcare-form-label">家庭现住址</td>
+        <td>
+           <input type="text">
+        </td>
+        <td class="text-right newcare-form-label">户籍地址</td>
+        <td colspan="3">
+            <input type="radio">
+            <span>同家庭地址</span>
+            <input type="radio">
+            <input type="text" style="width:5.83rem">
+        </td>
+      </tr>
+      <tr>
+        <td class="text-right newcare-form-label">
+          迁入时间
+        </td>
+        <td>
+            <input type="date">
+        </td>
+        <td class="text-right newcare-form-label">
+          迁出时间
+        </td>
+        <td>
+            <input type="date">
+        </td>
+        <td class="text-right newcare-form-label">
+          迁出原因
+        </td>
+        <td>
+            <input type="text">
+        </td>
+      </tr>
+      <tr>
+        <td class="text-right newcare-form-label">
+          疫苗异常反应史
+        </td>
+        <td colspan="5">
+          <input type="text" class="w-auto">
+        </td>
+      </tr>
+      <tr>
+        <td class="text-right newcare-form-label">
+          接种禁忌
+        </td>
+        <td colspan="5">
+          <input type="text" class="w-auto">
+        </td>
+      </tr>
+      <tr>
+        <td class="text-right newcare-form-label">
+          传染病史
+        </td>
+        <td colspan="5">
+          <input type="text" class="w-auto">
+        </td>
+      </tr>
+      <tr>
+        <td class="text-right newcare-form-label">
+          建卡日期
+        </td>
+        <td>
+          <input type="date">
+        </td>
+        <td class="text-right newcare-form-label">
+          建卡人
+        </td>
+        <td colspan="3">
+          <input type="text">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="container mt40">
+  <table class="tb tb-auto tb-border">
+    <thead>
+      <th class="text-center" colspan="2">疫苗与剂次</th>
+      <th class="text-center">接种日期</th>
+      <th class="text-center">接种部位</th>
+      <th class="text-center">疫苗批号</th>
+      <th class="text-center">接种医生</th>
+      <th class="text-center">备注</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="3" class="text-center">
+          乙肝疫苗
+        </td>
+        <td style="width: .5rem" class="text-center">
+          1
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          2
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          3
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          卡介苗
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="4" class="text-center">
+          脊灰疫苗
+        </td>
+        <td class="text-center">
+          1
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          2
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          3
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          4
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="4" class="text-center">
+          百白破疫苗
+        </td>
+        <td class="text-center">
+          1
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: .5rem" class="text-center">
+          2
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          3
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          4
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          白破疫苗
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          麻风疫苗
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2" class="text-center">
+          麻腮风疫苗
+        </td>
+        <td class="text-center">
+          1
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          2
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          麻腮疫苗
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2" class="text-center">
+          麻疹疫苗
+        </td>
+        <td class="text-center">
+          1
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          2
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2" class="text-center">
+          A群流脑疫苗
+        </td>
+        <td class="text-center">
+          1
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          2
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2" class="text-center">
+          A+C群流脑疫苗
+        </td>
+        <td class="text-center">
+          1
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          2
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2" class="text-center">
+          乙脑（减毒）活疫苗
+        </td>
+        <td class="text-center">
+          1
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          2
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="4" class="text-center">
+          乙脑灭活疫苗
+        </td>
+        <td class="text-center">
+          1
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: .5rem" class="text-center">
+          2
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          3
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          4
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          甲肝减毒活疫苗
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2" class="text-center">
+          甲肝减毒活疫苗
+        </td>
+        <td class="text-center">
+          1
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          2
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="4" class="text-center">
+          其他疫苗
+        </td>
+        <td class="text-center">
+          1
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: .5rem" class="text-center">
+          2
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          3
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          4
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="date" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul class="td-lst clearfix">
+            <li>
+              <input type="text" class="w150">
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

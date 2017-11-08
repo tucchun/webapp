@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <button type="button" id="js-dialog">dialog</button>
+</body>
+<script>
+  require(['js/dialog'], function(Dialog){
+    var $self = $("#dialog");
+
+    $self.find("#js-dialog").on("click", function(){
+      var dialog = new Dialog({
+        buttons: [
+          {
+            name: "确认",
+            clazz: "",
+            callback: function(){
+              this.hide();
+            }
+          }
+        ]
+      });
+      dialog.show();
+    })
+
+
+
+
+  });
+</script>
+</html>

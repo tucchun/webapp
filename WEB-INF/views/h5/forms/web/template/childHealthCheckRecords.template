@@ -1,0 +1,126 @@
+<div class="container">
+  <table class="tb tb-auto tb-border">
+    <tbody>
+    <tr>
+      <td colspan="4" class="text-left bgColor">{{? it.onemMonth == 1}}满{{??}}{{=it.onemMonth}}{{?}}月龄儿童健康检查记录表</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">姓名:</td>
+      <td class="text-left w630">{{= it.residentName}}</td>
+      <td class="label text-right bgColor w200">编号:</td>
+      <td class="text-left">{{= it.residentNo}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">随访日期:</td>
+      <td class="text-left">{{= it.Util.formatDate(it.createDate)}}</td>
+      <td class="label text-right bgColor">体重/kg:</td>
+      <td class="text-left">{{= it.onemWeight}}{{= it.weightLevelStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">身长 /cm:</td>
+      <td class="text-left">{{= it.onemHeight}}{{= it.heightLevelStr}}</td>
+      <td class="label text-right bgColor">头围/cm</td>
+      <td class="text-left">{{= it.onemHeadLength}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="tb tb-auto tb-border border-top-none">
+    <tbody>
+    <tr>
+      <td class="label text-center bgColor w200" rowspan="16">体格检查</td>
+      <td class="label text-right bgColor w200">面色</td>
+      <td class="text-left" colspan="2">{{= it.onemComplexionStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">皮肤</td>
+      <td class="text-left" colspan="2">{{= it.onemSkinStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">前囟</td>
+      <td class="text-left" colspan="2">{{= it.bregExceStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">颈部包块</td>
+      <td class="text-left" colspan="2">{{= it.neckMassStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">眼睛</td>
+      <td class="text-left" colspan="2">{{= it.eyeStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">耳</td>
+      <td class="text-left" colspan="2">{{= it.earStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">听力</td>
+      <td class="text-left" colspan="2">{{= it.listenStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">口腔</td>
+      <td class="text-left" colspan="2">{{= it.mouthStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">胸部</td>
+      <td class="text-left" colspan="2">{{= it.chestStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">腹部</td>
+      <td class="text-left" colspan="2">{{= it.abdomenStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">脐部</td>
+      <td class="text-left" colspan="2">{{= it.umbStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">四肢</td>
+      <td class="text-left" colspan="2">{{= it.limbStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">可疑佝偻病症状</td>
+      <td class="text-left" colspan="2">{{= it.ricketSymStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">可疑佝偻病体征</td>
+      <td class="text-left" colspan="2">{{= it.ricketSignStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">肛门/外生殖器</td>
+      <td class="text-left" colspan="2">{{= it.anusStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor w200">血红蛋白值</td>
+      <td class="text-left" colspan="2">{{= it.onemHemoglobin}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="tb tb-auto tb-border border-top-none">
+    <tbody>
+    <tr>
+      <td class="label text-right bgColor w200">户外活动:</td>
+      <td class="text-left w630">{{= it.onemOutdoorActivities}}h/d</td>
+      <td class="label text-right bgColor w200">服用维生素 D:</td>
+      <td class="text-left">{{= it.onemVitamind}}IU/日</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">运动发育评估:</td>
+      <td class="text-left">{{= it.motorDevStr}}</td>
+      <td class="label text-right bgColor">两次随访间患病情况</td>
+      <td class="text-left">{{= it.periodIllStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">转诊建议</td>
+      <td class="text-left">{{= it.referralStr}}</td>
+      <td class="label text-right bgColor">指导</td>
+      <td class="text-left">{{= it.healthGuideStr}}</td>
+    </tr>
+    <tr>
+      <td class="label text-right bgColor">下次随访日期</td>
+      <td class="text-left">{{= it.nextVisitDate}}</td>
+      <td class="label text-right bgColor">随访医生签名</td>
+      <td class="text-left">{{= it.onemVisitDoctor}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+
+</div>

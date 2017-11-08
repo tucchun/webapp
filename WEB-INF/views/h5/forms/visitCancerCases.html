@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>五华区肿瘤病例随访表</title>
+  <script src="static/assets/adaptive-master/js/adaptive-version2.js"></script>
+  <script>
+		// 设计图宽度
+		window['adaptive'].desinWidth = 1920;
+		// body 字体大小 会将body字体大小设置为 baseFont / 100 + 'rem'
+		window['adaptive'].baseFont = 24;
+		window['adaptive'].maxWidth = 1920;
+		window['adaptive'].init();
+  </script>
+  <!--<link rel="stylesheet" href="./static/assets/bootstrap/dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="./static/css/style.css">
+</head>
+<body>
+<div class="newcare-form-header">
+  五华区肿瘤病例随访表
+</div>
+<div class="newcare-form-container">
+  <table class="tb newcare-form-baseInfo newcare-tb">
+    <tr>
+      <td class="text-right">
+        <span>档案号</span>
+        <input type="text" class="form-control">
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="container mt40">
+  <table class="tb tb-auto tb-border">
+    <tbody>
+      <tr>
+        <td class="text-center w222">
+          姓名
+        </td>
+        <td class="w341">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+        <td class="text-center w222">
+          性别
+        </td>
+        <td class="w341">
+          <ul class="clearfix td-lst">
+            <li>
+              <select name="" id="">
+                <option value="">男</option>
+              </select>
+            </li>
+          </ul>
+        </td>
+        <td class="text-center w222">
+          年龄
+        </td>
+        <td class="w341">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          本次随访日期
+        </td>
+        <td class="w341">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="date">
+            </li>
+          </ul>
+        </td>
+        <td class="text-center">
+          随访方式
+        </td>
+        <td colspan="3">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>入户</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>电话</span>
+          </li>
+          <li>
+            <input type="radio">
+            <span>复诊</span>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td class="text-center">
+        随访地点
+      </td>
+      <td colspan="5">
+        <ul class="clearfix td-lst">
+          <li class="auto">
+            <input type="text" class="auto">
+          </li>
+        </ul>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="tb tb-auto tb-border sub-tb">
+    <thead>
+      <tr>
+        <th colspan="5" class="text-left p20">
+          随访内容
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="text-center">主要症状</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>存活</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>死亡</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center" rowspan="2">意识状态</td>
+        <td class="text-center">
+          烦躁
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+        <td class="text-center">
+          嗜睡
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          昏迷
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+        <td class="text-center">
+          清醒
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center" rowspan="2">治疗情况</td>
+        <td class="text-center">
+          药物
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+        <td class="text-center">
+          放疗
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          化疗
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+        <td class="text-center">
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center" rowspan="2">病情变化</td>
+        <td class="text-center">
+          好转
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+        <td class="text-center">
+          恶化
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          转移
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+        <td class="text-center">
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">家庭护理情况</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="3" class="text-center">
+          日常情况
+        </td>
+        <td class="text-center">
+          戒烟
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+        <td class="text-center">
+          戒酒
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          运动频率
+        </td>
+        <td colspan="3">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+              <span>次/周，</span>
+              <input type="text">
+              <span>分钟/次</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          合理饮食
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+        <td class="text-center">
+          合理饮食
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          随访医师签名
+        </td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

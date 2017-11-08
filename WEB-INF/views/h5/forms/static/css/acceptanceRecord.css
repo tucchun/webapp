@@ -1,0 +1,19 @@
+.textarea{
+    height: 4.44rem;
+    width: 100%;
+    resize: none;
+
+}
+
+.tb-textarea{
+    padding: .28rem;
+}
+
+.tb-label{
+    width: 2.26rem;
+}
+
+.textarea-auto{
+    width: 100%;
+    height: 100%;
+}

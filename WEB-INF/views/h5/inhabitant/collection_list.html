@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/reset.css" />
+    <link rel="stylesheet" href="../static/css/layout_inhabitant.css" />
+    <link rel="stylesheet" href="../static/css/article_list_inhabitant.css" />
+    <script type="text/javascript" src="../static/js/lib/adaptive.js"></script>
+    <script>
+        window['adaptive'].desinWidth = 750;// 设计图宽度
+        window['adaptive'].baseFont = 30;// 没有缩放时的字体大小
+        window['adaptive'].maxWidth = 750;// 页面最大宽度 默认540
+        window['adaptive'].init();// 调用初始化方法
+    </script>
+    <title>专家讲堂-文章列表</title>
+</head>
+<body>
+<div class="article_list">
+    <ul>
+        <li class="box">
+            <div class="flex">
+                <p class="title">高血压病人的饮她食习惯改变</p>
+                <div class="author"><span>涂传春</span><span>2017.03.15</span></div>
+            </div>
+            <img src="../static/img/pic/example.png" alt="示例图片" />
+        </li>
+        <li class="box">
+            <div class="flex">
+                <p class="title">高血压病人的饮食习惯改变,高血压病人的饮食习惯改变,</p>
+                <div class="author"><span>李迪</span><span>2017.03.15</span></div>
+            </div>
+            <img src="../static/img/pic/example.png" alt="示例图片" />
+        </li>
+        <li class="box">
+            <div class="flex">
+                <p class="title">高血压病人的饮食习惯改变,高血压病人的饮食习惯改变,</p>
+                <div class="author"><span>王许豪</span><span>2017.03.15</span></div>
+            </div>
+            <img src="../static/img/pic/example.png" alt="示例图片" />
+        </li>
+        <li class="box">
+            <div class="flex">
+                <p class="title">高血压病人的饮食习惯改变,高血压病人的饮食习惯改变,</p>
+                <div class="author"><span>李迪</span><span>2017.03.15</span></div>
+            </div>
+            <img src="../static/img/pic/example.png" alt="示例图片" />
+        </li>
+        <li class="box">
+            <div class="flex">
+                <p class="title">高血压病人的饮食习惯改变,高血压病人的饮食习惯改变,</p>
+                <div class="author"><span>五个字的人</span><span>2017.03.15</span></div>
+            </div>
+            <img src="../static/img/pic/example.png" alt="示例图片" />
+        </li>
+        <li class="box">
+            <div class="flex">
+                <p class="title">高血压病人的饮食习惯改变,高血压病人的饮食习惯改变,</p>
+                <div class="author"><span>李迪</span><span>2017.03.15</span></div>
+            </div>
+            <img src="../static/img/pic/example.png" alt="示例图片" />
+        </li>
+        <li class="box">
+            <div class="flex">
+                <p class="title">高血压病人的饮食习惯改变,高血压病人的饮食习惯改变,</p>
+                <div class="author"><span>李迪</span><span>2017.03.15</span></div>
+            </div>
+            <img src="../static/img/pic/example.png" alt="示例图片" />
+        </li>
+        <li class="box">
+            <div class="flex">
+                <p class="title">高血压病人的饮食习惯改变,高血压病人的饮食习惯改变,</p>
+                <div class="author"><span>李迪</span><span>2017.03.15</span></div>
+            </div>
+            <img src="../static/img/pic/example.png" alt="示例图片" />
+        </li>
+    </ul>
+</div>
+</body>
+<script type="text/javascript" src="../static/js/lib/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.filter div').click(function(){
+            $(this).addClass('active').siblings().removeClass('active');
+        })
+    })
+</script>
+</html>

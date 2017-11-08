@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>老年人生活自理能力评估表</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <script src="../static/assets/adaptive-master/js/adaptive-version2.js"></script>
+  <script>
+		// 设计图宽度
+		window['adaptive'].desinWidth = 1920;
+		// body 字体大小 会将body字体大小设置为 baseFont / 100 + 'rem'
+		window['adaptive'].baseFont = 30;
+		window['adaptive'].maxWidth = 1920;
+		window['adaptive'].init();
+  </script>
+  <link rel="stylesheet" href="../static/css/questionnaire.css">
+  <script src="../../../../../static/assets/zepto-master/dist/zepto.min.js"></script>
+</head>
+<body>
+<form action="/web/hecadre/oldselfcare" method="post">
+  <div class="container sub-title">
+    请根据近一年的体验和感觉，回答以下问题。
+  </div>
+  <div class="container border">
+    <div class="item">
+      <dl>
+        <dt>01 进餐:使用餐具将饭菜送入口、咀嚼、吞咽等活动</dt>
+        <dd>
+          <label>
+            <input type="radio" name="self_meal" value="0">
+            <span>独立完成</span>
+          </label>
+        </dd>
+        <dd>
+          <label>
+            <input type="radio" name="self_meal" value="3">
+            <span>需要协助，如切碎、搅拌食物等</span>
+          </label>
+        </dd>
+        <dd>
+          <label>
+            <input type="radio" name="self_meal" value="5">
+            <span>完全需要帮助</span>
+          </label>
+        </dd>
+      </dl>
+    </div>
+
+    <div class="item">
+      <dl>
+        <dt>02 梳洗：梳头、洗脸、刷牙、剃须洗澡等活动.</dt>
+        <dd>
+          <label>
+            <input type="radio" name="self_freshen" value="0">
+            <span>独立完成</span>
+          </label>
+        </dd>
+        <dd>
+          <label>
+            <input type="radio" name="self_freshen" value="1">
+            <span>能独立地洗头、梳头、洗脸、刷牙、剃须等；洗澡需要协助</span>
+          </label>
+        </dd>
+        <dd>
+          <label>
+            <input type="radio" name="self_freshen" value="3">
+            <span>在协助下和适当的时间内，能完成部分梳洗活动</span>
+          </label>
+        </dd>
+        <dd>
+          <label>
+            <input type="radio" name="self_freshen" value="7">
+            <span>完全需要帮助</span>
+          </label>
+        </dd>
+      </dl>
+    </div>
+
+    <div class="item">
+      <dl>
+        <dt>03 穿衣：穿衣裤、袜子、鞋子等活动.</dt>
+        <dd>
+          <label>
+            <input type="radio" name="self_dressing" value="0">
+            <span>独立完成</span>
+          </label>
+        </dd>
+        <dd>
+          <label>
+            <input type="radio" name="self_dressing" value="3">
+            <span>需要协助，在适当的时间内完成部分穿衣</span>
+          </label>
+        </dd>
+        <dd>
+          <label>
+            <input type="radio" name="self_dressing" value="5">
+            <span>完全需要帮助</span>
+          </label>
+        </dd>
+      </dl>
+    </div>
+
+    <div class="item">
+      <dl>
+        <dt>04 如厕：小便、大便等活动及自控.</dt>
+        <dd>
+          <label>
+            <input type="radio" name="self_toilet" value="0">
+            <span>不需协助，可自控</span>
+          </label>
+        </dd>
+        <dd>
+          <label>
+            <input type="radio" name="self_toilet" value="1">
+            <span>偶尔失禁，但基本上能如厕或使用便具</span>
+          </label>
+        </dd>
+        <dd>
+          <label>
+            <input type="radio" name="self_toilet" value="5">
+            <span>经常失禁，在很多提示和协助下尚能如厕或使用便具</span>
+          </label>
+        </dd>
+        <dd>
+          <label>
+            <input type="radio" name="self_toilet" value="10">
+            <span>完全需要帮助</span>
+          </label>
+        </dd>
+      </dl>
+    </div>
+
+    <div class="item">
+      <dl>
+        <dt>05 活动：站立、室内行走、上下楼梯、户外活动</dt>
+        <dd>
+          <label>
+            <input type="radio" name="self_activity" value="0">
+            <span>独立完成所有活动</span>
+          </label>
+        </dd>
+        <dd>
+          <label>
+            <input type="radio" name="self_activity" value="1">
+            <span>借助较小的外力或辅助装臵能完成站立、行走、上下楼梯等</span>
+          </label>
+        </dd>
+        <dd>
+          <label>
+            <input type="radio" name="self_activity" value="5">
+            <span>借助较大的外力才能完成站立、行走，不能上下楼梯</span>
+          </label>
+        </dd>
+        <dd>
+          <label>
+            <input type="radio" name="self_activity" value="10">
+            <span>卧床不起，活动完全需要帮助</span>
+          </label>
+        </dd>
+      </dl>
+    </div>
+
+  </div>
+
+  <div class="container submit">
+    <button type="submit" class="btn">提&nbsp;交</button>
+  </div>
+  <input type="hidden" name="user_id_doc" value="" id="js-userId">
+  <input type="hidden" name="activity_id" value="" id="js-activityId">
+</form>
+<script src="../../static/js/common.js"></script>
+<script>
+  var params = common.param(location.href);
+  $("#js-userId").val(params["user_id_doc"]);
+  $("#js-activityId").val(params["activity_id"]);
+</script>
+</body>
+</html>

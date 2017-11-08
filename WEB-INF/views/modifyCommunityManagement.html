@@ -1,0 +1,66 @@
+<div class="wrap">
+  <div class="tb-head">社区站展示管理&gt;&gt;新增社区站</div>
+  <div class="tb-content">
+    <div class="tb-wrap">
+      <table class="table wrap-table">
+        <tbody>
+        <tr>
+          <td>社区站名称:</td>
+          <td>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" placeholder="请输入名称，不超过20字">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>展示状态:</td>
+          <td>
+            <div class="form-inline">
+              <select class="form-control" name="">
+                <option value="">请选择</option>
+              </select>
+              <span>状态为可见时，将在APP端展示，不可见时，则不展示！</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>社区站简介:</td>
+          <td>
+            <div>
+              <textarea name="" id="editor" class="fill"></textarea>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="col-sm-12 form-submit-btns text-center">
+              <button type="submit" class="btn btn-main btn-lg">保存</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+  require([
+    'jquery',
+    'KindEditor',
+    'zh_CN'
+  ], function($, KindEditor){
+    var $self = $("#modifyCommunityManagement");
+
+
+    $self.find("#js-submit").on("click", function(e){
+      console.log(companyProfile.html())
+    });
+
+    var settings = {
+      height: 400,
+      width: "100%"
+    };
+
+    var companyProfile = KindEditor.create('#modifyCommunityManagement #editor', settings);
+  });
+</script>

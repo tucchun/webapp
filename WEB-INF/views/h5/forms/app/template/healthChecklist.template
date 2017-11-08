@@ -1,0 +1,859 @@
+<div class="container">
+  <div class="item clearfix">
+    <div class="pull-left">姓名</div>
+    <div class="pull-right">{{= it.residentName}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">编号</div>
+    <div class="pull-right">{{= it.residentNo}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">体检日期</div>
+    <div class="pull-right">{{= it.Util.formatDate(it.createDate)}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">责任医生</div>
+    <div class="pull-right">{{= it.examDoctor}}</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="item bgColor">
+    <div class="sub-title">
+      内容与检查项目
+    </div>
+  </div>
+</div>
+
+<div>
+  <!--<div class="container flex horizental">-->
+    <!--<div class="item flex align-center w230">-->
+      <!--<div>症状</div>-->
+    <!--</div>-->
+    <!--<div class="container border-bottom">-->
+      <!--<div class="item clearfix">-->
+        <!--<ul class="pull-right list">-->
+          <!--<li class="text-right">头晕</li>-->
+          <!--<li class="text-right">心悸</li>-->
+          <!--<li class="text-right">胸闷</li>-->
+          <!--<li class="text-right">呼吸困难</li>-->
+        <!--</ul>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <div class="item clearfix">
+    <div class="pull-left">症状</div>
+    <div class="pull-right">{{= it.bodySymptomDes}}</div>
+  </div>
+
+  <div class="container flex horizental">
+    <div class="item flex align-center justify-center border-right w100">
+      <div>一般状况 </div>
+    </div>
+    <div class="container border-bottom">
+      <div class="item clearfix">
+        <div class="pull-left">体温</div>
+        <div class="pull-right">{{= it.examTemperature}}<span class="unit">℃</span></div>
+      </div>
+      <div class="item clearfix">
+        <div class="pull-left">脉率</div>
+        <div class="pull-right">{{= it.examPulseRate}}<span class="unit">次/分钟</span></div>
+      </div>
+      <div class="item clearfix">
+        <div class="pull-left">呼吸频率</div>
+        <div class="pull-right">{{= it.examBreathingRate}}<span class="unit">次/分钟</span></div>
+      </div>
+      <div class="container flex horizental">
+        <div class="item flex align-center w230">
+          <div>血压</div>
+        </div>
+        <div class="container border-bottom">
+          <div class="item">
+            <div class="text-right">左侧:{{= it.examLeftBloodLow}}/{{= it.examLeftBloodHigh}}<span class="unit">mmHg</span></div>
+            <div class="text-right">右侧:{{= it.examRightBloodLow}}/{{= it.examRightBloodHigh}}<span class="unit">mmHg</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="item clearfix">
+        <div class="pull-left">身高</div>
+        <div class="pull-right">{{= it.examHeight}}<span class="unit">cm</span></div>
+      </div>
+      <div class="item clearfix">
+        <div class="pull-left">体重</div>
+        <div class="pull-right">{{= it.examWeight}}<span class="unit">Kg</span></div>
+      </div>
+      <div class="item clearfix">
+        <div class="pull-left">腰围</div>
+        <div class="pull-right">{{= it.examWaist}}<span class="unit">cm</span></div>
+      </div>
+      <div class="item clearfix">
+        <div class="pull-left">体质指数(BMI)</div>
+        <div class="pull-right">{{= it.examBmi}}<span class="unit">Kg/m2</span></div>
+      </div>
+      <div class="item clearfix">
+        <div class="pull-left">老年人健康状态自我评估*</div>
+        <div class="pull-right">{{= it.examHealthStatusDes}}</div>
+      </div>
+      <div class="item clearfix">
+        <div class="pull-left">老年人生活自理能力自我评估*</div>
+        <div class="pull-right">{{= it.examSelfCareDes}}</div>
+      </div>
+      <div class="item clearfix">
+        <div class="pull-left">老年人认知功能*</div>
+        <div class="pull-right">{{= it.elderCognitiveDes}}</div>
+      </div>
+      <div class="item clearfix">
+        <div class="pull-left">老年人情感状态*</div>
+        <div class="pull-right">{{= it.elderEmotionDes}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="container flex horizental">
+      <div class="item flex align-center justify-center border-right w100">
+        <div>生活方式</div>
+      </div>
+      <div class="container border-bottom">
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>体育锻炼</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">锻炼频率</div>
+              <div class="pull-right">{{= it.examExerciseFrequencyDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">每次锻炼时间</div>
+              <div class="pull-right">{{= it.examExerciseTime}}<span class="unit">分钟</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">坚持锻炼时间</div>
+              <div class="pull-right">{{= it.examExerciseTotal}}<span class="unit">年</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">锻炼方式</div>
+              <div class="pull-right">{{= it.examExerciseType}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">饮食习惯</div>
+          <div class="pull-right">{{= it.eatHabitsDes}}</div>
+        </div>
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>吸烟情况</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">吸烟状况</div>
+              <div class="pull-right">{{= it.smokingStateDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">日吸烟量</div>
+              <div class="pull-right">平均{{= it.examSmokingQuantity}}支</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">开始吸烟年龄</div>
+              <div class="pull-right">{{= it.examSmokingBegin}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">戒烟年龄</div>
+              <div class="pull-right">{{= it.examSmokingCessation}}<span class="unit">岁</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>饮酒情况</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">饮酒频率</div>
+              <div class="pull-right">{{= it.examExerciseFrequencyDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">日饮酒量</div>
+              <div class="pull-right">平均{{= it.examDailyDrinking}}<span class="unit">两</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">是否戒酒</div>
+              <div class="pull-right">{{= it.DrinkingCessationDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">开始饮酒年龄</div>
+              <div class="pull-right">{{= it.examDrinkingAge}}<span class="unit">岁</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">近一年内是否曾醉酒</div>
+              <div class="pull-right">{{= it.examLastDrunkDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">饮酒种类</div>
+              <div class="pull-right">{{= it.DrinkingTypeDes}}</div>
+            </div>
+          </div>
+        </div>
+        {{? it.careerDisease.careerFlag === 1}}
+          <div class="container flex horizental">
+            <div class="flex vertical justify-center align-center border-right bgWhite w230">
+              <div>职业病危害因素接触史</div>
+            </div>
+            <div class="container">
+              <div class="item clearfix">
+                <div class="pull-left">职业名称</div>
+                <div class="pull-right">{{= it.careerDisease.careerName}}</div>
+              </div>
+              <div class="item clearfix">
+                <div class="pull-left">从业时间</div>
+                <div class="pull-right">{{= it.careerDisease.careerTime}}<span class="unit">年</span></div>
+              </div>
+              {{~ it.careerDisease.protectMeasures :value:index}}
+                  <div class="item clearfix">
+                    <div class="pull-left">{{= it._.keys(value)[0]}}</div>
+                    <div class="pull-right">{{= it._.values(value)[0]}}</div>
+                  </div>
+              {{~}}
+              <!--<div class="item clearfix">-->
+                <!--<div class="pull-left">防护措施:</div>-->
+                <!--<div class="pull-right">无</div>-->
+              <!--</div>-->
+            </div>
+          </div>
+        {{??}}
+        <div class="item clearfix">
+          <div class="pull-left">职业病危害因素接触史</div>
+          <div class="pull-right">无</div>
+        </div>
+        {{?}}
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="container flex horizental">
+      <div class="item flex align-center justify-center border-right w100">
+        <div>脏器功能</div>
+      </div>
+      <div class="container border-bottom">
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>口腔</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">口唇</div>
+              <div class="pull-right">{{= it.examLipsDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">齿列</div>
+              <div class="pull-right">{{= it.teethDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">咽部</div>
+              <div class="pull-right">{{= it.pharynxDes}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>视力</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left"></div>
+              <div class="pull-right">左眼：{{= it.examVisionLeft}}/右眼：{{= it.examVisionRight}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">矫正视力</div>
+              <div class="pull-right">左眼：{{= it.examCorrectVisionLeft}}/右眼：{{= it.examCorrectVisionRight}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">听力</div>
+          <div class="pull-right">{{= it.examHearing}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">运动功能</div>
+          <div class="pull-right">{{= it.examExerciseAbilityDes}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="container flex horizental">
+      <div class="item flex align-center justify-center border-right w100">
+        <div>查体</div>
+      </div>
+      <div class="container border-bottom">
+        <div class="item clearfix">
+          <div class="pull-left">眼底*</div>
+          <div class="pull-right">{{= it.examFundusOculiDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">皮肤</div>
+          <div class="pull-right">{{= it.examSkinDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">巩膜</div>
+          <div class="pull-right">{{= it.examScleraDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">淋巴结</div>
+          <div class="pull-right">{{= it.examLymphGlandDes}}</div>
+        </div>
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>肺</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">桶状胸</div>
+              <div class="pull-right">{{= it.examBarrelChestDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">呼吸音</div>
+              <div class="pull-right">{{= it.examBreathSoundsDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">罗音</div>
+              <div class="pull-right">{{= it.examRaleDes}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>心脏</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">心率</div>
+              <div class="pull-right">{{= it.examHeartRate}}<span class="unit">次/分钟</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">心律</div>
+              <div class="pull-right">{{= it.examRhythmDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">杂音</div>
+              <div class="pull-right">{{= it.examNoiseDes}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>腹部</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">压痛</div>
+              <div class="pull-right">{{= it.examTendernessDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">包块</div>
+              <div class="pull-right">{{= it.examBagPieceDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">肝大</div>
+              <div class="pull-right">{{= it.examLiverDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">脾大</div>
+              <div class="pull-right">{{= it.examSplenomegalyDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">移动性浊音</div>
+              <div class="pull-right">{{= it.examMobileDullnessDes}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">下肢水肿</div>
+          <div class="pull-right">{{= it.examEdemaLowerDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">足背动脉搏动*</div>
+          <div class="pull-right">{{= it.dorsalisPedisDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">肛门指诊*</div>
+          <div class="pull-right">{{= it.examDraDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">乳腺*</div>
+          <div class="pull-right">{{= it.breastDes}}</div>
+        </div>
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>妇科*</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">外阴</div>
+              <div class="pull-right">{{= it.gynaecology.gynaVulvadDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">阴道</div>
+              <div class="pull-right">{{= it.gynaecology.gynaVaginaDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">宫颈</div>
+              <div class="pull-right">{{= it.gynaecology.gynaCervicalDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">宫体</div>
+              <div class="pull-right">{{= it.gynaecology.gynaPalaceDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">附件</div>
+              <div class="pull-right">{{= it.gynaecology.gynaEnclosureDes}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">其他*</div>
+          <div class="pull-right">{{= it.examBodyChecking}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="container flex horizental">
+      <div class="item flex align-center justify-center border-right w100">
+        <div>辅助检查</div>
+      </div>
+      <div class="container border-bottom">
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>血常规*</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">血红蛋白</div>
+              <div class="pull-right">{{= it.examAuxiliaryBloodHemoglobin}}<span class="unit">g/L</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">白细胞</div>
+              <div class="pull-right">{{= it.examAuxiliaryBloodWhitecell}}<span class="unit">*10 9/L</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">血小板</div>
+              <div class="pull-right">{{= it.examAuxiliaryBloodPlatelet}}<span>*10 9/L</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">其他</div>
+              <div class="pull-right">{{= it.examAuxiliaryBloodOther}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>尿常规*</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">尿蛋白</div>
+              <div class="pull-right">{{= it.examAuxiliaryUrineProtein}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">尿糖</div>
+              <div class="pull-right">{{= it.examAuxiliaryUrineSugar}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">尿酮体</div>
+              <div class="pull-right">{{= it.examAuxiliaryUrineKetone}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">尿潜血</div>
+              <div class="pull-right">{{= it.examAuxiliaryUrineBld}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">其他</div>
+              <div class="pull-right">{{= it.examAuxiliaryUrineOther}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">空腹血糖*</div>
+          <div class="pull-right">{{= it.examAuxiliaryBloodGlucose1}}<span class="unit">mmol/L</span></div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">心电图*</div>
+          <div class="pull-right">{{= it.examAuxiliaryCardiogramDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">尿微量白蛋白*</div>
+          <div class="pull-right">{{= it.examAuxiliaryUrineMicroalbumin}}<span class="unit">mg/dL</span></div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">大便潜血*</div>
+          <div class="pull-right">{{= it.examAuxiliaryOccultBlood}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">糖化血红蛋白*</div>
+          <div class="pull-right">{{= it.examAuxiliaryGlycosylatedHemoglobin}}<span class="unit">%</span></div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">乙型肝炎表面抗原*</div>
+          <div class="pull-right">{{= it.examAuxiliarySurfaceAntigen}}</div>
+        </div>
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>肝功能*</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">血清谷丙转氨酶</div>
+              <div class="pull-right">{{= it.examAuxiliaryLiverSgpt}}<span class="unit">U/L</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">血清谷草转氨酶</div>
+              <div class="pull-right">{{= it.examAuxiliaryLiverSgot}}<span class="unit">U/L</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">白蛋白</div>
+              <div class="pull-right">{{= it.examAuxiliaryLiverAlbumin}}<span class="unit">g/L</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">总胆红素</div>
+              <div class="pull-right">{{= it.examAuxiliaryLiverBilirubin}}<span class="unit">μmol/L</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">结合胆红素</div>
+              <div class="pull-right">{{= it.examAuxiliaryLiverConjugated}}<span class="unit">μmol/L</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>肾功能*</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">血清肌酐</div>
+              <div class="pull-right">{{= it.examAuxiliaryKidneyScr}}<span class="unit">μmol/L</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">血尿素氮</div>
+              <div class="pull-right">{{= it.examAuxiliaryKidneyNitrogen}}<span class="unit">mmol/L</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">血钾浓度</div>
+              <div class="pull-right">{{= it.examAuxiliaryKidneyPotassium}}<span class="unit">mmol/L</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">血钠浓度</div>
+              <div class="pull-right">{{= it.examAuxiliaryKidneySodium}}<span class="unit">mmol/L</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>血脂*</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">总胆固醇</div>
+              <div class="pull-right">{{= it.examAuxiliaryLipidCholesterol}}<span class="unit">mmol/L</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">甘油三酯</div>
+              <div class="pull-right">{{= it.examAuxiliaryLipidTriglyceride}}<span class="unit">mmol/L</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">血清低密度脂蛋白胆固醇</div>
+              <div class="pull-right">{{= it.examAuxiliaryLipidLipoprotein}}<span class="unit">mmol/L</span></div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">血清高密度脂蛋白胆固醇</div>
+              <div class="pull-right">{{= it.examAuxiliaryLipidHigh}}<span class="unit">mmol/L</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">胸部 X 线片*</div>
+          <div class="pull-right">{{= it.examAuxiliaryChestradiograph}}</div>
+        </div>
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w230">
+            <div>B超</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">腹部B超</div>
+              <div class="pull-right">{{= it.examAuxiliaryAbdominalExceDes}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">其他*</div>
+              <div class="pull-right">{{= it.examAuxiliaryUltrasonographyDes}}</div>
+            </div>
+            <!--<div class="item clearfix">-->
+              <!--<div class="pull-left">其他*</div>-->
+              <!--<div class="pull-right"></div>-->
+            <!--</div>-->
+          </div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">宫颈涂片*</div>
+          <div class="pull-right">
+            {{? it.examAuxiliaryCervicalSmear === 1}}
+              {{= it.examAuxiliaryCervicalExce}}
+            {{??}}
+              正常
+            {{?}}
+          </div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">其 他*</div>
+          <div class="pull-right">{{= it.examAuxiliaryOther}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="container flex horizental">
+      <div class="item flex align-center justify-center border-right w100">
+        <div>中医体质辨识*</div>
+      </div>
+      <div class="container border-bottom">
+        <div class="item clearfix">
+          <div class="pull-left">平和质</div>
+          <div class="pull-right">{{= it.tcmConstitution.tcmPeaceDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">气虚质</div>
+          <div class="pull-right">{{= it.tcmConstitution.tcmDeficiency}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">阳虚质</div>
+          <div class="pull-right">{{= it.tcmConstitution.tcmYangDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">阴虚质</div>
+          <div class="pull-right">{{= it.tcmConstitution.tcmYinDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">痰湿质</div>
+          <div class="pull-right">{{= it.tcmConstitution.tcmPhlegmDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">湿热质</div>
+          <div class="pull-right">{{= it.tcmConstitution.tcmDampDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">血瘀质</div>
+          <div class="pull-right">{{= it.tcmConstitution.tcmBloodDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">气郁质</div>
+          <div class="pull-right">{{= it.tcmConstitution.tcmStagnationDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">特秉质</div>
+          <div class="pull-right">{{= it.tcmConstitution.tcmSpecialDes}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="container flex horizental">
+      <div class="item flex align-center justify-center border-right w100">
+        <div>现存主要健康问题</div>
+      </div>
+      <div class="container border-bottom">
+        <div class="item clearfix">
+          <div class="pull-left">脑血管疾病</div>
+          <div class="pull-right">{{= it.cerebroDiseaseDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">肾脏疾病</div>
+          <div class="pull-right">{{= it.kidneyDiseaseDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">心脏疾病</div>
+          <div class="pull-right">{{= it.heartDiseaseDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">血管疾病</div>
+          <div class="pull-right">{{= it.vascularDiseaseDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">眼部疾病</div>
+          <div class="pull-right">{{= it.eyeDiseaseDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">神经系统疾病</div>
+          <div class="pull-right">{{= it.pdhNervousDiseaseDes}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">其他系统疾病</div>
+          <div class="pull-right">未发现</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="container flex horizental">
+      <div class="item flex align-center justify-center border-right w100">
+        <div>住院治疗情况</div>
+      </div>
+      <div class="container border-bottom">
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-bottom border-right bgWhite w230">
+            <div>住院史</div>
+          </div>
+          <div class="container border-bottom">
+            <div class="item clearfix">
+              <div class="pull-left">入院日期</div>
+              <div class="pull-right">{{= it.Util.formatDate(it.examHospitalIn)}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">出院日期</div>
+              <div class="pull-right">{{= it.Util.formatDate(it.examHospitalOut)}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">原因</div>
+              <div class="pull-right">{{= it.examHospitalReason}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">医疗机构名称</div>
+              <div class="pull-right">{{= it.examHospitalName}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">病案号</div>
+              <div class="pull-right">{{= it.examHospitalNo}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="container flex horizental">
+          <div class="flex vertical justify-center align-center border-right bgWhite w230">
+            <div>家庭病床史</div>
+          </div>
+          <div class="container">
+            <div class="item clearfix">
+              <div class="pull-left">建床日期</div>
+              <div class="pull-right">{{= it.Util.formatDate(it.examBedIn)}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">撤床日期</div>
+              <div class="pull-right">{{= it.Util.formatDate(it.examBedOut)}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">原因</div>
+              <div class="pull-right">{{= it.examBedReason}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">医疗机构名称</div>
+              <div class="pull-right">{{= it.examBedOrg}}</div>
+            </div>
+            <div class="item clearfix">
+              <div class="pull-left">病案号</div>
+              <div class="pull-right">{{= it.examBedNo}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="container flex horizental">
+      <div class="item flex align-center justify-center border-right w100">
+        <div>主要用药情况</div>
+      </div>
+      <div class="container border-bottom">
+        <div class="item clearfix">
+          <div class="pull-left">药物名称</div>
+          <div class="pull-right">{{= it.examDrugName}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">用法</div>
+          <div class="pull-right">{{= it.examDrugUse}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">用量</div>
+          <div class="pull-right">{{= it.examDrugDosage}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">用药时间</div>
+          <div class="pull-right">{{= it.Util.formatDate(it.examDrugDate)}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">服药依从性</div>
+          <div class="pull-right">{{= it.examDrugDependenceDes}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="container flex horizental">
+      <div class="flex align-center justify-center border-right w100 bgWhite border-bottom">
+        <div>非免</div>
+        <div>疫规</div>
+        <div>划预</div>
+        <div>防接</div>
+        <div>种史</div>
+      </div>
+      <div class="container border-bottom">
+        <div class="item clearfix">
+          <div class="pull-left">名称</div>
+          <div class="pull-right">{{= it.healthNovaccinationName}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">接种日期</div>
+          <div class="pull-right">{{= it.Util.formatDate(it.healthNovaccinationDate)}}</div>
+        </div>
+        <div class="item clearfix">
+          <div class="pull-left">接种机构</div>
+          <div class="pull-right">{{= it.healthNovaccinationOrg}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="container">-->
+    <!--<div class="container flex horizental">-->
+      <!--<div class="flex align-center bgWhite justify-center border-right w100 border-bottom">-->
+        <!--<div>健康</div>-->
+        <!--<div>评价</div>-->
+      <!--</div>-->
+      <!--<div class="container border-bottom">-->
+        <!--<div class="item clearfix">-->
+          <!--<div class="pull-left">有异常</div>-->
+          <!--<div class="pull-right"></div>-->
+        <!--</div>-->
+        <!--<div class="item clearfix">-->
+          <!--<div class="pull-left">异常1:</div>-->
+          <!--<div class="pull-right">*****</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <div class="item clearfix">
+    <div class="pull-left">健康评价</div>
+    <div class="pull-right">{{= it.healthAssessmentDes}}</div>
+  </div>
+
+  <div class="item clearfix">
+    <div class="pull-left">健康指导</div>
+    <div class="pull-right">{{= it.healthGuideDes}}</div>
+  </div>
+
+  <div class="item clearfix">
+    <div class="pull-left">危险因素控制</div>
+    <div class="pull-right">{{= it.riskFactorDes}}</div>
+  </div>
+
+</div>

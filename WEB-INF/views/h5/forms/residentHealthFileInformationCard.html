@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>居民健康档案信息</title>
+  <script src="static/assets/adaptive-master/js/adaptive-version2.js"></script>
+  <script>
+		// 设计图宽度
+		window['adaptive'].desinWidth = 1920;
+		// body 字体大小 会将body字体大小设置为 baseFont / 100 + 'rem'
+		window['adaptive'].baseFont = 24;
+		window['adaptive'].maxWidth = 1920;
+		window['adaptive'].init();
+  </script>
+  <!--<link rel="stylesheet" href="./static/assets/bootstrap/dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="./static/css/style.css">
+  <link rel="stylesheet" href="./static/css/residentHealthFileInformationCard.css">
+</head>
+<body>
+<div class="newcare-form-header">
+  居民健康档案信息
+</div>
+<div class="container">
+  <div class="text-center mt100">
+    （正面）
+  </div>
+  <table class="tb tb-border tb-auto mt40">
+    <tbody>
+      <tr>
+        <td class="text-center w220">
+          姓名
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <input class="auto" type="text">
+            </li>
+          </ul>
+        </td>
+        <td class="text-center w220">
+          性别
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <select class="auto"></select>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center w220">
+          出生日期
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <input class="auto" type="date">
+            </li>
+          </ul>
+        </td>
+        <td class="text-center w220">
+          健康档案编号
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <select class="auto"></select>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center w220">
+          ABO血型
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>A型</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>B型</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>O型</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>AB型</span>
+            </li>
+          </ul>
+        </td>
+        <td class="text-center w220">
+          RH 血型
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>Rh 阴性</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>Rh 阳性</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>不详</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <span>慢性病患病情况：</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>高血压</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>糖尿病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>脑卒中</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>冠心病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>哮喘</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>职业病</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="w200">
+              <span>其他疾病：</span>
+            </li>
+            <li>
+              <textarea class="textarea"></textarea>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li class="w200">
+              <span>过敏史：</span>
+            </li>
+            <li>
+              <textarea class="textarea"></textarea>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="container">
+  <div class="text-center mt100">
+    （反面）
+  </div>
+  <table class="tb tb-border tb-auto mt40">
+    <tbody>
+      <tr>
+        <td class="text-center w220">
+          家庭住址
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <input class="auto" type="text">
+            </li>
+          </ul>
+        </td>
+        <td class="text-center w220">
+          家庭电话
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <input class="auto" type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center w220">
+          紧急情况联系人
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <input class="auto" type="text">
+            </li>
+          </ul>
+        </td>
+        <td class="text-center w220">
+          联系人电话
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <input class="auto" type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center w220">
+          建档机构名称
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <input class="auto" type="text">
+            </li>
+          </ul>
+        </td>
+        <td class="text-center w220">
+          联系电话
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <input class="auto" type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center w220">
+          责任医生或护士
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <input class="auto" type="text">
+            </li>
+          </ul>
+        </td>
+        <td class="text-center w220">
+          联系电话
+        </td>
+        <td class="w630">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <input class="auto" type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li class="w200">
+              <span>其他说明：</span>
+            </li>
+            <li>
+              <textarea class="textarea"></textarea>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

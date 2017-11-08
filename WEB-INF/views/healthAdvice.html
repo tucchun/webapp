@@ -1,0 +1,80 @@
+<style>
+
+</style>
+<div class="wrap">
+  <div class="tb-head">健康建议</div>
+  <div class="tb-content">
+    <div class="tb-wrap tb-wrap-auto">
+      <div class="opt clearfix">
+          <form action="#" onsubmit="return false">
+            <div class="col-sm-6">
+            <input type="text" class="form-control" placeholder="请输入姓名、手机号码或身份证号码">
+            </div>
+            <input type="submit" class="btn btn-main" value="查询">
+
+
+            <span class="optCol">
+              <a href="#">
+                历史建议列表
+              </a>
+            </span>
+
+          </form>
+      </div>
+      <table class="table wrap-table table-border-none">
+        <tbody>
+          <tr>
+            <td>姓名:李强</td>
+            <td>性别:男</td>
+            <td>年龄:30岁</td>
+            <td>所属人群:一般人</td>
+            <td rowspan="3" class="optCol border-bottom">
+              <a>撰写健康建议</a>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">本人电话:13988888888</td>
+            <td>身份证号码:XXXXXXXXXXXXXXXXXXXXXX</td>
+          </tr>
+          <tr>
+            <td colspan="4" class="border-bottom">现住址:XXXXXXXXXXXXXXXXX幸福花园1栋1单元102</td>
+          </tr>
+
+
+          <tr>
+            <td>姓名:李强</td>
+            <td>性别:男</td>
+            <td>年龄:30岁</td>
+            <td>所属人群:一般人</td>
+            <td rowspan="3" class="optCol border-bottom">
+              <a>撰写健康建议</a>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">本人电话:13988888888</td>
+            <td>身份证号码:XXXXXXXXXXXXXXXXXXXXXX</td>
+          </tr>
+          <tr>
+            <td colspan="4" class="border-bottom">现住址:XXXXXXXXXXXXXXXXX幸福花园1栋1单元102</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+  require([
+    'jquery'
+  ], function($) {
+    $('#js-new-seminar-date').datetimepicker({
+      language: 'zh-CN',
+      weekStart: 1,
+      todayBtn: 1,
+      autoclose: 1,
+      todayHighlight: 1,
+      startView: 2,
+      minView: 2,
+      forceParse: 0
+    });
+  });
+</script>

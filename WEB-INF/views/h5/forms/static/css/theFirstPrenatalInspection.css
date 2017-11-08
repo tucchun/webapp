@@ -1,0 +1,86 @@
+.tFPI-container{
+    width: 16.79rem;
+    margin: 0 auto;
+}
+
+.tFPI-container-info > table{
+    width: 100%;
+    margin-top: .4rem;
+}
+
+.tFPI-container-info td{
+    /*text-align: left;*/
+    padding-left: .25rem;
+}
+
+/*.tFPI-container-info td:nth-child(2n + 1){*/
+    /*text-align: center;*/
+/*}*/
+
+.w125{
+    width: 1.25rem!important;
+}
+
+.w222{
+    width: 2.22rem!important;
+}
+
+.w341{
+    width: 3.41rem!important;
+}
+.w219{
+    width: 2.19rem!important;
+}
+.w339{
+    width: 3.39rem!important;
+}
+.w220{
+    width: 2.2rem!important;
+}
+.w342{
+    width: 3.42rem!important;
+}
+
+.w800{
+    width: 8rem!important;
+}
+
+.textarea{
+    width: 11.34rem;
+    height: 1.38rem;
+    vertical-align: text-top;
+}
+
+textarea{
+    resize: none;
+}
+
+.td-lst-inlink li{
+    padding: 0 .1rem;
+}
+
+.td-lst-inlink li input[type='text']{
+    width: 1.05rem;
+    border: none;
+    border-bottom: 1px solid #a0a0a0;
+}
+
+.td-lst{
+    padding: 0;
+}
+.td-lst > li{
+    padding-left: 0;
+}
+
+.tFPI-container-info table.sub-tb{
+    margin-top: 0;
+    border-top: 0;
+}
+
+.sub-input > td > input{
+    width: 1.25rem;
+}
+
+td.text-center{
+    padding: 0;
+}

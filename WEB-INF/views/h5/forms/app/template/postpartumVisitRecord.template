@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="item clearfix">
+    <div class="pull-left">姓名</div>
+    <div class="pull-right">{{= it.residentName}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">编号</div>
+    <div class="pull-right">{{= it.residentNo}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">随访日期</div>
+    <div class="pull-right">{{= it.Util.formatDate(it.createDate)}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">分娩日期</div>
+    <div class="pull-right">{{= it.Util.formatDate(it.interChildbirthDate)}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">出院日期</div>
+    <div class="pull-right">{{= it.Util.formatDate(it.interLeaveDate)}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">体温</div>
+    <div class="pull-right">{{= it.interTemperature}}<span class="unit">℃</span></div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">一般健康情况</div>
+    <div class="pull-right">{{= it.interHealthStaus}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">一般心理状况</div>
+    <div class="pull-right">{{= it.interPsychologicalStatus}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">血压</div>
+    <div class="pull-right">{{= it.bloodPressureLow}}/{{= it.bloodPressureHigh}}<span class="unit">mmHg</span></div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">乳&nbsp;房</div>
+    <div class="pull-right">{{= it.interBreastName}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">恶&nbsp;露</div>
+    <div class="pull-right">{{= it.interLochiaName}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">子&nbsp;宫</div>
+    <div class="pull-right">{{= it.interUterusName}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">伤&nbsp;口</div>
+    <div class="pull-right">{{= it.interWoundName}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">其&nbsp;他</div>
+    <div class="pull-right">{{= it.interOther}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">分&nbsp;类</div>
+    <div class="pull-right">{{= it.interClassificationName}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">指&nbsp;导</div>
+    <div class="pull-right">{{= "暂时缺失字段"}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">转&nbsp;诊</div>
+    <div class="pull-right">{{= it.interReferralName}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">下次随访日期</div>
+    <div class="pull-right">{{= it.Util.formatDate(it.nextVisitDate)}}</div>
+  </div>
+  <div class="item clearfix">
+    <div class="pull-left">随访医生签名</div>
+    <div class="pull-right">{{=it.visitDoctor}}</div>
+  </div>
+</div>

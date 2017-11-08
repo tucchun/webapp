@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>双向转诊单（转出）</title>
+  <script src="static/assets/adaptive-master/js/adaptive-version2.js"></script>
+  <script>
+		// 设计图宽度
+		window['adaptive'].desinWidth = 1920;
+		// body 字体大小 会将body字体大小设置为 baseFont / 100 + 'rem'
+		window['adaptive'].baseFont = 24;
+		window['adaptive'].maxWidth = 1920;
+		window['adaptive'].init();
+  </script>
+  <!--<link rel="stylesheet" href="./static/assets/bootstrap/dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="./static/css/style.css">
+  <link rel="stylesheet" href="static/css/twoWayReferralList.css">
+</head>
+<body>
+<div class="newcare-form-header">
+  双向转诊单
+</div>
+<div class="container">
+  <div class="text-right mt29">
+    <button type="button" class="uploadBtn">只需上传影像资料</button>
+  </div>
+  <div class="">
+    <table class="tb tb-auto">
+      <thead>
+        <th colspan="8">
+          存根
+        </th>
+      </thead>
+      <tr>
+        <td>
+          患者姓名
+        </td>
+        <td>
+          <input type="text" class="w300">
+        </td>
+        <td>
+          性别
+        </td>
+        <td>
+          <input type="text" class="w139">
+        </td>
+        <td>
+          年龄
+        </td>
+        <td>
+          <input type="text" class="w139">
+        </td>
+        <td>档案编号</td>
+        <td>
+          <input type="text" class="w300">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          家庭住址
+        </td>
+        <td colspan="5">
+          <input type="text" class="width-auto">
+        </td>
+        <td>
+          联系方式
+        </td>
+        <td>
+          <input type="text" class="w300">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="8" class="inline-space">
+          <span>于</span>
+          <input type="date" class="w300">
+          <span>因病情需要，转入</span>
+          <input type="text" class="w522">
+          <span>单位</span>
+          <input type="text" class="w300">
+          <span>科室</span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="8">
+          <input type="text">
+          <span>接诊医生。</span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="8" class="text-right">
+          <span>转诊医生签字：</span>
+          <input type="text">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="8" class="text-right">
+          <input type="date">
+        </td>
+      </tr>
+    </table>
+    <table class="tb tb-auto mt75">
+      <thead>
+        <th class="mt75">
+          双向转诊（转出）单
+        </th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <input type="text" class="w522">
+            <span>（机构名称）</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="inline-space">
+            <span>现有患者</span>
+            <input type="date" class="w199">
+            <span>性别</span>
+            <input type="text" class="w120">
+            <span>年龄</span>
+            <input type="text" class="w120">
+            <span>因病情需要，需转入</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div>初步印象：</div>
+            <div class="mt15">
+              <textarea class="textarea"></textarea>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div>主要现病史（转出原因）：</div>
+            <div class="mt15">
+              <textarea class="textarea"></textarea>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div>主要既往史：</div>
+            <div class="mt15">
+              <textarea class="textarea"></textarea>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div>治疗经过：</div>
+            <div class="mt15">
+              <textarea class="textarea"></textarea>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-right">
+            <span>转诊医生签字：</span>
+            <input type="text">
+          </td>
+        </tr>
+        <tr>
+          <td class="text-right">
+            <span>联系电话：</span>
+            <input type="text">
+          </td>
+        </tr>
+        <tr>
+          <td class="text-right">
+            <span>机构名称：</span>
+            <input type="text">
+          </td>
+        </tr>
+        <tr>
+          <td class="text-right">
+            <span>日期：</span>
+            <input type="date">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

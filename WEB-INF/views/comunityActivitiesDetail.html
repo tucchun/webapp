@@ -1,0 +1,87 @@
+<div class="wrap">
+    <div class="tb-head">下社区活动&gt;&gt;活动详情</div>
+    <div class="tb-content">
+        <div class="tb-wrap">
+            <table class="table wrap-table">
+                <tbody>
+                <tr>
+                    <td>时间：</td>
+                    <td>2017年4月14日15:18:09</td>
+                </tr>
+                <tr>
+                    <td>地点：</td>
+                    <td>南山区桃园街道办崇文花园社区活动中心</td>
+                </tr>
+                <tr>
+                    <td>组织者：</td>
+                    <td>李四</td>
+                </tr>
+                <tr>
+                    <td>参与专干 ：</td>
+                    <td>张三，李四，王五，赵六</td>
+                </tr>
+                <tr>
+                    <td>参与人数 ：</td>
+                    <td>56 </td>
+                </tr>
+                <tr>
+                    <td>主题 ：</td>
+                    <td>关于春季流行感冒防治 </td>
+                </tr>
+                <tr>
+                    <td>发放折页数量 ：</td>
+                    <td>xxx </td>
+                </tr>
+                <tr>
+                    <td>发放小册子数量：</td>
+                    <td>xxx </td>
+                </tr>
+                <tr>
+                    <td>发放其他资料数量：</td>
+                    <td>xxx </td>
+                </tr>
+                <tr>
+                    <td>总结：</td>
+                    <td>
+                        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                    </td>
+                </tr>
+                <tr>
+                    <td>活动照片：</td>
+                    <td>
+                        <ul id="js-images" class="imgage-viewer">
+                            <li><img class="form-img" src="../static/rss/example.jpg" alt=""></li>
+                            <li><img class="form-img" src="../static/rss/timg (1).jpg" alt=""></li>
+                            <li><img class="form-img" src="../static/rss/timg (2).jpg" alt=""></li>
+                            <li><img class="form-img" src="../static/rss/timg.jpg" alt=""></li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    require(['viewer'], function(Viewer){
+      var $self = $("#comunityActivitiesDetail")
+      var $imagesCnt = $self.find("#js-images");
+      var $images = $imagesCnt.find("img");
+      $images.each(function(index, item){
+         var $this = $(this);
+         var width = $this.width();
+         var height = $this.height();
+         if(width > height){
+           $this.width("auto");
+           $this.height("100%");
+         }else{
+           $this.width("100%");
+           $this.height("auto");
+         }
+      });
+
+      var viewer = new Viewer($imagesCnt.get(0), {});
+    });
+</script>

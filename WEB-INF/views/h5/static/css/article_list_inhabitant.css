@@ -1,0 +1,39 @@
+.filter{
+    background:#f4f4f4;
+    text-align: center;
+    height:.8rem;
+}
+.filter div{
+    font-size:.28rem;
+    line-height:.8rem;
+}
+.filter div.active{
+    color:#00a0e9;
+}
+.article_list{
+    padding:0 .15rem;
+}
+.article_list img{
+    width:2.3rem;
+}
+.article_list .title{
+    font-size:.3rem;
+    color:#333333;
+}
+.article_list .author{
+    font-size:.24rem;
+    color:#999999;
+}
+.article_list .author,.article_list .title{
+    line-height:1.8;
+}
+.article_list .author span:last-child{
+    margin-left:.30rem;
+}
+.article_list li{
+    padding:.1rem 0 .2rem 0;
+    border-bottom:.01rem solid #e5e5e5;
+}
+.article_list li:last-child{
+    border:none;
+}

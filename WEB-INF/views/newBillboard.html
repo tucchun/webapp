@@ -1,0 +1,99 @@
+<div class="wrap">
+    <div class="tb-head">健康教育宣传栏管理&gt;&gt;新增健康教育宣传栏</div>
+    <div class="tb-content">
+        <div class="tb-wrap">
+            <table class="table wrap-table">
+                <tbody>
+                <tr>
+                    <td>社区卫生站：</td>
+                    <td>
+                        <div class="form-inline">
+                            <select name="#" class="form-control">
+                                <option value="请选择">请选择</option>
+                                <option value="请选择">广东</option>
+                            </select>
+                            <select name="#" class="form-control">
+                                <option value="请选择">请选择</option>
+                                <option value="请选择">深圳</option>
+                            </select>
+                            <select name="#" class="form-control">
+                                <option value="请选择">请选择</option>
+                                <option value="请选择">南山</option>
+                            </select>
+                            <select name="#" class="form-control">
+                                <option value="请选择">社区卫生站</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>主题:</td>
+                    <td>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" placeholder="主题">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>出刊日期:</td>
+                    <td>
+                        <div class="input-group date form_date col-sm-3" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                            <input id="js-new-seminar-date" class="form-control" size="16" type="text" value="" readonly="">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>地点:</td>
+                    <td>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" placeholder="健康教育宣传栏地点">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>组织者:</td>
+                    <td>
+                        <div class="col-sm-3">
+                            <select class="form-control" name="">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>期号:</td>
+                    <td>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" placeholder="期号">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="col-sm-12 form-submit-btns text-center">
+                            <button type="submit" class="btn btn-main btn-lg">保存</button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    require([
+        'jquery'
+    ], function($){
+        $('#js-new-seminar-date').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+    });
+</script>

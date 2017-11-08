@@ -1,0 +1,170 @@
+<div class="wrap">
+    <div class="tb-head">社区卫生站用户管理&gt;&gt;新增人员</div>
+    <div class="tb-content">
+        <div class="tb-wrap">
+            <form action="#" class="form-inline">
+                <table class="table wrap-table">
+                    <tbody>
+                    <tr>
+                        <td><span class="required">*</span>姓名：</td>
+                        <td><input type="text" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="required">*</span>所属角色:</td>
+                        <td>
+                            <selected class="form-control">
+                                <option value="健康管理师">健康管理师</option>
+                            </selected>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="required">*</span>登录账户：</td>
+                        <td><input type="text" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="required">*</span>密码:</td>
+                        <td><input type="password" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="required">*</span>手机号码:</td>
+                        <td><input type="text" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>身份证号码：</td>
+                        <td><input type="text" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>性别：</td>
+                        <td>
+                            <select name="" class="form-control">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>出生日期：</td>
+                        <td><input type="text" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>学历：</td>
+                        <td>
+                            <select name="" class="form-control">
+                                <option value="本科">本科</option>
+                                <option value="大专">大专</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <!--<tr>
+                        <td>单位：</td>
+                        <td><a href="javascript:void(0)" data-toggle="modal" data-target="#modal_hos">请选择</a>已选择5家</td>
+                    </tr>-->
+                    <tr>
+                        <td>科室：</td>
+                        <td>
+                            <select name="" class="form-control">
+                                <option value="内科">内科</option>
+                                <option value="外科">外科</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>职务：</td>
+                        <td>
+                            <select name="" class="form-control">
+                                <option value="主任">主任</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>职称：</td>
+                        <td>
+                            <select name="" class="form-control">
+                                <option value="高级">高级</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>全/兼职：</td>
+                        <td>
+                            <select name="" class="form-control">
+                                <option value="全职">全职</option>
+                                <option value="兼职">兼职</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>直接上级：</td>
+                        <td>
+                            <select name="" class="form-control">
+                                <option value="xxx">xxx</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="col-sm-12 form-submit-btns text-center">
+                                <button type="submit" class="btn btn-main btn-lg">保存</button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+    <!--<div id="modal_hos" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="modal_hosLabel">选择社区卫生站</h4>
+                </div>
+                <div class="modal-body">
+                    <ul id="ztreeDemo" class="ztree"></ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-main" id="save"></button>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!--<script type="text/javascript">
+        require(['zTree'],function(zTree){
+            var setting = {
+                check: {
+                    enable: true
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                async:{
+                    enable:false
+                }
+            }, zNodes =[
+                { id:1, pId:0, name:"随意勾选 1", open:true},
+                { id:11, pId:1, name:"随意勾选 1-1", open:true},
+                { id:111, pId:11, name:"随意勾选 1-1-1"},
+                { id:112, pId:11, name:"随意勾选 1-1-2"},
+                { id:12, pId:1, name:"随意勾选 1-2", open:true},
+                { id:121, pId:12, name:"随意勾选 1-2-1"},
+                { id:122, pId:12, name:"随意勾选 1-2-2"},
+                { id:2, pId:0, name:"随意勾选 2", checked:true, open:true},
+                { id:21, pId:2, name:"随意勾选 2-1"},
+                { id:22, pId:2, name:"随意勾选 2-2", open:true},
+                { id:221, pId:22, name:"随意勾选 2-2-1", checked:true},
+                { id:222, pId:22, name:"随意勾选 2-2-2"},
+                { id:23, pId:2, name:"随意勾选 2-3"}
+            ];
+//            setting.check.chkboxType = { "Y" : "ps", "N" : "ps" };
+            $.fn.zTree.init($("#ztreeDemo"), setting, zNodes);
+            var ztrees = $.fn.zTree.getZTreeObj('ztreeDemo');
+            $('#save').on('click',function(){
+                ztrees.getCheckedNodes();
+                debugger;
+            });
+        });
+    </script>-->
+</div>

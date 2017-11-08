@@ -1,0 +1,341 @@
+body{
+    color: #3b3b3b;
+    padding-bottom: .4rem;
+}
+ul,li{
+    list-style: none;
+}
+textarea{
+    resize: none;
+}
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+input[type='text'],
+input[type='date']{
+    width: 2.65rem;
+}
+
+
+
+.clearfix:before,
+.clearfix:after{
+    display: table;
+    content: " ";
+}
+.clearfix:after{
+    clear: both;
+}
+
+.center-block {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+.pull-right {
+    float: right !important;
+}
+.pull-left {
+    float: left !important;
+}
+.hide {
+    display: none !important;
+}
+.show {
+    display: block !important;
+}
+.invisible {
+    visibility: hidden;
+}
+
+.text-left{
+    text-align: left;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.text-right{
+    text-align: right;
+}
+
+.text-hide {
+    font: 0/0 a;
+    color: transparent;
+    text-shadow: none;
+    background-color: transparent;
+    border: 0;
+}
+.hidden {
+    display: none !important;
+}
+.affix {
+    position: fixed;
+}
+
+ul.ul-inline > li{
+  float: left;
+}
+
+.icon{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.container{
+    width: 17rem;
+    margin: 0 auto;
+}
+
+.tb-auto{
+    width: 100%;
+    /*margin-top: .4rem;*/
+}
+
+.uploadBtn{
+    width: 3.25rem;
+    height: .75rem;
+    border: .02rem solid #00a0e9;
+    background-color: #fff;
+    color: #00a0e9;
+    font-size: .24rem;
+}
+
+.w120{
+    width: 1.2rem!important;
+}
+
+.w222{
+    width: 2.22rem!important;
+}
+
+.w341{
+    width: 3.41rem!important;
+}
+
+.w628{
+    width: 6.28rem!important;
+}
+
+.w-auto{
+    width: 100%!important;
+}
+
+.auto{
+    width: 95% !important;
+}
+
+.h200{
+    height: 2rem!important;
+}
+
+.p20{
+    padding-left: .2rem!important;
+}
+
+.mt40{
+    margin-top: .4rem!important;
+}
+
+.vertical-top{
+    vertical-align: top!important;
+}
+
+/*牙齿*/
+.tooth{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.tooth li{
+    float: left;
+    width: .6rem;
+    height: .6rem;
+    /*padding: .05rem;*/
+}
+
+.tooth li:nth-child(1),
+.tooth li:nth-child(3){
+    padding-right: 0.1rem;
+    border-right: 1px solid #a0a0a0;
+}
+
+.tooth li:nth-child(2),
+.tooth li:nth-child(4){
+    padding-left: 0.1rem;
+}
+
+.tooth li:nth-child(3),
+.tooth li:nth-child(4){
+    padding-top: 0.1rem;
+}
+
+.tooth li:nth-child(1),
+.tooth li:nth-child(2){
+    border-bottom: 1px solid #a0a0a0;
+}
+
+.tooth li input{
+    width: .5rem!important;
+    height: .5rem!important;
+    border: 1px solid #a0a0a0;
+    text-align: center;
+}
+
+.td-lst{
+    padding: 0 0.18rem;
+}
+
+.td-lst > li{
+    float: left;
+    list-style: none;
+    padding: .05rem .32rem;
+    /*height: 0.5rem;*/
+    line-height: 0.5rem;
+}
+
+.td-lst > li textarea{
+    vertical-align: middle;
+}
+
+.td-lst span{
+    font-size: .24rem;
+}
+
+.td-lst > li input,
+.td-lst > li select{
+    vertical-align: middle;
+}
+
+.td-lst > li select{
+    width: 2.05rem;
+    /*height: 100%;*/
+}
+
+.td-lst > li select,
+.td-lst > li input[type='text']{
+    /*height: 100%;*/
+}
+
+.td-lst > li input.long{
+    width: 3.25rem;
+}
+
+.td-lst > li input.auto{
+    width: 90%;
+}
+
+.container input[type='text'],
+.container input[type='date'],
+select{
+    height: 0.5rem;
+}
+
+.col-txt span{
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+
+/*表格边框*/
+.tb-border{
+    border: 1px solid #a0a0a0;
+}
+.tb-border>tbody>tr>td,
+.tb-border>thead>tr>th{
+    border-right: 1px solid #a0a0a0;
+    border-bottom: 1px solid #a0a0a0;
+
+}
+
+.tb-border>tbody>tr:last-child>td{
+    border-left: none;
+    border-bottom: none;
+}
+
+/*副表格*/
+table.sub-tb{
+    margin-top: 0;
+    border-top: 0;
+}
+
+.tb td,
+.tb th{
+    height: 1.1rem;
+}
+
+.tb td{
+    font-size: .24rem;
+}
+
+.tb th{
+    font-size: .30rem;
+}
+
+/*表格*/
+.newcare-tb>tbody>tr>td{
+    height: auto;
+    padding-top: .4rem;
+}
+
+/*基本信息块*/
+.newcare-form-header{
+    font-size: 0.3rem;
+    height: 0.76rem;
+    background-color: #376be9;
+    line-height: 0.76rem;
+    color: #fff;
+    text-align: center;
+}
+
+.newcare-form-label{
+    width: 2.25rem;
+    padding-right: 0.25rem;
+    font-size: 0.24rem;
+    text-align: right;
+}
+
+.newcare-form-baseInfo input[type='text'],
+.newcare-form-baseInfo input[type='date'],
+.newcare-form-baseInfo select{
+    width: 3.87rem;
+    height: 0.5rem;
+}
+
+.newcare-form-code  input[type='text'].code-primary,
+.newcare-form-code  input[type='date'].code-primary{
+    width: 1.2rem;
+}
+
+.newcare-form-code  input[type='text'].code-secondary,
+.newcare-form-code  input[type='date'].code-secondary{
+    width: 2.25rem;
+}
+
+.newcare-form-baseInfo{
+    margin: 0 auto;
+    width: 14.05rem;
+}
+
+
+.newcare-form-baseInfo-twoLevel{
+    padding: .25rem 0;
+    border-top: 1px solid #a0a0a0;
+}
+
+
+

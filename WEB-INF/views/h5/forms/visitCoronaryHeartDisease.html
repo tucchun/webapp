@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>五华区冠心病人随访表</title>
+  <script src="static/assets/adaptive-master/js/adaptive-version2.js"></script>
+  <script>
+		// 设计图宽度
+		window['adaptive'].desinWidth = 1920;
+		// body 字体大小 会将body字体大小设置为 baseFont / 100 + 'rem'
+		window['adaptive'].baseFont = 24;
+		window['adaptive'].maxWidth = 1920;
+		window['adaptive'].init();
+  </script>
+  <!--<link rel="stylesheet" href="./static/assets/bootstrap/dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="./static/css/style.css">
+</head>
+<body>
+<div class="newcare-form-header">
+  五华区冠心病人随访表
+</div>
+<div class="newcare-form-container">
+  <table class="tb newcare-form-baseInfo newcare-tb">
+    <tr>
+      <td class="text-right">
+        <span>档案号</span>
+        <input type="text" class="form-control">
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="container mt40">
+  <table class="tb tb-auto tb-border">
+    <tbody>
+      <tr>
+        <td class="text-center w222">
+          姓名
+        </td>
+        <td class="w341">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+        <td class="text-center w222">
+          性别
+        </td>
+        <td class="w341">
+          <ul class="clearfix td-lst">
+            <li>
+              <select name="" id="">
+                <option value="">男</option>
+              </select>
+            </li>
+          </ul>
+        </td>
+        <td class="text-center w222">
+          年龄
+        </td>
+        <td class="w341">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          本次随访日期
+        </td>
+        <td class="w341">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="date">
+            </li>
+          </ul>
+        </td>
+        <td class="text-center">
+          随访方式
+        </td>
+        <td colspan="3">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>入户</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>电话</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>复诊</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          随访地点
+        </td>
+        <td colspan="5">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <input type="text" class="auto">
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="tb tb-auto tb-border sub-tb">
+    <thead>
+      <tr>
+        <th colspan="5" class="text-left p20">
+          随访内容
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="text-center">主要症状</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>气短</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>胸闷</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>心前区疼痛</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>心率失常</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <input type="checkbox">
+              <span>其他</span>
+              <input type="text" class="auto">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">并发症</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li class="auto">
+              <input type="text" class="auto">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">是否服用改善心肌供血药物</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>服</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>未服</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">不服或不规律服药原因</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>副作用</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>经济</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>其他</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center" rowspan="3">您目前服用药物的情况</td>
+        <td class="text-center w222">
+          药物名称
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+        <td class="text-center w222">
+          剂量
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text" class="w120">
+              <span>mg，</span>
+              <input type="text" class="w120">
+              <span>次</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          药物名称
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+        <td class="text-center">
+          剂量
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text" class="w120">
+              <span>mg，</span>
+              <input type="text" class="w120">
+              <span>次</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          药物名称
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+        <td class="text-center">
+          剂量
+        </td>
+        <td>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text" class="w120">
+              <span>mg，</span>
+              <input type="text" class="w120">
+              <span>次</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">采取非药物方法治疗冠心病情况</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>限盐</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>控制体重</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>减少膳食脂肪</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>减少吸烟或戒烟</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>减少饮酒量或戒酒</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>其他措施</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">目前每日吸烟量（支）</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">目前每日饮酒量（两）</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">每日盐量（克）</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">控制体重</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">运动/频率</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text" class="w120">
+              <span>次/周，</span>
+              <input type="text" class="w120">
+              <span>分钟/次</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">合理饮食</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">监测血压</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">监测血糖</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">监测脂肪</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">随访医师签名</td>
+        <td colspan="4">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

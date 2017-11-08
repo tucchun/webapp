@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="../../../../static/css/reset.css" />
+    <link rel="stylesheet" href="../static/asset/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../../../static/css/layout.css" />
+    <link rel="stylesheet" href="../static/css/newArtile.css" />
+    <script type="text/javascript" src="../static/js/lib/adaptive.js"></script>
+    <script>
+        window['adaptive'].desinWidth = 1920;// 设计图宽度
+        window['adaptive'].baseFont = 30;// 没有缩放时的字体大小
+        window['adaptive'].maxWidth = 1920;// 页面最大宽度 默认540
+        window['adaptive'].init();// 调用初始化方法
+    </script>
+    <title>专家讲堂-新增文章</title>
+</head>
+<body>
+<form action="#">
+    <table>
+        <tr>
+            <td class="col-sm-2">所属分类：</td>
+            <td>
+                <div>
+                    <select name="" id="" class="form-control">
+                        <option value="">高血压</option>
+                        <option value="">糖尿病</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-sm-2">来源：</td>
+            <td>
+                <div>
+                    <input type="text" class="form-control">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-sm-2">标题：</td>
+            <td>
+                <div>
+                    <input type="text" class="form-control">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-sm-2">作者：</td>
+            <td>
+                <div>
+                    <input type="text" class="form-control">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-sm-2">关键词：</td>
+            <td>
+                <div>
+                    <input type="text" class="form-control">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-sm-2">封面：</td>
+            <td>
+                <div>
+                    <input type="file">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-sm-2">摘要：</td>
+            <td>
+                <div>
+                    <textarea name="" cols="30" rows="3" class="form-control"></textarea>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-sm-2">正文：</td>
+            <td>
+                <div>
+                    <textarea name="" cols="30" rows="20" id="article_id" class="form-control"></textarea>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><button type="submit" class="btn btn-main btn-lg">保存</button><button type="button" class="btn btn-default btn-lg">取消</button></td>
+        </tr>
+    </table>
+</form>
+</body>
+<script type="text/javascript" src="../static/asset/kinditor/kindeditor-min.js"></script>
+<script type="text/javascript">
+    KindEditor.ready(function(K){
+        K.create('#article_id');
+    });
+</script>
+</html>

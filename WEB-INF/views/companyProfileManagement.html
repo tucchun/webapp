@@ -1,0 +1,40 @@
+<div class="wrap">
+  <div class="tb-head">公司简介管理</div>
+  <div class="tb-content">
+    <div class="tb-wrap">
+      <table class="table wrap-table">
+        <td>
+          <div>
+            <textarea name="" id="companyProfile" class="fill"></textarea>
+            <div class="text-center opt">
+              <button type="button" id="js-submit" class="btn btn-main">保存</button>
+            </div>
+          </div>
+        </td>
+      </table>
+
+
+    </div>
+  </div>
+</div>
+<script>
+  require([
+    'KindEditor',
+    'zh_CN',
+  ], function(KindEditor){
+    var $self = $("#companyProfileManagement");
+		
+
+    $self.find("#js-submit").on("click", function(e){
+      console.log(companyProfile.html())
+    });
+
+    var settings = {
+      height: 400,
+      width: "100%"
+    };
+
+    var companyProfile = KindEditor.create('#companyProfileManagement #companyProfile', settings);
+
+  });
+</script>

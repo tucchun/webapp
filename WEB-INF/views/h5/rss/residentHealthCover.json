@@ -1,0 +1,16 @@
+{
+  "ret_code": 1,
+  "ret_data": {
+    "residentNo": "123121231",
+    "resdientName": "fsdfsd",
+    "residentAddress": "北京市市辖区顺义区胜利街道办事处建新南区第二社区居委会左邻右舍19栋栋三单元单元",
+    "residentHouseholdAddr": "4324324",
+    "residentMobile": "13510000111",
+    "streetName": null,
+    "villageName": null,
+    "docUnit": "",
+    "docCreateBy": null,
+    "docDoctor": null,
+    "docCreateDate": null
+  }
+}

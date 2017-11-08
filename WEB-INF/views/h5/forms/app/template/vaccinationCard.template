@@ -1,0 +1,682 @@
+<div class="container">
+    <div class="item clearfix">
+        <div class="pull-left">姓名</div>
+        <div class="pull-right">{{=it.residentName}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">编号</div>
+        <div class="pull-right">{{=it.residentNo}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">性别</div>
+        <div class="pull-right">{{=it.residentSex}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">出生日期</div>
+        <div class="pull-right">{{=it.Util.formatDate(it.birthday)}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">监护人姓名</div>
+        <div class="pull-right">{{=it.guardianName}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">与儿童关系</div>
+        <div class="pull-right">{{=it.guardianRelation}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">联系电话</div>
+        <div class="pull-right">{{=it.guardianPhone}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">家庭现住址</div>
+        <div class="pull-right">{{=it.babyAddress}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">户籍地址</div>
+        <div class="pull-right">{{=it.permanentAddress}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">迁入时间</div>
+        <div class="pull-right">{{=it.Util.formatDate(it.migrationTime)}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">迁出时间</div>
+        <div class="pull-right">{{=it.Util.formatDate(it.emigrationTime)}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">迁出原因</div>
+        <div class="pull-right">{{=it.emigrationReason}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">疫苗异常反应史</div>
+        <div class="pull-right">{{=it.abnormalReaction}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">接种禁忌</div>
+        <div class="pull-right">{{=it.vaccinationTaboo}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">传染病史</div>
+        <div class="pull-right">{{=it.historyInfection}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">建卡日期</div>
+        <div class="pull-right">{{=it.Util.formatDate(it.createDate)}}</div>
+    </div>
+    <div class="item clearfix">
+        <div class="pull-left">建卡人</div>
+        <div class="pull-right">{{=it.createBy}}</div>
+    </div>
+</div>
+
+<div class="container">
+<div class="item bgColor">
+    <div class="sub-title">
+        疫苗与剂次
+    </div>
+</div>
+</div>
+
+<div class="container">
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>乙肝疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "乙肝疫苗"}}
+        <div class="container flex horizental">
+            <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w60">
+                <div>{{=value.recoInouclationDose}}</div>
+                <div>次</div>
+            </div>
+            <div class="container border-bottom">
+                <div class="item clearfix">
+                    <div class="pull-left">接种日期</div>
+                    <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种部位</div>
+                    <div class="pull-right">{{=value.recoInouclationSite}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">疫苗批号</div>
+                    <div class="pull-right">{{=value.recoVaccineNum}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种医生</div>
+                    <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">备注</div>
+                    <div class="pull-right">{{=value.recoMark}}</div>
+                </div>
+            </div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>卡介苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "卡介苗"}}
+        <div class="item clearfix">
+            <div class="pull-left">接种日期</div>
+            <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">接种部位</div>
+            <div class="pull-right">{{=value.recoInouclationSite}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">疫苗批号</div>
+            <div class="pull-right">{{=value.recoVaccineNum}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">接种医生</div>
+            <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">备注</div>
+            <div class="pull-right">{{=value.recoMark}}</div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>脊灰疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "脊灰疫苗"}}
+        <div class="container flex horizental">
+            <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w60">
+                <div>{{=value.recoInouclationDose}}</div>
+                <div>次</div>
+            </div>
+            <div class="container border-bottom">
+                <div class="item clearfix">
+                    <div class="pull-left">接种日期</div>
+                    <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种部位</div>
+                    <div class="pull-right">{{=value.recoInouclationSite}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">疫苗批号</div>
+                    <div class="pull-right">{{=value.recoVaccineNum}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种医生</div>
+                    <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">备注</div>
+                    <div class="pull-right">{{=value.recoMark}}</div>
+                </div>
+            </div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>百白破疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "百白破疫苗"}}
+        <div class="container flex horizental">
+            <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w60">
+                <div>{{=value.recoInouclationDose}}</div>
+                <div>次</div>
+            </div>
+            <div class="container border-bottom">
+                <div class="item clearfix">
+                    <div class="pull-left">接种日期</div>
+                    <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种部位</div>
+                    <div class="pull-right">{{=value.recoInouclationSite}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">疫苗批号</div>
+                    <div class="pull-right">{{=value.recoVaccineNum}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种医生</div>
+                    <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">备注</div>
+                    <div class="pull-right">{{=value.recoMark}}</div>
+                </div>
+            </div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>白破疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "白破疫苗"}}
+            <div class="item clearfix">
+                <div class="pull-left">接种日期</div>
+                <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+            </div>
+            <div class="item clearfix">
+                <div class="pull-left">接种部位</div>
+                <div class="pull-right">{{=value.recoInouclationSite}}</div>
+            </div>
+            <div class="item clearfix">
+                <div class="pull-left">疫苗批号</div>
+                <div class="pull-right">{{=value.recoVaccineNum}}</div>
+            </div>
+            <div class="item clearfix">
+                <div class="pull-left">接种医生</div>
+                <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+            </div>
+            <div class="item clearfix">
+                <div class="pull-left">备注</div>
+                <div class="pull-right">{{=value.recoMark}}</div>
+            </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>麻风疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "麻风疫苗"}}
+        <div class="item clearfix">
+            <div class="pull-left">接种日期</div>
+            <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">接种部位</div>
+            <div class="pull-right">{{=value.recoInouclationSite}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">疫苗批号</div>
+            <div class="pull-right">{{=value.recoVaccineNum}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">接种医生</div>
+            <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">备注</div>
+            <div class="pull-right">{{=value.recoMark}}</div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>麻腮风疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "麻腮风疫苗"}}
+        <div class="container flex horizental">
+            <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w60">
+                <div>{{=value.recoInouclationDose}}</div>
+                <div>次</div>
+            </div>
+            <div class="container border-bottom">
+                <div class="item clearfix">
+                    <div class="pull-left">接种日期</div>
+                    <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种部位</div>
+                    <div class="pull-right">{{=value.recoInouclationSite}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">疫苗批号</div>
+                    <div class="pull-right">{{=value.recoVaccineNum}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种医生</div>
+                    <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">备注</div>
+                    <div class="pull-right">{{=value.recoMark}}</div>
+                </div>
+            </div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>麻腮疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "麻腮疫苗"}}
+        <div class="item clearfix">
+            <div class="pull-left">接种日期</div>
+            <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">接种部位</div>
+            <div class="pull-right">{{=value.recoInouclationSite}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">疫苗批号</div>
+            <div class="pull-right">{{=value.recoVaccineNum}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">接种医生</div>
+            <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">备注</div>
+            <div class="pull-right">{{=value.recoMark}}</div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>麻疹疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "麻疹疫苗"}}
+        <div class="container flex horizental">
+            <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w60">
+                <div>{{=value.recoInouclationDose}}</div>
+                <div>次</div>
+            </div>
+            <div class="container border-bottom">
+                <div class="item clearfix">
+                    <div class="pull-left">接种日期</div>
+                    <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种部位</div>
+                    <div class="pull-right">{{=value.recoInouclationSite}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">疫苗批号</div>
+                    <div class="pull-right">{{=value.recoVaccineNum}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种医生</div>
+                    <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">备注</div>
+                    <div class="pull-right">{{=value.recoMark}}</div>
+                </div>
+            </div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>A群流脑疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "A群流脑疫苗"}}
+        <div class="container flex horizental">
+            <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w60">
+                <div>{{=value.recoInouclationDose}}</div>
+                <div>次</div>
+            </div>
+            <div class="container border-bottom">
+                <div class="item clearfix">
+                    <div class="pull-left">接种日期</div>
+                    <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种部位</div>
+                    <div class="pull-right">{{=value.recoInouclationSite}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">疫苗批号</div>
+                    <div class="pull-right">{{=value.recoVaccineNum}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种医生</div>
+                    <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">备注</div>
+                    <div class="pull-right">{{=value.recoMark}}</div>
+                </div>
+            </div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>A+C群流脑疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "A+C群流脑疫苗"}}
+        <div class="container flex horizental">
+            <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w60">
+                <div>{{=value.recoInouclationDose}}</div>
+                <div>次</div>
+            </div>
+            <div class="container border-bottom">
+                <div class="item clearfix">
+                    <div class="pull-left">接种日期</div>
+                    <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种部位</div>
+                    <div class="pull-right">{{=value.recoInouclationSite}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">疫苗批号</div>
+                    <div class="pull-right">{{=value.recoVaccineNum}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种医生</div>
+                    <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">备注</div>
+                    <div class="pull-right">{{=value.recoMark}}</div>
+                </div>
+            </div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>乙脑（减毒）活疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "乙脑（减毒）活疫苗"}}
+        <div class="container flex horizental">
+            <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w60">
+                <div>{{=value.recoInouclationDose}}</div>
+                <div>次</div>
+            </div>
+            <div class="container border-bottom">
+                <div class="item clearfix">
+                    <div class="pull-left">接种日期</div>
+                    <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种部位</div>
+                    <div class="pull-right">{{=value.recoInouclationSite}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">疫苗批号</div>
+                    <div class="pull-right">{{=value.recoVaccineNum}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种医生</div>
+                    <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">备注</div>
+                    <div class="pull-right">{{=value.recoMark}}</div>
+                </div>
+            </div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>乙脑灭活疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "乙脑灭活疫苗"}}
+        <div class="container flex horizental">
+            <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w60">
+                <div>{{=value.recoInouclationDose}}</div>
+                <div>次</div>
+            </div>
+            <div class="container border-bottom">
+                <div class="item clearfix">
+                    <div class="pull-left">接种日期</div>
+                    <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种部位</div>
+                    <div class="pull-right">{{=value.recoInouclationSite}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">疫苗批号</div>
+                    <div class="pull-right">{{=value.recoVaccineNum}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种医生</div>
+                    <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">备注</div>
+                    <div class="pull-right">{{=value.recoMark}}</div>
+                </div>
+            </div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>甲肝减毒活疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "甲肝减毒活疫苗"}}
+        <div class="item clearfix">
+            <div class="pull-left">接种日期</div>
+            <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">接种部位</div>
+            <div class="pull-right">{{=value.recoInouclationSite}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">疫苗批号</div>
+            <div class="pull-right">{{=value.recoVaccineNum}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">接种医生</div>
+            <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+        </div>
+        <div class="item clearfix">
+            <div class="pull-left">备注</div>
+            <div class="pull-right">{{=value.recoMark}}</div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>甲肝灭活疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "甲肝灭活疫苗"}}
+        <div class="container flex horizental">
+            <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w60">
+                <div>{{=value.recoInouclationDose}}</div>
+                <div>次</div>
+            </div>
+            <div class="container border-bottom">
+                <div class="item clearfix">
+                    <div class="pull-left">接种日期</div>
+                    <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种部位</div>
+                    <div class="pull-right">{{=value.recoInouclationSite}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">疫苗批号</div>
+                    <div class="pull-right">{{=value.recoVaccineNum}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种医生</div>
+                    <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">备注</div>
+                    <div class="pull-right">{{=value.recoMark}}</div>
+                </div>
+            </div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+<div class="container flex horizental">
+    <div class="item flex align-center border-right w230">
+        <div>其他疫苗</div>
+    </div>
+    <div class="container border-bottom">
+        {{~ it.vaccineRecordList :value:index}}
+        {{? value.recoVaccineName == "其他疫苗"}}
+        <div class="container flex horizental">
+            <div class="flex vertical justify-center align-center border-right border-bottom bgWhite w60">
+                <div>{{=value.recoInouclationDose}}</div>
+                <div>次</div>
+            </div>
+            <div class="container border-bottom">
+                <div class="item clearfix">
+                    <div class="pull-left">接种日期</div>
+                    <div class="pull-right">{{=it.Util.formatDate(value.recoInouclationDate)}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种部位</div>
+                    <div class="pull-right">{{=value.recoInouclationSite}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">疫苗批号</div>
+                    <div class="pull-right">{{=value.recoVaccineNum}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">接种医生</div>
+                    <div class="pull-right">{{=value.recoInouclationDoctor}}</div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">备注</div>
+                    <div class="pull-right">{{=value.recoMark}}</div>
+                </div>
+            </div>
+        </div>
+        {{?}}
+        {{~}}
+    </div>
+</div>
+
+</div>

@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>个人基本信息表</title>
+  <script src="static/assets/adaptive-master/js/adaptive-version2.js"></script>
+  <script>
+	  // 设计图宽度
+	  window['adaptive'].desinWidth = 1920;
+	  // body 字体大小 会将body字体大小设置为 baseFont / 100 + 'rem'
+	  window['adaptive'].baseFont = 24;
+	  window['adaptive'].maxWidth = 1920;
+	  window['adaptive'].init();
+  </script>
+  <!--<link rel="stylesheet" href="./static/assets/bootstrap/dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="./static/css/style.css">
+  <link rel="stylesheet" href="./static/css/personalBasicInformation.css">
+</head>
+<body>
+  <div class="newcare-form-header">
+    个人基本信息表
+  </div>
+  <div class="newcare-form-container container">
+    <table class="tb newcare-form-baseInfo newcare-tb">
+      <tr>
+        <td class="newcare-form-label text-right">
+          姓名
+        </td>
+        <td>
+          <input type="text" class="form-control">
+        </td>
+        <td class="newcare-form-label text-right">
+          编号
+        </td>
+        <td class="newcare-form-code">
+          <input type="text" class="code-primary">
+          <i class="icon icon-bars"></i>
+          <input type="text" class="code-secondary">
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="newcare-form-baseInfo-twoLevel container mt40">
+    <table class="tb tb-auto">
+      <tr>
+        <td class="newcare-form-label ">
+          出生日期
+        </td>
+        <td>
+          <input type="text">
+        </td>
+        <td class="newcare-form-label ">
+          身份证号码
+        </td>
+        <td>
+          <input type="text">
+        </td>
+        <td class="newcare-form-label">
+          工作单位
+        </td>
+        <td>
+          <input type="text">
+        </td>
+      </tr>
+      <tr>
+        <td class="newcare-form-label ">
+          本人电话
+        </td>
+        <td>
+          <input type="text">
+        </td>
+        <td class="newcare-form-label ">
+          联系人姓名
+        </td>
+        <td>
+          <input type="text">
+        </td>
+        <td class="newcare-form-label">
+          联系人电话
+        </td>
+        <td>
+          <input type="text">
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="newcare-form-container container">
+    <table class="tb two-container-tb newcare-tb tb-border">
+      <tr>
+        <td colspan="2" class="newcare-form-label text-right">
+          姓名
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>户籍</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>非户籍</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="newcare-form-label">
+          民族
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>汉族</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>少数民族</span>
+            </li>
+            <li>
+              <select name="" id="">
+                <option value="">苗族</option>
+              </select>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="newcare-form-label">
+          性别
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>男</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>女</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>未知的性别</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>未说明的性别</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="newcare-form-label">
+          血型
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>A型</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>B型</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>O型</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>AB型</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>不详</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <span>RH阴性</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>是</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>否</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>不详</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="newcare-form-label">
+          文化程度
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>文盲及半文盲</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>小学</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>初中</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>高中/技校/中专</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>大学专业及以上</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>不详</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="newcare-form-label">
+          职业
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>国家机关、党群组织企业事单位负责人</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>专业技术人员</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>办事人员和有关办事人员</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>商业、服务人员</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>农、林牧渔水利业生产人员</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>生产、运输设备操作人</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>军人</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>不便分类的其他从业人员</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="newcare-form-label">
+          婚姻状况
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>未婚</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>已婚</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>丧偶</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>离婚</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>未说明的婚姻状态</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="newcare-form-label">
+          医疗费用支付方式
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>城镇职工基本医疗保险</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>城镇居民基本医疗保险</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>新型农村合作医疗</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>贫困救助</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>商业医疗保险</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>全公费</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>全自费</span>
+            </li>
+            <li>
+              <span>其他</span>
+              <input type="text" class="long">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="newcare-form-label">
+          药物过敏史
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>青霉素</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>磺胺</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>链霉素</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>其他</span>
+              <input type="text" class="long">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="newcare-form-label">
+          暴露史
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>化学品</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>毒物</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>射线</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="4" class="col-txt text-center">
+          <span>既</span>
+          <span>往</span>
+          <span>史</span>
+        </td>
+        <td class="w1 text-center">
+          疾病
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="w6">
+              <input type="checkbox">
+              <span>高血压</span>
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date" >
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="w6">
+              <input type="checkbox">
+              <span>糖尿病</span>
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date" >
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="w6">
+              <input type="checkbox">
+              <span>冠心病</span>
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date" >
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="w6">
+              <input type="checkbox">
+              <span>慢性阻塞肺疾病</span>
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date" >
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="w6">
+              <input type="checkbox">
+              <span>恶性肿瘤</span>
+              <input type="text">
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date" >
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="w6">
+              <input type="checkbox">
+              <span>脑卒中</span>
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date" >
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="w6">
+              <input type="checkbox">
+              <span>严重精神障碍</span>
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date" >
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="w6">
+              <input type="checkbox">
+              <span>结核病</span>
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date" >
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="w6">
+              <input type="checkbox">
+              <span>肝炎</span>
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date" >
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="w6">
+              <input type="checkbox">
+              <span>其他法定传染病</span>
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date" >
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="w6">
+              <input type="checkbox">
+              <span>职业病</span>
+              <input type="text">
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date" >
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li class="w6">
+              <input type="checkbox">
+              <span>其他</span>
+              <input type="text">
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date" >
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="w1 text-center">
+          手术
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>名称1</span>
+              <input type="checkbox">
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date">
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>名称2</span>
+              <input type="checkbox">
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="w1 text-center">
+          外伤
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>名称1</span>
+              <input type="checkbox">
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date">
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>名称2</span>
+              <input type="checkbox">
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="w1 text-center">
+          输血
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>名称1</span>
+              <input type="checkbox">
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date">
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>名称2</span>
+              <input type="checkbox">
+            </li>
+            <li>
+              <span>确诊时间：</span>
+              <input type="date">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="4" class="col-txt text-center">
+          <span>家</span>
+          <span>族</span>
+          <span>史</span>
+        </td>
+        <td class="w1 text-center">
+          父亲
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>高血压</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>糖尿病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>冠心病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>慢性阻塞肺疾病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>恶性肿瘤</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>脑卒中</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>高血压</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>糖尿病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>冠心病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>慢性阻塞肺疾病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>恶性肿瘤</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>脑卒中</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>严重精神障碍</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>结核病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>肝炎</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>先天畸形</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>其他</span>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="w1 text-center">
+          母亲
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>高血压</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>糖尿病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>冠心病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>慢性阻塞肺疾病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>恶性肿瘤</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>脑卒中</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>高血压</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>糖尿病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>冠心病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>慢性阻塞肺疾病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>恶性肿瘤</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>脑卒中</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>严重精神障碍</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>结核病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>肝炎</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>先天畸形</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>其他</span>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="w1 text-center">
+          兄弟姐妹
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>高血压</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>糖尿病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>冠心病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>慢性阻塞肺疾病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>恶性肿瘤</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>脑卒中</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>高血压</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>糖尿病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>冠心病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>慢性阻塞肺疾病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>恶性肿瘤</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>脑卒中</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>严重精神障碍</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>结核病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>肝炎</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>先天畸形</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>其他</span>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="w1 text-center">
+          子女
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>高血压</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>糖尿病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>冠心病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>慢性阻塞肺疾病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>恶性肿瘤</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>脑卒中</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>高血压</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>糖尿病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>冠心病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>慢性阻塞肺疾病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>恶性肿瘤</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>脑卒中</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>严重精神障碍</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>结核病</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>肝炎</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>先天畸形</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>其他</span>
+              <input type="text">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="newcare-form-label">
+          遗传病史
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+            <li>
+              <span>疾病名称</span>
+              <input type="text" class="long">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="newcare-form-label">
+          残疾情况
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>有</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>视力残疾</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>听力残疾</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>言语残疾</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>肢体残疾</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>智力残疾</span>
+            </li>
+            <li>
+              <input type="checkbox">
+              <span>精神残疾</span>
+            </li>
+          </ul>
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="checkbox">
+              <span>其他残疾</span>
+              <input type="text" class="long">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="5" class="col-txt text-center">
+          <span>生</span>
+          <span>活</span>
+          <span>环</span>
+          <span>境</span>
+        </td>
+        <td class="w1 text-center">
+          厨房排风设施
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>无</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>油烟机</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>换气扇</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>烟囱</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="w1 text-center">
+          燃料类型
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>液化气</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>煤</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>天然气</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>沼气</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>柴火</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>其他</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="w1 text-center">
+          饮水
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>自来水</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>经净化过滤的水</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>井水</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>河湖水</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>塘水</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>其他</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="w1 text-center">
+          厕所
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>卫生厕所</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>一格或二格粪池式</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>马桶</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>露天粪坑</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>简易棚厕</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="w1 text-center">
+          禽畜栏
+        </td>
+        <td colspan="2">
+          <ul class="clearfix td-lst">
+            <li>
+              <input type="radio">
+              <span>单设</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>室内</span>
+            </li>
+            <li>
+              <input type="radio">
+              <span>室外</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

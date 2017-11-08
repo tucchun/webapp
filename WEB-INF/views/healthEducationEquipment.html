@@ -1,0 +1,143 @@
+<div class="wrap healthEducationEquipment">
+    <div class="tb-head">健康教育宣传器材管理</div>
+    <div class="tb-content">
+        <div class="tb-wrap">
+            <div class="opt clearfix">
+                <div class="pull-left">
+                    西山社区卫生服务站
+                </div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-main" data-toggle="modal" data-target="#modal_healthEducationEquipment">新增</button>
+                    <button type="button" class="btn btn-main" data-toggle="modal" data-target="#modal_healthEducationEquipment">修改</button>
+                    <button type="button" class="btn btn-main">删除</button>
+                </div>
+            </div>
+            <table cellspacing="0" class="table table-striped table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" name="allCheck"></th>
+                    <th class="col-xs-1">序号</th>
+                    <th>宣传器材名称</th>
+                    <th>型号</th>
+                    <th>数量</th>
+                    <th>价值</th>
+                    <th>投入使用时间</th>
+                    <th>使用情况（自用/共用）</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>xx社区公共喇叭</td>
+                    <td>1M</td>
+                    <td>2</td>
+                    <td>5</td>
+                    <td>2012-06-02</td>
+                    <td>兼</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>xx社区公共喇叭</td>
+                    <td>1M</td>
+                    <td>2</td>
+                    <td>5</td>
+                    <td>2012-06-02</td>
+                    <td>兼</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>xx社区公共喇叭</td>
+                    <td>1M</td>
+                    <td>2</td>
+                    <td>5</td>
+                    <td>2012-06-02</td>
+                    <td>兼</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>xx社区公共喇叭</td>
+                    <td>1M</td>
+                    <td>2</td>
+                    <td>5</td>
+                    <td>2012-06-02</td>
+                    <td>兼</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>xx社区公共喇叭</td>
+                    <td>1M</td>
+                    <td>2</td>
+                    <td>5</td>
+                    <td>2012-06-02</td>
+                    <td>兼</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="pagenation clearfix">
+                <a href="#">上一页</a>
+                <a href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <span>...</span>
+                <a href="#">15</a>
+                <a href="#">下一页</a>
+                <form action="#" method="post">
+                    <span>共5页</span><span>到第<input type="text" value="1">页 <input type="submit" class="btn btn-main" value="确定"/></span>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="modal_healthEducationEquipment" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="modal_healthEducationEquipmentLabel">新增器材</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="#" class="form-inline">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td class="col-sm-2">宣传器材名称</td>
+                                <td><input type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>型号</td>
+                                <td><input type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>数量</td>
+                                <td><input type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>价值</td>
+                                <td><input type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>投入使用时间</td>
+                                <td><input type="text" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>使用情况</td>
+                                <td>
+                                    <select name="" class="form-control">
+                                        <option value="">兼</option>
+                                        <option value="">专</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <div class="operation">
+                        <button class="btn btn-main" type="submit">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
