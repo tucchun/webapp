@@ -19,22 +19,23 @@ module.exports = Merge(CommonConfig, {
   },*/
   plugins: [
     new CleanWebpackPlugin('./app/dev/'),
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin()
   ],
-  devServer: {
-    port: 9000,
-    // host: '192.168.1.51',
-    historyApiFallback: true,
-    noInfo: false,
-    stats: 'minimal',
-    publicPath: '/',
-    // contentBase: path.join(__dirname, './dist'),
-    hot: true
-  },
+  // devServer: {
+  //   port: 9000,
+  //   // host: '192.168.1.51',
+  //   historyApiFallback: true,
+  //   noInfo: false,
+  //   stats: 'minimal',
+  //   publicPath: '/',
+  //   // contentBase: path.join(__dirname, './dist'),
+  //   hot: true
+  // },
+  watch: true,
   output: {
-    filename: '[name].[hash].js',
-    chunkFilename: '[name].[hash].js',
+    filename: '[name].js',
+    chunkFilename: '[name].js',
     publicPath: './dev/',
     path: path.join(__dirname, './app/dev')
   }

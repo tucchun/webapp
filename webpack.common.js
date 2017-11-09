@@ -1,7 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const modules = ['index'];
+// const modules = ['index'];
+const modules = require('./app/components.js');
 
 let entry = {};
 let htmls = [];
@@ -9,13 +10,27 @@ for (let i = 0; i < modules.length; i++) {
   entry[modules[i]] = './app/' + modules[i] + '.js';
   htmls.push(new HtmlWebpackPlugin({
     filename: modules[i] + '.html',
+    id: "__" + modules[i] + "__",
     template: path.join(__dirname, './app/template.ejs'),
-    chunks: modules[i]
+    chunks: [modules[i], 'vendor', 'runtime']
   }));
 }
 
 module.exports = {
-  entry: entry,
+  entry: {
+    ...entry,
+    vendor: [
+      'react',
+      'react-dom',
+      'react-virtualized',
+      'jquery',
+      'dot',
+      'lodash',
+      'node-forge',
+      'viewerjs',
+      'react-virtualized/styles.css'
+    ]
+  },
 
   // resolve: {
   //   extensions: ['.ts', '.js', '.json'],
@@ -33,8 +48,14 @@ module.exports = {
       }, {
         test: /\.css$/,
         use: [
-          'style-loader', 'css-loader',
-          // 'postcss-loader'
+          'style-loader', {
+            loader: 'css-loader',
+            options: {
+              modules: false,
+              // importLoaders: 1
+            }
+          },
+          'postcss-loader'
         ]
       }, {
         test: /\.(jpg|png|gif)$/,
@@ -42,5 +63,15 @@ module.exports = {
       }
     ]
   },
-  plugins: [...htmls]
+  plugins: [
+    ...htmls,
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor', minChunks: Infinity
+      // filename: 'vendor.[chunkhash].js'
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'runtime'
+      // filename: 'runtime.[chunkhash].js'
+    })
+  ]
 };

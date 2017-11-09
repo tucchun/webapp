@@ -14,7 +14,7 @@ module.exports = Merge(CommonConfig, {
     }]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(['./app/dist']),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
@@ -36,7 +36,7 @@ module.exports = Merge(CommonConfig, {
   output: {
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].js',
-    publicPath: '../',
-    path: path.join(__dirname, './dist')
+    publicPath: './dist/',
+    path: path.join(__dirname, './app/dist')
   },
 });
