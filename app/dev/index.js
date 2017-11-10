@@ -33,81 +33,68 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // Table data as a array of objects
 var list = [{
   name: 'Brian Vaughn',
-  description: 'Software engineer'
-}, {
-  name: 'Brian Vaughn1',
-  description: 'Software engineer1'
-}, {
-  name: 'Brian Vaughn2',
-  description: 'Software engineer2'
-}, {
-  name: 'Brian Vaughn1',
-  description: 'Software engineer1'
-}, {
-  name: 'Brian Vaughn2',
-  description: 'Software engineer2'
-}, {
-  name: 'Brian Vaughn1',
-  description: 'Software engineer1'
-}, {
-  name: 'Brian Vaughn2',
-  description: 'Software engineer2'
-}, {
-  name: 'Brian Vaughn1',
-  description: 'Software engineer1'
-}, {
-  name: 'Brian Vaughn2',
-  description: 'Software engineer2'
-}, {
-  name: 'Brian Vaughn1',
-  description: 'Software engineer1'
-}, {
-  name: 'Brian Vaughn2',
-  description: 'Software engineer2'
-}, {
-  name: 'Brian Vaughn1',
-  description: 'Software engineer1'
-}, {
-  name: 'Brian Vaughn2',
-  description: 'Software engineer2'
-}, {
-  name: 'Brian Vaughn1',
-  description: 'Software engineer1'
-}, {
-  name: 'Brian Vaughn2',
-  description: 'Software engineer2'
+  description: 'Software engineer',
+  description1: 'Software engineer',
+  description2: 'Software engineer',
+  description3: 'Software engineer',
+  description4: 'Software engineer',
+  description5: 'Software engineer',
+  description6: 'Software engineer',
+  description7: 'Software engineer'
   // And so on...
 }];
 
 var GirdList = function (_React$Component) {
   _inherits(GirdList, _React$Component);
 
-  function GirdList() {
+  function GirdList(props) {
     _classCallCheck(this, GirdList);
 
-    return _possibleConstructorReturn(this, (GirdList.__proto__ || Object.getPrototypeOf(GirdList)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (GirdList.__proto__ || Object.getPrototypeOf(GirdList)).call(this, props));
+
+    _this._rowClassName = _this._rowClassName.bind(_this);
+    return _this;
   }
 
   _createClass(GirdList, [{
+    key: '_rowClassName',
+    value: function _rowClassName(_ref) {
+      var index = _ref.index;
+
+      if (index < 0) {
+        return 'headerRow';
+      } else {
+        return index % 2 === 0 ? 'evenRow' : 'oddRow';
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
         _reactVirtualized.AutoSizer,
         null,
-        function (_ref) {
-          var width = _ref.width,
-              height = _ref.height;
+        function (_ref2) {
+          var width = _ref2.width,
+              height = _ref2.height;
           return _react2.default.createElement(
             _reactVirtualized.Table,
-            { width: width, height: height, headerHeight: 20, rowHeight: 30, rowCount: list.length, rowClassName: 'headerRow',
+            { width: width, height: 700, headerHeight: 40, rowHeight: 30, rowCount: list.length, rowClassName: _this2._rowClassName,
               onRowClick: function onRowClick(e) {
                 window.alert(e.type);
-              }, headerClassName: 'headerColumn', rowGetter: function rowGetter(_ref2) {
-                var index = _ref2.index;
+              }, headerClassName: 'headerCell', rowGetter: function rowGetter(_ref3) {
+                var index = _ref3.index;
                 return list[index];
               } },
-            _react2.default.createElement(_reactVirtualized.Column, { label: 'Name', dataKey: 'name', className: 'exampleColumn', width: 100 }),
-            _react2.default.createElement(_reactVirtualized.Column, { width: 200, label: 'Description', className: 'exampleColumn', dataKey: 'description' })
+            _react2.default.createElement(_reactVirtualized.Column, { label: '\u5E8F\u53F7', dataKey: 'name', className: 'exampleColumn', width: 100 }),
+            _react2.default.createElement(_reactVirtualized.Column, { width: 200, label: '\u7701/\u76F4\u8F96\u5E02/\u81EA\u6CBB\u533A', className: 'exampleColumn', dataKey: 'description' }),
+            _react2.default.createElement(_reactVirtualized.Column, { width: 200, label: '\u7701/\u76F4\u8F96\u5E02/\u81EA\u6CBB\u533A', className: 'exampleColumn', dataKey: 'description2' }),
+            _react2.default.createElement(_reactVirtualized.Column, { width: 200, label: '\u7701/\u76F4\u8F96\u5E02/\u81EA\u6CBB\u533A', className: 'exampleColumn', dataKey: 'description3' }),
+            _react2.default.createElement(_reactVirtualized.Column, { width: 200, label: '\u7701/\u76F4\u8F96\u5E02/\u81EA\u6CBB\u533A', className: 'exampleColumn', dataKey: 'description4' }),
+            _react2.default.createElement(_reactVirtualized.Column, { width: 200, label: '\u7701/\u76F4\u8F96\u5E02/\u81EA\u6CBB\u533A', className: 'exampleColumn', dataKey: 'description5' }),
+            _react2.default.createElement(_reactVirtualized.Column, { width: 200, label: '\u7701/\u76F4\u8F96\u5E02/\u81EA\u6CBB\u533A', className: 'exampleColumn', dataKey: 'description6' }),
+            _react2.default.createElement(_reactVirtualized.Column, { width: 200, label: '\u7701/\u76F4\u8F96\u5E02/\u81EA\u6CBB\u533A', className: 'exampleColumn', dataKey: 'description7' })
           );
         }
       );
@@ -188,7 +175,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".Table{width:100%;margin-top:15px}.evenRow,.headerRow,.oddRow{border-bottom:1px solid #e0e0e0}.oddRow{background-color:#fafafa}.headerColumn{text-transform:none}.exampleColumn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.checkboxLabel{margin-left:8px;margin-left:.5rem}.checkboxLabel:first-of-type{margin-left:0}.noRows{position:absolute;top:0;bottom:0;left:0;right:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;font-size:1em;color:#bdbdbd}", ""]);
+exports.push([module.i, ".Table{width:100%;margin-top:15px}.headerCell{height:20px;line-height:20px}.evenRow,.oddRow{border-width:0 1px 1px;border-color:#ddd;border-style:solid}.headerRow,.oddRow{background-color:#f7f7f7}.headerColumn{text-transform:none}.exampleColumn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.checkboxLabel{margin-left:8px;margin-left:.5rem}.checkboxLabel:first-of-type{margin-left:0}.noRows{position:absolute;top:0;bottom:0;left:0;right:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;font-size:1em;color:#bdbdbd}", ""]);
 
 // exports
 

@@ -2,13 +2,23 @@
   width: 100%;
   margin-top: 15px;
 }
-.headerRow,
+
+.headerCell{
+  height: 20px;
+  line-height: 20px;
+}
 .evenRow,
 .oddRow {
-  border-bottom: 1px solid #e0e0e0;
+  border-width: 0 1px 1px 1px;
+  border-color: #ddd;
+  border-style: solid;
+}
+
+.headerRow{
+  background-color: #f7f7f7;
 }
 .oddRow {
-  background-color: #fafafa;
+  background-color: #f7f7f7;
 }
 .headerColumn {
   text-transform: none;
