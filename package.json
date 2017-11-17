@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "./node_modules/.bin/webpack-dev-server --env=dev --inline --progress --colors",
     "build": "./node_modules/.bin/webpack --env=dev --progress --profile --colors",
-    "build:dev": "webpack --env=dev --progress --profile --colors",
+    "start": "webpack --env=dev --progress --profile --colors",
     "build:prod": "webpack --env=prod --progress --profile --colors"
   },
   "keywords": [
@@ -44,8 +43,10 @@
     "jquery": "^1.12.4",
     "lodash": "^4.17.4",
     "node-forge": "^0.7.1",
+    "rc-table": "^6.1.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-table": "^6.7.4",
     "react-virtualized": "^9.12.0",
     "viewerjs": "^0.7.2"
   }

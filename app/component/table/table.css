@@ -4,8 +4,12 @@
 }
 
 .headerCell{
-  height: 20px;
-  line-height: 20px;
+  height: 40px;
+  line-height: 40px;
+  border-right: 1px solid #ccc;
+}
+.headerRow > .headerCell:last-child{
+  border-right: 0;
 }
 .evenRow,
 .oddRow {
@@ -14,12 +18,20 @@
   border-style: solid;
 }
 
+.evenRow > .exampleColumn:last-child,
+.oddRow > .exampleColumn:last-child{
+  border-right: 0;
+}
+
+.headerRow,
+.oddRow{
+  background-color: #f7f7f7;
+}
+
 .headerRow{
-  background-color: #f7f7f7;
+  border: 1px solid #ddd;
 }
-.oddRow {
-  background-color: #f7f7f7;
-}
+
 .headerColumn {
   text-transform: none;
 }
@@ -27,6 +39,9 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  height: 30px;
+  line-height: 30px;
+  border-right: 1px solid #ccc;
 }
 
 .checkboxLabel {

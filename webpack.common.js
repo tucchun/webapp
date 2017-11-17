@@ -2,12 +2,12 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const modules = ['index'];
-const modules = require('./app/components.js');
+const modules = require('./app/modules.js');
 
 let entry = {};
 let htmls = [];
 for (let i = 0; i < modules.length; i++) {
-  entry[modules[i]] = './app/' + modules[i] + '.js';
+  entry[modules[i]] = './app/page/' + modules[i] + '.js';
   htmls.push(new HtmlWebpackPlugin({
     filename: modules[i] + '.html',
     id: "__" + modules[i] + "__",

@@ -19,6 +19,25 @@ define([
 	}
   });
 
+  // 重写validate的require方法
+  $.validator.methods.required = function( value, element, param ) {
+
+		// Check if dependency is met
+		if ( !this.depend( param, element ) ) {
+			return "dependency-mismatch";
+		}
+		if ( element.nodeName.toLowerCase() === "select" ) {
+
+			// Could be an array for select-multiple or a string, both are fine this way
+			var val = $( element ).val();
+			return val && val.length > 0;
+		}
+		if ( this.checkable( element ) ) {
+			return this.getLength( value, element ) > 0;
+		}
+		return value.trim().length > 0;
+	};
+
   /*
    * 确认弹窗
    * opts: {

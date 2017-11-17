@@ -147,7 +147,7 @@
 	        	grade:"required",
 	        	province:"required",
 	        	city:"required",
-	        	appointment:{required:true,min:0}
+	        	appointment:{required:true,min:0,max:99999999}
 	            },
 	        messages:{
 	        	name:"请填写医院名称",

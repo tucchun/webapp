@@ -40,20 +40,27 @@ define(['jquery'],function($){
                 for(var k = 0;k < houseNumber;k++){
                     var str = districtSetting.startNo;
                     var char = parseInt(str.charAt(str.length - 1));
+                    var slflag = str.indexOf('-');
                     var disnumber = '';
-                    if(isNaN(char)){
-                        var no = (alphabet.indexOf(str.charAt(str.length - 1)) + k);
-                        disnumber = j+Math.floor(parseInt(str)) + alphabet[no];
+                    if(slflag>0){
+                        var identifierArr = str.split('-');
+                        identifierArr[1] = parseInt(identifierArr[1])+k;
+                        disnumber = identifierArr.join('-');
                     }else{
-                        var fnu =   k+char < 10 ? ('0'+(k+char)) : k+char;
-                        if(Math.floor(parseInt(str)/100) < 1){
-                            disnumber = (j+Math.floor(parseInt(str)/100)+1)+''+fnu;
+                        if(isNaN(char)){
+                            var no = (alphabet.indexOf(str.charAt(str.length - 1)) + k);
+                            disnumber = j+Math.floor(parseInt(str)) + alphabet[no];
                         }else{
-                            disnumber = (j+Math.floor(parseInt(str)/100))+''+fnu;
-                        }
-                        //兼容城中村，当单元和楼层数都为1时，编号按输入依次自增
-                        if(unit == 1&&floor == 1){
-                            disnumber = parseInt(str)+k;
+                            var fnu =   k+char < 10 ? ('0'+(k+char)) : k+char;
+                            if(Math.floor(parseInt(str)/100) < 1){
+                                disnumber = (j+Math.floor(parseInt(str)/100)+1)+''+fnu;
+                            }else{
+                                disnumber = (j+Math.floor(parseInt(str)/100))+''+fnu;
+                            }
+                            //兼容城中村，当单元和楼层数都为1时，编号按输入依次自增
+                            if(unit == 1&&floor == 1){
+                                disnumber = parseInt(str)+k;
+                            }
                         }
                     }
                     trHtml += '<li class="pull-left"><input type="text" value="'+disnumber+'">' +
