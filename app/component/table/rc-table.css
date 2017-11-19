@@ -1,0 +1,12 @@
+.my-col-class{
+  border-right: 1px solid #ddd;
+}
+.rc-table-thead .my-col-class{
+  border-color: #ddd;
+  border-style: solid;
+  border-width: 1px 1px 1px 0;
+}
+.rc-table-thead .my-col-class:first-child,
+.my-row-class > .my-col-class:first-child{
+  border-left: 1px solid #ddd;
+}

@@ -22,13 +22,11 @@ module.exports = {
     vendor: [
       'react',
       'react-dom',
-      'react-virtualized',
       'jquery',
       'dot',
       'lodash',
       'node-forge',
-      'viewerjs',
-      'react-virtualized/styles.css'
+      'viewerjs'
     ]
   },
 

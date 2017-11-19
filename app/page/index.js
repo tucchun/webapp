@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Table from 'rc-table';
 import 'rc-table/assets/index.css';
+import '../component/table/rc-table.css';
 
 const columns = [
   {
