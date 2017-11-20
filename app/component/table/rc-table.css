@@ -1,5 +1,9 @@
-.my-col-class{
+.rc-table-thead .my-col-class,
+.rc-table-tbody .my-col-class{
   border-right: 1px solid #ddd;
+  padding: 8px;
+  font-size: 14px;
+  color: #333;
 }
 .rc-table-thead .my-col-class{
   border-color: #ddd;
@@ -9,4 +13,15 @@
 .rc-table-thead .my-col-class:first-child,
 .my-row-class > .my-col-class:first-child{
   border-left: 1px solid #ddd;
+}
+
+
+.rc-table-tbody>tr:nth-of-type(even){
+    background: #f7f7f7;
+}
+.rc-table-tbody>tr:nth-of-type(odd){
+     background: #fff;
+}
+.rc-table-thead>tr:nth-of-type(odd){
+    background: #f7f7f7;
 }

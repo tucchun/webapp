@@ -25,8 +25,11 @@ module.exports = {
       'jquery',
       'dot',
       'lodash',
+      'rc-table',
       'node-forge',
-      'viewerjs'
+      'viewerjs',
+      'rc-table/assets/index.css',
+      './app/component/table/rc-table.css'
     ]
   },
 

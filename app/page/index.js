@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Table from 'rc-table';
-import 'rc-table/assets/index.css';
-import '../component/table/rc-table.css';
+import Gird from '../component/table/Table';
+
 
 const columns = [
   {
@@ -51,9 +50,7 @@ const data = [
   }
 ];
 
-
+//
 ReactDOM.render(
-  <div>
-  <h2>simple table</h2>
-  <Table className='my-table' rowClassName='my-row-class' columns={columns} data={data}/>
-</div>, document.getElementById('__index__'));
+  <Gird rowClassName='my-row-class' columns={columns} data={data}/>
+, document.getElementById('__index__'));
