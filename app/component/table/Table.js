@@ -6,9 +6,9 @@ import './rc-table.css';
 
 class Grid extends React.Component {
   render() {
-    const rowClassName = this.props.rowClassName;
+    const rowClassName = this.props.rowClassName ? this.props.rowClassName + ' my-row-class' : 'my-row-class';
     const props = _.omit(this.props, 'rowClassName');
-    return (<Table rowClassName={rowClassName + ' my-row-class'} {...props} />);
+    return (<Table rowClassName={rowClassName} {...props} />);
   }
 }
 

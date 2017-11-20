@@ -50,9 +50,9 @@ var Grid = function (_React$Component) {
   _createClass(Grid, [{
     key: 'render',
     value: function render() {
-      var rowClassName = this.props.rowClassName;
+      var rowClassName = this.props.rowClassName ? this.props.rowClassName + ' my-row-class' : 'my-row-class';
       var props = _lodash2.default.omit(this.props, 'rowClassName');
-      return _react2.default.createElement(_rcTable2.default, _extends({ rowClassName: rowClassName + ' my-row-class' }, props));
+      return _react2.default.createElement(_rcTable2.default, _extends({ rowClassName: rowClassName }, props));
     }
   }]);
 
@@ -131,7 +131,7 @@ var data = [{
 }];
 
 //
-_reactDom2.default.render(_react2.default.createElement(_Table2.default, { rowClassName: 'my-row-class', columns: columns, data: data }), document.getElementById('__index__'));
+_reactDom2.default.render(_react2.default.createElement(_Table2.default, { columns: columns, data: data }), document.getElementById('__index__'));
 
 /***/ })
 

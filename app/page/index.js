@@ -52,5 +52,5 @@ const data = [
 
 //
 ReactDOM.render(
-  <Gird rowClassName='my-row-class' columns={columns} data={data}/>
+  <Gird columns={columns} data={data}/>
 , document.getElementById('__index__'));
