@@ -1,4 +1,4 @@
-webpackJsonp([4],{
+webpackJsonp([3],{
 
 /***/ "./app/component/condition/Condition.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -431,11 +431,45 @@ exports.default = Grid;
 
 /***/ }),
 
-/***/ "./app/page/index.js":
+/***/ "./app/page/goodsTag/goodsTag.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js?{\"modules\":false}!./node_modules/postcss-loader/lib/index.js!./app/page/goodsTag/goodsTag.css");
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/style-loader/lib/addStyles.js")(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!./goodsTag.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!./goodsTag.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./app/page/goodsTag/goodsTag.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__("./node_modules/react/react.js");
 
@@ -445,10 +479,6 @@ var _reactDom = __webpack_require__("./node_modules/react-dom/index.js");
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _Table = __webpack_require__("./app/component/table/Table.js");
-
-var _Table2 = _interopRequireDefault(_Table);
-
 var _Container = __webpack_require__("./app/component/container/Container.js");
 
 var _Container2 = _interopRequireDefault(_Container);
@@ -457,76 +487,88 @@ var _Condition = __webpack_require__("./app/component/condition/Condition.js");
 
 var _Condition2 = _interopRequireDefault(_Condition);
 
+var _Table = __webpack_require__("./app/component/table/Table.js");
+
+var _Table2 = _interopRequireDefault(_Table);
+
 var _pageNation = __webpack_require__("./app/component/pageNation/pageNation.js");
 
 var _pageNation2 = _interopRequireDefault(_pageNation);
 
+__webpack_require__("./app/page/goodsTag/goodsTag.css");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var columns = [{
-  className: 'my-col-class',
-  title: 'title1',
-  dataIndex: 'a',
-  key: 'a',
-  width: 100
-}, {
-  className: 'my-col-class',
-  id: '123',
-  title: 'title2',
-  dataIndex: 'b',
-  key: 'b',
-  width: 100
-}, {
-  className: 'my-col-class',
-  title: 'title3',
-  dataIndex: 'c',
-  key: 'c',
-  width: 200
-}, {
-  className: 'my-col-class',
-  title: 'Operations',
-  dataIndex: '',
-  key: 'd',
-  render: function render() {
-    return _react2.default.createElement(
-      'a',
-      { href: '#' },
-      'Operations'
-    );
-  }
-}];
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var data = [{
-  a: '123',
-  key: '1'
-}, {
-  a: 'cdd',
-  b: 'edd',
-  key: '2'
-}, {
-  a: '1333',
-  c: 'eee',
-  d: 2,
-  key: '3'
-}];
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-//
-_reactDom2.default.render(_react2.default.createElement(
-  _Container2.default,
-  { title: '轮播图管理' },
-  _react2.default.createElement(
-    _Condition2.default,
-    null,
-    _react2.default.createElement('input', null),
-    _react2.default.createElement(
-      'button',
-      { className: 'btn btn-main' },
-      '\u67E5\u8BE2'
-    )
-  ),
-  _react2.default.createElement(_Table2.default, { columns: columns, data: data }),
-  _react2.default.createElement(_pageNation2.default, null)
-), document.getElementById('__index__'));
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var GoodsTag = function (_React$Component) {
+    _inherits(GoodsTag, _React$Component);
+
+    function GoodsTag(props) {
+        _classCallCheck(this, GoodsTag);
+
+        var _this = _possibleConstructorReturn(this, (GoodsTag.__proto__ || Object.getPrototypeOf(GoodsTag)).call(this, props));
+
+        _this.state = {
+            currentPage: 1,
+            pageNumber: 10,
+            pageCode: 1
+        };
+        _this.getPage = _this.getPage.bind(_this);
+        return _this;
+    }
+
+    _createClass(GoodsTag, [{
+        key: 'getPage',
+        value: function getPage(ev) {
+            this.setState({
+                currentPage: ev.currentPage,
+                pageCode: ev.pageCode
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                _Container2.default,
+                { title: '商品标签管理' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'goodsTaglist' },
+                    _react2.default.createElement(
+                        _Condition2.default,
+                        null,
+                        _react2.default.createElement(
+                            'form',
+                            { id: 'js_search', className: 'form-inline' },
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: '' },
+                                '\u5546\u54C1\u6807\u7B7E'
+                            ),
+                            _react2.default.createElement('input', { type: 'text', className: 'form-control' }),
+                            _react2.default.createElement(
+                                'button',
+                                { type: 'submit', className: 'btn btn-main' },
+                                '\u67E5\u8BE2'
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(_Table2.default, null),
+                    _react2.default.createElement(_pageNation2.default, { getPage: this.getPage, pageNumber: this.state.pageNumber, currentPage: this.state.currentPage })
+                )
+            );
+        }
+    }]);
+
+    return GoodsTag;
+}(_react2.default.Component);
+
+_reactDom2.default.render(_react2.default.createElement(GoodsTag, null), document.getElementById('__goodsTag__'));
 
 /***/ }),
 
@@ -543,7 +585,22 @@ exports.push([module.i, ".pd20{padding:20px 0}.pageNation{margin:0;padding:0;fon
 // exports
 
 
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?{\"modules\":false}!./node_modules/postcss-loader/lib/index.js!./app/page/goodsTag/goodsTag.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "#js_search>*{margin:0 10px}#js_search>:first-child{margin:0}", ""]);
+
+// exports
+
+
 /***/ })
 
-},["./app/page/index.js"]);
-//# sourceMappingURL=index.js.map
+},["./app/page/goodsTag/goodsTag.js"]);
+//# sourceMappingURL=goodsTag.js.map

@@ -117,9 +117,9 @@
     });
     var deferred = {};
     if (opts.url.indexOf("?") > 0) {
-      opts.url += ('&ver=' + +new Date());
+      opts.url += ('&_=' + +new Date());
     } else {
-      opts.url += ('?ver=' + +new Date());
+      opts.url += ('?_=' + +new Date());
     }
     console.log('===============请求接口开始===============\n');
     console.log('请求接口：' + opts.url + '\n');

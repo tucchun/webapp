@@ -1,0 +1,26 @@
+.pd20{
+    padding:20px 0;
+}
+.pageNation{
+    margin:0;padding:0;
+    font-size:12px;
+    float:right;
+}
+.pageNation a{
+    display:inline-block;
+    padding:4px 15px;
+    border:1px solid #333;
+    color:#333;
+    border-radius:3px;
+    margin-right:5px;
+    text-decoration: none;
+    vertical-align: middle;
+}
+.pageNation a:last-child{
+    margin-right:0;
+}
+.pageNation a.active{
+    border:1px solid #999;
+    color:#999;
+    cursor:default;
+}

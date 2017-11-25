@@ -38,7 +38,35 @@ define(['jquery'],function($){
             for(var j = 0;j < floor;j++){
                 var trHtml = '<tr data-type="houseNumber"><td class="col-sm-2">'+(j+1)+'楼</td><td><ul class="clearfix">';
                 for(var k = 0;k < houseNumber;k++){
-                    var str = districtSetting.startNo;
+                    var startNo = districtSetting.startNo,disnumber='',reg = /^[0-9]{3,}/g,regA = /^[0-9]*[A-Z]$/g,regr = /^[A-Z]*[0-9]*$/g;
+                    //兼容城中村，当单元和楼层数都为1时，编号按输入依次自增
+                    if(unit == 1&&floor == 1){
+                        disnumber = parseInt(startNo)+k
+                    }else{
+                        //带楼层的三位数字编号，一楼的第一位数字为1，二楼的第一位数字为2，以此类推，中间数字通常为0，0之后的数字则为具体的门牌自增编号，例：101、102、103、104、105、…..1024
+                        if(reg.test(startNo)){
+                            var fnu =   k+(startNo%100) < 10 ? ('0'+(k+(startNo%100))) : k+(startNo%100);
+                            if(Math.floor(parseInt(startNo)/100) < 1){
+                                disnumber = (j+Math.floor(parseInt(str)/100)+1)+''+fnu;
+                            }else{
+                                disnumber = (j+Math.floor(parseInt(str)/100))+''+fnu;
+                            }
+                        }else if(regA.test(startNo)){
+                            //带字母的两位编号，通常以数字开头，数字代表具体楼层，字母则代表具体的自增门牌号按26位字母升序自增，例：1A、1B、1C、2A、2B、2C、3A、3B、3C
+                            var no = (alphabet.indexOf(str.charAt(str.length - 1)) + k);
+                            disnumber = j+Math.floor(parseInt(str)) + alphabet[no];
+                        }else if(startNo.indexOf('-') >-1 && unit == 1){
+                            //以横线“-”分隔的编号，横线左侧为楼栋号或其他编号，横线右侧则为具体的自增编号，如有多楼层从第2层开始，字母后带上具体的楼层数，1层则不带，例：A33-1、A33-2、A33-3、A233-1、A233-2、A233-3、A333-1、A333-2、A433-1、A433-2
+                            disnumber = (startNo.split('-')[0]+(j+1))+'-'+(parseInt(startNo.split('-')[1])+k);
+                        }else if(regr.test(startNo)){
+                            //字母开头的数字组合，字母后的第一位数字代表楼层数，末尾数字则代表自增编号，例：A1101、A1102、A2101、A2102、A3101、A3102、A3103
+                            var np = new RegExp(/[0-9]*$/g).exec(startNo)[0];
+                            var ap = new RegExp(/^[A-Z]*/g).exec(startNo)[0];
+                            var n = (parseInt(np.charAt(0))+j)+''+(parseInt(np.substring(1,np.length))+k);
+                            disnumber = ap + n;
+                        }
+                    }
+                    /*var str = districtSetting.startNo;
                     var char = parseInt(str.charAt(str.length - 1));
                     var slflag = str.indexOf('-');
                     var disnumber = '';
@@ -62,7 +90,7 @@ define(['jquery'],function($){
                                 disnumber = parseInt(str)+k;
                             }
                         }
-                    }
+                    }*/
                     trHtml += '<li class="pull-left"><input type="text" value="'+disnumber+'">' +
                         '<a href="#" class="del">删除</a><a href="#" class="js-add">添加</a></li>';
                 }

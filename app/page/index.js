@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Gird from '../component/table/Table';
-
+import Container from '../component/container/Container';
+import Condition from '../component/condition/Condition';
+import PageNation from '../component/pageNation/pageNation';
 
 const columns = [
   {
@@ -52,5 +54,11 @@ const data = [
 
 //
 ReactDOM.render(
+  <Container title={'轮播图管理'}>
+  <Condition>
+    <input />
+    <button className="btn btn-main">查询</button>
+  </Condition>
   <Gird columns={columns} data={data}/>
-, document.getElementById('__index__'));
+  <PageNation />
+</Container>, document.getElementById('__index__'));

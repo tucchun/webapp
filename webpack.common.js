@@ -28,6 +28,9 @@ module.exports = {
       'rc-table',
       'node-forge',
       'viewerjs',
+      'es6-promise',
+      'object-assign',
+      'axios',
       'rc-table/assets/index.css',
       './app/component/table/rc-table.css'
     ]
@@ -41,7 +44,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /(\.js|\.jsx)$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader'

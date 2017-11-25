@@ -49,7 +49,7 @@
                     ${resident.user.personId}
                 </c:if>
                 <c:if test="${resident.user.personId eq null or resident.user.personId eq ''}">
-                    ${resident.residentBirthNumber}
+                    ${resident.residentBirthNumber}<i class="icon-birthno"></i>
                 </c:if>
             </td>
             <td>${resident.householdAddress}</td>

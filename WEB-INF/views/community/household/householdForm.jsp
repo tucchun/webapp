@@ -166,6 +166,14 @@
         });
         
         // 验证gen-form
+        $.validator.addMethod("starNo",function(value,element,params){
+            var flag = false;
+            var regEx = /-/g,reg = /^\d*[A-Z]$/g,regd = /^\d+$/g,regr = /^[A-Z]*[0-9]*$/g;
+            if(regEx.test(value)||reg.test(value)||regd.test(value)||regr.test(value)){
+                flag = true;
+            }
+            return flag;
+        },"起始编号格式错误");
         _self.find('#gen-form').validate({
         	rules:{
         		gen_buildingNo:{maxlength:10, remote:{
@@ -182,7 +190,7 @@
         		gen_unit:{digits:true},
         		gen_floor:{required:true,digits:true,},
         		gen_neigbor:{required:true,digits:true},
-        		gen_startNo:{required:true,maxlength:20},
+        		gen_startNo:{required:true,maxlength:20,starNo:true},
         	},
         	messages:{
         		gen_buildingNo:{
