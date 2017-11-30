@@ -5,6 +5,6 @@ let components = [
   'dialog',
   'commodityManagement/commodityManagement',
   'goodsTag/goodsTag'
-]
+];
 
 module.exports = components;

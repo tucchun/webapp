@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
+const ExamplePlugin = require("./app/lib/ExamplePlugin.js");
 // const modules = ['index'];
 const modules = require('./app/modules.js');
 
@@ -11,8 +13,9 @@ for (let i = 0; i < modules.length; i++) {
   htmls.push(new HtmlWebpackPlugin({
     filename: modules[i] + '.html',
     id: "__" + modules[i] + "__",
+    moduleId: entry[modules[i]],
     template: path.join(__dirname, './app/template.ejs'),
-    chunks: [modules[i], 'vendor', 'runtime']
+    chunks: [modules[i]]
   }));
 }
 
@@ -76,6 +79,8 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'runtime'
       // filename: 'runtime.[chunkhash].js'
-    })
+    }),
+    new ChunkManifestPlugin({filename: "manifest.json", manifestVariable: "webpackManifest", inlineManifest: false}),
+    new ExamplePlugin()
   ]
 };

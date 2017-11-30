@@ -1,4 +1,4 @@
-webpackJsonp([1],{
+webpackJsonp([2],{
 
 /***/ "./app/page/dialog.js":
 /***/ (function(module, exports, __webpack_require__) {

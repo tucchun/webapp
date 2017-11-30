@@ -1,6 +1,5 @@
 define([
-  "jquery",
-  "js/Util"
+  "jquery", "js/Util"
 ], function($, Util) {
   var tab = {},
     $tab = $("#myTabs"),
@@ -33,9 +32,7 @@ define([
       }
     };
 
-
   })();
-
 
   // tab事件初始化
   $tab.on('show.bs.tab', 'a[data-toggle="tab"]', function(e) {
@@ -80,7 +77,6 @@ define([
     taskList.resolve();
   });
 
-
   // 关闭tab事件
   $tab.on("click", ".js-tab-close", function(e) {
     var id = $(this).parent().attr("aria-controls");
@@ -110,7 +106,8 @@ define([
         url = opts.url,
         callback = opts.callback,
         fresh = opts.fresh;
-      if (!id) return false;
+      if (!id)
+        return false;
       var origan_id = id;
       id = id.replace(/__/g, "");
       id = "__" + id + "__"; // 避免[id]命名重复
@@ -122,18 +119,18 @@ define([
             $('#' + id).html('<div id="' + origan_id + '">' + html + '<div/>');
             // currentTab.tab("show");
             // arr.push(currentTab);
-            if (currentTab.parent().hasClass("active")) return false;
+            if (currentTab.parent().hasClass("active"))
+              return false;
             taskList.add(function() {
               currentTab.tab("show");
             });
 
-          }).fail(function() {
-
-          });
+          }).fail(function() {});
         } else {
           // currentTab.tab("show");
           // arr.push(currentTab);
-          if (currentTab.parent().hasClass("active")) return false;
+          if (currentTab.parent().hasClass("active"))
+            return false;
           taskList.add(function() {
             currentTab.tab("show");
           });
@@ -208,7 +205,7 @@ define([
       $tab.find("#tab-a-" + id).tab('show');
     },
     close: function(id, callback, defaultOpen) {
-      id = id.replace(/__/g, "");
+      var orgin_id = id = id.replace(/__/g, "");
       id = "__" + id + "__"; // 避免[id]命名重复
       // 删除指定tab，如果被删除的tab的前一个tab存在，显示它；如果不存在，显示被删除tab的后一个tab；
       if (defaultOpen !== false && defaultOpen !== true) {
@@ -219,9 +216,13 @@ define([
       if (!tabItem.size()) {
         tabItem = closeTabitem.prev("[role='presentation']");
       }
-      tabItem_a = tabItem.find("> a");
+      var tabItem_a = tabItem.find("> a");
 
       closeTabitem.remove();
+      var module_id = $tabContent.find("#" + orgin_id).children().first().data('moduleid');
+      if (module_id) {
+        delete window['installedModules'][module_id];
+      }
       $tabContent.find("#" + id).remove();
       $minTabMenu.find("#js-mini-tab-item-" + id).remove();
       if (defaultOpen) {
