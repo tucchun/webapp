@@ -115,6 +115,10 @@ define([
       var currentTab = $tab.find("#tab-a-" + id);
       if (currentTab.size() === 1) {
         if (fresh) {
+          var module_id = $tabContent.find("#" + origan_id).children().first().data('moduleid');
+          if (module_id) {
+            delete window['installedModules'][module_id];
+          }
           Util.getHtml(url).done(function(html) {
             $('#' + id).html('<div id="' + origan_id + '">' + html + '<div/>');
             // currentTab.tab("show");
@@ -217,8 +221,8 @@ define([
         tabItem = closeTabitem.prev("[role='presentation']");
       }
       var tabItem_a = tabItem.find("> a");
-
       closeTabitem.remove();
+
       var module_id = $tabContent.find("#" + orgin_id).children().first().data('moduleid');
       if (module_id) {
         delete window['installedModules'][module_id];

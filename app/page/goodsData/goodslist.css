@@ -1,0 +1,14 @@
+.content{min-width:1128px;}
+.onSale{color:#3155f9;}
+.stopSale{color:#cf0d01;}
+.goodsDataList select,.goodsDataList input[type=text]{margin-left:15px;width:150px !important;}
+.goodsDataList .form-inline label,.goodsDataList .form-inline button{margin-left:15px;}
+.goodsDataList .queryMeta{padding-left:20px;}
+.goodsDataList .queryMeta input[type=checkbox]{margin-right:5px;}
+.goodsDataList .queryMeta .pull-left{border:1px solid #ddd;padding:5px;margin:0 5px;cursor:pointer;}
+.goodsDataList .queryMeta div[id^="sub_cat_"]{display:none;}
+.goodsDataList .tagList,.goodsDataList .tagList .tagLabel{margin-top:10px;}
+.goodsDataList .rc-table,.goodsDataList .rc-table-content{position:static;}
+.goodsDataList .sub_cat{border-bottom:1px solid #e5e5e5;padding:5px 0;}
+.goodsDataList .options{margin:5px 0;}
+.goodsDataList .options .btn{margin:0 5px;}

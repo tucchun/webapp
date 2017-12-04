@@ -1,0 +1,72 @@
+.pdtb {
+    padding: 20px 0;
+}
+.date-wrap {
+    display: inline-block;
+    vertical-align: middle;
+    width: 220px;
+}
+.date-wrap>div {
+    position: relative;
+}
+.date-wrap>div .bootstrap-datetimepicker-widget {
+    z-index: 9999;
+}
+.date-wrap>div .bootstrap-datetimepicker-widget .switch {
+    text-align: center;
+}
+.form-group {
+    margin: 0;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+.prod-list {
+    margin:0;
+    padding:0;
+}
+.prod-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+.list-title, .list-total {
+    padding: 10px 0;
+}
+.list-title span, .prod-col {
+    width: 33.333333%;
+    float: left;
+    text-align: center;
+}
+.prod-col.tal {
+    text-align: left;
+    padding-left: 10px;
+}
+.prod-col.tal div{
+    display: inline-block;
+    width: 170px;
+    margin-left: 8px;
+}
+.prod-col.tal div p{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    margin-bottom: 20px;
+}
+.prod-col img{
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+}
+
+.list-total span {
+    width: 33.333333%;
+    float: right;
+    text-align: center;
+}
+.lh60 {
+    line-height: 60px;
+}
+@media (min-width: 768px){
+    .modal-dialog {
+        width: 750px;
+    }
+}

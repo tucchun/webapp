@@ -1,4 +1,16 @@
+let user_id = document.getElementById('__user__').value;
+let auth_str = document.getElementById('__auth__').value;
+
+const commonData = {
+  src_type: 'Web Admin',
+  pf_type: 'Web',
+  user_id: parseInt(user_id),
+  auth_str: auth_str
+};
+
 const ApiMap = {
+  //公共参数
+  commonData,
   // 商品销售统计
   getShopProdSaleStat: {
     url: '/hca/web/admin/shop/prod/sale/stat',
@@ -25,13 +37,13 @@ const ApiMap = {
 
   // 健管师销售统计
   getShopHecadreSaleStat: {
-    url: '/hca/web/admin/shop/sale/stat',
+    url: '/hca/web/admin/shop/hecadre/sale/stat',
     method: 'post'
   },
 
   // 健管师销售统计
   shopHecadreSaleStatExport: {
-    url: '/hca/web/admin/shop/sale/stat/export',
+    url: '/hca/web/admin/shop/hecadre/sale/stat/export',
     method: 'post'
   },
 
@@ -58,33 +70,49 @@ const ApiMap = {
     url: '/hca/web/admin/shop/inhabitant/order/export',
     method: 'post'
   },
+  // 订单详情
+  getShopOrder: {
+    url: '/hca/web/admin/shop/order',
+    method: 'post'
+  },
 
   // 1.1.23	(Web)门店商品列表
   shopStationProdList: {
     url: '/hca/web/admin/shop/station/prod/list',
-    method: 'POST'
+    method: 'POST',
+    data: commonData
   },
 
   //1.1.5	(Web)商品标签列表
-  goodTagList: {
+  goodsTagList: {
     url: '/hca/web/admin/shop/prodtag/list',
     method: 'POST'
   },
 
+  //1.1.8	(Web)商品资料新增
+  goodsCreate: {
+    url: '/hca/web/admin/shop/prod/create',
+    method: 'POST'
+  },
+  //1.1.9	(Web)商品资料修改
+  goodsNew: {
+    url: '/hca/web/admin/shop/prod/create',
+    method: 'POST'
+  },
   //1.1.2	(Web)商品标签新增
-  goodTagCreate: {
+  goodsTagCreate: {
     url: '/hca/web/admin/shop/prodtag/create',
     method: 'POST'
   },
 
   //1.1.3	(Web)商品标签修改
-  goodTagUpdate: {
+  goodsTagUpdate: {
     url: '/hca/web/admin/shop/prodtag/update',
     method: 'POST'
   },
 
   //1.1.4	(Web)商品标签删除
-  goodTagDelete: {
+  goodsTagDelete: {
     url: '/hca/web/admin/shop/prodtag/delete',
     method: 'POST'
   },
@@ -92,12 +120,6 @@ const ApiMap = {
   //1.1.20	(Web)商品列表
   goodsList: {
     url: '/hca/web/admin/shop/prod/list',
-    method: 'POST'
-  },
-
-  //1.1.8	(Web)商品资料新增
-  goodsCreate: {
-    url: '/hca/web/admin/shop/prod/create',
     method: 'POST'
   },
 
@@ -120,7 +142,7 @@ const ApiMap = {
   },
 
   //1.1.12	(Web)商品价格调整列表
-  goodsPriceList: {
+  goodsAdjustPriceList: {
     url: '/hca/web/admin/shop/prodprice/adjust/list',
     method: 'POST'
   },
@@ -137,9 +159,33 @@ const ApiMap = {
     method: 'POST'
   },
 
-  //1.1.14	 (Web)商品调价审核
+  //1.1.24	(Web)商品价格导出
+  goodsPriceExport: {
+    url: '/hca/web/admin/shop/prodprice/export',
+    method: 'POST'
+  },
+
+  //1.1.12	(Web)商品价格调整取消申请
+  goodsPriceCancel: {
+    url: '/hca/web/admin/shop/prodprice/adjust/cancel',
+    method: 'POST'
+  },
+
+  //1.1.14	(Web)商品价格调整详情
+  goodsPriceAancel: {
+    url: '/hca/web/admin/shop/prodprice/adjust',
+    method: 'POST'
+  },
+
+  //1.1.16	(Web)商品调价审核
   goodsPriceAudit: {
     url: '/hca/web/admin/shop/prodprice/audit',
+    method: 'POST'
+  },
+
+  //1.1.14	(Web)商品价格调整导出
+  goodsPriceAdjustExport: {
+    url: '/hca/web/admin/shop/prodprice/adjust/export',
     method: 'POST'
   },
 
@@ -152,7 +198,127 @@ const ApiMap = {
   //1.1.7	(Web)商品分类/标签/适用人群
   shopProdmeta: {
     url: '/hca/web/admin/shop/prodmeta',
+    method: 'POST',
+    data: commonData
+  },
+
+  // 1.1.25	(Web)门店商品修改(上下架)
+  stationProdUpdate: {
+    url: '/hca/web/admin/shop/station/prod/update',
+    method: 'POST',
+    data: commonData
+  },
+
+  // 1.1.25	(Web)门店商品修改(上下架)
+  stationProdDelete: {
+    url: '/hca/web/admin/shop/station/prod/delete',
+    method: 'POST',
+    data: commonData
+  },
+  //1.3.14	(Web)订货意向列表
+  shopGuestorderList: {
+    url: '/hca/web/admin/shop/guestorder/list',
+    method: 'POST',
+    data: commonData
+  },
+
+  //1.3.14	(Web)订货意向列表
+  shopOrderList: {
+    url: '/hca/web/admin/shop/order/list',
+    method: 'POST',
+    data: commonData
+  },
+
+  //1.4.3	订单详情
+  shopOrderInfo: {
+    url: '/hca/web/admin/shop/order',
+    method: 'POST',
+    data: commonData
+  },
+
+  // 辖区外地址列表
+  stationNongridList: {
+    url: '/hca/web/admin/station/nongrid/list',
     method: 'POST'
+  },
+
+  // 辖区外地址删除
+  stationNongridDelete: {
+    url: '/hca/web/admin/station/nongrid/delete',
+    method: 'POST'
+  },
+
+  // 辖区外地址修改
+  stationNongridUpdate: {
+    url: '/hca/web/admin/station/nongrid/update',
+    method: 'POST'
+  },
+
+  // 辖区外地址重新分配健管师
+  stationNongridAssign: {
+    url: '/hca/web/admin/station/nongrid/assign',
+    method: 'POST'
+  },
+
+  // 获取下级行政区列表
+  getAreaList: {
+    url: '/hca/web/admin/getarealist',
+    method: 'POST'
+  },
+
+  // 卫生站健管师查询
+  stationHecadreListbyperm: {
+    url: '/hca/web/admin/station/hecadre/listbyperm',
+    method: 'POST'
+  },
+
+  //8.6获取下级行政区列表
+  getArealist: {
+    url: '/hca/web/admin/getarealist',
+    method: 'POST',
+    data: commonData
+  },
+
+  //1.3.15	(Web)根据区域获取健管师列表
+  listbyareastation: {
+    url: '/hca/web/admin/hecadre/listbyareastation',
+    method: 'POST',
+    data: commonData
+  },
+
+  //1.1.21	(Web)商品列表
+  shopProdList: {
+    url: '/hca/web/admin/shop/prod/list',
+    method: 'POST',
+    data: commonData
+  },
+
+  //1.1.25	(Web)门店商品新增
+  stationProdCreate: {
+    url: '/hca/web/admin/shop/station/prod/create',
+    method: 'POST',
+    data: commonData
+  },
+
+  //1.3.16	(Web)订货意向 - 指派
+  shopGuestorderAssign: {
+    url: '/hca/web/admin/shop/guestorder/assign',
+    method: 'POST',
+    data: commonData
+  },
+
+  //1.3.17	(Web)订货意向 - 详情
+  shopGuestorder: {
+    url: '/hca/web/admin/shop/guestorder',
+    method: 'POST',
+    data: commonData
+  },
+
+  //1.3.18	(Web)订货意向导出
+  shopGuestorderExport: {
+    url: '/hca/web/admin/shop/guestorder/export',
+    method: 'POST',
+    data: commonData
   }
 };
 

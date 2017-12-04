@@ -7,11 +7,13 @@ class Container extends Component {
   }
 
   render() {
+    let clazz = this.props.className;
+    clazz = clazz + ' tb-wrap' || '';
     return (
       <div className="wrap">
         <div className="tb-head">{this.props.title}</div>
         <div className="tb-content">
-          <div className="tb-wrap p20">
+          <div className={clazz}>
             {this.props.children}
           </div>
         </div>

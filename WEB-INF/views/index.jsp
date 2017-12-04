@@ -38,10 +38,12 @@
     <div class="hd-title">
         <span class="logo"><img src="../static/sprite/new_logo.png" alt="logo"></span>
         <span class="title">后台管理系统V${version }</span>
+        <input type=hidden id='__user__' value='${userId }' />
+        <input type=hidden id='__auth__' value='${authStr }' />
     </div>
     <div class="hd-operate">
         <span class="icon">
-        	<c:set var="headImg" value="<%=user.getHeadPic()%>"/>   
+        	<c:set var="headImg" value="<%=user.getHeadPic()%>"/>
            	<c:choose>
            		<c:when test="${headImg != null && headImg != ''}">
            			 <img src="${headImg}" />
@@ -100,5 +102,6 @@
 </body>
 <script data-ctx="${ctx}/" src="${ctx}/static/assets/require/require-2.1.5.js" data-ver="${minorVersion}" data-init="${initStation}" data-flagPwd="${flagPwd}" data-prj="${prj_perfix}" data-initId="${initStationId}" data-username="<%=user.getLoginName()%>"  id="js-main"></script>
 <script data-ctx="${ctx}/" src="${ctx}/static/js/main.js?ver=<%=new Date().getTime() %>"></script>
+
 
 </html>

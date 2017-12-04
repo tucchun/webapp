@@ -3,63 +3,63 @@ import axios from 'axios';
 import objectAssign from 'object-assign';
 import _ from 'lodash';
 import ApiMap from './ApiMap';
+import {logger} from '../logger';
 import '../../../static/assets/jquery.mloading-master/src/jquery.mloading.js';
 import '../../../static/assets/jquery.mloading-master/src/jquery.mloading.css';
 
-const baseUrl = "";
+let baseURL = "";
 let $ = window.$;
 
-let demo = true;
+let demo = false;
 if (process.env.NODE_ENV === 'production') {
-  demo = false;
+  baseURL = "/";
+} else {
+  baseURL = "http://localhost:8081";
 }
 
 axios.interceptors.request.use(config => {
-  console.log('===============请求接口开始===============\n');
-  console.log('请求接口：' + config.url + '\n');
-  console.log('参数：' + config.data + '\n');
+  logger('===============请求接口开始===============\n');
+  logger('请求接口：' + config.url + '\n');
+  logger('参数：' + JSON.stringify(config.data) + '\n');
   $(document.body).mLoading({mask: false}); //显示loading组件
   return config;
 }, error => {
-  return Promise.reject(error)
+  return Promise.reject(error);
 });
 
 axios.interceptors.response.use(response => {
-  console.log("响应数据：" + JSON.stringify(response) + "\n");
-  console.log("===============请求接口结束===============\n");
+  logger("响应数据：" + JSON.stringify(response) + "\n");
+  logger("===============请求接口结束===============\n");
   $(document.body).mLoading("hide"); //隐藏loading组件
   return response;
 }, error => {
-  console.log("响应失败：" + error + "\n");
-  console.log("===============请求接口结束===============\n");
+  logger("响应失败：" + error + "\n");
+  logger("===============请求接口结束===============\n");
   $(document.body).mLoading("hide"); //隐藏loading组件
   return Promise.resolve(error.response);
 });
 
 let settings = {
-  baseURL: baseUrl,
-  timeout: 10000
+  baseURL: baseURL,
+  timeout: 10000,
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json; charset=utf-8'
+  },
+  responseType: 'json'
 };
 
 const httpServer = function() {
   let url,
-    data,
     config;
   switch (arguments.length) {
     case 1:
       url = arguments[0].url;
-      data = arguments[0].data;
-      config = _.omit(arguments[0], 'url', 'data');
+      config = _.omit(arguments[0], 'url');
       break;
     case 2:
       url = arguments[0];
-      data = arguments[1].data;
-      config = _.omit(arguments[1], 'data');
-      break;
-    case 3:
-      url = arguments[0];
-      data = arguments[1];
-      config = arguments[2];
+      config = arguments[1];
       break;
   }
   if (demo) {
@@ -72,7 +72,16 @@ const httpServer = function() {
     url += ('?_=' + (+new Date()));
   }
   config = objectAssign({}, settings, config);
-  return axios(url, data, config);
+  // 去除值为空的参数
+  // let data = config.data;
+  // if (typeof data === 'string') {
+  //   data = JSON.parse(data);
+  // }
+  // data = _.pickBy(data, function(item) {
+  //   return item;
+  // });
+  // config.data = data;
+  return axios(url, config);
 };
 
 // const httpServer = (opts, data) => {
@@ -83,7 +92,7 @@ const httpServer = function() {
 //   //http默认配置
 //   let httpDefaultOpts = {
 //     method: opts.method,
-//     baseURL: baseUrl,
+//     baseURL: baseURL,
 //     url: opts.url,
 //     timeout: 10000,
 //     params: objectAssign(Public, data),
@@ -118,5 +127,5 @@ const httpServer = function() {
 //   })
 //   return axios(httpDefaultOpts);
 // }
-
+export {baseURL};
 export default httpServer;

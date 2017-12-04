@@ -17,7 +17,7 @@ define(['jquery','lodash'],function($,_){
                 generHouseNo(tarobj.find('#netHouseList'),houseNumber,dry.id);
             });
             //勾选住户事件
-            tarobj.find('#netHouseList').on('click', '.house input', function (e) {
+            tarobj.find('.js_houselist').on('click', '.house input', function (e) {
                 var _checked = tarobj.find('#netHouseList .unit input[type="checkbox"]:checked');
                 var target = tarobj.find('#chousedHouse');
                 var data = getHouse(this);
@@ -149,6 +149,7 @@ define(['jquery','lodash'],function($,_){
         //修改方法入口
         function modify(target,officerid){
             generHouseNo(target,houseNumber,officerid);
+            bindEvent(target);
         }
         //生成选中的门牌号的P元素
         function generHouse(tarobj, data) {

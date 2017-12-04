@@ -107,6 +107,7 @@
         
         _self.find('#assigned_officer').on('click','a.modify',function(){
         	_self.find('#modal_doctorGroup').attr('data-id',$(this).attr('data-id'));
+
         	dc.modifyOfficer(_self.find('#modal_doctorGroup'),$(this).parents('tr'),$(this).attr('data-id'));
         });
         

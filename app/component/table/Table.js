@@ -20,7 +20,7 @@ class Grid extends React.Component {
       };
     });
     const props = _.omit(this.props, 'rowClassName', 'columns');
-    return (<Table columns={columns} rowClassName={rowClassName} {...props}/>);
+    return (<Table emptyText='无' columns={columns} rowClassName={rowClassName} {...props}/>);
   }
 }
 

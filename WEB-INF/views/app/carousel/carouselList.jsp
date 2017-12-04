@@ -129,11 +129,13 @@ require([
 	 $self.find('.sort_wrap').on('click','i.icon-up',function(){
 		    var arr = page_sort.instances($(this),'table');
 		    $.get("${ctx}/carousel/change/"+arr,function(success){
+		    	 $self.find("#js-confirm").trigger("click");
 		    },"html");
 	    });
     $self.find('.sort_wrap').on('click','i.icon-down',function(){
     	var arr = page_sort.instances($(this),'table');
     	$.get("${ctx}/carousel/change/"+arr,function(success){
+    		 $self.find("#js-confirm").trigger("click");
 	    },"html");
     });
 	

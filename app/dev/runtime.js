@@ -34,7 +34,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		7: 0
+/******/ 		22: 0
 /******/ 	};this['installedModules'] = installedModules;//---------local-vars--------
 /******/
 /******/ 	// The require function
@@ -91,7 +91,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + window["webpackManifest"][chunkId];
+/******/ 		script.src = __webpack_require__.p + "" + ({"0":"vendor","1":"guestorder/List","2":"shopOrder/List","3":"prodManage/List","4":"jurisdictionOutsideAddrAdmin/addrAdmin","5":"userStats/userStats","6":"userOrders/userOrders","7":"salesStats/salesStats","8":"jgssalesStats/jgssalesStats","9":"commodityStats/commodityStats","10":"priceManagent/priceManagent","11":"priceManagent/priceCheck","12":"priceManagent/priceRecord","13":"priceManagent/applyMgr","14":"goodsTag/goodsTag","15":"goodsData/goodsData","16":"guestorder/Info","17":"shopOrder/Info","18":"goodsData/newGoodsData","19":"goodsData/goodsUpdate","20":"goodsData/goodsDetail","21":"prodManage/Info"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -141,7 +141,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "./dev/";
+/******/ 	__webpack_require__.p = "./app/dev/";
 /******/
 /******/ 	// on error function for async loading
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };//---------require-extensions--------
@@ -150,4 +150,3 @@
 /******/ })
 /************************************************************************/
 /******/ ([]);
-//# sourceMappingURL=runtime.js.map

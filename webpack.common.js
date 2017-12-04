@@ -1,10 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
-const ExamplePlugin = require("./app/lib/ExamplePlugin.js");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
 // const modules = ['index'];
 const modules = require('./app/modules.js');
+const ExamplePlugin = require("./app/lib/ExamplePlugin.js");
 
 let entry = {};
 let htmls = [];
@@ -23,6 +24,7 @@ module.exports = {
   entry: {
     ...entry,
     vendor: [
+      "babel-polyfill",
       'react',
       'react-dom',
       'jquery',
@@ -31,11 +33,16 @@ module.exports = {
       'rc-table',
       'node-forge',
       'viewerjs',
+      'react-bootstrap-date-picker',
       'es6-promise',
+      'react-bootstrap',
+      'prop-types',
       'object-assign',
       'axios',
       'rc-table/assets/index.css',
-      './app/component/table/rc-table.css'
+      './app/component/table/rc-table.css',
+      './static/assets/jquery.mloading-master/src/jquery.mloading.js',
+      './static/assets/jquery.mloading-master/src/jquery.mloading.css'
     ]
   },
 
@@ -53,24 +60,35 @@ module.exports = {
           loader: 'babel-loader'
         }
       }, {
-        test: /\.css$/,
-        use: [
-          'style-loader', {
-            loader: 'css-loader',
-            options: {
-              modules: false,
-              // importLoaders: 1
-            }
-          },
-          'postcss-loader'
-        ]
+        test: /\.less$/,
+        loader: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader']
       }, {
-        test: /\.(jpg|png|gif)$/,
-        use: 'file-loader'
+        test: /\.css$/,
+        use:
+        // ExtractTextPlugin.extract({
+        //   use: ['css-loader', 'postcss-loader'],
+        //   fallback: 'style-loader',
+        // })
+    ['style-loader', 'css-loader', 'postcss-loader']
+        // {
+        //   loader: 'style-loader'
+        // }, {
+        //   loader: 'css-loader',
+        //   options: {
+        //     modules: false
+        //     // importLoaders: 1
+        //   }
+        // }, {
+        //   loader: 'less-loader'
+        // }, {
+        //   loader: 'postcss-loader'
+        // }
+        // ]
       }
     ]
   },
   plugins: [
+    // new ExtractTextPlugin('app.css'),
     ...htmls,
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor', minChunks: Infinity
@@ -80,7 +98,6 @@ module.exports = {
       name: 'runtime'
       // filename: 'runtime.[chunkhash].js'
     }),
-    new ChunkManifestPlugin({filename: "manifest.json", manifestVariable: "webpackManifest", inlineManifest: false}),
     new ExamplePlugin()
   ]
 };

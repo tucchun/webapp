@@ -41,15 +41,14 @@
                 <input type="hidden" name="residentGuradianNo2" value="${residentaudit.residentGuradianNo2 }">
                 <input type="hidden" name="userId" value="${residentaudit.userId }">
                	
-               	<c:if test="${residentaudit.residentResult ne 0}">
                	 <div class="form-group">
                     <div class="col-sm-2 control-label"><span class="required"></span>审核状态:</div>
                     <div class="col-sm-8">
                             <c:if test="${residentaudit.residentResult eq 1}"><font color="red">审核通过</font></c:if>
              				<c:if test="${residentaudit.residentResult eq 2}"><font color="red">审核未通过</font></c:if>
+             				<c:if test="${residentaudit.residentResult eq 0}"><font color="red">待审核</font></c:if>
                     </div>
                 </div>
-               	</c:if>
                	
                 <div class="form-group">
                     <div class="col-sm-2 control-label"><span class="required"></span>姓名:</div>

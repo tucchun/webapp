@@ -1,0 +1,17 @@
+.prod-img{
+  overflow: hidden;
+}
+.prod-img > img{
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+.prod-instr-txt{
+  height: 40px;
+}
+.prod-price{
+  color: red;
+}
+.prod{
+  /*height: 100px;*/
+}

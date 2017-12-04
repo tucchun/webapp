@@ -1,0 +1,17 @@
+.newGoodsData{width:800px;padding:40px 0;}
+.newGoodsData .col-sm-1,.newGoodsData .col-sm-2,
+.newGoodsData .col-sm-3,.newGoodsData .col-sm-4,
+.newGoodsData .col-sm-5,.newGoodsData .col-sm-6,
+.newGoodsData .col-sm-7,.newGoodsData .col-sm-8,
+.newGoodsData .col-sm-9,.newGoodsData .col-sm-10,
+.newGoodsData .col-sm-11,.newGoodsData .col-sm-12,
+.newGoodsData .ke-statusbar{position:static;}
+.p20{padding:20px;}
+.btn-main{margin:0 10px;}
+.uploadImg{display:inline-block;vertical-align:middle;text-align:center;width:40px;height:40px;border:1px solid #e5e5e5;font-size:18px;margin:5px;border-radius:3px;cursor:pointer;}
+.tips{font-size:12px;color:gray;line-height:1.4;display:inline-block;}
+.control-label span{color:#ff0505;}
+.icon.icon-add{width:25px;padding:0;position: absolute;right:25px;top:5px;}
+.form-control-static{min-height:0;}
+.form-group{position:relative;}
+.normalLable{font-weight:normal;}

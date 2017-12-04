@@ -274,10 +274,12 @@ textarea{
     padding:15px 0px;
     text-align:center;
 }
+.react-dialog .modal-footer,
 .modal-alert .modal-footer{
     padding: 15px;
     text-align: right;
 }
+.react-dialog .modal-body,
 .modal-alert .modal-body{
     padding: 15px;
 }

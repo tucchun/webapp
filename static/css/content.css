@@ -47,6 +47,13 @@
     text-align:center;
     margin:30px 0 10px 0;
 }
+.padding-align {
+  padding: 10px 0;
+}
+
+.flex-auto{
+  padding: 20px;
+}
 .hospital table tbody tr td:last-child a{margin:0 5px;}
 .p20,
 .xzqy .tb-wrap,
@@ -412,7 +419,7 @@ label.error {
 #fdItem .modal-body .table.table-bordered>tbody>tr>td{padding:10px 5px;}
 #fdItem .modal-body table td,#fdItem .modal-body .table.table-bordered>tbody>tr>td.table-padding-none{padding:0 5px;}
 #fdSp .modal-dialog form #sp-table tr td:first-child{width:700px;}
-body>div.modal>div.modal-dialog{width:400px;}
+body>div.modal>div.modal-dialog, .react-dialog{width:400px;}
 body>div.modal>div.modal-dialog label{font-weight:normal;padding-left:0;padding-right:0;}
 body>div.modal>div.modal-dialog label.error{text-align:left;}
 #modal_resident .modal-body{height:530px;overflow:auto;}
@@ -424,3 +431,38 @@ body>div.modal>div.modal-dialog label.error{text-align:left;}
 .msgCenter li p:first-child span{float:right;padding-right:30px;}
 .msgCenter li p:first-child{cursor:pointer;}
 .msgCenter li p:last-child{display:none;}
+.modalbody-container{
+  width: 100%!important;
+}
+
+
+.table-align tr > td:nth-child(2n),
+.gird-align.row > div:nth-child(2n),
+{
+  text-align: left;
+}
+.gird-align.row > div:nth-child(2n+1),
+.table-align tr > td:nth-child(2n+1){
+  text-align: right;
+}
+
+.gird-align.row > div:last-child,
+.table-align tr > td:last-child{
+  text-align: left;
+}
+
+.text-center.row > div{
+  text-align: center;
+}
+
+
+.flex-auto .row{
+  padding: 10px 0;
+}
+
+.border-bottom{
+  border-bottom: 1px solid #ccc;
+}
+.price_color{
+  color: red;
+}

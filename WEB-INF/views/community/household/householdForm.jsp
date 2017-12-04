@@ -204,6 +204,13 @@
         
        _self.find('#generateHoseNo').on('click',function(){
     	   if(_self.find('#gen-form').valid()){
+               if(_self.find('#gen-form').find('input[name=gen_startNo]').val() < 100){
+                    if(!(_self.find('#gen-form').find('input[name=gen_floor]').val() == 1
+                        &&_self.find('#gen-form').find('input[name=gen_unit]').val() == 1)){
+                        common.alert('此模式下，楼层数和单元数必须为1');
+                        return false;
+                    }
+               }
 	           new GenerateHouseNo({
 	               target:_self.find('#distristHouse'),
 	               districtName:'${household.headerBuildingName }',
@@ -230,6 +237,7 @@
                $.each(obj_houseNumber,function(idx,ipt){
                     if(!$(ipt).val()){
                         null_flag = false;
+                        return;
                     }
             	   arr_houseNumber.push($(ipt).val());
                });
@@ -240,6 +248,10 @@
                };
                josn_houseNumber.push(obj);
            });
+           if(josn_houseNumber.length){
+                common.alert("门牌号为空");
+                return false;
+           }
            //ajax提交写在这，成功后将数据回填到表格中
            if(!null_flag){
         	   common.alert("门牌号为空");

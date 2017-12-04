@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = Merge(CommonConfig, {
-  devtool: 'cheap-module-source-map',
+  // devtool: 'cheap-module-source-map',
   /*module: {
     rules: [ {
         test: /\.css$/,
@@ -36,7 +36,7 @@ module.exports = Merge(CommonConfig, {
   output: {
     filename: '[name].js',
     chunkFilename: '[name].js',
-    publicPath: './dev/',
+    publicPath: './app/dev/',
     path: path.join(__dirname, './app/dev')
   }
 });

@@ -18,6 +18,7 @@ class V extends React.Component{
             currentPage:ev.currentPage,
             pageCode:ev.pageCode
         })
+        console.log(this.state.currentPage)
     }
 
 

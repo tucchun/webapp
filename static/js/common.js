@@ -1,9 +1,5 @@
 define([
-  "jquery",
-  "js/tab",
-  "js/Util",
-  "js/dialog",
-  "bootstrap"
+  "jquery", "js/tab", "js/Util", "js/dialog", "bootstrap"
 ], function($, tab, Util, Dialog) {
   "use strict";
   var common = {};
@@ -12,31 +8,12 @@ define([
   common.Util = Util;
   common.dialog = '';
 
-  $(document.body).on("keydown", function(e){
-	if(e.keyCode === 13 && e.target.nodeName.toLocaleLowerCase() != 'textarea') {
-	   e.preventDefault()
-	   e.stopPropagation();
-	}
+  $(document.body).on("keydown", function(e) {
+    if (e.keyCode === 13 && e.target.nodeName.toLocaleLowerCase() != 'textarea') {
+      e.preventDefault()
+      e.stopPropagation();
+    }
   });
-
-  // 重写validate的require方法
-  $.validator.methods.required = function( value, element, param ) {
-
-		// Check if dependency is met
-		if ( !this.depend( param, element ) ) {
-			return "dependency-mismatch";
-		}
-		if ( element.nodeName.toLowerCase() === "select" ) {
-
-			// Could be an array for select-multiple or a string, both are fine this way
-			var val = $( element ).val();
-			return val && val.length > 0;
-		}
-		if ( this.checkable( element ) ) {
-			return this.getLength( value, element ) > 0;
-		}
-		return value.trim().length > 0;
-	};
 
   /*
    * 确认弹窗
@@ -49,12 +26,12 @@ define([
     opts = opts || {};
     var dialog = new Dialog({
       content: opts.content || "",
-      buttons: [{
+      buttons: [
+        {
           name: "确认",
           callback: opts.success || function() {},
           clazz: "btn btn-primary"
-        },
-        {
+        }, {
           name: "取消",
           callback: function() {
             this.hide();
@@ -76,13 +53,15 @@ define([
     var dialog = new Dialog({
       content: content,
       callback: callback,
-      buttons: [{
-        name: "确认",
-        callback: function() {
-          this.hide();
-        },
-        clazz: "btn btn-default"
-      }]
+      buttons: [
+        {
+          name: "确认",
+          callback: function() {
+            this.hide();
+          },
+          clazz: "btn btn-default"
+        }
+      ]
     });
     dialog.show(opts);
   };
@@ -91,20 +70,15 @@ define([
     content = content || "";
     tag = tag || '';
     if (!common.dialog) {
-      common.dialog = new Dialog({
-        content: content,
-        callback: callback,
-        buttons: []
-      });
+      common.dialog = new Dialog({content: content, callback: callback, buttons: []});
     }
     if (tag) {
-      common.dialog.show({ backdrop: 'static' })
+      common.dialog.show({backdrop: 'static'})
     } else {
       common.dialog.hide();
       common.dialog = '';
     }
   };
-
 
   // 创建tab
   /**
@@ -127,17 +101,19 @@ define([
    common.createTab(opts)
    */
   common.createTab = function(opts) {
-
+    var uri = opts.uri;
+    if (window.__evn__ === 'dev') {
+      uri = uri && uri.replace(/\/dist\//, '/dev/');
+    }
     common.tab.add({
-      url: './dev/' + opts.uri + '.html',
-      // url: opts.uri,
+      url: uri,
       id: opts.key,
       data: opts.data,
-      fresh: (function(){
-    	  if(typeof opts.fresh === 'undefined'){
-    		  return true;
-    	  }
-    	  return opts.fresh;
+      fresh: (function() {
+        if (typeof opts.fresh === 'undefined') {
+          return true;
+        }
+        return opts.fresh;
       })(),
       callback: opts.callback || function() {
         // console.log(+new Date(), opts.key, opts.data.name, "标签页成功打开")
@@ -173,10 +149,9 @@ define([
         //Close the menu
         checkElement.slideUp(animationSpeed, function() {
           parent.removeClass('menu-open');
-        });
-      }
-      //If the menu is not visible
-      else if ((checkElement.is('.treeview-menu')) && (!checkElement.is(':visible'))) {
+        } //If the menu is not visible
+        );
+      } else if ((checkElement.is('.treeview-menu')) && (!checkElement.is(':visible'))) {
         //Open the target menu and add the menu-open class
         checkElement.slideDown(animationSpeed);
         parent.addClass('menu-open');
@@ -202,7 +177,6 @@ define([
     });
   };
 
-
   /**
    * 加载页面
    * @param opts
@@ -220,30 +194,30 @@ define([
       data: opts.data,
       type: 'GET',
       dataType: 'html',
-      success: function(html){
+      success: function(html) {
         $("#" + container).html(html);
-        if(typeof opts.callback === 'function')
-        opts.callback();
-      },
-      error: function(){
+        if (typeof opts.callback === 'function')
+          opts.callback();
+        }
+      ,
+      error: function() {
         common.alert("网络错误");
       }
     });
     // $("#" + container).load(opts.url, opts.data, opts.callback);
   };
 
-  common.download = function(opts){
-		var url = opts.url;
-	    var type = opts.type || "get";
-		common.fetch({
-	    	url: url,
-	        type: type,
-	        success: function() {
-	            window.location = url;
-	        }
-	    });
-	};
-
+  common.download = function(opts) {
+    var url = opts.url;
+    var type = opts.type || "get";
+    common.fetch({
+      url: url,
+      type: type,
+      success: function() {
+        window.location = url;
+      }
+    });
+  };
 
   /**
    * 重新加载

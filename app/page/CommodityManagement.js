@@ -216,7 +216,7 @@ class CommodityManagement extends Component {
                 <option value="1">上架</option>
               </FormControl>
             </FormGroup>
-            
+
             <FormGroup>
               <ControlLabel>商品分类</ControlLabel>
               <br/>

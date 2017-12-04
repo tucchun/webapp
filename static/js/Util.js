@@ -25,14 +25,14 @@
   }
 
   // 页面js错误
-  window.onerror = function(msg, url, line) {
-    try {
-      throw new Error('[msg:' + msg + ',url:' + url + ',line:' + line + ']');
-    } catch (error) {
-      console.log('页面JS错误\n' + error.stack);
-    }
-    return false;
-  };
+  // window.onerror = function(msg, url, line) {
+  //   try {
+  //     throw new Error('[msg:' + msg + ',url:' + url + ',line:' + line + ']');
+  //   } catch (error) {
+  //     console.log('页面JS错误\n' + error.stack);
+  //   }
+  //   return false;
+  // };
 
   Util._param = {};
   Util.cvt = function(num) {
@@ -74,7 +74,7 @@
     }
     return ch;
   };
-  Util.param = function(name, data, ctx) {
+  Util.data = function(name, data, ctx) {
     ctx = ctx || Util._param;
     if (data) {
       ctx[name] = data;
@@ -117,9 +117,9 @@
     });
     var deferred = {};
     if (opts.url.indexOf("?") > 0) {
-      opts.url += ('&_=' + +new Date());
+      opts.url += ('&ver=' + +new Date());
     } else {
-      opts.url += ('?_=' + +new Date());
+      opts.url += ('?ver=' + +new Date());
     }
     console.log('===============请求接口开始===============\n');
     console.log('请求接口：' + opts.url + '\n');
