@@ -1,17 +1,22 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import moment from 'moment';
+import {LocaleProvider} from 'antd';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
 // import _ from 'lodash';
 import Gird from '../../component/table/Table';
 import Container from '../../component/container/Container';
 import Condition from '../../component/condition/Condition';
 import PageNation from '../../component/pageNation/pageNation';
-import {alert, createTab} from '../../lib/Util';
+import {alert, createTab, formatDateTime, payType, downloadExcel} from '../../lib/Util';
 import ConditionForm from './ConditionForm';
 // import {logger} from '../../lib/logger';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 import DB from './DB';
 
 let common = window.common;
-class CommodityManagement extends Component {
+class OrderList extends Component {
 
   constructor(props) {
     super(props);
@@ -48,32 +53,29 @@ class CommodityManagement extends Component {
         key: 'create_date',
         dataIndex: 'create_date',
         render: (value, row) => {
-          return common.Util.formatDate(row.create_date);
+          return formatDateTime(row.create_date);
         }
       }, {
         title: '订单金额',
         key: 'order_amount',
-        dataIndex: 'order_amount'
+        dataIndex: 'order_amount',
+        render: (value, row) => {
+          return (value || 0).toFixed(2);
+        }
       }, {
         title: '支付方式',
         key: 'pay_type',
         dataIndex: 'pay_type',
         render: (value, row) => {
-          if (row.pay_type === 1) {
-            return '微信';
-          }
-          if (row.pay_type === 2) {
-            return '支付宝';
-          }
-          if (row.pay_type === 3) {
-            return '专干端扫码支付, 未支付时不返回';
-          }
-          return ' ';
+          return payType(row.pay_type);
         }
       }, {
         title: '实付金额',
         key: 'pay_amount',
-        dataIndex: 'pay_amount'
+        dataIndex: 'pay_amount',
+        render: (value, row) => {
+          return (value || 0).toFixed(2);
+        }
       }, {
         title: '商品数量',
         key: 'prod_num',
@@ -116,12 +118,15 @@ class CommodityManagement extends Component {
     // this.handleSubmit = this.handleSubmit.bind(this);
     this.handleGetPage = this.handleGetPage.bind(this);
     this.showInfo = this.showInfo.bind(this);
+    this.handleExport = this.handleExport.bind(this);
 
     this.handleIndexSearch = this.handleIndexSearch.bind(this);
     this.handleIndexCreateStart = this.handleIndexCreateStart.bind(this);
     this.handleIndexCreateEnd = this.handleIndexCreateEnd.bind(this);
     this.handleIndexSelectChange = this.handleIndexSelectChange.bind(this);
     this.handleIndexInputChange = this.handleIndexInputChange.bind(this);
+    this.handleIndexDisabledStartDate = this.handleIndexDisabledStartDate.bind(this);
+    this.handleIndexDisabledEndDate = this.handleIndexDisabledEndDate.bind(this);
     this.state = {
       indexViewData: {
         girdData: [],
@@ -136,14 +141,18 @@ class CommodityManagement extends Component {
           create_start: null,
           create_end: null,
           begin: 0,
-          count: 5
+          count: 20
         }
       }
     };
   }
 
-
-
+  handleExport() {
+    const search_data = this.state.indexViewData.search_data;
+    DB.exportData(search_data).then(result => {
+      downloadExcel(result, '订单管理');
+    });
+  }
 
   // 显示商品详情
   showInfo(e, data) {
@@ -162,24 +171,6 @@ class CommodityManagement extends Component {
   }
 
   render() {
-    /*
-    indexViewData: {
-      girdData: [],
-      pageNumber: 1,
-      total: 0,
-      currentPage: 1,
-      search_data: {
-        order_no: '',
-        receipt_name: '',
-        receipt_contact: '',
-        pay_type: 0,
-        create_start: 0,
-        create_end: 0,
-        begin: 0,
-        count: 5,
-      }
-    }
-    */
 
     const indexViewData = this.state.indexViewData;
     const conViewData = {
@@ -193,15 +184,22 @@ class CommodityManagement extends Component {
       handleCreateStart: this.handleIndexCreateStart,
       handleCreateEnd: this.handleIndexCreateEnd,
       handleSelectChange: this.handleIndexSelectChange,
-      handleInputChange: this.handleIndexInputChange
+      handleInputChange: this.handleIndexInputChange,
+      disabledStartDate: this.handleIndexDisabledStartDate,
+      disabledEndDate: this.handleIndexDisabledEndDate
     };
     return (
       <Container className='p20' title={'订单管理'}>
         <Condition>
-          <ConditionForm {...conViewData}/>
+          <div className='pull-left'>
+            <ConditionForm {...conViewData}/>
+          </div>
+          <div className='pull-right'>
+            <button className='btn btn-main' onClick={this.handleExport}>导出</button>
+          </div>
         </Condition>
         <Gird rowKey='order_id' columns={this.columns} data={indexViewData.girdData}/>
-        <PageNation getPage={this.handleGetPage} currentPage={indexViewData.currentPage} pageNumber={indexViewData.pageNumber}/>
+        <PageNation pageCount={indexViewData.total} getPage={this.handleGetPage} currentPage={indexViewData.currentPage} pageNumber={indexViewData.pageNumber}/>
       </Container>
     );
   }
@@ -215,7 +213,7 @@ class CommodityManagement extends Component {
     };
 
     DB.shopOrderList(search_data).then((result) => {
-      let pageNumber = Math.ceil(result.total / search_data.count);
+      let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.setState({
         indexViewData: {
           ...indexViewData,
@@ -234,9 +232,12 @@ class CommodityManagement extends Component {
   handleIndexSearch() {
     // const condition = this.state.indexViewData.search_data;
     const indexViewData = this.state.indexViewData;
-    const search_data = indexViewData.search_data;
+    const search_data = {
+      ...indexViewData.search_data,
+      begin: 0
+    };
     DB.shopOrderList(search_data).then((result) => {
-      let pageNumber = Math.ceil(result.total / search_data.count);
+      let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.setState({
         indexViewData: {
           ...indexViewData,
@@ -244,10 +245,7 @@ class CommodityManagement extends Component {
           total: result.total,
           pageNumber,
           currentPage: 1,
-          search_data: {
-            ...search_data,
-            begin: 0
-          }
+          search_data
         }
       });
     }).catch(err => {
@@ -255,7 +253,6 @@ class CommodityManagement extends Component {
     });
   }
   handleIndexCreateStart(value, formattedValue) {
-    debugger;
     this.setState({
       indexViewData: {
         ...this.state.indexViewData,
@@ -267,7 +264,6 @@ class CommodityManagement extends Component {
     });
   }
   handleIndexCreateEnd(value, formattedValue) {
-    debugger;
     this.setState({
       indexViewData: {
         ...this.state.indexViewData,
@@ -300,5 +296,22 @@ class CommodityManagement extends Component {
       }
     });
   }
+  //  create_start: null,
+  //  create_end: null,
+  handleIndexDisabledStartDate(startValue) {
+    const endValue = this.state.indexViewData.search_data.create_end;
+    if (!startValue || !endValue) {
+      return false;
+    }
+    return startValue.valueOf() > endValue.valueOf();
+  }
+  handleIndexDisabledEndDate(endValue) {
+    const startValue = this.state.indexViewData.search_data.create_start;
+    if (!endValue || !startValue) {
+      return false;
+    }
+    return endValue.valueOf() <= startValue.valueOf();
+  }
 }
-ReactDOM.render(< CommodityManagement />, document.getElementById('__shopOrder/List__'));
+ReactDOM.render(
+  <LocaleProvider locale={zh_CN}>< OrderList/></LocaleProvider>, document.getElementById('__shopOrder/List__'));

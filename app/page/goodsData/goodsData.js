@@ -4,7 +4,7 @@ import Container from '../../component/container/Container';
 import Condition from '../../component/condition/Condition';
 import Grid from '../../component/table/Table';
 import http from '../../lib/Api/http';
-import {alert,downloadExcel,createTab} from '../../lib/Util';
+import {alert,downloadExcel,createTab,confirm} from '../../lib/Util';
 import PageNation from '../../component/pageNation/pageNation';
 import ApiMap from '../../lib/Api/ApiMap';
 import QueryForm from './queryForm';
@@ -17,7 +17,8 @@ class GoodsData extends React.Component{
             pageNumber:1,
             pageCode:1,
             currentPage:1,
-            count:10,
+            pageCount:0,
+            count:20,
             gridData : [],
             cats:[],
             crowds:[],
@@ -98,7 +99,7 @@ class GoodsData extends React.Component{
                 width:74,
                 align:'center',
                 render(value){
-                    return value.prod_in_sale ? <span className="onSale">在售</span> : <span className="stopSale">停售</span>
+                    return value.prod_in_sale === 1 ? <span className="onSale">在售</span> : <span className="stopSale">停售</span>
                 }
 
             },
@@ -108,7 +109,7 @@ class GoodsData extends React.Component{
                 width:74,
                 align:'center',
                 render(value){
-                    return value.prod_allow_sale ? <span className="onSale">可售</span> : <span className="stopSale">不可售</span>
+                    return value.prod_allow_sale === 1 ? <span className="onSale">可售</span> : <span className="stopSale">不可售</span>
                 }
 
             },
@@ -118,7 +119,7 @@ class GoodsData extends React.Component{
                 width:74,
                 align:'center',
                 render(value){
-                    return value.prod_display ? <span className="onSale">显示</span> : <span className="stopSale">不显示</span>
+                    return value.prod_display === 1 ? <span className="onSale">是</span> : <span className="stopSale">否</span>
                 }
 
             },
@@ -140,7 +141,7 @@ class GoodsData extends React.Component{
                                     GoodsData.newTab('detail',value.prod_id);
                                 }
                             }>详情</a>
-                            <a href="#" onClick={
+                            <a href="#" className="stopSale" onClick={
                                 ()=>{
                                     that.delGoods(value)
                                 }
@@ -218,9 +219,9 @@ class GoodsData extends React.Component{
         }).then(response => {
             let data = response.data,pageNumber = 0,currentPage = condition.currentPage || 1,gridData = [];
             if(data.ret_code === 1){
-                pageNumber = Math.ceil(data.ret_data.total/10);
+                pageNumber = Math.ceil(data.ret_data.total/this.state.count);
                 gridData = data.ret_data.prod_list;
-                this.setState({pageNumber,gridData})
+                this.setState({pageNumber,gridData,pageCount:data.ret_data.total})
             }
         }).catch(err => {
             console.log(err);
@@ -261,30 +262,31 @@ class GoodsData extends React.Component{
 
     //删除商品资料
     delGoods(value){
-        console.log(value);
-        http({
-            ...ApiMap.goodsDelete,
-            data:{
-                ...ApiMap.commonData,
-                prod_id:value.prod_id
-            }
-        }).then(response=>{
-            let delData = response.data;
-            if(delData.ret_code === 1){
-                const data = this.refs.QueryFrom.getData();
-                this.submitHandle({
-                    begin: 0,
-                    count:this.state.count,
-                    ...data
-                });
-                this.setState({currentPage:1});
-                alert('删除成功');
-            }else{
-                alert(delData.ret_msg);
-            }
-        }).catch(err=>{
-            console(err);
-        })
+        confirm('是否删除该商品？',()=>{
+            http({
+                ...ApiMap.goodsDelete,
+                data:{
+                    ...ApiMap.commonData,
+                    prod_id:value.prod_id
+                }
+            }).then(response=>{
+                let delData = response.data;
+                if(delData.ret_code === 1){
+                    const data = this.refs.QueryFrom.getData();
+                    this.submitHandle({
+                        begin: 0,
+                        count:this.state.count,
+                        ...data
+                    });
+                    this.setState({currentPage:1});
+                    alert('删除成功');
+                }else{
+                    alert(delData.ret_msg);
+                }
+            }).catch(err=>{
+                console(err);
+            })
+        });
     }
 
     //导出商品资料
@@ -301,7 +303,7 @@ class GoodsData extends React.Component{
             }
         }).then(response=>{
             console.log(response);
-            downloadExcel(response,'商品资料')
+            downloadExcel(response.data,'商品资料')
         }).catch(err=>{
             console.log(err);
         });
@@ -341,7 +343,8 @@ class GoodsData extends React.Component{
                         </div>
                     </Condition>
                     <Grid rowKey="prod_id" columns={this.columns} data={this.state.gridData}/>
-                    <PageNation getPage={this.getPage} pageNumber={this.state.pageNumber} currentPage={this.state.currentPage}/>
+                    <PageNation pageCount={this.state.pageCount} getPage={this.getPage}
+                                pageNumber={this.state.pageNumber} currentPage={this.state.currentPage}/>
                 </div>
             </Container>
         );

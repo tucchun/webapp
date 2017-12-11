@@ -4,14 +4,11 @@ import _ from 'lodash';
 import Container from '../../component/container/Container';
 import Prod from '../prod/Prod';
 import DB from './DB';
-import {alert} from '../../lib/Util';
+import {alert, formatDateTime, amount_format} from '../../lib/Util';
 // import logger from '../../lib/logger';
-import {
-  Row,
-  ControlLabel,
-  Col
-} from 'react-bootstrap';
+import {Row, ControlLabel, Col} from 'react-bootstrap';
 import './style.css';
+const math = require('mathjs');
 const common = window.common;
 class GuestorderInfo extends Component {
   constructor(props) {
@@ -21,11 +18,9 @@ class GuestorderInfo extends Component {
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const data = common.Util.data('guestorder/Info');
-    DB.shopGuestorder({
-      guest_order_id: data.guest_order_id
-    }).then(result => {
+    DB.shopGuestorder({guest_order_id: data.guest_order_id}).then(result => {
       const ret_data = result;
       this.setState({
         ...ret_data
@@ -55,7 +50,7 @@ class GuestorderInfo extends Component {
             提交时间
           </Col>
           <Col sm={4}>
-            {common.Util.formatDate(data.create_date)}
+            {formatDateTime(data.create_date)}
           </Col>
         </Row>
         <Row className='gird-align'>
@@ -111,7 +106,7 @@ class GuestorderInfo extends Component {
             操作时间
           </Col>
           <Col sm={4}>
-            {common.Util.formatDate(data.assign_date)}
+            {formatDateTime(data.assign_date)}
           </Col>
         </Row>
         <Row className='border-bottom gird-align'>
@@ -130,27 +125,26 @@ class GuestorderInfo extends Component {
             金额
           </Col>
         </Row>
-        {
-          data.prod_list.map(prod => {
-            const prod_imgs = prod.prod_imgs || [];
-            const prod_imgs_src = prod_imgs.length > 0
-              ? prod_imgs[0]
-              : undefined;
-            return (
-              <Row key={prod.prod_id} className='border-bottom'>
-                <Col sm={4}>
-                  <Prod prod_imgs_src={prod_imgs_src} prod_price={prod.prod_price} prod_name={prod.prod_name}/>
-                </Col>
-                <Col sm={4} className='guestorder-prod text-center'>
-                  {'x'}{prod.prod_num}
-                </Col>
-                <Col sm={4} className='guestorder-prod text-center'>
-                  {'¥'}<span className='price_color'>{prod.prod_price}</span>
-                </Col>
-              </Row>
-            );
-          })
-        }
+        {data.prod_list.map(prod => {
+          const prod_imgs = prod.prod_imgs || [];
+          const prod_imgs_src = prod_imgs.length > 0
+            ? prod_imgs[0]
+            : undefined;
+          return (
+            <Row key={prod.prod_id} className='border-bottom'>
+              <Col sm={4}>
+                <Prod prod_imgs_src={prod_imgs_src} prod_price={amount_format(prod.prod_price)} prod_name={prod.prod_name}/>
+              </Col>
+              <Col sm={4} className='guestorder-prod text-center'>
+                {'x'}{prod.prod_num}
+              </Col>
+              <Col sm={4} className='guestorder-prod text-center'>
+                {'¥'}<span className='price_color'>{amount_format(math.eval(prod.prod_num + '*' + prod.prod_price))}</span>
+              </Col>
+            </Row>
+          );
+        })
+}
         <Row className='text-center'>
           <Col sm={4}></Col>
           <Col sm={4}>
@@ -163,7 +157,7 @@ class GuestorderInfo extends Component {
           </Col>
           <Col sm={4}>
             {'合计¥'}<span className="price_color">{_.reduce(_.map(data.prod_list, (prod) => {
-                return prod.prod_price;
+                return amount_format(math.eval(prod.prod_num + '*' + prod.prod_price));
               }), (sum, item) => {
                 return sum + item;
               })}</span>

@@ -52,7 +52,7 @@
                         <td>${record.measureNumBTMaster}次</td>
                         <td>${record.station}</td>
                         <td>${record.healthManagerMan}</td>
-                        <td><fmt:formatDate value="${record.user.createDate}" pattern="yyyy-MM-dd" /></td>
+                        <td>${record.startTime}</td>
                         <td>${record.overTime}</td>
                     </tr>
                 </c:forEach>

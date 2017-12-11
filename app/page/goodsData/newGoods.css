@@ -1,4 +1,4 @@
-.newGoodsData{width:800px;padding:40px 0;}
+.newGoodsData{padding:40px 0;width:1200px;}
 .newGoodsData .col-sm-1,.newGoodsData .col-sm-2,
 .newGoodsData .col-sm-3,.newGoodsData .col-sm-4,
 .newGoodsData .col-sm-5,.newGoodsData .col-sm-6,
@@ -15,3 +15,5 @@
 .form-control-static{min-height:0;}
 .form-group{position:relative;}
 .normalLable{font-weight:normal;}
+.modal-dialog input[type=checkbox], .modal-dialog input[type=radio]{position: static !important;}
+.checkbox-inline:first-child, .radio-inline:first-child{margin-left:10px;}

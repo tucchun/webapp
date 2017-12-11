@@ -466,3 +466,8 @@ body>div.modal>div.modal-dialog label.error{text-align:left;}
 .price_color{
   color: red;
 }
+.form-control.input-value{
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+}

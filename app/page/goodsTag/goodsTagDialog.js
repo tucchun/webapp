@@ -39,10 +39,36 @@ class GoodsTagDialog extends React.Component{
                 arr[v.name] = v.value;
                 v.value ? vState[v.name] = null : vState[v.name] = 'error';
                 flg = flg && v.value;
+                if(v.value.length > 20){
+                    alert('标签名不能超过20个字符');
+                    flg = false;
+                }
             }
         }
         this.setState({vState});
         return {arr,flg};
+    }
+
+    getButton(dType){
+        let lgClose = () => this.setState({ lgShow: false }),
+            con = this.getDContent(dType);
+        const NEW = 'new',UPDATE = 'update',DEL = 'del',DETAIL = 'detail';
+        const button =
+            <Modal.Footer>
+                <Button onClick={lgClose}>取消</Button>
+                <Button onClick={  con.confirmFun } bsStyle="primary">确定</Button>
+            </Modal.Footer>;
+        switch (dType){
+            case NEW:
+            case UPDATE:
+            case DEL:
+            default:
+                return button;
+                break;
+            case DETAIL:
+                return '';
+                break;
+        }
     }
 
     getDContent(dType){
@@ -63,8 +89,10 @@ class GoodsTagDialog extends React.Component{
                          }).then(response=>{
                              if(response.data.ret_code === 1){
                                  this.setState({lgShow:false});
-                                 alert('新增成功');
                                  this.updateState();
+                                 alert('新增成功');
+                             }else{
+                                 alert(response.data.ret_msg);
                              }
                          }).catch(err=>{
                              console.log(err);
@@ -88,24 +116,28 @@ class GoodsTagDialog extends React.Component{
                 confirmFun = () => {
                     //请求修改接口；校验修改数据；
                     let ck = this.checkForm();
-                    let data = {
-                        ...ApiMap.commonData,
-                        tag_id:this.state.defaultValue.tag_id,
-                        tag_text:ck.arr.tag_text
-                    };
-                    http({
-                        ...ApiMap.goodsTagUpdate,
-                        data
-                    }).then(response => {
-                        if(response.data){
-                            this.setState({lgShow:false});
-                            alert(response.data.ret_msg);
-                            this.updateState();
-                        }
-                    }).catch(err => {
-                        console.log(err)
-                    });
-                    this.setState({ lgShow:false });
+                    if(ck.flg){
+                        let data = {
+                            ...ApiMap.commonData,
+                            tag_id:this.state.defaultValue.tag_id,
+                            tag_text:ck.arr.tag_text
+                        };
+                        http({
+                            ...ApiMap.goodsTagUpdate,
+                            data
+                        }).then(response => {
+                            if(response.data.ret_code === 1){
+                                this.setState({lgShow:false});
+                                this.updateState();
+                                alert('修改成功');
+                                this.setState({ lgShow:false });
+                            }else{
+                                alert(response.data.ret_msg);
+                            }
+                        }).catch(err => {
+                            console.log(err)
+                        });
+                    }
                 };
                 content =
                     <Form id="newGoodsTag" horizontal>
@@ -186,10 +218,7 @@ class GoodsTagDialog extends React.Component{
                 <Modal.Body>
                     {con.content}
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={lgClose}>取消</Button>
-                    <Button onClick={  con.confirmFun } bsStyle="primary">确定</Button>
-                </Modal.Footer>
+                {this.getButton(this.state.dType)}
             </Modal>
         );
     }

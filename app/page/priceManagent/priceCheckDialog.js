@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
 import { Modal,Form,FormGroup,ControlLabel,FormControl,Col,Button} from 'react-bootstrap';
+import {alert} from '../../lib/Util';
 import PropTypes from 'prop-types';
 
 class PriceCheckDialog extends Component{
@@ -37,6 +38,10 @@ class PriceCheckDialog extends Component{
     }
 
     getMemo(){
+        if(this.textarea.value.length > 100){
+            alert('备注不能超过100个字符');
+            return false;
+        }
         this.props.confim({
             ...this.state.adjectInfo,
             audit_memo:this.textarea.value,

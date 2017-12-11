@@ -9,7 +9,7 @@ import Gird from '../../component/table/Table';
 import PageNation from '../../component/pageNation/pageNation';
 import http from '../../lib/Api/http';
 import ApiMap from '../../lib/Api/ApiMap';
-// import {setInitDate, getTimestamp, downloadExcel} from '../../lib/Util';
+import {formatDateTime, common} from '../../lib/Util';
 import './style.css';
 import { fail } from 'assert';
 
@@ -23,12 +23,13 @@ class AddrAdmin extends Component {
             showHealthManagerModal: false,
             showAddrModifyModal: false,
             showComfirmModifyModal: false,
+            total: 0,
             pageNum: 0,
             currentPage: 1,
             beginNum: 0,
             pageCount: 10,
             allHecadreList: [],
-            queryHecadreList: [8000000005],
+            queryHecadreList: [],
             hasResident: 0,
             tableData: []
         };
@@ -208,7 +209,7 @@ class AddrAdmin extends Component {
 
     // 获取地址列表
     getAddrList() {
-        const {pageCount, beginNum, hasResident, queryHecadreList} = this.state;
+        const {pageCount, beginNum, hasResident, queryHecadreList, total} = this.state;
         var parms = {
             ...ApiMap.commonData,
             hecadre_list: queryHecadreList,
@@ -224,16 +225,18 @@ class AddrAdmin extends Component {
         http({
             url: ApiMap.stationNongridList.url,
             method: ApiMap.stationNongridList.method,
-            data: JSON.stringify(parms)
+            data: parms
         })
         .then((res) => {
             if (res.data.ret_code === 1) {
                 const resData = res.data.ret_data;
                 this.setState({
                     pageNum: Math.ceil(resData.total / pageCount),
+                    total: resData.total,
                     tableData: resData.nongrid_list.map(function (item, index) {
                         item.nongrid_owner = item.nongrid_owner.hecadre_name;
                         item.nongrid_creator = item.nongrid_creator.hecadre_name;
+                        item.create_date = formatDateTime(item.create_date);
                         item.isChecked = false;
                         item.key = index;
                         return item;
@@ -257,7 +260,7 @@ class AddrAdmin extends Component {
         http({
             url: ApiMap.stationHecadreListbyperm.url,
             method: ApiMap.stationHecadreListbyperm.method,
-            data: JSON.stringify(parms)
+            data: parms
         })
         .then((res) => {
             if (res.data.ret_code === 1) {
@@ -275,15 +278,20 @@ class AddrAdmin extends Component {
     
     // 点击查询
     handleClickSearch() {
-        this.setState({
-            currentPage: 1,
-        }, () => {
+        if (this.state.queryHecadreList.length === 0) {
+            common.alert('请选择管辖者');
+            return;
+        } else {
             this.setState({
-                beginNum: (this.state.currentPage - 1) * this.state.pageCount
+                currentPage: 1,
             }, () => {
-                this.getAddrList();
+                this.setState({
+                    beginNum: (this.state.currentPage - 1) * this.state.pageCount
+                }, () => {
+                    this.getAddrList();
+                });
             });
-        });
+        }
     }
 
     handleTogglePage(ev) {
@@ -322,7 +330,7 @@ class AddrAdmin extends Component {
     }
 
     render() {
-        const {pageNum, currentPage, tableData, showHealthManagerModal, showAddrModifyModal, showComfirmModifyModal, needModifyItem, allHecadreList} = this.state;
+        const {pageNum, currentPage, tableData, showHealthManagerModal, showAddrModifyModal, showComfirmModifyModal, needModifyItem, allHecadreList, total} = this.state;
         const columns = this.columns;
         return (
             <div className="wrap hospital">
@@ -346,11 +354,12 @@ class AddrAdmin extends Component {
                                 data={tableData}
                             />
                         </div>
-                        <PageNation
+                        {tableData.length !== 0 ? <PageNation
+                            pageCount={total}
                             pageNumber={pageNum}
                             currentPage={currentPage}
                             getPage={this.handleTogglePage}
-                        />
+                        /> : null}
                     </div>
                 </div>
                 <HealthManagerModal

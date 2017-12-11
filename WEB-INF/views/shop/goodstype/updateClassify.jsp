@@ -168,12 +168,22 @@
 		
 		
 		_self.find('#form_classify').validate({
-	        rules:{
-	        	parentname:"required"
-	            },
-	       	messages: {   
-	        		parentname:"请输入一级分类名称"  
-	            } 
-	        });
-	})
+			rules:{
+			parentname:{
+				required:true,
+					maxlength:20
+				},
+				name:{
+					maxlength:20
+				}
+			},
+			messages: {
+				parentname:{
+					maxlength:"分类名称超出20个字符"
+				},
+				name:{
+					maxlength:"分类名称超出20个字符"
+				}
+			}
+		})});
 </script>

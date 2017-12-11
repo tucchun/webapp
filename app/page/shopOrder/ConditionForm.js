@@ -4,7 +4,12 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 // import {logger} from '../../lib/logger';
 import {Form, FormGroup, ControlLabel, Button, FormControl} from 'react-bootstrap';
+import {payTypeMap} from '../../lib/Util';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 import './conditionStyle.css';
+
+
 
 class ConditionForm extends Component {
 
@@ -15,6 +20,16 @@ class ConditionForm extends Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleCreateStart = this.handleCreateStart.bind(this);
     this.handleCreateEnd = this.handleCreateEnd.bind(this);
+    this.disabledStartDate = this.disabledStartDate.bind(this);
+    this.disabledEndDate = this.disabledEndDate.bind(this);
+  }
+
+  disabledStartDate(startValue){
+    this.props.disabledStartDate(startValue);
+  }
+
+  disabledEndDate(startValue){
+    this.props.disabledEndDate(startValue);
   }
 
   doSearch() {
@@ -39,12 +54,11 @@ class ConditionForm extends Component {
   handleInputChange(event) {
     const target = event.target;
     const name = target.name;
-    const value = target.value;
+    const value = target.value.trim();
     this.props.handleSelectChange({[name]: value});
   }
 
   render() {
-    debugger;
     const create_start = this.props.create_start && moment(this.props.create_start);
     const create_end = this.props.create_end && moment(this.props.create_end);
     return (
@@ -71,8 +85,20 @@ class ConditionForm extends Component {
         <FormGroup>
           <ControlLabel>订单时间</ControlLabel>
           {' '}
-          <DatePicker name='create_start' onChange={this.handleCreateStart} value={create_start} dateFormat='YYYY/MM/DD'/> {'-'}
-          <DatePicker name='create_end' onChange={this.handleCreateEnd} value={create_end} dateFormat='YYYY/MM/DD'/>
+          <DatePicker
+            name='create_start'
+            showTime={true}
+            onChange={this.handleCreateStart}
+            value={create_start}
+            // disabledDate={this.disabledStartDate}
+            format='YYYY-MM-DD HH:mm:ss'/>{'-'}
+          <DatePicker
+            name='create_end'
+            showTime={true}
+            // disabledDate={this.disabledEndDate}
+            onChange={this.handleCreateEnd}
+            value={create_end}
+            format='YYYY-MM-DD HH:mm:ss'/>
         </FormGroup>
         {' '}
         <FormGroup controlId="receipt_name">
@@ -92,9 +118,9 @@ class ConditionForm extends Component {
           {' '}
           <FormControl className='shopOrderSelectwidth' componentClass="select" value={this.props.pay_type} onChange={this.handleSelectChange} name='pay_type' placeholder="状态">
             <option>请选择</option>
-            <option value={1}>微信</option>
-            <option value={2}>支付宝</option>
-            <option value={3}>专干端扫码支付, 未支付时不返回</option>
+            <option value={1}>{payTypeMap[1]}</option>
+            <option value={2}>{payTypeMap[2]}</option>
+            <option value={3}>{payTypeMap[3]}</option>
           </FormControl>
         </FormGroup>
         {' '}
@@ -116,6 +142,8 @@ ConditionForm.propTypes = {
   handleCreateStart: PropTypes.func.isRequired,
   handleCreateEnd: PropTypes.func.isRequired,
   handleSelectChange: PropTypes.func.isRequired,
-  handleInputChange: PropTypes.func.isRequired
+  handleInputChange: PropTypes.func.isRequired,
+  disabledStartDate: PropTypes.func.isRequired,
+  disabledEndDate: PropTypes.func.isRequired
 };
 export default ConditionForm;

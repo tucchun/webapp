@@ -8,20 +8,33 @@ class PageNation extends React.Component{
         super(props);
         this.state = props;
     }
+    getPageNumber(ev){
+        let pageNumber = parseInt(ev.target.value);
+        this.setState({
+            pageNumber
+        });
+    }
+    goPage(ev){
+        ev.preventDefault();
+        this.props.getPage({
+            pageCode : this.state.pageNumber,
+            currentPage : this.state.pageNumber
+        });
+    }
     getLinkList(){
         let list = [
             <Link key="firstpage" pageArgument={
                 {
                     page:'首页',
                     pageCode:1,
-                    currentPage:this.props.currentPage
+                    currentPage:parseInt(this.props.currentPage)
                 }
             } onLink={ev => this.props.getPage(ev)} />,
             <Link key="prePage" pageArgument={
                 {
                     page:'上一页',
                     pageCode:this.props.currentPage - 1 === 0 ? 1 : this.props.currentPage - 1,
-                    currentPage:this.props.currentPage
+                    currentPage:parseInt(this.props.currentPage)
                 }
             } onLink={ev => this.props.getPage(ev)} />
         ];
@@ -31,7 +44,7 @@ class PageNation extends React.Component{
                     {
                         page:(i+1).toString(),
                         pageCode:i+1,
-                        currentPage:this.props.currentPage
+                        currentPage:parseInt(this.props.currentPage)
                     }
                 } onLink={ev => this.props.getPage(ev)} />
             );
@@ -51,16 +64,23 @@ class PageNation extends React.Component{
                     pageCode:this.props.pageNumber,
                     currentPage:this.props.currentPage
                 }
-            } onLink={ev => this.props.getPage(ev)} />
+            } onLink={ev => this.props.getPage(ev)} />,
+            <span key='msg'>{'共 '+this.props.pageCount+' 条'+' '+this.props.pageNumber+' 页'}</span>,
+            <span key={'info'}>到第</span>,
+            <input key={'input'} type="text" className="pageInput" onChange={
+                ev => this.getPageNumber(ev)
+            }/>,
+            <span key={'pages'}>页</span>,
+            <a key={'confirm'} href="#" className="btn-main" onClick={
+                ev => this.goPage(ev)
+            }>确定</a>
         ];
         return list;
     }
     render(){
-        let style = {clear:'both'};
         return (
-            <div className="pd20">
+            <div className="pd20 clearfix">
                 <div className="pageNation">{this.getLinkList()}</div>
-                <div style={style}>{''}</div>
             </div>
         );
     }
@@ -68,7 +88,8 @@ class PageNation extends React.Component{
 
 PageNation.propTypes={
     getPage:PropTypes.func.isRequired,//回调函数，用来获取数据
-    pageNumber:PropTypes.number.isRequired,
-    currentPage:PropTypes.number.isRequired
+    pageNumber:PropTypes.number.isRequired,//总页数
+    currentPage:PropTypes.number.isRequired,//当前页数
+    pageCount:PropTypes.number.isRequired//总条数
 };
 export default PageNation;

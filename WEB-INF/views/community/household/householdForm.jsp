@@ -204,13 +204,20 @@
         
        _self.find('#generateHoseNo').on('click',function(){
     	   if(_self.find('#gen-form').valid()){
-               if(_self.find('#gen-form').find('input[name=gen_startNo]').val() < 100){
+               if(_self.find('#gen-form').find('input[name=gen_startNo]').val() < 10){
                     if(!(_self.find('#gen-form').find('input[name=gen_floor]').val() == 1
                         &&_self.find('#gen-form').find('input[name=gen_unit]').val() == 1)){
-                        common.alert('此模式下，楼层数和单元数必须为1');
+                        common.alert('起始编号为单数字的情况，楼层数和单元数须为1');
                         return false;
                     }
                }
+                if(_self.find('#gen-form').find('input[name=gen_floor]').val() == 1 && (_self.find('#gen-form').find('input[name=gen_unit]').val() == 1||_self.find('#gen-form').find('input[name=gen_unit]').val()=='')){
+                    var regd = /^\d+$/g;
+                    if(!regd.test(_self.find('#gen-form').find('input[name=gen_startNo]').val())){
+                        common.alert('单元数和楼层数为1时，编号必须为纯数字');
+                        return false;
+                    }
+                }
 	           new GenerateHouseNo({
 	               target:_self.find('#distristHouse'),
 	               districtName:'${household.headerBuildingName }',
@@ -234,12 +241,19 @@
         	   var str_build = rul.find('#build input').val();
         	   var obj_houseNumber = $(ele).find('tr[data-type=houseNumber] input');
         	   var arr_houseNumber = [];
+               var obj_singer = {};
                $.each(obj_houseNumber,function(idx,ipt){
                     if(!$(ipt).val()){
                         null_flag = false;
                         return;
                     }
             	   arr_houseNumber.push($(ipt).val());
+                    if(!obj_singer[$(ipt).val()]){
+                        obj_singer[$(ipt).val()] = true;
+                    }else{
+                        null_flag = false;
+                        return false;
+                    }
                });
                var obj = {
             		   header_building_no:str_build,
@@ -248,13 +262,20 @@
                };
                josn_houseNumber.push(obj);
            });
-           if(josn_houseNumber.length){
-                common.alert("门牌号为空");
-                return false;
-           }
+            var nullflg = false;
+            for(var i in josn_houseNumber){
+                if(josn_houseNumber[i].detail_household_no.length !== 0){
+                    nullflg = true;
+                }
+                for(var j in josn_houseNumber[i].detail_household_no){
+                    if(isNaN(josn_houseNumber[i].detail_household_no[j])){
+                        nullflg = true;
+                    }
+                }
+            }
            //ajax提交写在这，成功后将数据回填到表格中
            if(!null_flag){
-        	   common.alert("门牌号为空");
+        	   common.alert("请检查门牌号是否为空或有某个单元有重复门牌号");
         	   return;
            }
            common.fetch({

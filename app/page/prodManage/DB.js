@@ -1,134 +1,39 @@
 import ApiMap from '../../lib/Api/ApiMap';
-import http from '../../lib/Api/http';
+import {fetchTemplate} from '../../lib/Util';
 import {logger} from '../../lib/logger';
-
-export function fetchProdList(args) {
+import http from '../../lib/Api/http';
+export const exportData = (args) => {
+  const goodsExport = ApiMap.goodsExport;
   return new Promise((resolve, reject) => {
-    const params = ApiMap.shopProdList;
     http({
-      url: params.url,
-      method: params.method,
+      ...goodsExport,
       data: {
-        ...params.data,
+        ...goodsExport.data,
         ...args
       }
     }).then(result => {
+      debugger
       const data = result.data;
-      if (data.ret_code === 1) {
-        resolve(data.ret_data);
+      if (data) {
+        resolve(data);
       } else {
-        reject(data.ret_msg);
+        reject('导出失败');
       }
     }).catch(err => {
-      reject('请求数据失败');
+      reject('导出失败');
       logger(err);
     });
   });
-}
-
-export function fetchStationProdList(args) {
-  return new Promise((resolve, reject) => {
-    const params = ApiMap.shopStationProdList;
-    http({
-      url: params.url,
-      method: params.method,
-      data: {
-        ...params.data,
-        ...args
-      }
-    }).then(result => {
-      const data = result.data;
-      if (data.ret_code === 1) {
-        resolve(data.ret_data);
-      } else {
-        reject(data.ret_msg);
-      }
-    }).catch(err => {
-      reject('请求数据失败');
-      logger(err);
-    });
-  });
-}
-
-// 更新站点商品是否上架
-export function updateStationProd(args) {
-  return new Promise((resolve, reject) => {
-    const params = ApiMap.stationProdUpdate;
-    http({
-      url: params.url,
-      method: params.method,
-      data: {
-        ...params.data,
-        ...args
-      }
-    }).then(result => {
-      const data = result.data;
-      if (data.ret_code === 1) {
-        resolve(data.ret_data);
-      } else {
-        reject(data.ret_msg);
-      }
-    }).catch(err => {
-      reject('请求数据失败');
-      logger(err);
-    });
-  });
-}
-
-//1.1.28	(Web)门店商品删除
-export function deleteStationProd(args) {
-  return new Promise((resolve, reject) => {
-    const params = ApiMap.stationProdDelete;
-    http({
-      url: params.url,
-      method: params.method,
-      data: {
-        ...params.data,
-        ...args
-      }
-    }).then(result => {
-      const data = result.data;
-      if (data.ret_code === 1) {
-        resolve(data.ret_data);
-      } else {
-        reject(data.ret_msg);
-      }
-    }).catch(err => {
-      reject('删除失败');
-      logger(err);
-    });
-  });
-}
-
-export function stationProdCreate(args){
-  return new Promise((resolve, reject) => {
-    const params = ApiMap.stationProdCreate;
-    http({
-      url: params.url,
-      method: params.method,
-      data: {
-        ...params.data,
-        ...args
-      }
-    }).then(result => {
-      const data = result.data;
-      if (data.ret_code === 1) {
-        resolve(data.ret_data);
-      } else {
-        reject(data.ret_msg);
-      }
-    }).catch(err => {
-      reject('删除失败');
-      logger(err);
-    });
-  });
-}
+};
 
 let DB = {
-  fetchProdList,
-  fetchStationProdList,
-  updateStationProd,
-  deleteStationProd,
-  stationProdCreate
+  fetchProdList: fetchTemplate(ApiMap.shopProdList),
+  fetchStationProdList: fetchTemplate(ApiMap.shopStationProdList),
+  updateStationProd: fetchTemplate(ApiMap.stationProdUpdate),
+  deleteStationProd: fetchTemplate(ApiMap.stationProdDelete),
+  stationProdCreate: fetchTemplate(ApiMap.stationProdCreate),
+  shopProdInfo: fetchTemplate(ApiMap.shopProdInfo),
+  goodsExport: fetchTemplate(ApiMap.goodsExport),
+  exportData
 };
 export default DB;

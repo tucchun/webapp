@@ -4,6 +4,7 @@ import objectAssign from 'object-assign';
 import _ from 'lodash';
 import ApiMap from './ApiMap';
 import {logger} from '../logger';
+import {confirm,getAuthStr} from '../Util';
 import '../../../static/assets/jquery.mloading-master/src/jquery.mloading.js';
 import '../../../static/assets/jquery.mloading-master/src/jquery.mloading.css';
 
@@ -15,11 +16,17 @@ if (process.env.NODE_ENV === 'production') {
   baseURL = "/";
 } else {
   baseURL = "http://localhost:8081";
+    // baseURL = "http://192.168.1.33:8081";
 }
 
 axios.interceptors.request.use(config => {
   logger('===============请求接口开始===============\n');
   logger('请求接口：' + config.url + '\n');
+  let data = {
+      ...config.data,
+      auth_str:getAuthStr()
+  };
+  config.data = data;
   logger('参数：' + JSON.stringify(config.data) + '\n');
   $(document.body).mLoading({mask: false}); //显示loading组件
   return config;
@@ -28,6 +35,18 @@ axios.interceptors.request.use(config => {
 });
 
 axios.interceptors.response.use(response => {
+  if(response.data&&response.data.ret_code === 2001){
+    axios.post('/logout').then(response => {
+        confirm('您的账号在其他地方登录，请重新登录',function(){
+            window.location.href = location.origin+'/login';
+        });
+    }).catch(
+        err => {
+          logger(err);
+        }
+    );
+    return false;
+  }
   logger("响应数据：" + JSON.stringify(response) + "\n");
   logger("===============请求接口结束===============\n");
   $(document.body).mLoading("hide"); //隐藏loading组件
@@ -83,49 +102,5 @@ const httpServer = function() {
   // config.data = data;
   return axios(url, config);
 };
-
-// const httpServer = (opts, data) => {
-//
-//   //公共参数
-//   let Public = {}
-//
-//   //http默认配置
-//   let httpDefaultOpts = {
-//     method: opts.method,
-//     baseURL: baseURL,
-//     url: opts.url,
-//     timeout: 10000,
-//     params: objectAssign(Public, data),
-//     data: objectAssign(Public, data),
-//     headers: opts.method == 'get'
-//       ? {
-//         'X-Requested-With': 'XMLHttpRequest',
-//         "Accept": "application/json",
-//         "Content-Type": "application/json; charset=UTF-8"
-//       }
-//       : {
-//         'X-Requested-With': 'XMLHttpRequest',
-//         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-//       }
-//   }
-//
-//   if (opts.method == 'get') {
-//     delete httpDefaultOpts.data
-//   } else {
-//     delete httpDefaultOpts.params
-//   }
-//
-//   let promise = new Promise(function(resolve, reject) {
-//     axios(httpDefaultOpts).then((response) => {
-//       successState(response)
-//       resolve(response)
-//     }).catch((response) => {
-//       errorState(response)
-//       reject(response)
-//     })
-//
-//   })
-//   return axios(httpDefaultOpts);
-// }
 export {baseURL};
 export default httpServer;

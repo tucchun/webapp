@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import Container from '../../component/container/Container';
 import { Form,Clearfix,FormGroup,ControlLabel,FormControl,Col,Button } from 'react-bootstrap';
 import http from '../../lib/Api/http';
-import { alert } from '../../lib/Util';
+import { alert,getFirstLetter } from '../../lib/Util';
 import ApiMap from '../../lib/Api/ApiMap';
 import GoodsDialog from './goodsTagDialog';
 import FileUpload from 'react-fileupload';
@@ -20,21 +20,14 @@ class NewGoodsData extends Component{
                 prod_name:'',
                 prod_src:'',
                 prod_spec:'',
-                prod_apprv_no:'',
-                prod_valid_month:1,
+                prod_cat:0,
+                prod_price:0,
+                prod_valid_month:0,
                 prod_pkg_unit:1,
-                prod_assist_code:'',
-                prod_price:0.0,
-                prod_original_price:1.0,
-                prod_cat:1,
                 prod_country_flag:1,
                 prod_in_sale:1,
                 prod_allow_sale:1,
                 prod_display:1,
-                prod_tags:[],
-                prod_crowds:[],
-                prod_ingreds:'',
-                prod_memo:'',
                 prod_imgs:[],
                 prod_intro:''
             },
@@ -46,12 +39,14 @@ class NewGoodsData extends Component{
             crowText:'',
             dialogName:'商品标签',
             dataKey:'prod_tags',
-            showImg:[]
+            showImg:[],
+            choseTag:[]
         };
         this.editor = {};
         this.tags = {};
         this.fileUploadArgument = this.fileUploadArgument.bind(this);
         this.imgData = [];
+        this.closeDialog = this.closeDialog.bind(this);
     }
 
     //请求获取分类
@@ -84,6 +79,15 @@ class NewGoodsData extends Component{
             width:"100%",
             height:300,
             filterMode:false,
+            items:['source','|','undo','redo','|','preview','cut','copy','paste',
+                'plainpaste','wordpaste','|','justifyleft','justifycenter','justifyright',
+                'justifyfull','insertorderedlist','insertunorderedlist','indent','outdent','subscript',
+                'superscript','quickformat','selectall','|','fullscreen','/',
+                'formatblock','fontname','fontsize','|','forecolor','hilitecolor','bold',
+                'italic','underline','strikethrough','lineheight','removeformat','|','image',
+                'flash','media','insertfile','table','hr','pagebreak',
+                'anchor', 'link', 'unlink'],
+            uploadJson:'/hca/web/management/upload/uploadFile1',
             afterChange:function(){
                 this.sync();
                 let prod_intro = this.html();
@@ -123,7 +127,10 @@ class NewGoodsData extends Component{
             let prod_tags = data['prod_tags'].map(tag => {
                 return parseInt(tag);
             });
-            this.setState({tagsText:data.text,goodsMsg:{
+            this.setState({
+                tagsText:data.text,
+                choseTag:prod_tags,
+                goodsMsg:{
                 ...this.state.goodsMsg,
                 prod_tags
             }});
@@ -131,7 +138,10 @@ class NewGoodsData extends Component{
             let prod_crowds = data['prod_crowds'].map(crow => {
                 return parseInt(crow);
             });
-            this.setState({crowText:data.text,goodsMsg:{
+            this.setState({
+                crowText:data.text,
+                choseTag:prod_crowds,
+                goodsMsg:{
                 ...this.state.goodsMsg,
                 prod_crowds
             }});
@@ -141,7 +151,80 @@ class NewGoodsData extends Component{
 
     submitHandler(ev){
         ev.preventDefault();
-        let data = this.state.goodsMsg;
+        let data = this.state.goodsMsg,priceReg = /(^[-+]?[1-9]\d*(\.\d{1,2})?$)|(^[-+]?[0]{1}(\.\d{1,2})?$)/g;
+        let must = {
+            prod_name:'商品名称不能为空',
+            prod_spec:'商品规格不能为空',
+            prod_src:'商品产地不能为空',
+            prod_valid_month:'有效期不能为空',
+            prod_pkg_unit:'包装单位不能为空',
+            prod_price:'售价必须为合法数字(正数，最多两位小数)',
+            prod_cat:'商品分类不能为空',
+            prod_country_flag:'国产/进口不能为空',
+            prod_in_sale:'是否在售不能为空',
+            prod_allow_sale:'是否可售不能为空',
+            prod_display:'默认显示不能为空',
+            prod_imgs:'商品图片不能为空',
+            prod_intro:'商品介绍不能为空',
+        };
+        for(let key in data){
+            switch (key){
+                case 'prod_imgs':
+                    if(data[key].length === 0){
+                        alert(must[key]);
+                        return false;
+                    }
+                    break;
+                case 'prod_price':
+                    if(!data[key]){
+                        alert(must[key]);
+                        return false;
+                    }
+                    if(data[key]&&!priceReg.test(data[key])){
+                        alert(must[key]);
+                        return false;
+                    }
+                    data[key] = parseFloat(data[key]);
+                    break;
+                case 'prod_valid_month':
+                    if(typeof data[key] !== 'number'){
+                        alert('有效期必须为数字');
+                        return false;
+                    }
+                    break;
+                case 'prod_original_price':
+                    if(data[key]){
+                        console.log('prod_original_price = ' + priceReg.test(data[key]));
+                        if(!priceReg.test(data[key])){
+                            alert('原价必须为合法数字(正数，最多两位小数)');
+                            return false;
+                        }
+                    }
+                    data[key] = parseFloat(data[key]);
+                    break;
+                case 'prod_name':
+                case 'prod_src':
+                    if(data[key].length > 100){
+                        alert('商品名称，商品产地不能超过100个字符');
+                        return false;
+                    }
+                    break;
+                case 'prod_spec':
+                    if(data[key].length > 50){
+                        alert('商品规格不能超过50个字符');
+                        return false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if(must[key]){
+                if(!data[key]){
+                    alert(must[key]);
+                    return false;
+                }
+            }
+        }
         http({
             ...ApiMap.goodsCreate,
             data:{
@@ -165,19 +248,32 @@ class NewGoodsData extends Component{
         return {
             baseUrl:'/hca/web/management/upload/uploadFile',
             dataType:'json',
+            param:{need_auth:2},
+            accept:'image/jpeg,image/png',
             chooseAndUpload:true,
             uploadSuccess:function(res){
                 that.imgData.push(res);
+                const objImg = {url:res.imgUrl,dataUrl:res.img};
                 let prod_imgs = that.imgData.map(img=>{
                     return img.img;
                 });
                 that.setState({
-                    showImg:[...that.state.showImg,res.imgUrl],
+                    showImg:[...that.state.showImg,objImg],
                     goodsMsg:{
                         ...that.state.goodsMsg,
                         prod_imgs
                     }
                 });
+            },
+            beforeChoose:function(){
+                return that.state.goodsMsg.prod_imgs.length >= 10 ? false : true;
+            },
+            beforeUpload:function (files,mill) {
+                const size = files[0].size;
+                if(size > (500*1024)){
+                    alert('图片大小超过500K，请选择小于500K的图片');
+                    return false;
+                }
             }
         }
     }
@@ -193,16 +289,22 @@ class NewGoodsData extends Component{
             'prod_allow_sale',
             'prod_display'
         ];
-        const floatKey = ['prod_price','prod_original_price'];
         if(intKey.indexOf(key)!== -1){
-            goodsMsg[key] = parseInt(ev.target.value);
-        }else if(floatKey.indexOf(key)!== -1){
-            goodsMsg[key] = parseFloat(ev.target.value);
+            goodsMsg[key] = parseInt(ev.target.value) || ev.target.value;
         }else{
-            goodsMsg[key] = ev.target.value;
+            ev.target.value ? goodsMsg[key] = ev.target.value :'';
         }
-
+        if(key === 'prod_name'){
+            goodsMsg.prod_assist_code = getFirstLetter(ev.target.value);
+        }
         this.setState({goodsMsg});
+    }
+
+    closeDialog(){
+        this.setState({
+            ...this.state,
+            lgShow:false
+        });
     }
 
     render(){
@@ -290,7 +392,7 @@ class NewGoodsData extends Component{
                                 <ControlLabel>助记码：</ControlLabel>
                             </Col>
                             <Col sm={4}>
-                                <FormControl name="prod_assist_code" placeholder="助记码" onChange={
+                                <FormControl name="prod_assist_code" value={this.state.goodsMsg.prod_assist_code} placeholder="助记码" onChange={
                                     ev=>{
                                         this.elementChange(ev)
                                     }
@@ -329,6 +431,7 @@ class NewGoodsData extends Component{
                                         this.elementChange(ev)
                                     }
                                 }>
+                                    <option key={0} value={0}>{'请选择'}</option>
                                     {
                                         this.state.goods_cat.map(cat => {
                                             return (
@@ -427,9 +530,9 @@ class NewGoodsData extends Component{
                             </Col>
                         </FormGroup>
                         <FormGroup>
-                            <Col componentClass={ControlLabel} className="text-right" sm={2}>主要成分：</Col>
+                            <Col componentClass={ControlLabel} className="text-right" sm={2}>主要成份：</Col>
                             <Col sm={10}>
-                                <FormControl name="prod_ingreds" placeholder="主要成分" onChange={
+                                <FormControl name="prod_ingreds" placeholder="主要成份" onChange={
                                     ev=>{
                                         this.elementChange(ev)
                                     }
@@ -451,8 +554,30 @@ class NewGoodsData extends Component{
                             <Col sm={10}>
                                 <Clearfix>
                                     {
-                                        this.state.showImg.map(img=>{
-                                            return (<img src={img} key={img} className="uploadImg" alt="商品图片"/>)
+                                        this.state.showImg.map((img,index)=>{
+                                            return (<img src={img.url} key={index} className="uploadImg" alt="商品图片" onClick={
+                                                ()=>{
+                                                    let prodImg = this.state.goodsMsg.prod_imgs,showImg = this.state.showImg,showIndx = -1;
+                                                    const index = prodImg.indexOf(img.dataUrl);
+                                                    for(let index in showImg){
+                                                        if(showImg[index].dataUrl === img.dataUrl){
+                                                            showIndx = index;
+                                                        }
+                                                    }
+                                                    showImg.splice(showIndx,1);
+                                                    if(index!==-1){
+                                                        prodImg.splice(index,1);
+                                                    }
+                                                    this.setState({
+                                                        ...this.state,
+                                                        showImg,
+                                                        goodsMsg:{
+                                                            ...this.state.goodsMsg,
+                                                            prod_imgs:prodImg
+                                                        }
+                                                    });
+                                                }
+                                            } />)
                                         })
                                     }
                                     <FileUpload options = {this.fileUploadArgument()} className="pull-left">
@@ -460,7 +585,7 @@ class NewGoodsData extends Component{
                                     </FileUpload>
                                     <input type="hidden" name="prod_imgs" />
                                 </Clearfix>
-                                <FormControl.Static bsClass="tips" componentClass="span">上传图片宽高比例为4:3，大小500K以内</FormControl.Static>
+                                <FormControl.Static bsClass="tips" componentClass="span">上传图片宽高比例为4:3，大小500K以内图片</FormControl.Static>
                             </Col>
                         </FormGroup>
                         <FormGroup>
@@ -483,10 +608,15 @@ class NewGoodsData extends Component{
                         </FormGroup>
                     </Form>
                 </div>
-                <GoodsDialog lgShow={this.state.lgShow} tagList={this.state.tagList}
-                             dialogName={this.state.dialogName} getData = { data => {
+                <GoodsDialog lgShow={this.state.lgShow}
+                             tagList={this.state.tagList}
+                             dialogName={this.state.dialogName}
+                             getData = { data => {
                                  this.getDialogData(data)
-                }} dataKey={this.state.dataKey} />
+                }}
+                             closeDialog={this.closeDialog}
+                             choseTag={this.state.choseTag}
+                             dataKey={this.state.dataKey} />
             </Container>
         );
     }

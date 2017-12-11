@@ -61,11 +61,6 @@ require([
 		    dataType:"json",
 		    success: function(rt) {
 		       if(1 == rt.ret_code){
-		    	  // $('#GoodsType').load("${ctx}/GoodsType");
-		    	   //common.closeTab('newClassify');
-		    	/*    common.closeTab("newClassify", function(){
-		    		   
-		    	   }); */
 		    	   common.createTab({
 		               uri: '${ctx}/GoodsType',
 		               data: {name: '商品分类列表'},
@@ -97,11 +92,22 @@ require([
     
     $self.find('#newClassify-js-form').validate({
         rules:{
-        	parentname:"required"
+            parentname:{
+                required:true,
+                maxlength:20
             },
-   		messages: {   
-    		parentname:"请输入一级分类名称"  
+            name:{
+                maxlength:20
+            }
+        },
+   		messages: {
+            parentname:{
+                maxlength:"分类名称超出20个字符"
+            },
+            name:{
+                maxlength:"分类名称超出20个字符"
+            }
         } 
-        });
+    });
 });
 </script>

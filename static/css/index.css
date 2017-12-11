@@ -185,6 +185,11 @@ body{
     height:24px;
     background:url(../sprite/meirizongjie.png) no-repeat 0 0 transparent;
 }
+.icon-shop-manage{
+    width:24px;
+    height:24px;
+    background:url(../sprite/shopmanager.png) no-repeat 0 0 transparent;
+}
 .opt{
     padding:20px 0;
 }

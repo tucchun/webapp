@@ -9,7 +9,7 @@ import ApiMap from '../../lib/Api/ApiMap';
 import http from '../../lib/Api/http';
 import PriceModify from './priceModify';
 import './goodslist.css';
-import { alert,formatDateTime,downloadExcel } from '../../lib/Util';
+import { alert,formatDateTime,downloadExcel,trim } from '../../lib/Util';
 
 class PriceRecord extends Component{
     constructor(props){
@@ -17,6 +17,7 @@ class PriceRecord extends Component{
         this.state = {
             currentPage:1,
             pageNumber:1,
+            pageCount:0,
             count:20,
             gridData:[],
             lgShow:false,
@@ -33,8 +34,8 @@ class PriceRecord extends Component{
         return [
             {
                 title:'编号',
-                key:'adjust_id',
-                dataIndex:'adjust_id',
+                key:'adjust_no',
+                dataIndex:'adjust_no',
                 align:'left'
             },
             {
@@ -149,7 +150,7 @@ class PriceRecord extends Component{
 
     //处理表单数据
     handleSubmit(pageArgument){
-        let fd = document.getElementById('queryApply'),fdAta = {},cd;
+        let fd = document.getElementById('record_query'),fdAta = {},cd;
         let ev = pageArgument || {currentPage:1,pageCode:1};
         if(ev){
             cd = {
@@ -159,7 +160,7 @@ class PriceRecord extends Component{
         }
         for(let i = 0;i<fd.elements.length;i++){
             if(fd.elements[i].type === 'text' || fd.elements[i].type === 'select-one'){
-                fdAta[fd.elements[i].name] = fd.elements[i].value;
+                fdAta[fd.elements[i].name] = trim(fd.elements[i].value);
             }
         }
         fdAta.adjust_status = 2;
@@ -186,7 +187,8 @@ class PriceRecord extends Component{
                 gridData:data.ret_data.adjust_list,
                 pageNumber:Math.ceil(data.ret_data.total/this.state.count),
                 currentPage:condition.currentPage ? condition.currentPage : 1,
-                lgShow:false
+                lgShow:false,
+                pageCount:data.ret_data.total
             });
         }).catch(err => {
             console.log(err);
@@ -204,18 +206,14 @@ class PriceRecord extends Component{
             ...ApiMap.goodsPriceAdjustExport,
             data:{
                 ...ApiMap.commonData,
-                adjust_status:1,
+                adjust_status:2,
                 prod_name:this.prod_name.value,
                 create_by:this.create_by.value,
                 audit_by:this.audit_by.value
 
             }
         }).then(response => {
-            if(response.data.ret_code === 1){
-                downloadExcel(response,'调价审核表')
-            }else{
-                alert(response.data.ret_msg)
-            }
+            downloadExcel(response.data,'调价记录表');
             console.log(response);
         }).catch(err => {
             console.log(err);
@@ -225,16 +223,16 @@ class PriceRecord extends Component{
     //生命周期
     componentDidMount(){
         this.handleSubmit({
-            begin:1,
+            begin:0,
             count:this.state.count
         })
     }
     render(){
         return (
-            <Container className = "p20" title={'调价申请'}>
+            <Container className = "p20" title={'商品调价记录'}>
                 <Condition>
                     <div>
-                        <Form id="queryApply" onSubmit = {
+                        <Form id="record_query" onSubmit = {
                             ev => this.handleSubmitEvent(ev)
                         } inline>
                             <FormGroup>
@@ -263,7 +261,7 @@ class PriceRecord extends Component{
                     </Clearfix>
                 </Condition>
                 <Grid rowKey="adjust_id" data={this.state.gridData} columns={this.columns}/>
-                <PageNation currentPage={this.state.currentPage} pageNumber={this.state.pageNumber} getPage={this.handlePage} />
+                <PageNation pageCount={this.state.pageCount} currentPage={this.state.currentPage} pageNumber={this.state.pageNumber} getPage={this.handlePage} />
                 <PriceModify lgShow={this.state.lgShow} goodsInfo={this.state.goodsInfo}/>
             </Container>
         );

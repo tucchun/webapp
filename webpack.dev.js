@@ -3,6 +3,7 @@ const CommonConfig = require('./webpack.common.js');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Plugin = require("./app/lib/HashMapPlugin.js");
 const path = require('path');
 
 module.exports = Merge(CommonConfig, {
@@ -20,7 +21,8 @@ module.exports = Merge(CommonConfig, {
   plugins: [
     new CleanWebpackPlugin('./app/dev/'),
     // new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
+    new Plugin()
   ],
   // devServer: {
   //   port: 9000,

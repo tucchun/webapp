@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import {LocaleProvider} from 'antd';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import Gird from '../../component/table/Table';
 import Container from '../../component/container/Container';
 import Condition from '../../component/condition/Condition';
 import PageNation from '../../component/pageNation/pageNation';
 import HecadreListbyarea from './hecadreListbyarea/HecadreListbyarea';
-import {alert, downloadExcel, createTab, Util} from '../../lib/Util';
+import {alert, downloadExcel, createTab, Util, formatDateTime} from '../../lib/Util';
 import ConditionForm from './ConditionForm';
 // import {logger} from '../../lib/logger';
 import DB from './DB';
@@ -27,7 +29,7 @@ class GuestorderList extends Component {
         key: 'create_date',
         dataIndex: 'create_date',
         render: (value) => {
-          return Util.formatDate(value);
+          return formatDateTime(value);
         }
       }, {
         title: '金额总计',
@@ -120,45 +122,52 @@ class GuestorderList extends Component {
     this.city = {};
     this.district = {};
     this.street = {};
+    this.station = {};
 
+    this.indexViewData = {
+      girdData: [],
+      pageNumber: 1,
+      total: 0,
+      currentPage: 1,
+      search_data: {
+        create_start: null,
+        create_end: null,
+        guest_order_no: '',
+        receipt_name: '',
+        receipt_contact: '',
+        guest_order_status: 0,
+        begin: 0,
+        count: 20
+      }
+    };
+    this.HecadreViewData = {
+      show: false,
+      guest_order_id: 0,
+      province: [],
+      city: [],
+      district: [],
+      street: [],
+      station: [],
+      girdData: [],
+      pageNumber: 1,
+      currentPage: 1,
+      total: 0,
+      search_data: {
+        province_area_id: 0,
+        city_area_id: 0,
+        district_area_id: 0,
+        street_area_id: 0,
+        station_id: 0,
+        begin: 0,
+        count: 20
+      }
+    };
     this.state = {
       indexViewData: {
-        girdData: [],
-        pageNumber: 1,
-        total: 0,
-        currentPage: 1,
-        search_data: {
-          create_start: null,
-          create_end: null,
-          guest_order_no: '',
-          receipt_name: '',
-          receipt_contact: '',
-          guest_order_status: 0,
-          begin: 0,
-          count: 5
-        }
+        ...this.indexViewData
       },
       HecadreViewData: {
-        show: false,
-        guest_order_id: 0,
-        province: [],
-        city: [],
-        district: [],
-        street: [],
-        station: [],
-        girdData: [],
-        pageNumber: 1,
-        currentPage: 1,
-        total: 0,
-        search_data: {
-          province_area_id: 0,
-          city_area_id: 0,
-          district_area_id: 0,
-          street_area_id: 0,
-          station_id: 0,
-          begin: 0,
-          count: 5
-        }
+        ...this.HecadreViewData
       }
     };
   }
@@ -184,7 +193,7 @@ class GuestorderList extends Component {
     };
 
     DB.shopGuestorderList(search_data).then((result) => {
-      let pageNumber = Math.ceil(result.total / search_data.count);
+      let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.setState({
         indexViewData: {
           ...indexViewData,
@@ -203,16 +212,15 @@ class GuestorderList extends Component {
 
   fetchArea(province_area_id, city_area_id, district_area_id) {
     const fetchProvince = new Promise((resolve, reject) => {
-      let province = this.province;
-      if (_.isEmpty(province)) {
+      if (_.isEmpty(this.province)) {
         DB.fetchArealist().then(result => {
-          province = result;
-          resolve(province);
+          this.province = result;
+          resolve(result);
         }).catch(err => {
           reject(err);
         });
       } else {
-        resolve(province);
+        resolve(this.province);
       }
     });
 
@@ -220,16 +228,17 @@ class GuestorderList extends Component {
       let city = this.city;
       if (!province_area_id) {
         resolve([]);
-      }
-      if (_.isEmpty(city) || _.isEmpty(city[province_area_id])) {
-        DB.fetchArealist({area_id_higher: province_area_id}).then(result => {
-          city[province_area_id] = result;
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
       } else {
-        resolve(city[province_area_id]);
+        if (_.isEmpty(city) || _.isEmpty(city[province_area_id])) {
+          DB.fetchArealist({area_id_higher: province_area_id}).then(result => {
+            city[province_area_id] = result;
+            resolve(result);
+          }).catch(err => {
+            reject(err);
+          });
+        } else {
+          resolve(city[province_area_id]);
+        }
       }
     });
 
@@ -237,16 +246,17 @@ class GuestorderList extends Component {
       let district = this.district;
       if (!city_area_id) {
         resolve([]);
-      }
-      if (_.isEmpty(district) || _.isEmpty(district[city_area_id])) {
-        DB.fetchArealist({area_id_higher: city_area_id}).then(result => {
-          district[city_area_id] = result;
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
       } else {
-        resolve(district[city_area_id]);
+        if (_.isEmpty(district) || _.isEmpty(district[city_area_id])) {
+          DB.fetchArealist({area_id_higher: city_area_id}).then(result => {
+            district[city_area_id] = result;
+            resolve(result);
+          }).catch(err => {
+            reject(err);
+          });
+        } else {
+          resolve(district[city_area_id]);
+        }
       }
     });
 
@@ -254,16 +264,17 @@ class GuestorderList extends Component {
       let street = this.street;
       if (!district_area_id) {
         resolve([]);
-      }
-      if (_.isEmpty(street) || _.isEmpty(street[district_area_id])) {
-        DB.fetchArealist({area_id_higher: district_area_id}).then(result => {
-          street[district_area_id] = result;
-          resolve(result);
-        }).catch(err => {
-          reject(err);
-        });
       } else {
-        resolve(street[district_area_id]);
+        if (_.isEmpty(street) || _.isEmpty(street[district_area_id])) {
+          DB.fetchArealist({area_id_higher: district_area_id}).then(result => {
+            street[district_area_id] = result;
+            resolve(result);
+          }).catch(err => {
+            reject(err);
+          });
+        } else {
+          resolve(street[district_area_id]);
+        }
       }
     });
 
@@ -289,7 +300,8 @@ class GuestorderList extends Component {
         station_id: undefined
       };
       DB.fetchListbyareastation(args).then(result => {
-        let pageNumber = Math.ceil(result.total / this.state.indexViewData.search_data.count);
+        let pageNumber = Math.ceil(result.total / args.count) || 1;
+        this.station[args.street_area_id] = result.station_list;
         this.setState({
           HecadreViewData: {
             ...HecadreViewData,
@@ -324,6 +336,7 @@ class GuestorderList extends Component {
     const HecadreViewData = {
       show: state_HecadreViewData.show,
       guest_order_id: state_HecadreViewData.guest_order_id,
+      pageCount: state_HecadreViewData.total,
       begin: state_HecadreViewData.search_data.begin,
       currentPage: state_HecadreViewData.currentPage,
       pageNumber: state_HecadreViewData.pageNumber,
@@ -364,62 +377,52 @@ class GuestorderList extends Component {
           </div>
         </Condition>
         <Gird rowKey='guest_order_id' columns={this.columns} data={this.state.indexViewData.girdData}/>
-        <PageNation getPage={this.handleGetPage} currentPage={this.state.indexViewData.currentPage} pageNumber={this.state.indexViewData.pageNumber}/>
+        <PageNation pageCount={this.state.indexViewData.total} getPage={this.handleGetPage} currentPage={this.state.indexViewData.currentPage} pageNumber={this.state.indexViewData.pageNumber}/>
         <HecadreListbyarea {...HecadreViewData}/>
       </Container>
     );
   }
 
   handleExport() {
-    // downloadExcel
-    /*
-    indexViewData: {
-      girdData: [],
-      pageNumber: 1,
-      total: 0,
-      search_data: {
-        create_start: null,
-        create_end: null,
-        guest_order_no: '',
-        receipt_name: '',
-        receipt_contact: '',
-        guest_order_status: 0,
-        begin: 0,
-        count: 5
-      }
-    }
-    */
-    // DB.shopGuestorderExport({
-    //
-    // }).then().catch();
+    const search_data = this.state.indexViewData.search_data;
+    DB.exportData(search_data).then(result => {
+      debugger
+      downloadExcel(result, '订货意向');
+    });
   }
 
   // 指派健管师
   handleassignHecadre(args) {
-    DB.shopGuestorderAssign({guest_order_id: args.guest_order_id, hecadre_uid: args.hecadre_uid}).then(() => {
-      this.handleIndexSearch();
-      this.handleHecadreHideModal();
-    }).catch(err => {
-      alert(err);
-    });
+    if (args.hecadre_uid) {
+      DB.shopGuestorderAssign({guest_order_id: args.guest_order_id, hecadre_uid: args.hecadre_uid}).then(() => {
+        this.handleIndexSearch();
+        this.handleHecadreHideModal();
+      }).catch(err => {
+        alert(err);
+      });
+    } else {
+      alert('请选择健管师');
+    }
+
   }
   handleHecadreSearch() {
     const HecadreViewData = this.state.HecadreViewData;
-    const search_data = HecadreViewData.search_data;
+    const search_data = {
+      ...HecadreViewData.search_data,
+      begin: 0
+    };
     DB.fetchListbyareastation(search_data).then((result) => {
-      let pageNumber = Math.ceil(result.total / search_data.count);
+      let pageNumber = Math.ceil(result.total / search_data.count) || 1;
+      this.station[search_data.street_area_id] = result.station_list;
       this.setState({
         HecadreViewData: {
           ...this.state.HecadreViewData,
           girdData: result.hecadre_list || [],
-          // station: result.station_list || [],
+          station: result.station_list || [],
           total: result.total,
           pageNumber,
           currentPage: 1,
-          search_data: {
-            ...search_data,
-            begin: 0
-          }
+          search_data
         }
       });
     }).catch(err => {
@@ -445,64 +448,57 @@ class GuestorderList extends Component {
       }
     }
 
+    // 省市区级联
+    // 当选择区时，查询列表获取卫生站信息。
     this.fetchArea(search_data.province_area_id, search_data.city_area_id, search_data.district_area_id).then(([province, city, district, street]) => {
-      this.setState({
-        HecadreViewData: {
-          ...HecadreViewData,
-          show: true,
-          province: province,
-          city: city,
-          district: district,
-          street: street,
-          // currentPage: 1,
-          station: [],
-          // girdData: result.hecadre_list || [],
-          // pageNumber: pageNumber,
-          // total: result.total,
-          search_data: {
-            ...search_data
-          }
+      if (index === 3) {
+        const hecadreViewData = this.state.HecadreViewData;
+        const search_data2 = {
+          ...hecadreViewData.search_data,
+          ...search_data
+        };
+        if (this.station[search_data2.street_area_id]) {
+          this.setState({
+            HecadreViewData: {
+              ...this.state.HecadreViewData,
+              station: this.station[search_data2.street_area_id],
+              search_data: search_data2
+            }
+          });
+        } else {
+          DB.fetchListbyareastation(search_data2).then((result) => {
+            this.station[search_data2.street_area_id] = result.station_list;
+            this.setState({
+              HecadreViewData: {
+                ...this.state.HecadreViewData,
+                station: result.station_list || [],
+                search_data: search_data2
+              }
+            });
+          }).catch(err => {
+            alert(err);
+          });
         }
-      });
-
-      // DB.fetchListbyareastation(search_data).then(result => {
-      //   let pageNumber = Math.ceil(result.total / this.state.indexViewData.search_data.count);
-      //   this.setState({
-      //     HecadreViewData: {
-      //       ...HecadreViewData,
-      //       show: true,
-      //       province: province,
-      //       city: city,
-      //       district: district,
-      //       street: street,
-      //       currentPage: 1,
-      //       station: result.station_list || [],
-      //       girdData: result.hecadre_list || [],
-      //       pageNumber: pageNumber,
-      //       total: result.total,
-      //       search_data: {
-      //         ...search_data
-      //       }
-      //     }
-      //   });
-      // }).catch(err => {
-      //   alert(err);
-      // });
+      } else {
+        this.setState({
+          HecadreViewData: {
+            ...HecadreViewData,
+            show: true,
+            province: province,
+            city: city,
+            district: district,
+            street: street,
+            // station: [],
+            search_data
+          }
+        });
+      }
     });
-    // this.setState({
-    //   HecadreViewData: {
-    //     ...HecadreViewData,
-    //     search_data: {
-    //       ...HecadreViewData.search_data,
-    //       ...selectData
-    //     }
-    //   }
-    // });
   }
   handleHecadreHideModal() {
     this.setState({
       HecadreViewData: {
-        ...this.state.HecadreViewData,
+        ...this.HecadreViewData,
         show: false
       }
     });
@@ -514,7 +510,7 @@ class GuestorderList extends Component {
       begin: (currentPage - 1) * HecadreViewData.search_data.count
     };
     DB.fetchListbyareastation(search_data).then((result) => {
-      let pageNumber = Math.ceil(result.total / search_data.count);
+      let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.setState({
         HecadreViewData: {
           ...this.state.HecadreViewData,
@@ -536,9 +532,12 @@ class GuestorderList extends Component {
   handleIndexSearch() {
     // const condition = this.state.indexViewData.search_data;
     const indexViewData = this.state.indexViewData;
-    const search_data = indexViewData.search_data;
+    const search_data = {
+      ...indexViewData.search_data,
+      begin: 0
+    };
     DB.shopGuestorderList(search_data).then((result) => {
-      let pageNumber = Math.ceil(result.total / search_data.count);
+      let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.setState({
         indexViewData: {
           ...indexViewData,
@@ -546,10 +545,7 @@ class GuestorderList extends Component {
           total: result.total,
           pageNumber,
           currentPage: 1,
-          search_data: {
-            ...search_data,
-            begin: 0
-          }
+          search_data
         }
       });
     }).catch(err => {
@@ -601,5 +597,5 @@ class GuestorderList extends Component {
     });
   }
 }
-
-ReactDOM.render(< GuestorderList />, document.getElementById('__guestorder/List__'));
+ReactDOM.render(
+  <LocaleProvider locale={zh_CN}>< GuestorderList/></LocaleProvider>, document.getElementById('__guestorder/List__'));

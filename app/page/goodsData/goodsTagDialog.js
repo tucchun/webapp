@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import PropTypes from 'prop-types';
-import { Modal,Form,Checkbox,FormControl,Button} from 'react-bootstrap';
+import { Modal,Checkbox,Button} from 'react-bootstrap';
 
 class GoodsDialog extends Component{
     constructor(props){
@@ -9,7 +9,8 @@ class GoodsDialog extends Component{
             lgShow:false,
             tagList:[],
             name:'商品标签',
-            dataKey:'prod_tags'
+            dataKey:'prod_tags',
+            choseTag:[]
         };
         this.getData = this.getData.bind(this);
     }
@@ -20,8 +21,13 @@ class GoodsDialog extends Component{
             lgShow:nextProps.lgShow,
             name:nextProps.dialogName,
             tagList:nextProps.tagList,
-            dataKey:nextProps.dataKey
+            dataKey:nextProps.dataKey,
+            choseTag:nextProps.choseTag
         });
+    }
+
+    closeDialog(){
+        this.props.closeDialog();
     }
 
     getData(){
@@ -36,11 +42,21 @@ class GoodsDialog extends Component{
         data.text = text.join(',');
         this.props.getData(data);
         this.setState({lgShow:false});
-        /*let datas = elements.map(element => {
-            if(element.type === 'checkbox' && element.checked){
-                return element.value
-            }
-        });*/
+    }
+
+    handleCheckChange(ev){
+        const node = ev.target;
+        let checkValue = parseInt(node.value),choseTag = this.state.choseTag;
+        const idx = choseTag.indexOf(checkValue);
+        if(node.checked){
+            idx === -1 ? choseTag.push(checkValue):''
+        }else{
+            idx === -1 ? '' : choseTag.splice(idx,1);
+        }
+        this.setState({
+            ...this.state,
+            choseTag
+        });
     }
 
     render(){
@@ -52,16 +68,28 @@ class GoodsDialog extends Component{
                     <form className="p20" ref={ref => this.form = ref}>
                         {
                             this.state.tagList.map(tag => {
+                                const tag_id = tag.crowd_id||tag.tag_id,text = tag.crowd_text||tag.tag_text;
+                                const chosed = this.state.choseTag.indexOf(tag_id) === -1 ? false : true;
                                 return (
-                                    <Checkbox key={tag.crowd_id||tag.tag_id} name={this.state.dataKey} inline
-                                              defaultValue={tag.crowd_id||tag.tag_id}>{tag.crowd_text||tag.tag_text}</Checkbox>
+                                    <Checkbox key={tag_id}
+                                              name={this.state.dataKey}
+                                              inline
+                                              defaultValue={tag_id}
+                                              checked={chosed}
+                                              onChange={
+                                                  ev => {
+                                                      this.handleCheckChange(ev)
+                                                  }
+                                              }>{text}</Checkbox>
                                 )
                             })
                         }
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={lgClose}>取消</Button>
+                    <Button onClick={
+                        ()=>this.closeDialog()
+                    }>取消</Button>
                     <Button onClick={
                         () => {
                             this.getData()

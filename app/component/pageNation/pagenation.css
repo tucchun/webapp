@@ -6,7 +6,13 @@
     font-size:12px;
     float:right;
 }
-.pageNation a{
+.pageNation input[type=text].pageInput{
+    width:40px !important;
+    padding: 4px;
+    text-align: center;
+    margin:0;
+}
+.pageNation a,.pageNation input{
     display:inline-block;
     padding:4px 15px;
     border:1px solid #333;
@@ -16,6 +22,10 @@
     text-decoration: none;
     vertical-align: middle;
 }
+.pageNation span{
+    display:inline-block;
+    padding:4px;
+}
 .pageNation a:last-child{
     margin-right:0;
 }
@@ -23,4 +33,7 @@
     border:1px solid #999;
     color:#999;
     cursor:default;
+}
+.pageNation a.btn-main{
+    color:#fff;
 }

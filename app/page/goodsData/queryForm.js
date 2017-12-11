@@ -14,9 +14,9 @@ class QueryForm extends Component {
                 prod_cats: '',
                 prod_tags: '',
                 prod_crowds: '',
-                prod_in_sale:1,
-                prod_allow_sale:1,
-                prod_display:1
+                prod_in_sale:0,
+                prod_allow_sale:0,
+                prod_display:0
             }
         };
         this.getFormData = this.getFormData.bind(this);
@@ -30,7 +30,7 @@ class QueryForm extends Component {
     }
 
     componentDidMount(){
-        let formEle = document.getElementById('from-query');
+        let formEle = document.getElementById('from-query-goodsData');
         let arr = this.handleFormData(formEle);
         this.setState({
             fromData:arr
@@ -67,7 +67,7 @@ class QueryForm extends Component {
 
     //处理选中checkbox
     handleCheckbox(){
-        let arr = this.handleFormData(document.getElementById('from-query'));
+        let arr = this.handleFormData(document.getElementById('from-query-goodsData'));
         this.setState({fromData:arr});
         this.props.submitHandle(arr);
     }
@@ -75,7 +75,7 @@ class QueryForm extends Component {
     //提交时触发方法
     getFormData(ev){
         ev.preventDefault();
-        let arr = this.handleFormData(document.getElementById('from-query'));
+        let arr = this.handleFormData(document.getElementById('from-query-goodsData'));
         this.setState({fromData:arr});
         this.props.submitHandle(arr);
     }
@@ -89,7 +89,7 @@ class QueryForm extends Component {
         return (
             <Form bsClass="form" onSubmit={
                 ev => this.getFormData(ev)
-            } id="from-query" inline>
+            } id="from-query-goodsData" inline>
                 <table><tbody>
                 <tr>
                     <td><label>&nbsp;&nbsp;&nbsp;助记码</label>
@@ -99,14 +99,14 @@ class QueryForm extends Component {
                     <td><label>商品产地</label>
                         <input type="text" className="form-control" name="prod_src" /></td>
                     <td><label>是否在售</label><select className="form-control" name="prod_in_sale" id="">
-                        <option value={1}>在售</option><option value={2}>停售</option></select></td>
+                        <option value={0}>全部</option><option value={1}>在售</option><option value={2}>停售</option></select></td>
                     <td><label>是否可售</label><select className="form-control" name="prod_allow_sale" id="">
-                        <option value={1}>可售</option><option value={2}>不可售</option>
+                        <option value={0}>全部</option><option value={1}>可售</option><option value={2}>不可售</option>
                     </select></td>
                 </tr>
                 <tr>
                     <td><label>默认显示</label><select className="form-control" name="prod_display" id="">
-                        <option value={1}>展示</option><option value={2}>不展示</option>
+                        <option value={0}>全部</option><option value={1}>是</option><option value={2}>否</option>
                     </select></td>
                     <td><button className="btn btn-main" type="submit">查询</button></td>
                     <td colSpan={3}>{''}</td>

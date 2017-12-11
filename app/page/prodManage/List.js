@@ -8,7 +8,7 @@ import Condition from '../../component/condition/Condition';
 import PageNation from '../../component/pageNation/pageNation';
 import ApiMap from '../../lib/Api/ApiMap';
 import http from '../../lib/Api/http';
-import {alert, confirm, createTab} from '../../lib/Util';
+import {alert, confirm, createTab, downloadExcel} from '../../lib/Util';
 import {logger} from '../../lib/logger';
 import ConditionForm from './ConditionForm';
 import ModifyProd from './ModifyProd';
@@ -63,7 +63,7 @@ class ProdManage extends Component {
         render(value, row) {
           let crowdStr = _.map(row.prod_crowds, function(crowd) {
             return crowd['crowd_text'];
-          }).join('/');
+          }).join('、');
           return (
             <div>
               {crowdStr}
@@ -82,7 +82,7 @@ class ProdManage extends Component {
           if (row.prod_in_sale === 1) {
             return '在售';
           }
-          if (row.prod_in_sale === 0) {
+          if (row.prod_in_sale === 2) {
             return '停售';
           }
           return ' ';
@@ -95,8 +95,8 @@ class ProdManage extends Component {
           if (row.station_in_sale === 1) {
             return '上架';
           }
-          if (row.station_in_sale === 0) {
-            return '未上架';
+          if (row.station_in_sale === 2) {
+            return <a style={{color: 'red'}}>未上架</a>;
           }
           return ' ';
         }
@@ -124,7 +124,7 @@ class ProdManage extends Component {
     this.handleupdateProd = this.handleupdateProd.bind(this);
     this.showCommodityInfo = this.showCommodityInfo.bind(this);
     this.deleteProd = this.deleteProd.bind(this);
-    this.handleShowAddProd = this.handleShowAddProd.bind(this);
+    this.doExport = this.doExport.bind(this);
 
     /*查询试图事件*/
     this.handleIndexSearch = this.handleIndexSearch.bind(this);
@@ -133,6 +133,7 @@ class ProdManage extends Component {
     this.handleIndexInputChange = this.handleIndexInputChange.bind(this);
 
     /*新增页面事件*/
+    this.handleShowAddProd = this.handleShowAddProd.bind(this);
     this.hideAddModal = this.hideAddModal.bind(this);
     this.handleAddSearch = this.handleAddSearch.bind(this);
     this.handleAddCheckboxChange = this.handleAddCheckboxChange.bind(this);
@@ -142,81 +143,87 @@ class ProdManage extends Component {
     this.handleAddOnCheck = this.handleAddOnCheck.bind(this);
     this.handleAddAllOnChange = this.handleAddAllOnChange.bind(this);
     this.handleAddProds = this.handleAddProds.bind(this);
+    this.handleCloseAddModal = this.handleCloseAddModal.bind(this);
 
     /*修改商品*/
     this.updateProd = this.updateProd.bind(this);
     this.hideModifyProd = this.hideModifyProd.bind(this);
     this.modifyProdSelectChange = this.modifyProdSelectChange.bind(this);
-    /*
-    tags: this.state.tags,
-    crowds: this.state.crowds,
-    cats: this.state.cats,
-    hideAddModal: this.hideAddModal,
-    handleConditionSearch: this.handleIndexSearch,
-    handleCheckboxChange: this.handleIndexCheckboxChange,
-    handleSelectChange: this.handleIndexSelectChange,
-    handleInputChange: this.handleIndexInputChange,
-    prod_assist_code: this.state.prod_assist_code,
-    prod_name: this.state.prod_name,
-    prod_src: this.state.prod_src,
-    prod_cats: this.state.prod_cats,
-    prod_tags: this.state.prod_tags,
-    prod_crowds: this.state.prod_crowds,
-    station_in_sale: this.state.station_in_sale
-    */
+    this.handleCloseModifyModal = this.handleCloseModifyModal.bind(this);
+
+    this.indexViewData = {
+      girdData: [],
+      pageNumber: 1,
+      currentPage: 1,
+      total: 0,
+      search_data: {
+        begin: 0,
+        count: 20,
+        prod_assist_code: '',
+        prod_name: '',
+        prod_src: '',
+        prod_cats: [],
+        prod_tags: [],
+        prod_crowds: [],
+        station_in_sale: 0
+      }
+    };
+    this.addViewData = {
+      show: false,
+      allCheckState: false,
+      gridData: [],
+      currentPage: 1,
+      pageNumber: 1,
+      addProdIds: [],
+      total: 0,
+      search_data: {
+        begin: 0,
+        count: 20,
+        prod_display: 1,
+        prod_assist_code: '',
+        prod_in_sale: 1,
+        prod_name: '',
+        prod_src: '',
+        prod_cats: [],
+        prod_tags: [],
+        prod_crowds: [],
+        exclude_station_product: 1
+      }
+    };
+    this.modifyProd = {
+      show: false,
+      prod_data: {
+        prod_id: '',
+        prod_no: '',
+        prod_name: '',
+        prod_src: '',
+        prod_spec: '',
+        station_in_sale: 0
+      }
+    };
+
     this.state = {
       cats: [],
       crowds: [],
       tags: [],
       modifyProd: {
-        show: false,
-        prod_data: {
-          prod_id: '',
-          prod_no: '',
-          prod_name: '',
-          prod_src: '',
-          prod_spec: '',
-          station_in_sale: 1
-        }
+        ...this.modifyProd
       },
       indexViewData: {
-        girdData: [],
-        pageNumber: 1,
-        currentPage: 1,
-        total: 0,
-        search_data: {
-          begin: 0,
-          count: 5,
-          prod_assist_code: '',
-          prod_name: '',
-          prod_src: '',
-          prod_cats: [],
-          prod_tags: [],
-          prod_crowds: [],
-          station_in_sale: 1
-        }
+        ...this.indexViewData
       },
       addViewData: {
-        show: false,
-        allCheckState: false,
-        gridData: [],
-        currentPage: 1,
-        pageNumber: 1,
-        addProdIds: [],
-        search_data: {
-          begin: 0,
-          count: 5,
-          prod_display: 1,
-          prod_assist_code: '',
-          prod_name: '',
-          prod_src: '',
-          prod_cats: [],
-          prod_tags: [],
-          prod_crowds: [],
-          station_in_sale: 1
-        }
+        ...this.addViewData
       }
     };
+  }
+  //导出
+  doExport(){
+    const search_data = this.state.indexViewData.search_data;
+    DB.exportData(search_data).then(result => {
+      debugger
+      downloadExcel(result, '站点商品');
+    });
   }
 
   // 删除数据
@@ -234,6 +241,15 @@ class ProdManage extends Component {
     });
   }
 
+  handleCloseModifyModal(){
+    this.setState({
+      modifyProd: {
+        ...this.state.modifyProd,
+        show: false
+      }
+    });
+  }
+
   // 显示商品详情
   showCommodityInfo(e, data) {
     createTab({
@@ -243,7 +259,7 @@ class ProdManage extends Component {
       },
       key: 'prodManageInfo'
     });
-    common.Util.data('prodManage/Info', data);
+    common.Util.data('prodManage/Info', data.prod_id);
   }
 
   // 修改商品
@@ -318,7 +334,7 @@ class ProdManage extends Component {
       begin: (currentPage - 1) * indexViewData.search_data.count
     };
     DB.fetchStationProdList(search_data).then(result => {
-      let pageNumber = Math.ceil(result.total / this.state.indexViewData.search_data.count);
+      let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.setState({
         indexViewData: {
           ...this.state.indexViewData,
@@ -337,7 +353,6 @@ class ProdManage extends Component {
     // });
   }
 
-
   // 查询订单意向分页数据
   serchList(condition) {
     // let data = this.refs.conditionForm.getData();
@@ -347,7 +362,7 @@ class ProdManage extends Component {
       ...condition
     };
     return this.fetchList(params).then(result => {
-      let pageNumber = Math.ceil(result.total / this.state.count);
+      let pageNumber = Math.ceil(result.total / this.state.count) || 1;
       this.setState({girdData: result.prod_list, total: result.total, pageNumber: pageNumber, begin: params.begin});
     }).catch((err) => {
       alert(err);
@@ -404,11 +419,13 @@ class ProdManage extends Component {
   }
 
   componentDidMount() {
-    this.fetchList(this.state.indexViewData.search_data).then(result => {
-      let pageNumber = Math.ceil(result.total / this.state.indexViewData.search_data.count);
+    const indexViewData = this.state.indexViewData;
+    const search_data = indexViewData.search_data;
+    this.fetchList(search_data).then(result => {
+      let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.setState({
         indexViewData: {
-          ...this.state.indexViewData,
+          ...indexViewData,
           girdData: result.prod_list,
           total: result.total,
           pageNumber: pageNumber
@@ -440,9 +457,11 @@ class ProdManage extends Component {
       handleOnCheck: this.handleAddOnCheck,
       handleAllOnChange: this.handleAddAllOnChange,
       handleAddProds: this.handleAddProds,
+      closeModal: this.handleCloseAddModal,
       show: addViewData.show,
       allCheckState: addViewData.allCheckState,
       currentPage: addViewData.currentPage,
+      pageCount: addViewData.total,
       pageNumber: addViewData.pageNumber,
       gridData: addViewData.gridData,
       prod_assist_code: addViewData.search_data.prod_assist_code,
@@ -494,11 +513,14 @@ class ProdManage extends Component {
           </div>
           <div className='pull-right'>
             <Button onClick={this.handleShowAddProd} className='btn btn-main'>新增</Button>
+            {' '}
+            <Button onClick={this.doExport} className='btn btn-main'>导出</Button>
           </div>
         </Condition>
         <Gird rowKey='prod_id' columns={this.columns} data={this.state.indexViewData.girdData}/>
-        <PageNation getPage={this.handleGetPage} currentPage={this.state.indexViewData.currentPage} pageNumber={this.state.indexViewData.pageNumber}/>
-        <ModifyProd updateProd={this.updateProd} handleSelectChange={this.modifyProdSelectChange} handleHideModal={this.hideModifyProd} {...this.state.modifyProd.prod_data} show={this.state.modifyProd.show}/>
+        <PageNation pageCount={this.state.indexViewData.total} getPage={this.handleGetPage} currentPage={this.state.indexViewData.currentPage} pageNumber={this.state.indexViewData.pageNumber}/>
+        <ModifyProd updateProd={this.updateProd} handleSelectChange={this.modifyProdSelectChange} handleHideModal={this.hideModifyProd} closeModal={this.handleCloseModifyModal}
+         {...this.state.modifyProd.prod_data} show={this.state.modifyProd.show}/>
         <Add {...addViewProps}/>
       </Container>
     );
@@ -567,9 +589,12 @@ class ProdManage extends Component {
   }*/
   handleIndexSearch() {
     const indexViewData = this.state.indexViewData;
-    const search_data = indexViewData.search_data;
+    const search_data = {
+      ...indexViewData.search_data,
+      begin: 0
+    };
     this.fetchList(search_data).then(result => {
-      let pageNumber = Math.ceil(result.total / search_data.count);
+      let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.setState({
         indexViewData: {
           ...indexViewData,
@@ -577,10 +602,7 @@ class ProdManage extends Component {
           total: result.total,
           pageNumber: pageNumber,
           currentPage: 1,
-          search_data: {
-            ...search_data,
-            begin: 0
-          }
+          search_data
         }
       });
     }).catch(err => {
@@ -652,8 +674,17 @@ class ProdManage extends Component {
   }
 }
   */
+
+  handleCloseAddModal(){
+    this.setState({
+      addViewData: {
+        ...this.state.addViewData,
+        show: false
+      }
+    });
+  }
+
   handleAddProds() {
-    debugger;
     DB.stationProdCreate({prod_id_list: this.state.addViewData.addProdIds}).then(() => {
       this.hideAddModal();
       this.handleIndexSearch();
@@ -688,7 +719,6 @@ class ProdManage extends Component {
     });
   }
   handleAddAllOnChange(e) {
-    debugger;
     const checkedState = e.target.checked;
     if (checkedState) {
       let prodIds = this.state.addViewData.gridData.map(item => {
@@ -757,20 +787,21 @@ class ProdManage extends Component {
   hideAddModal() {
     this.setState({
       addViewData: {
-        ...this.state.addViewData,
+        ...this.addViewData,
         show: false
       }
     });
   }
   handleShowAddProd() {
-    DB.fetchProdList({
-      ...this.state.addViewData.search_data
-    }).then(result => {
-      let pageNumber = Math.ceil(result.total / this.state.addViewData.search_data.count);
+    const addViewData = this.state.addViewData;
+    const search_data = addViewData.search_data;
+    DB.fetchProdList(search_data).then(result => {
+      let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.setState({
         addViewData: {
-          ...this.state.addViewData,
+          ...addViewData,
           show: true,
+          total: result.total,
           gridData: result.prod_list,
           pageNumber: pageNumber,
           addProdIds: []
@@ -780,19 +811,19 @@ class ProdManage extends Component {
   }
   handleAddSearch() {
     const addViewData = this.state.addViewData;
-    const search_data = addViewData.search_data;
+    const search_data = {
+      ...addViewData.search_data,
+      begin: 0
+    };
     DB.fetchProdList(search_data).then(result => {
-      let pageNumber = Math.ceil(result.total / search_data.count);
+      let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.setState({
         addViewData: {
           ...addViewData,
           gridData: result.prod_list,
           pageNumber: pageNumber,
           currentPage: 1,
-          search_data: {
-            ...search_data,
-            begin: 0
-          }
+          search_data
         }
       });
     });
@@ -805,7 +836,7 @@ class ProdManage extends Component {
       begin: (currentPage - 1) * addViewData.search_data.count
     };
     DB.fetchProdList(search_data).then(result => {
-      let pageNumber = Math.ceil(result.total / this.state.addViewData.search_data.count);
+      let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.setState({
         addViewData: {
           ...addViewData,

@@ -3,6 +3,7 @@ const CommonConfig = require('./webpack.common.js');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
+const Plugin = require("./app/lib/HashMapPlugin.js");
 
 module.exports = Merge(CommonConfig, {
   module: {
@@ -31,7 +32,9 @@ module.exports = Merge(CommonConfig, {
       },
       comments: false
     }),
-    new webpack.HashedModuleIdsPlugin()
+    new webpack.HashedModuleIdsPlugin(),
+    // new webpack.NamedModulesPlugin()
+    new Plugin()
   ],
   // output: {
   //   filename: '[name].[chunkhash].js',

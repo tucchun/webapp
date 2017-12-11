@@ -21,7 +21,8 @@ require.config({
   waitSeconds: 0,
   shim: {
     jquery: {
-      exports: "jQuery"
+      exports: "jQuery",
+      deps: ['text']
     },
     validate: {
       deps: ['jquery']
@@ -55,9 +56,13 @@ require.config({
     },
     vendor: {
       deps: ['runtime', 'js/common']
+    },
+    appEnv: {
+      exports: 'appEnv'
     }
   },
   paths: {
+    text: ctx + 'static/assets/require/text-2.0.5',
     jquery: ctx + 'static/assets/jquery/jquery-1.9.1.min',
     bootstrap: ctx + 'static/assets/bootstrap/dist/js/bootstrap',
     js: ctx + 'static/js',
@@ -77,7 +82,8 @@ require.config({
     encoding: ctx + 'static/js/printForm/encoding',
     loading: ctx + 'static/assets/jquery.mloading-master/src/jquery.mloading',
     runtime: ctx + 'app/' + window.__evn__ + '/runtime',
-    vendor: ctx + 'app/' + window.__evn__ + '/vendor'
+    vendor: ctx + 'app/' + window.__evn__ + '/vendor',
+    appEnv: ctx + 'app/' + window.__evn__ + '/manifest.json'
   }
 });
 
@@ -87,6 +93,8 @@ require([
   "js/menu",
   "js/dialog",
   'js/security',
+  'text!appEnv',
+  'js/backspace',
   'validate',
   'autocompleter',
   'message_zh',
@@ -95,8 +103,16 @@ require([
   'loading',
   'runtime',
   'vendor'
-], function($, common, menu, Dialog, security) {
+], function($, common, menu, Dialog, security, appEnv, backspace) {
 
+  //实现对字符码的截获，keypress中屏蔽了这些功能按键
+  document.onkeypress = backspace;
+  //对功能按键的获取
+  document.onkeydown = backspace;
+  window.appEnv = JSON.parse(appEnv);
+  localStorage.setItem('__user__', $('#__user__').val());
+  localStorage.setItem('__transportKey__', $('#__transportKey__').val());
+  localStorage.setItem('__username__', $('#__username__').val());
   $.validator.addMethod('checkPwd', function(value, element) {
     var flag = common.Util.checkPwd(value);
     return flag

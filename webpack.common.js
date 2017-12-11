@@ -1,11 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-// const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
-// const modules = ['index'];
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const modules = require('./app/modules.js');
 const ExamplePlugin = require("./app/lib/ExamplePlugin.js");
+
 
 let entry = {};
 let htmls = [];

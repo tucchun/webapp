@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import {DatePicker} from 'antd';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
+import {LocaleProvider} from 'antd';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import SalesData from '../../component/salesData';
 import Gird from '../../component/table/Table';
 import PageNation from '../../component/pageNation/pageNation';
-import DatePicker from "react-bootstrap-date-picker";
+// import DatePicker from "react-bootstrap-date-picker";
 import http from '../../lib/Api/http';
 import ApiMap from '../../lib/Api/ApiMap';
-import {setInitDate, getTimestamp, addDate, orderStatus, downloadExcel} from '../../lib/Util';
+import {setInitDate, getTimestamp, formatDateTime, addDate, orderStatus, downloadExcel, converson, getElementByAttr} from '../../lib/Util';
 import '../../lib/styles/index.css';
 import { Modal } from 'react-bootstrap';
 
@@ -28,7 +34,7 @@ class JGSSalesStats extends Component {
               key: 'b',
             }, {
               className: 'my-col-class',
-              title: '实付金额',
+              title: '实付金额（元）',
               dataIndex: 'pay_amount',
               key: 'c',
             }, {
@@ -56,20 +62,21 @@ class JGSSalesStats extends Component {
                 title: '操作',
                 dataIndex: 'oper',
                 key: 'h',
-                render: (text, record) => <a onClick={e => this.viewDetails(record.order_id, e)} href="javascript:;">操作</a>,
+                render: (text, record) => <a onClick={e => this.viewDetails(record.order_id, e)} href="javascript:;">详情</a>,
             }
         ];
         this.state = {
             totalSale: 0,
             totalProdNum: 0,
             totalOrderNum: 0,
+            total: 0,
             pageNum: 0,
             pageCount: 10,
             currentPage: 1,
             beginNum: 0,
             startTime: setInitDate().startTime,
             endTime: setInitDate().endTime,
-            format: "YYYY/MM/DD",
+            format: "YYYY-MM-DD",
             showModal: false,
             details: {
                 "prod_list": []
@@ -95,9 +102,16 @@ class JGSSalesStats extends Component {
             console.log(this.state);
             this.getShopHecadreSaleStat();
         });
-       
     }
-    componentDidMount() {}
+    componentDidMount() {
+        const aEle = document.getElementById('tab-li-__jgssalesStats__').getElementsByClassName('tab-i-close js-tab-close');
+        function cleanParms() {
+            common.Util.data('parms', {});
+        }
+        for (let i = 0; i < aEle.length; i++){
+            aEle[i].addEventListener("click", cleanParms, false);
+        }
+    }
 
     // 获取健管师销售统计
     getShopHecadreSaleStat() {
@@ -107,7 +121,7 @@ class JGSSalesStats extends Component {
             hecadre_uid: hecadreUid,
             org_id: orgId,
             stat_start: getTimestamp(startTime),
-            stat_end: getTimestamp(endTime),
+            stat_end: getTimestamp(endTime) + 86400000,
             begin: beginNum,
             count: pageCount
         };
@@ -115,18 +129,21 @@ class JGSSalesStats extends Component {
         http({
             url: ApiMap.getShopHecadreSaleStat.url,
             method: ApiMap.getShopHecadreSaleStat.method,
-            data: JSON.stringify(parms)
+            data: parms
         })
         .then((res) => {
             if (res.data.ret_code === 1) {
                 const resData = res.data.ret_data;
                 this.setState({
                     pageNum: Math.ceil(resData.total / pageCount),
-                    totalSale: resData.total_sale,
+                    totalSale: resData.total_sale.toFixed(2),
                     totalProdNum: resData.total_prod_num,
                     totalOrderNum: resData.total_order_num,
+                    total: resData.total,
                     tableData: resData.order_list.map(function (item, index) {
                         item.key = (currentPage - 1) * pageCount + index + 1;
+                        item.create_date = formatDateTime(item.create_date);
+                        item.pay_amount = (item.pay_amount === undefined || item.pay_amount === null) ? '0.00' : item.pay_amount.toFixed(2);
                         return item;
                     })
                 });
@@ -150,7 +167,21 @@ class JGSSalesStats extends Component {
     }
 
     handleClickSearch() {
-        this.getShopHecadreSaleStat();
+        const {startTime, endTime} = this.state;
+        if (getTimestamp(startTime) > getTimestamp(endTime)) {
+            common.alert('开始时间不能晚于结束时间');
+            return;
+        } else {
+            this.setState({
+                currentPage: 1,
+            }, () => {
+                this.setState({
+                    beginNum: (this.state.currentPage - 1) * this.state.pageCount
+                }, () => {
+                    this.getShopHecadreSaleStat();
+                });
+            });
+        }
     }
 
     // 导出健管师销售统计
@@ -161,16 +192,16 @@ class JGSSalesStats extends Component {
             hecadre_uid: hecadreUid,
             org_id: orgId,
             stat_start: getTimestamp(startTime),
-            stat_end: getTimestamp(endTime)
+            stat_end: getTimestamp(endTime) + 86400000
         };
         http({
             url: ApiMap.shopHecadreSaleStatExport.url,
             method: ApiMap.shopHecadreSaleStatExport.method,
-            data: JSON.stringify(parms),
+            data: parms,
             responseType: 'blob'
         })
         .then((res) => {
-            downloadExcel(res, '销售统计')
+            downloadExcel(res.data, '销售统计');
         }, (error) => {
             common.alert(error);
         });
@@ -224,10 +255,10 @@ class JGSSalesStats extends Component {
     }
 
     render() {
-        const {totalSale, totalProdNum, totalOrderNum, startTime, endTime, format, pageNum, currentPage, tableData, showModal, details} = this.state;
+        const {totalSale, totalProdNum, totalOrderNum, startTime, endTime, format, pageNum, currentPage, tableData, showModal, details, total} = this.state;
         const columns = this.columns;
-        const start = startTime && new Date(addDate(startTime)).toISOString();
-        const end = endTime && new Date(addDate(endTime)).toISOString();
+        const start = startTime && moment(new Date(getTimestamp(startTime)));
+        const end = endTime && moment(new Date(getTimestamp(endTime)));
         return (
             <div className="wrap hospital">
                 <div className="tb-head">销售统计</div>
@@ -267,11 +298,12 @@ class JGSSalesStats extends Component {
                             columns={columns}
                             data={tableData}
                         />
-                        <PageNation
+                        {tableData.length !== 0 ? <PageNation
+                            pageCount={total}
                             pageNumber={pageNum}
                             currentPage={currentPage}
                             getPage={this.handleTogglePage}
-                        />
+                        /> : null}
                     </div>
                 </div>
                 <Modal show={showModal} onHide={this.close}>
@@ -294,7 +326,7 @@ class JGSSalesStats extends Component {
                             </div>
                             <div className="form-group clearfix">
                                 <div className="col-sm-3 control-label">订单时间:</div>
-                                <div className="col-sm-7">{details.create_date}</div>
+                                <div className="col-sm-7">{formatDateTime(details.create_date)}</div>
                             </div>
                             <div className="form-group clearfix">
                                 <div className="col-sm-3 control-label">订单金额（元）:</div>
@@ -337,20 +369,20 @@ class JGSSalesStats extends Component {
                                     {
                                         details.prod_list.map((item) => <li key={item.prod_id} className="clearfix">
                                             <div className="prod-col tal clearfix">
-                                                <img className="pull-left" src={item.prod_imgs[0]} />
+                                                <img className="pull-left" src={converson(item.prod_imgs[0])} />
                                                 <div className="pull-left">
                                                     <p title={item.prod_name}>{item.prod_name}</p>
-                                                    <span>{item.prod_price}</span>
+                                                    <span>￥ {item.prod_price === undefined ? '' : item.prod_price.toFixed(2)}</span>
                                                 </div>
                                             </div>
-                                            <div className="prod-col lh60">{item.prod_num}</div>
-                                            <div className="prod-col lh60">{item.prod_num * item.prod_price}</div>
+                                            <div className="prod-col lh60">× {item.prod_num}</div>
+                                            <div className="prod-col lh60">￥ {(item.prod_num === undefined || item.prod_price === undefined) ? '' : (item.prod_num * item.prod_price).toFixed(2)}</div>
                                         </li>)
                                     }
                                 </ul>
                                 <div className="list-total clearfix">
-                                    <span>{details.order_amount}</span>
-                                    <span>{details.prod_num}</span>
+                                    <span>合计 ￥{details.order_amount === undefined ? '' : details.order_amount.toFixed(2)}</span>
+                                    <span>共{details.prod_num}件商品</span>
                                 </div>
                             </div>
                         </div>
@@ -363,6 +395,6 @@ class JGSSalesStats extends Component {
 }
 
 ReactDOM.render(
-    <JGSSalesStats />,
+    <LocaleProvider locale={zh_CN}><JGSSalesStats /></LocaleProvider>,
     document.getElementById('__jgssalesStats/jgssalesStats__')
 );

@@ -25,14 +25,14 @@
   }
 
   // 页面js错误
-  // window.onerror = function(msg, url, line) {
-  //   try {
-  //     throw new Error('[msg:' + msg + ',url:' + url + ',line:' + line + ']');
-  //   } catch (error) {
-  //     console.log('页面JS错误\n' + error.stack);
-  //   }
-  //   return false;
-  // };
+  window.onerror = function(msg, url, line) {
+    try {
+      throw new Error('[msg:' + msg + ',url:' + url + ',line:' + line + ']');
+    } catch (error) {
+      console.log('页面JS错误\n' + error.stack);
+    }
+    return false;
+  };
 
   Util._param = {};
   Util.cvt = function(num) {

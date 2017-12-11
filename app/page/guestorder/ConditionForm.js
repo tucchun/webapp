@@ -40,7 +40,7 @@ class Condition extends Component {
   handleInputChange(event) {
     const target = event.target;
     const name = target.name;
-    const value = target.value;
+    const value = target.value.trim();
     // this.setState({[name]: target.value});
     this.props.handleInputChange({[name]: value});
   }
@@ -59,8 +59,8 @@ class Condition extends Component {
         <FormGroup>
           <ControlLabel>提交时间</ControlLabel>
           {' '}
-          <DatePicker name='create_start' onChange={this.handleCreateStart} value={create_start} /> {'-'}
-          <DatePicker name='create_end' onChange={this.handleCreateEnd} value={create_end}/>
+          <DatePicker name='create_start' showTime={true} onChange={this.handleCreateStart} value={create_start} format='YYYY-MM-DD HH:mm:ss'/> {'-'}
+          <DatePicker showTime={true} name='create_end' onChange={this.handleCreateEnd} value={create_end} format='YYYY-MM-DD HH:mm:ss'/>
         </FormGroup>
         {' '}
         <FormGroup controlId="receipt_name">

@@ -38,8 +38,9 @@
     <div class="hd-title">
         <span class="logo"><img src="../static/sprite/new_logo.png" alt="logo"></span>
         <span class="title">后台管理系统V${version }</span>
+        <input type=hidden id='__username__' value='${username }' />
         <input type=hidden id='__user__' value='${userId }' />
-        <input type=hidden id='__auth__' value='${authStr }' />
+        <input type=hidden id='__transportKey__' value='${transportKey }' />
     </div>
     <div class="hd-operate">
         <span class="icon">

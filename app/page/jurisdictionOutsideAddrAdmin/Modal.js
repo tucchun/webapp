@@ -45,7 +45,7 @@ export class HealthManagerModal extends Component {
     http({
         url: ApiMap.stationNongridAssign.url,
         method: ApiMap.stationNongridAssign.method,
-        data: JSON.stringify(parms)
+        data: parms
     })
     .then((res) => {
         if (res.data.ret_code === 1) {
@@ -147,6 +147,36 @@ export class AddrModifyModal extends Component {
 
       const {checkedProvince, checkedCity, checkedArea, checkedStreet, checkedCommittee, buildingName, buildingNo, buildingUnit, householdNo} = this.state;
 
+      if (checkedProvince === '') {
+        common.alert('请选择省份');
+        return;
+      }
+      if (checkedCity === '') {
+        common.alert('请选择城市');
+        return;
+      }
+      if (checkedArea === '') {
+        common.alert('请选择地区');
+        return;
+      }
+      if (buildingName.trim() === '') {
+        common.alert('请填写小区名');
+        return;
+      }
+      if (buildingNo.trim() === '') {
+        common.alert('请填写楼栋');
+        return;
+      }
+      if (buildingUnit.trim() === '') {
+        common.alert('请填写单元');
+        return;
+      }
+      if (householdNo.trim() === '') {
+        common.alert('请填写门牌号');
+        return;
+      }
+
+
       console.log(buildingUnit);
 
       const parms = {
@@ -166,13 +196,24 @@ export class AddrModifyModal extends Component {
       http({
         url: ApiMap.stationNongridUpdate.url,
         method: ApiMap.stationNongridUpdate.method,
-        data: JSON.stringify(parms)
+        data: parms
       })
       .then((res) => {
           if (res.data.ret_code === 1) {
               common.alert(res.data.ret_msg);
               this.props.hide();
               this.props.getAddrList();
+              this.setState({
+                checkedProvince: "",
+                checkedCity: "",
+                checkedArea: "",
+                checkedStreet: "",
+                checkedCommittee: "",
+                buildingName: "",
+                buildingNo: "",
+                buildingUnit: "",
+                householdNo: "",
+              })
           } else {
             common.alert(res.data.ret_msg);
           }
@@ -183,7 +224,7 @@ export class AddrModifyModal extends Component {
       this.props.hide();
     }
 
-    // 获取省级列表
+    // 获取省市区级列表
     getPCAList(grade, areaIdHigher) {
       var parms = {
         ...ApiMap.commonData,
@@ -196,7 +237,7 @@ export class AddrModifyModal extends Component {
       http({
           url: ApiMap.getAreaList.url,
           method: ApiMap.getAreaList.method,
-          data: JSON.stringify(parms)
+          data: parms
       })
       .then((res) => {
           if (res.data.ret_code === 1) {
@@ -219,7 +260,7 @@ export class AddrModifyModal extends Component {
       let code = '';
 
       for (let i = 0; i < provinceList.length; i++) {
-        if (provinceList[i].area_id = id) {
+        if (provinceList[i].area_id === id) {
           code = provinceList[i].area_code;
         }
       }
@@ -229,7 +270,11 @@ export class AddrModifyModal extends Component {
         checkedCity: "",
         checkedArea: "",
         checkedStreet: "",
-        checkedCommittee: ""
+        checkedCommittee: "",
+        cityList: [],
+        areaList: [],
+        streetList: [],
+        committeeList: []
       });
 
       this.getPCAList('cityList', id);
@@ -241,7 +286,7 @@ export class AddrModifyModal extends Component {
       let code = '';
 
       for (let i = 0; i < cityList.length; i++) {
-        if (cityList[i].area_id = id) {
+        if (cityList[i].area_id === id) {
           code = cityList[i].area_code;
         }
       }
@@ -249,7 +294,10 @@ export class AddrModifyModal extends Component {
         checkedCity: code,
         checkedArea: "",
         checkedStreet: "",
-        checkedCommittee: ""
+        checkedCommittee: "",
+        areaList: [],
+        streetList: [],
+        committeeList: []
       })
 
       this.getPCAList('areaList', id);
@@ -261,7 +309,7 @@ export class AddrModifyModal extends Component {
       let code = '';
 
       for (let i = 0; i < areaList.length; i++) {
-        if (areaList[i].area_id = id) {
+        if (areaList[i].area_id === id) {
           code = areaList[i].area_code;
         }
       }
@@ -269,7 +317,9 @@ export class AddrModifyModal extends Component {
       this.setState({
         checkedArea: code,
         checkedStreet: "",
-        checkedCommittee: ""
+        checkedCommittee: "",
+        streetList: [],
+        committeeList: []
       });
 
       this.getPCAList('streetList', id);
@@ -281,14 +331,15 @@ export class AddrModifyModal extends Component {
       let code = '';
 
       for (let i = 0; i < streetList.length; i++) {
-        if (streetList[i].area_id = id) {
+        if (streetList[i].area_id === id) {
           code = streetList[i].area_code;
         }
       }
 
       this.setState({
         checkedStreet: code,
-        checkedCommittee: ""
+        checkedCommittee: "",
+        committeeList: []
       });
 
       this.getPCAList('committeeList', id);
@@ -300,7 +351,7 @@ export class AddrModifyModal extends Component {
       let code = '';
 
       for (let i = 0; i < committeeList.length; i++) {
-        if (committeeList[i].area_id = id) {
+        if (committeeList[i].area_id === id) {
           code = committeeList[i].area_code;
         }
       }
@@ -472,7 +523,7 @@ export class ComfirmModifyModal extends Component {
     http({
       url: ApiMap.stationNongridDelete.url,
       method: ApiMap.stationNongridDelete.method,
-      data: JSON.stringify(parms)
+      data: parms
     })
     .then((res) => {
         if (res.data.ret_code === 1) {

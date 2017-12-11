@@ -152,7 +152,6 @@ class Condition extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    debugger;
     // 区域级联
     if (prevState.province_area_id !== this.props.province_area_id) {
       this.event.emit('proviceChange', this.props.province_area_id);

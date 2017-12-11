@@ -27,27 +27,33 @@ class Add extends Component {
         }
       }, {
         title: '商品编号',
+        width: 80,
         dataIndex: 'prod_no',
         key: 'prod_no'
       }, {
         title: '商品名称',
+        width: 80,
         dataIndex: 'prod_name',
         key: 'prod_name'
       }, {
         title: '商品产地',
+        width: 80,
         dataIndex: 'prod_src',
         key: 'prod_src'
       }, {
         title: '商品规格',
+        width: 80,
         dataIndex: 'prod_spec',
         key: 'prod_spec'
       }, {
         title: '商品分类',
+        width: 80,
         dataIndex: 'prod_cat.cat_text',
         key: 'prod_cat_text'
       }, {
         title: '商品标签',
         key: 'prod_tags_txt',
+        width: 80,
         render(value, row) {
           let tagStr = _.map(row.prod_tags, function(tag) {
             return tag['tag_text'];
@@ -60,10 +66,22 @@ class Add extends Component {
         }
       }, {
         title: '适用人群',
+        width: 100,
         dataIndex: 'prod_crowds.crowd_text',
-        key: 'prod_crowds_txt'
+        key: 'prod_crowds_txt',
+        render(value, row) {
+          let crowdStr = _.map(row.prod_crowds, function(crowd) {
+            return crowd['crowd_text'];
+          }).join('、');
+          return (
+            <div>
+              {crowdStr}
+            </div>
+          );
+        }
       }, {
         title: '助记码',
+        width: 80,
         dataIndex: 'prod_assist_code',
         key: 'prod_assist_code'
       }
@@ -77,6 +95,10 @@ class Add extends Component {
     this.handleCheck = this.handleCheck.bind(this);
     this.handleAllChange = this.handleAllChange.bind(this);
     this.addProd = this.addProd.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+  closeModal() {
+    this.props.closeModal();
   }
   handleAllChange(e) {
     this.props.handleAllOnChange(e);
@@ -96,7 +118,7 @@ class Add extends Component {
   handleCheckboxChange(name, value) {
     this.props.handleCheckboxChange(name, value);
   }
-  addProd(){
+  addProd() {
     this.props.handleAddProds();
   }
 
@@ -147,32 +169,24 @@ class Add extends Component {
     });
   }
 
-  componentDidMount() {
-    // debugger;
-    // this.searchList();
-    // this.searchList();
-  }
-
-  componentDidUpdate() {}
-
   render() {
     return (
       <Modal bsSize='large' show={this.props.show}>
-        <Modal.Header>
+        <Modal.Header closeButton={true} onHide={this.closeModal}>
           <Modal.Title>新增</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Grid className={'modalbody-container'}>
             <Row className="show-grid padding-align">
               <Col xs={12} md={12}>
-                <ConditionForm tags={this.props.tags} crowds={this.props.crowds} cats={this.props.cats} handleConditionSearch={this.props.handleSearch} handleCheckboxChange={this.props.handleCheckboxChange} handleSelectChange={this.props.handleSelectChange} handleInputChange={this.props.handleInputChange} prod_assist_code={this.props.prod_assist_code} prod_name={this.props.prod_name} prod_src={this.props.prod_src} prod_cats={this.props.prod_cats} prod_tags={this.props.prod_tags} prod_crowds={this.props.prod_crowds} station_in_sale={this.props.station_in_sale}/>
+                <ConditionForm modal={true} tags={this.props.tags} crowds={this.props.crowds} cats={this.props.cats} handleConditionSearch={this.props.handleSearch} handleCheckboxChange={this.props.handleCheckboxChange} handleSelectChange={this.props.handleSelectChange} handleInputChange={this.props.handleInputChange} prod_assist_code={this.props.prod_assist_code} prod_name={this.props.prod_name} prod_src={this.props.prod_src} prod_cats={this.props.prod_cats} prod_tags={this.props.prod_tags} prod_crowds={this.props.prod_crowds} station_in_sale={this.props.station_in_sale}/>
               </Col>
             </Row>
             <Row className="show-grid">
               <Col xs={12} md={12}>
                 <input type='checkbox' className='prodmanageadd_allcheck' onChange={this.handleAllChange} checked={this.props.allCheckState}/>
                 <Gird rowKey='prod_id' columns={this.columns} data={this.props.gridData}/>
-                <PageNation getPage={this.handlePage} currentPage={this.props.currentPage} pageNumber={this.props.pageNumber}/>
+                <PageNation pageCount={this.props.pageCount} getPage={this.handlePage} currentPage={this.props.currentPage} pageNumber={this.props.pageNumber}/>
               </Col>
             </Row>
           </Grid>
@@ -212,7 +226,8 @@ Add.propTypes = {
   gridData: PropTypes.array.isRequired,
   begin: PropTypes.number.isRequired,
   prod_display: PropTypes.number.isRequired,
-  allCheckState: PropTypes.bool.isRequired
+  allCheckState: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired
 };
 
 export default Add;

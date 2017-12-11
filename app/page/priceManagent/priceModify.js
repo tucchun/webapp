@@ -128,7 +128,7 @@ class PriceModify extends Component{
                                 <ControlLabel>审核时间：</ControlLabel>
                             </Col>
                             <Col sm={4}>
-                                <FormControl name="audit_date" defaultValue={formatDateTime(this.state.goodsInfo.audit_date)} placeholder="调价后价格" readOnly/>
+                                <FormControl name="audit_date" defaultValue={this.state.goodsInfo.audit_date ? formatDateTime(this.state.goodsInfo.audit_date) : ''} placeholder="审核时间" readOnly/>
                             </Col>
                         </FormGroup>
                         <FormGroup>

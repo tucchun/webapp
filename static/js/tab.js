@@ -117,7 +117,8 @@ define([
         if (fresh) {
           var module_id = $tabContent.find("#" + origan_id).children().first().data('moduleid');
           if (module_id) {
-            delete window['installedModules'][module_id];
+            var __module_id = window.appEnv[module_id];
+            delete window['installedModules'][__module_id];
           }
           Util.getHtml(url).done(function(html) {
             $('#' + id).html('<div id="' + origan_id + '">' + html + '<div/>');
@@ -225,7 +226,9 @@ define([
 
       var module_id = $tabContent.find("#" + orgin_id).children().first().data('moduleid');
       if (module_id) {
-        delete window['installedModules'][module_id];
+        var __module_id = window.appEnv[module_id];
+        delete window['installedModules'][__module_id];
+        // delete window['installedModules'][module_id];
       }
       $tabContent.find("#" + id).remove();
       $minTabMenu.find("#js-mini-tab-item-" + id).remove();

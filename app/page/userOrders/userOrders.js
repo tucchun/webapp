@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import {DatePicker} from 'antd';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
+import {LocaleProvider} from 'antd';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import SalesData from '../../component/salesData';
 import Gird from '../../component/table/Table';
 import PageNation from '../../component/pageNation/pageNation';
-import DatePicker from "react-bootstrap-date-picker";
+// import DatePicker from "react-bootstrap-date-picker";
 import http from '../../lib/Api/http';
 import ApiMap from '../../lib/Api/ApiMap';
-import {setInitDate, getTimestamp, addDate, orderStatus, payType, downloadExcel, formatDateTime} from '../../lib/Util';
+import {setInitDate, getTimestamp, addDate, orderStatus, payType, downloadExcel, formatDateTime, converson} from '../../lib/Util';
 import '../../lib/styles/index.css';
 import { Modal } from 'react-bootstrap';
 
@@ -27,7 +33,7 @@ class UserOrders extends Component {
               key: 'b',
             }, {
               className: 'my-col-class',
-              title: '订单金额',
+              title: '订单金额（元）',
               dataIndex: 'order_amount',
               key: 'c',
             }, {
@@ -37,7 +43,7 @@ class UserOrders extends Component {
                 key: 'd',
             }, {
                 className: 'my-col-class',
-                title: '实付金额',
+                title: '实付金额（元）',
                 dataIndex: 'pay_amount',
                 key: 'e',
             }, {
@@ -60,20 +66,21 @@ class UserOrders extends Component {
                 title: '操作',
                 dataIndex: 'oper',
                 key: 'i',
-                render: (text, record) => <a onClick={e => this.viewDetails(record.order_id, e)} href="javascript:;">操作</a>,
+                render: (text, record) => <a onClick={e => this.viewDetails(record.order_id, e)} href="javascript:;">详情</a>,
               }
         ];
         this.state = {
             totalSale: 0,
             totalProdNum: 0,
             totalOrderNum: 0,
+            total: 0,
             pageNum: 0,
             pageCount: 10,
             currentPage: 1,
             beginNum: 0,
             startTime: setInitDate().startTime,
             endTime: setInitDate().endTime,
-            format: "YYYY/MM/DD",
+            format: "YYYY-MM-DD",
             residentUid: "",
             orderNo: "",
             showModal: false,
@@ -93,9 +100,9 @@ class UserOrders extends Component {
     }
 
     componentWillMount() {
-        console.log(common.Util.data('parms'));
+        console.log(common.Util.data('user'));
         this.setState({
-            residentUid: common.Util.data('parms').residentUid
+            residentUid: common.Util.data('user').residentUid
         }, () => {
             console.log(this.state);
             this.getShopInhabitantOrderList();
@@ -110,8 +117,8 @@ class UserOrders extends Component {
             ...ApiMap.commonData,
             resident_uid: residentUid,
             order_no: orderNo,
-            stat_start: getTimestamp(startTime),
-            stat_end: getTimestamp(endTime),
+            create_start: getTimestamp(startTime),
+            create_end: getTimestamp(endTime) + 86400000,
             begin: beginNum,
             count: pageCount,
         };
@@ -119,17 +126,20 @@ class UserOrders extends Component {
         http({
             url: ApiMap.getShopInhabitantOrderList.url,
             method: ApiMap.getShopInhabitantOrderList.method,
-            data: JSON.stringify(parms)
+            data: parms
         })
         .then((res) => {
             if (res.data.ret_code === 1) {
                 const resData = res.data.ret_data;
                 this.setState({
                     pageNum: Math.ceil(resData.total / pageCount),
+                    total: resData.total,
                     tableData: resData.order_list.map(function (item, index) {
                         item.key = (currentPage - 1) * pageCount + index + 1;
                         item.create_date = formatDateTime(item.create_date);
                         item.pay_type = payType(item.pay_type);
+                        item.order_amount = (item.order_amount === undefined) ? '0.00' : item.order_amount.toFixed(2);
+                        item.pay_amount = (item.pay_amount === undefined) ? '0.00' : item.pay_amount.toFixed(2);
                         return item;
                     })
                 });
@@ -159,15 +169,21 @@ class UserOrders extends Component {
     }
 
     handleClickSearch() {
-        this.setState({
-            currentPage: 1,
-        }, () => {
+        const {startTime, endTime} = this.state;
+        if (getTimestamp(startTime) > getTimestamp(endTime)) {
+            common.alert('开始时间不能晚于结束时间');
+            return;
+        } else {
             this.setState({
-                beginNum: (this.state.currentPage - 1) * this.state.pageCount
+                currentPage: 1,
             }, () => {
-                this.getShopInhabitantOrderList();
+                this.setState({
+                    beginNum: (this.state.currentPage - 1) * this.state.pageCount
+                }, () => {
+                    this.getShopInhabitantOrderList();
+                });
             });
-        });
+        }
     }
 
     // 导出居民订单列表
@@ -177,17 +193,17 @@ class UserOrders extends Component {
             ...ApiMap.commonData,
             resident_uid: 0,
             order_no: "xx",
-            stat_start: getTimestamp(startTime),
-            stat_end: getTimestamp(endTime)
+            create_start: getTimestamp(startTime),
+            create_end: getTimestamp(endTime) + 86400000
         };
         http({
             url: ApiMap.shopInhabitantOrderExport.url,
             method: ApiMap.shopInhabitantOrderExport.method,
-            data: JSON.stringify(parms),
+            data: parms,
             responseType: 'blob'
         })
         .then((res) => {
-            downloadExcel(res, '居民订单列表');
+            downloadExcel(res.data, '居民订单列表');
         }, (error) => {
             common.alert(error);
         });
@@ -224,7 +240,7 @@ class UserOrders extends Component {
         http({
             url: ApiMap.getShopOrder.url,
             method: ApiMap.getShopOrder.method,
-            data: JSON.stringify(parms)
+            data: parms
         })
         .then((res) => {
             if (res.data.ret_code === 1) {
@@ -242,10 +258,10 @@ class UserOrders extends Component {
     }
 
     render() {
-        const {startTime, endTime, format, pageNum, currentPage, tableData, showModal, details, orderNo} = this.state;
+        const {startTime, endTime, format, pageNum, currentPage, tableData, showModal, details, orderNo, total} = this.state;
         const columns = this.columns;
-        const start = startTime && new Date(addDate(startTime)).toISOString();
-        const end = endTime && new Date(addDate(endTime)).toISOString();
+        const start = startTime && moment(new Date(getTimestamp(startTime)));
+        const end = endTime && moment(new Date(getTimestamp(endTime)));
         return (
             <div className="wrap hospital">
                 <div className="tb-head">用户订单</div>
@@ -284,11 +300,12 @@ class UserOrders extends Component {
                             columns={columns}
                             data={tableData}
                         />
-                        <PageNation
+                        {tableData.length !== 0 ? <PageNation
+                            pageCount={total}
                             pageNumber={pageNum}
                             currentPage={currentPage}
                             getPage={this.handleTogglePage}
-                        />
+                        /> : null}
                     </div>
                 </div>
                 <Modal show={showModal} onHide={this.close}>
@@ -311,7 +328,7 @@ class UserOrders extends Component {
                             </div>
                             <div className="form-group clearfix">
                                 <div className="col-sm-3 control-label">订单时间:</div>
-                                <div className="col-sm-7">{details.create_date}</div>
+                                <div className="col-sm-7">{formatDateTime(details.create_date)}</div>
                             </div>
                             <div className="form-group clearfix">
                                 <div className="col-sm-3 control-label">订单金额（元）:</div>
@@ -354,20 +371,20 @@ class UserOrders extends Component {
                                     {
                                         details.prod_list.map((item) => <li key={item.prod_id} className="clearfix">
                                             <div className="prod-col tal clearfix">
-                                                <img className="pull-left" src={item.prod_imgs[0]} />
+                                                <img className="pull-left" src={item.prod_imgs.length !== 0 ? converson(item.prod_imgs[0]) : ''} />
                                                 <div className="pull-left">
                                                     <p title={item.prod_name}>{item.prod_name}</p>
-                                                    <span>{item.prod_price}</span>
+                                                    <span>￥ {item.prod_price === undefined ? '' : item.prod_price.toFixed(2)}</span>
                                                 </div>
                                             </div>
-                                            <div className="prod-col lh60">{item.prod_num}</div>
-                                            <div className="prod-col lh60">{item.prod_num * item.prod_price}</div>
+                                            <div className="prod-col lh60">× {item.prod_num}</div>
+                                            <div className="prod-col lh60">￥ {(item.prod_num === undefined || item.prod_price === undefined) ? '' : (item.prod_num * item.prod_price).toFixed(2)}</div>
                                         </li>)
                                     }
                                 </ul>
                                 <div className="list-total clearfix">
-                                    <span>{details.order_amount}</span>
-                                    <span>{details.prod_num}</span>
+                                    <span>合计 ￥{details.order_amount === undefined ? '' : details.order_amount.toFixed(2)}</span>
+                                    <span>共{details.prod_num}件商品</span>
                                 </div>
                             </div>
                         </div>
@@ -380,6 +397,6 @@ class UserOrders extends Component {
 }
 
 ReactDOM.render(
-    <UserOrders />,
+    <LocaleProvider locale={zh_CN}><UserOrders /></LocaleProvider>,
     document.getElementById('__userOrders/userOrders__')
 );

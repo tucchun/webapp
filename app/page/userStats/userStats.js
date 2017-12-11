@@ -1,9 +1,15 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import {DatePicker} from 'antd';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
+import {LocaleProvider} from 'antd';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import SalesData from '../../component/salesData';
 import Gird from '../../component/table/Table';
 import PageNation from '../../component/pageNation/pageNation';
-import DatePicker from "react-bootstrap-date-picker";
+// import DatePicker from "react-bootstrap-date-picker";
 import http from '../../lib/Api/http';
 import ApiMap from '../../lib/Api/ApiMap';
 import {setInitDate, getTimestamp, addDate, downloadExcel} from '../../lib/Util';
@@ -22,7 +28,7 @@ class UserStats extends Component {
             }, {
               className: 'my-col-class',
               id: '123',
-              title: '订单总额',
+              title: '订单总额（元）',
               dataIndex: 'resident_sale',
               key: 'b',
             }, {
@@ -47,13 +53,14 @@ class UserStats extends Component {
             totalSale: 0,
             totalProdNum: 0,
             totalOrderNum: 0,
+            total: 0,
             pageNum: 0,
             pageCount: 10,
             currentPage: 1,
             beginNum: 0,
             startTime: setInitDate().startTime,
             endTime: setInitDate().endTime,
-            format: "YYYY/MM/DD",
+            format: "YYYY-MM-DD",
             tableData: []
         };
 
@@ -77,7 +84,7 @@ class UserStats extends Component {
         const parms = {
             ...ApiMap.commonData,
             stat_start: getTimestamp(startTime),
-            stat_end: getTimestamp(endTime),
+            stat_end: getTimestamp(endTime) + 86400000,
             begin: beginNum,
             count: pageCount
         };
@@ -85,7 +92,7 @@ class UserStats extends Component {
         http({
             url: ApiMap.getShopInhabitantStat.url,
             method: ApiMap.getShopInhabitantStat.method,
-            data: JSON.stringify(parms)
+            data: parms
         })
         .then((res) => {
             if (res.data.ret_code === 1) {
@@ -93,11 +100,13 @@ class UserStats extends Component {
                 console.log(resData);
                 this.setState({
                     pageNum: Math.ceil(resData.total / pageCount),
-                    totalSale: resData.total_sale,
+                    totalSale: resData.total_sale.toFixed(2),
                     totalProdNum: resData.total_prod_num,
                     totalOrderNum: resData.total_order_num,
+                    total: resData.total,
                     tableData: resData.prod_list.map(function (item, index) {
                         item.key = (currentPage - 1) * pageCount + index + 1;
+                        item.resident_sale = (item.resident_sale === undefined) ? '0.00' : item.resident_sale.toFixed(2);
                         return item;
                     })
                 });
@@ -107,6 +116,8 @@ class UserStats extends Component {
         }, (error) => {
             console.log(error);
         });
+
+        console.log(this.state)
     }
 
     handleStartTimeChange(value, formattedValue) {
@@ -121,15 +132,21 @@ class UserStats extends Component {
     }
 
     handleClickSearch() {
-        this.setState({
-            currentPage: 1,
-        }, () => {
+        const {startTime, endTime} = this.state;
+        if (getTimestamp(startTime) > getTimestamp(endTime)) {
+            common.alert('开始时间不能晚于结束时间');
+            return;
+        } else {
             this.setState({
-                beginNum: (this.state.currentPage - 1) * this.state.pageCount
+                currentPage: 1,
             }, () => {
-                this.getShopInhabitantStat();
+                this.setState({
+                    beginNum: (this.state.currentPage - 1) * this.state.pageCount
+                }, () => {
+                    this.getShopInhabitantStat();
+                });
             });
-        });
+        }
     }
 
     // 导出居民统计
@@ -138,16 +155,16 @@ class UserStats extends Component {
         const parms = {
             ...ApiMap.commonData,
             stat_start: getTimestamp(startTime),
-            stat_end: getTimestamp(endTime)
+            stat_end: getTimestamp(endTime) + 86400000
         };
         http({
             url: ApiMap.shopInhabitantStat.url,
             method: ApiMap.shopInhabitantStat.method,
-            data: JSON.stringify(parms),
+            data: parms,
             responseType: 'blob'
         })
         .then((res) => {
-            downloadExcel(res, '居民统计');
+            downloadExcel(res.data, '居民统计');
         }, (error) => {
             common.alert(error);
         });
@@ -173,21 +190,21 @@ class UserStats extends Component {
         common.createTab({
             uri: 'app/dist/userOrders/userOrders.html',
             data: {
-                name: '居民订单列表'
+                name: '用户订单'
             },
             key: 'userOrders',
         });
         
-        common.Util.data('parms', {
+        common.Util.data('user', {
             residentUid: id
         });
     }
 
     render() {
-        const {totalSale, totalProdNum, totalOrderNum, startTime, endTime, format, pageNum, currentPage, tableData} = this.state;
+        const {totalSale, totalProdNum, totalOrderNum, startTime, endTime, format, pageNum, currentPage, tableData, total} = this.state;
         const columns = this.columns;
-        const start = startTime && new Date(addDate(startTime)).toISOString();
-        const end = endTime && new Date(addDate(endTime)).toISOString();
+        const start = startTime && moment(new Date(getTimestamp(startTime)));
+        const end = endTime && moment(new Date(getTimestamp(endTime)));
         return (
             <div className="wrap hospital">
                 <div className="tb-head">用户统计</div>
@@ -227,11 +244,12 @@ class UserStats extends Component {
                             columns={columns}
                             data={tableData}
                         />
-                        <PageNation
+                        {tableData.length !== 0 ? <PageNation
+                            pageCount={total}
                             pageNumber={pageNum}
                             currentPage={currentPage}
                             getPage={this.handleTogglePage}
-                        />
+                        /> : null}
                     </div>
                 </div>
             </div>
@@ -240,6 +258,6 @@ class UserStats extends Component {
 }
 
 ReactDOM.render(
-    <UserStats />,
+    <LocaleProvider locale={zh_CN}><UserStats /></LocaleProvider>,
     document.getElementById('__userStats/userStats__')
 );

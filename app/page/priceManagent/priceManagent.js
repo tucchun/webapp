@@ -8,7 +8,7 @@ import PageNation from '../../component/pageNation/pageNation';
 import ApiMap from '../../lib/Api/ApiMap';
 import PriceMaDialog from './priceMaDialog';
 import http from '../../lib/Api/http';
-import { alert } from '../../lib/Util';
+import { alert,createTab,downloadExcel } from '../../lib/Util';
 import './goodslist.css';
 
 class PriceMangent extends Component{
@@ -17,7 +17,8 @@ class PriceMangent extends Component{
         this.state = {
             currentPage:1,
             pageNumber:1,
-            count:10,
+            pageCount:0,
+            count:20,
             gridData:[],
             lgShow:false,
             goodsInfo:{}
@@ -26,15 +27,22 @@ class PriceMangent extends Component{
         this.openDialog = this.openDialog.bind(this);
         this.submitHandle = this.submitHandle.bind(this);
         this.updatePrice = this.updatePrice.bind(this);
+        this.exportExcel = this.exportExcel.bind(this);
     }
 
     submitHandle(ev){
         let fData = this.refs.QueryForm.getData(),currentPage = 1,pageCode = 1;
+        let intType = ['prod_display','prod_allow_sale','prod_in_sale'];
         if(ev){
             for(let key in ev){
                 if(key !== 'currentPage' || key !== 'pageCode'){
                     fData[key] = ev[key];
                 }
+            }
+        }
+        for(let key in fData){
+            if(intType.indexOf(key) !== -1){
+                fData[key] = parseInt(fData[key]);
             }
         }
         if(ev && ev.currentPage){
@@ -50,15 +58,16 @@ class PriceMangent extends Component{
                 ...ApiMap.commonData
             }
         };
-        console.log(fData);
         http(condition).then(response => {
             let data = response.data;
             if(data.ret_code === 1){
                 this.setState({
                     gridData:data.ret_data.prod_list,
                     pageNumber:Math.ceil(data.ret_data.total/this.state.count),
+                    pageCount:data.ret_data.total,
                     pageCode,
-                    currentPage
+                    currentPage,
+                    lgShow:false
                 });
             }
         }).catch(err => {
@@ -127,7 +136,7 @@ class PriceMangent extends Component{
                 width:74,
                 align:'center',
                 render(value){
-                    return value.prod_in_sale ? <span className="onSale">在售</span> : <span className="stopSale">停售</span>
+                    return value.prod_in_sale === 1 ? <span className="onSale">在售</span> : <span className="stopSale">停售</span>
                 }
             },
             {
@@ -136,7 +145,7 @@ class PriceMangent extends Component{
                 width:74,
                 align:'center',
                 render(value){
-                    return value.prod_allow_sale ? <span className="onSale">可售</span> : <span className="stopSale">不可售</span>
+                    return value.prod_allow_sale === 1 ? <span className="onSale">可售</span> : <span className="stopSale">不可售</span>
                 }
 
             },
@@ -146,7 +155,7 @@ class PriceMangent extends Component{
                 width:74,
                 align:'center',
                 render(value){
-                    return value.prod_display ? <span className="onSale">显示</span> : <span className="stopSale">不显示</span>
+                    return value.prod_display === 1 ? <span className="onSale">是</span> : <span className="stopSale">否</span>
                 }
 
             },
@@ -163,7 +172,9 @@ class PriceMangent extends Component{
                                     that.openDialog(value)
                                 }
                             }>调价</a>
-                            <a href="#">详情</a>
+                            <a href="#" onClick={
+                                () => that.openDetail(value.prod_id)
+                            }>详情</a>
                         </div>
                     );
                 }
@@ -176,12 +187,35 @@ class PriceMangent extends Component{
         this.setState({lgShow:true,goodsInfo:value});
     }
 
+    //打开详情
+    openDetail(goodsId){
+        let data = {prod_id:goodsId};
+        createTab({
+            uri:'app/dist/goodsData/goodsDetail.html',
+            key:'goodsDetail',
+            data:{name:'商品资料详情'}
+        });
+        common.Util.data('goodsData/goodsDetail',data);
+    }
+
     //价格调整
     updatePrice(product){
+        let target_price = product.target_price;
+        const reg = /^[0-9]*.[0-9]*$/g;
+        if(target_price){
+            if(reg.test(target_price)){
+                target_price = parseFloat(target_price)
+            }else{
+                alert('价格应为数字');
+                return false;
+            }
+        }else{
+            target_price = null;
+        }
         let data = {
             prod_id:product.prod_id,
             adjust_type:parseInt(product.adjust_type),
-            target_price:parseFloat(product.target_price)
+            target_price
         };
         console.log(data);
         http({
@@ -207,6 +241,28 @@ class PriceMangent extends Component{
         console.log(product);
     }
 
+    //导出
+    exportExcel(){
+        let fData = this.refs.QueryForm.getData(),intType = ['prod_in_sale','prod_allow_sale','prod_display'];
+        for(let key in fData){
+            if(intType.indexOf(key) !== -1){
+                fData[key] = parseInt(fData[key]);
+            }
+        }
+        http({
+            ...ApiMap.goodsPriceAdjustExport,
+            responseType: 'blob',
+            data:{
+                ...ApiMap.commonData,
+                ...fData
+            }
+        }).then(response => {
+            downloadExcel(response.data,'商品价格表');
+            console.log(response);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
     render(){
         return (
             <Container className="priceMan p20" title="商品价格管理">
@@ -216,12 +272,14 @@ class PriceMangent extends Component{
                     } ref="QueryForm" />
                     <div className="options clearfix">
                         <div className="pull-right">
-                            <button className="btn btn-main">导出</button>
+                            <button className="btn btn-main" onClick={
+                                this.exportExcel
+                            }>导出</button>
                         </div>
                     </div>
                 </Condition>
                 <Grid rowKey="prod_id" columns={this.columns} data={this.state.gridData} />
-                <PageNation getPage={
+                <PageNation pageCount={this.state.pageCount} getPage={
                     ev => this.handlePage(ev)
                 } currentPage={this.state.currentPage} pageNumber={this.state.pageNumber} />
                 <PriceMaDialog lgShow={this.state.lgShow} goodsInfo={this.state.goodsInfo} showButton={true} confim={this.updatePrice} />

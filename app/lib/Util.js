@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Modal, Button} from 'react-bootstrap';
-//import axios from 'axios';
-//import http from './Api/http';
+import forge from 'node-forge';
+import FileSaver from 'file-saver';
+import Security from './security';
+import http from './Api/http';
+import {all, polyphone} from './dictor';
+import {logger} from './logger';
 const common = window.common;
 const Util = common.Util;
 
-export {
-  common,
-  Util
-};
+export {common, Util};
 class Alert extends React.Component {
 
   constructor(props) {
@@ -126,7 +127,6 @@ export function alert(content, callback) {
 
 }
 
-
 /**
 * 设置默认日期
 */
@@ -136,9 +136,20 @@ export function setInitDate() {
   let m = nowDate.getMonth();
   let d = nowDate.getDate();
   return {
-      startTime: y + '/' + m + '/' + d,
-      endTime: y + '/' + (m + 1) + '/' + d,
+    startTime: y + '-' + m + '-' + d,
+    endTime: y + '-' + (m + 1) + '-' + d
   };
+}
+
+export function addDate(date, days) {
+  if (days === undefined || days === '') {
+    days = 1;
+  }
+  date = new Date(date);
+  date.setDate(date.getDate() + days);
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+  return date.getFullYear() + '/' + month + '/' + day;
 }
 
 /**
@@ -146,17 +157,17 @@ export function setInitDate() {
 */
 export function getTimestamp() {
   if (arguments.length) {
-      const dateArr = arguments[0].split('/');
-      return new Date(dateArr[0], dateArr[1] - 1, dateArr[2]).getTime();
+    const dateArr = arguments[0].split('-');
+    return new Date(dateArr[0], dateArr[1] - 1, dateArr[2]).getTime();
   } else {
-      let nowDate = new Date();
-      let y = nowDate.getFullYear();
-      let m = nowDate.getMonth();
-      let d = nowDate.getDate();
-      return {
-          startTime: new Date(y, m - 1, d).getTime(),
-          endTime: new Date(y, m, d).getTime()
-      };
+    let nowDate = new Date();
+    let y = nowDate.getFullYear();
+    let m = nowDate.getMonth();
+    let d = nowDate.getDate();
+    return {
+      startTime: new Date(y, m - 1, d).getTime(),
+      endTime: new Date(y, m, d).getTime()
+    };
   }
 }
 
@@ -188,6 +199,12 @@ export function orderStatus(num) {
   return status;
 }
 
+let payTypeMap = {
+  1: '微信',
+  2: '支付宝',
+  3: '健管端支付'
+};
+
 /**
 * 支付方式转换
 * @param num 状态值
@@ -196,13 +213,13 @@ export function payType(num) {
   let type = '';
   switch (num) {
     case 1:
-      type = '微信支付';
+      type = payTypeMap[1];
       break;
     case 2:
-      type = '支付宝支付';
+      type = payTypeMap[2];
       break;
     case 3:
-      type = '专干端支付';
+      type = payTypeMap[3];
       break;
     default:
       type = '未支付';
@@ -210,21 +227,16 @@ export function payType(num) {
   return type;
 }
 
+export {payTypeMap};
+
 /**
 * 导出excel
-* @param response 请求返回值
+* @param blobData 请求返回的二进制文件
 * @param name 文件名
 */
-export function downloadExcel(response, name) {
-  const content = response.data;
-  const elink = document.createElement('a');
-  elink.download = name + '.xlsx';
-  elink.style.display = 'none';
-  const blob = new Blob([content]);
-  elink.href = URL.createObjectURL(blob);
-  document.body.appendChild(elink);
-  elink.click();
-  document.body.removeChild(elink);
+export function downloadExcel(blobData, name) {
+  const blob = new Blob([blobData]);
+  FileSaver.saveAs(blob, name + '.xlsx');
 }
 
 /**
@@ -232,20 +244,34 @@ export function downloadExcel(response, name) {
 * @param timeStamp 时间戳
 */
 export function formatDateTime(timeStamp) {
-  var date = new Date();
-  date.setTime(timeStamp);
-  var y = date.getFullYear();
-  var m = date.getMonth() + 1;
-  m = m < 10 ? ('0' + m) : m;
-  var d = date.getDate();
-  d = d < 10 ? ('0' + d) : d;
-  var h = date.getHours();
-  h = h < 10 ? ('0' + h) : h;
-  var minute = date.getMinutes();
-  var second = date.getSeconds();
-  minute = minute < 10 ? ('0' + minute) : minute;
-  second = second < 10 ? ('0' + second) : second;
-  return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+  if (!timeStamp) {
+    return;
+  } else {
+    var date = new Date();
+    date.setTime(timeStamp);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10
+      ? ('0' + m)
+      : m;
+    var d = date.getDate();
+    d = d < 10
+      ? ('0' + d)
+      : d;
+    var h = date.getHours();
+    h = h < 10
+      ? ('0' + h)
+      : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10
+      ? ('0' + minute)
+      : minute;
+    second = second < 10
+      ? ('0' + second)
+      : second;
+    return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+  }
 }
 
 // 创建tab
@@ -268,7 +294,7 @@ export function formatDateTime(timeStamp) {
   }
   common.createTab(opts)
  */
-export function createTab(args){
+export function createTab(args) {
   let url = args.uri;
   if (process.env.NODE_ENV !== 'production') {
     url = url.replace(/\/dist\//, '/dev/');
@@ -278,4 +304,117 @@ export function createTab(args){
     url
   };
   common.createTab(args);
+}
+//关闭tab页签
+/*
+ * ID: 编号
+ * callback： 回调函数
+ * defaultOpen： 是否打开新的标签（false：不打开； true：打开）; 默认打开；
+ * */
+export function closeTab(id, callback, defaultOpen) {
+  common.tab.close(id, callback, defaultOpen);
+}
+
+export function pkgUnit(unit) {
+  let type = '';
+  switch (unit) {
+    case 1:
+      type = '盒';
+      break;
+    case 2:
+      type = '袋';
+      break;
+    case 3:
+      type = '瓶';
+      break;
+    case 4:
+      type = '罐';
+      break;
+    case 5:
+      type = '听';
+      break;
+
+  }
+  return type;
+}
+
+//获取汉字拼音首字母
+export function getFirstLetter(str) {
+  let pinyin_dict_firstletter = {};
+  pinyin_dict_firstletter.all = all;
+  pinyin_dict_firstletter.polyphone = polyphone;
+  if (!str || /^ +$/g.test(str))
+    return '';
+  let result = [];
+  for (let i = 0; i < str.length; i++) {
+    let unicode = str.charCodeAt(i);
+    let ch = str.charAt(i);
+    if (unicode >= 19968 && unicode <= 40869) {
+      ch = pinyin_dict_firstletter.all.charAt(unicode - 19968);
+      ch = pinyin_dict_firstletter.polyphone[unicode] || ch;
+    }
+    result.push(ch);
+  }
+  return result.join('');
+}
+
+//图片地址转换
+export function converson(imgaddress) {
+  let initAddress = forge.util.encode64(imgaddress);
+  let encodeAddress = encodeURI(initAddress);
+  let ads = '/hca/web/admin/getfile/' + encodeAddress;
+  return ads;
+}
+
+//获取认证子串
+export function getAuthStr() {
+  let user_name = localStorage.getItem('__username__'),
+    server_tick = localStorage.getItem('__transportKey__');
+  return Security.base64.encode(Security.aes.encode({
+    target: user_name + Security.now(),
+    key: server_tick
+  }));
+}
+
+//字符串首尾空格去除
+export function trim(str) {
+  return str.replace(/^(\s|\u00A0)+/, '').replace(/(\s|\u00A0)+$/, '');
+}
+
+// 通过自定义属性获取元素
+export function getElementByAttr(tag, attr, value) {
+  const aElements = document.getElementsByTagName(tag);
+  const aEle = [];
+  for (let i = 0; i < aElements.length; i++) {
+    if (aElements[i].getAttribute(attr) === value) {
+      aEle.push(aElements[i]);
+    }
+  }
+  return aEle;
+}
+// 请求模板
+export const fetchTemplate = apiData => args => {
+  return new Promise((resolve, reject) => {
+    http({
+      ...apiData,
+      data: {
+        ...apiData.data,
+        ...args
+      }
+    }).then(result => {
+      const data = result.data;
+      if (data.ret_code === 1) {
+        resolve(data.ret_data);
+      } else {
+        reject(data.ret_msg);
+      }
+    }).catch(err => {
+      reject('请求数据失败');
+      logger(err);
+    });
+  });
+};
+
+export function amount_format(amount){
+  return (amount || 0).toFixed(2);
 }

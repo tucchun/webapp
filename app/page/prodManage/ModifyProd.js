@@ -22,6 +22,11 @@ class ModifyProd extends Component {
     this.hideModal = this.hideModal.bind(this);
     this.updateProd = this.updateProd.bind(this);
     this.doEntry = this.doEntry.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
+  closeModal(){
+    this.props.closeModal();
   }
 
   doEntry(){
@@ -88,7 +93,7 @@ class ModifyProd extends Component {
     } = this.props;
     return (
       <Modal show={show}>
-        <Modal.Header>
+        <Modal.Header closeButton={true} onHide={this.closeModal}>
           <Modal.Title>修改</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -98,14 +103,14 @@ class ModifyProd extends Component {
                 <FormGroup controlId="prod_no">
                   <ControlLabel>商品编号</ControlLabel>
                   {' '}
-                  <FormControl disabled={true} type="text" placeholder="商品编号" value={prod_no}/>
+                  <FormControl className='input-value' readOnly type="text" placeholder="商品编号" value={prod_no}/>
                 </FormGroup>
               </Col>
               <Col xs={6} md={6}>
                 <FormGroup controlId="prod_name">
                   <ControlLabel>商品名称</ControlLabel>
                   {' '}
-                  <FormControl disabled={true} type="text" placeholder="商品名称" value={prod_name}/>
+                  <FormControl readOnly className='input-value' type="text" placeholder="商品名称" value={prod_name}/>
                 </FormGroup>
               </Col>
             </Row>
@@ -114,14 +119,14 @@ class ModifyProd extends Component {
                 <FormGroup controlId="prod_src">
                   <ControlLabel>商品产地</ControlLabel>
                   {' '}
-                  <FormControl disabled={true} type="text" placeholder="商品产地" value={prod_src}/>
+                  <FormControl readOnly className='input-value' type="text" placeholder="商品产地" value={prod_src}/>
                 </FormGroup>
               </Col>
               <Col xs={6} md={6}>
                 <FormGroup controlId="prod_spec">
                   <ControlLabel>商品规格</ControlLabel>
                   {' '}
-                  <FormControl disabled={true} type="text" placeholder="商品规格" value={prod_spec}/>
+                  <FormControl readOnly className='input-value' type="text" placeholder="商品规格" value={prod_spec}/>
                 </FormGroup>
               </Col>
             </Row>
@@ -158,7 +163,8 @@ ModifyProd.propTypes = {
   show: PropTypes.bool.isRequired,
   handleSelectChange: PropTypes.func.isRequired,
   handleHideModal: PropTypes.func.isRequired,
-  updateProd: PropTypes.func.isRequired
+  updateProd: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired
 };
 
 export default ModifyProd;

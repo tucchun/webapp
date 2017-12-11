@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import { Modal,Form,FormGroup,ControlLabel,FormControl,Col,Button} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import {alert} from '../../lib/Util';
 
 class PriceMaDialog extends Component{
     constructor(props){
@@ -10,7 +11,8 @@ class PriceMaDialog extends Component{
             goodsInfo:{
                 ...props.goodsInfo,
                 adjust_type:1
-            }
+            },
+            showPrice:props.goodsInfo.prod_original_price
         };
     }
 
@@ -22,10 +24,23 @@ class PriceMaDialog extends Component{
                 ...nextProps.goodsInfo,
                 adjust_type:1
             },
+            showPrice:nextProps.goodsInfo.prod_original_price,
             showButton:nextProps.showButton
         });
     }
-
+    checkValue(){
+        const ajectTypeTag = parseInt(this.adjectType.value);
+        const reg = /^[0-9]*.[0-9]*$/g;
+        if(ajectTypeTag !== 1){
+            if(reg.test(this.state.goodsInfo.target_price)){
+                this.props.confim(this.state.goodsInfo);
+            }else{
+                alert('价格应为数字,且不能为空');
+            }
+        }else{
+            this.props.confim(this.state.goodsInfo);
+        }
+    }
     //根据状态获取底部按钮
     getButton(){
         let lgClose = () => this.setState({ lgShow: false }),that = this;
@@ -34,8 +49,7 @@ class PriceMaDialog extends Component{
                 <Button onClick={lgClose}>取消</Button>
                 <Button onClick={
                     () => {
-                        console.log(that.state.goodsInfo);
-                        that.props.confim(that.state.goodsInfo);
+                        that.checkValue()
                     }
                 } bsStyle="primary">确定</Button>
             </Modal.Footer>;
@@ -46,21 +60,27 @@ class PriceMaDialog extends Component{
 
     //更改不同调价类型
     changeType(ev){
-        console.log(ev.target.value);
+        let showPrice = this.state.goodsInfo.prod_original_price?this.state.goodsInfo.prod_original_price:'';
+        if(parseInt(ev.target.value) !== 1){
+            showPrice = this.state.goodsInfo.prod_price?this.state.goodsInfo.prod_price:'';
+        }
         this.setState({
+            ...this.state,
             goodsInfo:{
                 ...this.state.goodsInfo,
                 adjust_type:ev.target.value
-            }
-        })
+            },
+            showPrice
+        });
     }
 
     //获取调整后的价格
     setTargetPrice(ev){
+        const pirce = ev.target.value;
         this.setState({
             goodsInfo:{
                 ...this.state.goodsInfo,
-                target_price:parseFloat(ev.target.value).toFixed(2)
+                target_price:pirce
             }
         });
     }
@@ -134,10 +154,14 @@ class PriceMaDialog extends Component{
                                 <ControlLabel>调价类型：</ControlLabel>
                             </Col>
                             <Col sm={10}>
-                                <FormControl name="adjust_type" onChange={
+                                <FormControl name="adjust_type"
+                                             inputRef={ref => { this.adjectType = ref; }}
+                                             onChange={
                                     ev => this.changeType(ev)
                                 }
-                                             defaultValue={this.state.goodsInfo.adjust_type} componentClass="select" disabled={!this.state.showButton}>
+                                             defaultValue={this.state.goodsInfo.adjust_type}
+                                             componentClass="select"
+                                             disabled={!this.state.showButton}>
                                     <option value={1}>原价</option>
                                     <option value={2}>售价</option>
                                 </FormControl>
@@ -149,7 +173,9 @@ class PriceMaDialog extends Component{
                             </Col>
                             <Col sm={4}>
                                 <FormControl name={this.state.goodsInfo.adjust_type === 1 ? 'prod_original_price' : 'prod_price'}
-                                             defaultValue={this.state.goodsInfo.adjust_type === 1 ? this.state.goodsInfo.prod_original_price : this.state.goodsInfo.prod_price} readOnly/>
+                                             value={
+                                                 this.state.showPrice
+                                             } readOnly/>
                             </Col>
                             <Col className="text-right" sm={2}>
                                 <ControlLabel>调价后价格：</ControlLabel>

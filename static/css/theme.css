@@ -360,3 +360,6 @@ td{
 .border-bottom{
   border-bottom: 1px solid #ccc!important;
 }
+.form-control{
+  height: 32px;
+}

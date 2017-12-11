@@ -9,7 +9,7 @@ import ApiMap from '../../lib/Api/ApiMap';
 import http from '../../lib/Api/http';
 import PriceCheckDialog from './priceCheckDialog';
 import PriceModify from './priceModify';
-import { alert,downloadExcel } from '../../lib/Util';
+import { alert,downloadExcel,formatDateTime,trim } from '../../lib/Util';
 import './goodslist.css';
 
 class PriceCheck extends Component{
@@ -18,6 +18,7 @@ class PriceCheck extends Component{
         this.state = {
             currentPage:1,
             pageNumber:1,
+            pageCount:0,
             count:20,
             gridData:[],
             lgShow:false,
@@ -37,8 +38,8 @@ class PriceCheck extends Component{
         return [
             {
                 title:'编号',
-                key:'adjust_id',
-                dataIndex:'adjust_id',
+                key:'adjust_no',
+                dataIndex:'adjust_no',
                 align:'left'
             },
             {
@@ -88,8 +89,10 @@ class PriceCheck extends Component{
             {
                 title:'申请时间',
                 key:'create_date',
-                dataIndex:'create_date',
                 align:'left',
+                render(value){
+                    return value.create_date ? formatDateTime(value.create_date) : '';
+                }
             },
             {
                 title:'审核人',
@@ -100,8 +103,10 @@ class PriceCheck extends Component{
             {
                 title:'审核时间',
                 key:'audit_date',
-                dataIndex:'audit_date',
                 align:'left',
+                render(value){
+                    return value.audit_date ? formatDateTime(value.audit_date) : '';
+                }
             },
             {
                 title:'状态',
@@ -206,8 +211,8 @@ class PriceCheck extends Component{
 
     //处理表单数据
     handleSubmit(pageArgument){
-        let fd = document.getElementById('queryApply'),fdAta = {},cd;
-        let ev = pageArgument || {currentPage:1,pageCode:1}
+        let fd = document.getElementById('queryCheck'),fdAta = {},cd;
+        let ev = pageArgument || {currentPage:1,pageCode:1};
         if(ev){
             cd = {
                 begin:ev.pageCode === 1 ? 0 : (ev.pageCode - 1) * this.state.count,
@@ -216,7 +221,7 @@ class PriceCheck extends Component{
         }
         for(let i = 0;i<fd.elements.length;i++){
             if(fd.elements[i].type === 'text' || fd.elements[i].type === 'select-one'){
-                fdAta[fd.elements[i].name] = fd.elements[i].value;
+                fdAta[fd.elements[i].name] = trim(fd.elements[i].value);
             }
         }
         this.getGridData({
@@ -243,6 +248,7 @@ class PriceCheck extends Component{
                     gridData:data.ret_data.adjust_list,
                     pageNumber:Math.ceil(data.ret_data.total/this.state.count),
                     currentPage:condition.currentPage ? condition.currentPage : 1,
+                    pageCount:data.ret_data.total,
                     lgShow:false,
                     checkShow:false,
                 });
@@ -287,19 +293,14 @@ class PriceCheck extends Component{
             ...ApiMap.goodsPriceAdjustExport,
             data:{
                 ...ApiMap.commonData,
-                adjust_status:1,
+                adjust_status:parseInt(this.adjust_status.value)||0,
                 prod_name:this.prod_name.value,
                 create_by:this.create_by.value,
                 audit_by:this.audit_by.value
 
             }
         }).then(response => {
-            if(response.data.ret_code === 1){
-                downloadExcel(response,'调价审核表')
-            }else{
-                alert(response.data.ret_msg)
-            }
-            console.log(response);
+            downloadExcel(response.data,'调价审核表');
         }).catch(err => {
             console.log(err);
         });
@@ -308,16 +309,16 @@ class PriceCheck extends Component{
     //生命周期
     componentDidMount(){
         this.handleSubmit({
-            begin:1,
+            begin:0,
             count:this.state.count
         })
     }
     render(){
         return (
-            <Container className = "p20" title={'调价申请'}>
+            <Container className = "p20" title={'商品调价审核'}>
                 <Condition>
                     <div>
-                        <Form id="queryApply" onSubmit = {
+                        <Form id="queryCheck" onSubmit = {
                             ev => this.handleSubmitEvent(ev)
                         } inline>
                             <FormGroup>
@@ -326,7 +327,8 @@ class PriceCheck extends Component{
                             </FormGroup>
                             <FormGroup>
                                 <ControlLabel>状态：</ControlLabel>
-                                <FormControl componentClass="select" name="adjust_status" inputRef={ref => { this.adjust_status = ref}}>
+                                <FormControl componentClass="select" name="adjust_status" defaultValue={1} inputRef={ref => { this.adjust_status = ref}}>
+                                    <option value={0}>全部</option>
                                     <option value={1}>待审核</option>
                                     <option value={2}>已审核</option>
                                     <option value={3}>已拒绝</option>
@@ -355,7 +357,7 @@ class PriceCheck extends Component{
                     </Clearfix>
                 </Condition>
                 <Grid rowKey="adjust_id" data={this.state.gridData} columns={this.columns}/>
-                <PageNation currentPage={this.state.currentPage} pageNumber={this.state.pageNumber} getPage={this.handlePage} />
+                <PageNation pageCount={this.state.pageCount} currentPage={this.state.currentPage} pageNumber={this.state.pageNumber} getPage={this.handlePage} />
                 <PriceModify lgShow={this.state.lgShow} goodsInfo={this.state.goodsInfo}/>
                 <PriceCheckDialog adjectInfo={this.state.goodsInfo} checkShow={this.state.checkShow}
                                   checkType={this.state.checkType} confim={this.handleCheck}/>

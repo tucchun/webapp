@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import {DatePicker} from 'antd';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
+import {LocaleProvider} from 'antd';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import SalesData from '../../component/salesData';
 import Gird from '../../component/table/Table';
 import PageNation from '../../component/pageNation/pageNation';
-import DatePicker from "react-bootstrap-date-picker";
+// import DatePicker from "react-bootstrap-date-picker";
 import http from '../../lib/Api/http';
 import ApiMap from '../../lib/Api/ApiMap';
-import {setInitDate, getTimestamp, addDate, downloadExcel} from '../../lib/Util';
+import {setInitDate, getTimestamp, addDate, downloadExcel, createTab, closeTab, getElementByAttr} from '../../lib/Util';
 import '../../lib/styles/index.css';
 
 class SalesStats extends Component {
@@ -46,14 +52,15 @@ class SalesStats extends Component {
             totalSale: 0,
             totalProdNum: 0,
             totalOrderNum: 0,
+            total: 0,
             pageNum: 0,
             pageCount: 10,
             currentPage: 1,
             beginNum: 0,
             startTime: setInitDate().startTime,
             endTime: setInitDate().endTime,
-            format: "YYYY/MM/DD",
-            //orgId: 0,
+            format: "YYYY-MM-DD",
+            orgId: 0,
             tableData: []
         };
 
@@ -65,20 +72,35 @@ class SalesStats extends Component {
     }
 
     componentWillMount() {
-        console.log(common.Util.data('parms'));
+        console.log(common.Util.data('parms'))
 
-        if (!common.Util.data('parms')) {
-            this.getShopSaleStat();
+
+        if (!common.Util.data('parms') || !common.Util.data('parms').orgId) {
+            this.setState({
+                orgId: 0
+            }, () => {
+                this.getShopSaleStat();
+            });
         } else {
             this.setState({
                 orgId: common.Util.data('parms').orgId
             }, () => {
-                console.log(this.state);
                 this.getShopSaleStat();
             });
         }
     }
-    componentDidMount() {}
+
+    componentDidMount() {
+        const aEle = document.getElementById('tab-li-__salesStats-salesStats__').getElementsByClassName('tab-i-close js-tab-close');
+        function cleanParms() {
+            common.Util.data('parms', {
+                orgId: 0
+            });
+        }
+        for (let i = 0; i < aEle.length; i++){
+            aEle[i].addEventListener("click", cleanParms, false);
+        }
+    }
 
     // 获取销售统计
     getShopSaleStat() {
@@ -87,15 +109,18 @@ class SalesStats extends Component {
             ...ApiMap.commonData,
             org_id: orgId,
             stat_start: getTimestamp(startTime),
-            stat_end: getTimestamp(endTime),
+            stat_end: getTimestamp(endTime) + 86400000,
             begin: beginNum,
             count: pageCount
         };
+        if (orgId === 0) {
+            delete parms.org_id;
+        }
 
         http({
             url: ApiMap.getShopSaleStat.url,
             method: ApiMap.getShopSaleStat.method,
-            data: JSON.stringify(parms)
+            data: parms
         })
         .then((res) => {
             if (res.data.ret_code === 1) {
@@ -103,11 +128,14 @@ class SalesStats extends Component {
                 console.log(resData);
                 this.setState({
                     pageNum: Math.ceil(resData.total / pageCount),
-                    totalSale: resData.total_sale,
+                    totalSale: resData.total_sale.toFixed(2),
                     totalProdNum: resData.total_prod_num,
                     totalOrderNum: resData.total_order_num,
+                    orgId: resData.org_id,
+                    total: resData.total,
                     tableData: resData.stat_list.map(function (item, index) {
                         item.key = (currentPage - 1) * pageCount + index + 1;
+                        item.stat_sale = (item.stat_sale === undefined) ? '0.00' : item.stat_sale.toFixed(2);
                         return item;
                     })
                 });
@@ -131,34 +159,43 @@ class SalesStats extends Component {
     }
 
     handleClickSearch() {
-        this.setState({
-            currentPage: 1,
-        }, () => {
+        const {startTime, endTime} = this.state;
+        if (getTimestamp(startTime) > getTimestamp(endTime)) {
+            common.alert('开始时间不能晚于结束时间');
+            return;
+        } else {
             this.setState({
-                beginNum: (this.state.currentPage - 1) * this.state.pageCount
+                currentPage: 1,
             }, () => {
-                this.getShopSaleStat();
+                this.setState({
+                    beginNum: (this.state.currentPage - 1) * this.state.pageCount
+                }, () => {
+                    this.getShopSaleStat();
+                });
             });
-        });
+        }
     }
 
     // 导出销售统计
     handleClickExport() {
-        const {startTime, endTime} = this.state;
+        const {startTime, endTime, orgId} = this.state;
         const parms = {
             ...ApiMap.commonData,
+            org_id: orgId,
             stat_start: getTimestamp(startTime),
-            stat_end: getTimestamp(endTime)
+            stat_end: getTimestamp(endTime) + 86400000
         };
+        if (orgId === 0) {
+            delete parms.org_id;
+        }
         http({
             url: ApiMap.shopSaleStatExport.url,
             method: ApiMap.shopSaleStatExport.method,
-            data: JSON.stringify(parms),
+            data: parms,
             responseType: 'blob'
         })
         .then((res) => {
-            console.log(res);
-            downloadExcel(res, '销售统计');
+            downloadExcel(res.data, '销售统计');
         }, (error) => {
             common.alert(error);
         });
@@ -179,28 +216,30 @@ class SalesStats extends Component {
     }
 
     createTab(id, e) {
-        console.log(common, id);
         if (id.toString().length === 10) {
-            common.createTab({
-                uri: 'app/dist/jgssalesStats/jgssalesStats.html',
-                data: {
-                    name: '销售统计-健管师'
-                },
-                key: 'jgssalesStats',
-            });
+            closeTab('__jgssalesStats-jgssalesStats__', function() {
+                common.createTab({
+                    uri: 'app/dist/jgssalesStats/jgssalesStats.html',
+                    data: {
+                        name: '销售统计-健管师'
+                    },
+                    key: 'jgssalesStats',
+                });
+            })
             common.Util.data('parms', {
-                orgId: common.Util.data('parms').orgId,
+                orgId: (common.Util.data('parms') === undefined || common.Util.data('parms').orgId === undefined) ? this.state.orgId : common.Util.data('parms').orgId,
                 hecadreUid: id
             });
         } else {
-            common.createTab({
-                uri: 'app/dist/salesStats/salesStats.html',
-                data: {
-                    name: '销售统计'
-                },
-                key: 'salesStats',
+            closeTab('__salesStats-salesStats__', function() {
+                common.createTab({
+                    uri: 'app/dist/salesStats/salesStats.html',
+                    data: {
+                        name: '销售统计'
+                    },
+                    key: 'salesStats-salesStats',
+                });
             });
-
             common.Util.data('parms', {
                 orgId: id
             });
@@ -209,10 +248,10 @@ class SalesStats extends Component {
     }
 
     render() {
-        const {totalSale, totalProdNum, totalOrderNum, startTime, endTime, format, inputFormat, mode, pageNum, currentPage, tableData} = this.state;
+        const {totalSale, totalProdNum, totalOrderNum, startTime, endTime, format, inputFormat, mode, pageNum, currentPage, tableData, total} = this.state;
         const columns = this.columns;
-        const start = startTime && new Date(addDate(startTime)).toISOString();
-        const end = endTime && new Date(addDate(endTime)).toISOString();
+        const start = startTime && moment(new Date(getTimestamp(startTime)));
+        const end = endTime && moment(new Date(getTimestamp(endTime)));
         return (
             <div className="wrap hospital">
                 <div className="tb-head">销售统计</div>
@@ -252,11 +291,12 @@ class SalesStats extends Component {
                             columns={columns}
                             data={tableData}
                         />
-                        <PageNation
+                        {tableData.length !== 0 ? <PageNation
+                            pageCount={total}
                             pageNumber={pageNum}
                             currentPage={currentPage}
                             getPage={this.handleTogglePage}
-                        />
+                        /> : null}
                     </div>
                 </div>
             </div>
@@ -265,6 +305,6 @@ class SalesStats extends Component {
 }
 
 ReactDOM.render(
-    <SalesStats />,
+    <LocaleProvider locale={zh_CN}><SalesStats /></LocaleProvider>,
     document.getElementById('__salesStats/salesStats__')
 );

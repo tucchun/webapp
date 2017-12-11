@@ -1,11 +1,9 @@
-let user_id = document.getElementById('__user__').value;
-let auth_str = document.getElementById('__auth__').value;
+let user_id = localStorage.getItem('__user__');
 
 const commonData = {
   src_type: 'Web Admin',
   pf_type: 'Web',
-  user_id: parseInt(user_id),
-  auth_str: auth_str
+  user_id: parseInt(user_id)
 };
 
 const ApiMap = {
@@ -138,7 +136,9 @@ const ApiMap = {
   //1.1.21	(Web)商品列表导出
   goodsExport: {
     url: '/hca/web/admin/shop/prod/export',
-    method: 'POST'
+    method: 'POST',
+    data: commonData,
+    responseType: 'blob'
   },
 
   //1.1.12	(Web)商品价格调整列表
@@ -186,7 +186,8 @@ const ApiMap = {
   //1.1.14	(Web)商品价格调整导出
   goodsPriceAdjustExport: {
     url: '/hca/web/admin/shop/prodprice/adjust/export',
-    method: 'POST'
+    method: 'POST',
+    responseType: 'blob',
   },
 
   //1.1.15	(Web)商品详情
@@ -317,6 +318,22 @@ const ApiMap = {
   //1.3.18	(Web)订货意向导出
   shopGuestorderExport: {
     url: '/hca/web/admin/shop/guestorder/export',
+    method: 'POST',
+    data: commonData,
+    responseType: 'blob'
+  },
+
+  //1.4.2	订单列表导出
+  shopOrderExport: {
+    url: '/hca/web/admin/shop/order/export',
+    method: 'POST',
+    data: commonData,
+    responseType: 'blob'
+  },
+
+  //1.1.17	(Web)商品详情
+  shopProdInfo: {
+    url: '/hca/web/admin/shop/prod',
     method: 'POST',
     data: commonData
   }

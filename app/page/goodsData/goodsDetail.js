@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 import Container from '../../component/container/Container';
 import { Form,Clearfix,FormGroup,ControlLabel,FormControl,Col,Button } from 'react-bootstrap';
 import http from '../../lib/Api/http';
+import { converson } from '../../lib/Util';
 import ApiMap from '../../lib/Api/ApiMap';
 import GoodsDialog from './goodsTagDialog';
 import './newGoods.css';
@@ -84,7 +85,9 @@ class GoodsDetail extends Component{
                     },
                     crowText,
                     tagsText,
-                    showImg:prod_imgs
+                    showImg:prod_imgs.map(img => {
+                        return converson(img);
+                    })
                 });
             }
         }).catch(err=>{
@@ -105,7 +108,7 @@ class GoodsDetail extends Component{
                 str_code = '瓶';
                 break;
             case 4:
-                str_code = '灌';
+                str_code = '罐';
                 break;
             case 5:
                 str_code = '听';
@@ -220,7 +223,7 @@ class GoodsDetail extends Component{
                             </Col>
                             <Col sm={4}>
                                 <FormControl.Static name="prod_country_flag" componentClass="label" className="normalLable">
-                                    {this.state.goodsMsg.prod_country_flag === 1 ? '进口' : '国产'}
+                                    {this.state.goodsMsg.prod_country_flag === 1 ? '国产' : '进口'}
                                 </FormControl.Static>
                             </Col>
                         </FormGroup>
@@ -271,7 +274,7 @@ class GoodsDetail extends Component{
                             </Col>
                         </FormGroup>
                         <FormGroup>
-                            <Col componentClass={ControlLabel} className="text-right" sm={2}>主要成分：</Col>
+                            <Col componentClass={ControlLabel} className="text-right" sm={2}>主要成份：</Col>
                             <Col sm={10}>
                                 <FormControl.Static name="prod_ingreds" componentClass="label" className="normalLable">{this.state.goodsMsg.prod_ingreds}</FormControl.Static>
                             </Col>
@@ -287,8 +290,8 @@ class GoodsDetail extends Component{
                             <Col sm={10}>
                                 <Clearfix>
                                     {
-                                        this.state.showImg.map(img=>{
-                                            return (<img src={img} key={img} className="uploadImg" alt="商品图片"/>)
+                                        this.state.showImg.map((img,index)=>{
+                                            return (<img src={img} key={index} className="uploadImg" alt="商品图片"/>)
                                         })
                                     }
                                 </Clearfix>
@@ -297,9 +300,7 @@ class GoodsDetail extends Component{
                         <FormGroup>
                             <Col componentClass={ControlLabel} className="text-right" sm={2}><span>*</span>商品介绍：</Col>
                             <Col sm={10}>
-                                <FormControl.Static name="prod_intro" componentClass="div" className="normalLable">
-                                    {this.state.goodsMsg.prod_intro}
-                                </FormControl.Static>
+                                <FormControl.Static name="prod_intro" componentClass="div" className="normalLable" dangerouslySetInnerHTML={{__html:this.state.goodsMsg.prod_intro}}/>
                             </Col>
                         </FormGroup>
                     </Form>

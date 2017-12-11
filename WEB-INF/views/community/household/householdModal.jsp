@@ -59,7 +59,6 @@
         'jquery','validate','message_zh'
     ],function($){
         var $self = $("#newHousehold");
-
         var detailIndex = ${household.details.size()};
         // 添加
         $("#js_houseNumber").on("click", ".js-add", function(e){
@@ -94,13 +93,55 @@
             }
 
         });
-
+        
         $self.find('#js-form-detail').validate({
         	rules:{
-                headerBuildingNo:{maxlength:100},
-                headerBuildingUnit:{maxlength:100}
+                headerBuildingNo:{maxlength:100,remote:{
+                	url:"${ctx}/household/checkNoUnit",
+                	type:'GET',
+                	data:{"buildingId":$self.find("input[name='buildingId']").val().trim(),
+            			"headerId":$self.find("input[name='tmpHeaderId']").val().trim(),
+            			"no":function(){return $self.find("input[name='headerBuildingNo']").val().trim()},
+            			"unit":function(){return $self.find("input[name='headerBuildingUnit']").val().trim()}
+            		},
+            		dataType:"JSON"
+                }},
+                headerBuildingUnit:{maxlength:100,remote:{
+                	url:"${ctx}/household/checkNoUnit",
+                	type:'GET',
+                	data:{"buildingId":$self.find("input[name='buildingId']").val().trim(),
+            			"headerId":$self.find("input[name='tmpHeaderId']").val().trim(),
+            			"no":function(){return $self.find("input[name='headerBuildingNo']").val().trim()},
+            			"unit":function(){return $self.find("input[name='headerBuildingUnit']").val().trim()}
+            		},
+            		dataType:"JSON"
+                }}
+            },
+            messages:{
+            	headerBuildingNo:{remote:"已存在楼栋单元"},
+            	headerBuildingUnit:{remote:"已存在楼栋单元"}
             }
         });
+        
+        function checkNoUnit(){
+        	common.fetch({
+        		url:"${ctx}/household/checkNoUnit",
+            	type:'GET',
+            	data:{"buildingId":$self.find("input[name='buildingId']").val().trim(),
+        			"headerId":$self.find("input[name='tmpHeaderId']").val().trim(),
+        			"no":function(){return $self.find("input[name='headerBuildingNo']").val().trim()},
+        			"unit":function(){return $self.find("input[name='headerBuildingUnit']").val().trim()}
+        		},
+        		dataType:"JSON",
+        		success:function(data){
+        			debugger;
+        			if(!data){
+        				common.alert("已存在楼栋单元");
+        			}
+        			return data;
+        		}
+        	})
+        };
+        
     });
-
 </script>

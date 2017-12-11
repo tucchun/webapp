@@ -98,7 +98,7 @@ class HecadreListbyarea extends Component {
             <Row className="show-grid">
               <Col xs={12} md={12}>
                 <Gird rowKey='hecadre_uid' columns={this.columns} data={this.props.girdData}/>
-                <PageNation getPage={this.handleGetPage} currentPage={this.props.currentPage} pageNumber={this.props.pageNumber}/>
+                <PageNation pageCount={this.props.pageCount} getPage={this.handleGetPage} currentPage={this.props.currentPage} pageNumber={this.props.pageNumber}/>
               </Col>
             </Row>
           </Grid>

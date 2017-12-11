@@ -1,38 +1,36 @@
 import ApiMap from '../../lib/Api/ApiMap';
 import http from '../../lib/Api/http';
 import {logger} from '../../lib/logger';
+import {fetchTemplate} from '../../lib/Util';
 
 
-//1.3.18	(Web)订货意向导出
-export function shopOrderList(condition) {
-  const shopOrderListData = ApiMap.shopOrderList;
+export const exportData = (args) => {
+  const shopOrderExport = ApiMap.shopOrderExport;
   return new Promise((resolve, reject) => {
     http({
-      url: shopOrderListData.url,
-      method: shopOrderListData.method,
+      ...shopOrderExport,
       data: {
-        ...shopOrderListData.data,
-        ...condition
+        ...shopOrderExport.data,
+        ...args
       }
     }).then(result => {
-      logger(result);
+      debugger
       const data = result.data;
-      if (data.ret_code === 1) {
-        resolve(data.ret_data);
+      if (data) {
+        resolve(data);
       } else {
-        reject(data.ret_msg);
+        reject('导出失败');
       }
     }).catch(err => {
-      reject('订货意向导出');
+      reject('导出失败');
       logger(err);
     });
   });
-}
-
-
+};
 
 
 let DB = {
-  shopOrderList
+  shopOrderList: fetchTemplate(ApiMap.shopOrderList),
+  exportData
 };
 export default DB;

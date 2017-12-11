@@ -11,6 +11,7 @@ class Link extends React.Component {
         return link;
     }
     handleClick(e){
+        e.preventDefault();
         let pageArgument = {
             pageCode : this.props.pageArgument.pageCode,
             currentPage : this.props.pageArgument.pageCode

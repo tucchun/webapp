@@ -7,7 +7,7 @@ import Grid from '../../component/table/Table';
 import PageNation from '../../component/pageNation/pageNation';
 import ApiMap from '../../lib/Api/ApiMap';
 import http from '../../lib/Api/http';
-import { alert,confirm,downloadExcel } from '../../lib/Util';
+import {alert, confirm, downloadExcel, formatDateTime,trim} from '../../lib/Util';
 import PriceModify from './priceModify';
 import './goodslist.css';
 
@@ -20,7 +20,8 @@ class ApplyMgr extends Component{
             count:20,
             gridData:[],
             lgShow:false,
-            goodsInfo:{}
+            goodsInfo:{},
+            pageCount:0
         };
         this.columns = this.initTable();
         this.handlePage = this.handlePage.bind(this);
@@ -33,8 +34,8 @@ class ApplyMgr extends Component{
         return [
             {
                 title:'编号',
-                key:'adjust_id',
-                dataIndex:'adjust_id',
+                key:'adjust_no',
+                dataIndex:'adjust_no',
                 align:'left'
             },
             {
@@ -84,8 +85,10 @@ class ApplyMgr extends Component{
             {
                 title:'申请时间',
                 key:'create_date',
-                dataIndex:'create_date',
                 align:'left',
+                render(value){
+                    return formatDateTime(value.create_date)
+                }
             },
             {
                 title:'审核人',
@@ -96,8 +99,10 @@ class ApplyMgr extends Component{
             {
                 title:'审核时间',
                 key:'audit_date',
-                dataIndex:'audit_date',
                 align:'left',
+                render(value){
+                    return value.audit_date ? formatDateTime(value.audit_date) : ''
+                }
             },
             {
                 title:'状态',
@@ -160,6 +165,7 @@ class ApplyMgr extends Component{
     //取消申请
     cancelApply(value){
         confirm('是否取消当前调价申请？',() => {
+            console.log(ApiMap.commonData);
             http({
                 ...ApiMap.goodsPriceCancel,
                 data:{
@@ -183,6 +189,7 @@ class ApplyMgr extends Component{
 
     //打开详情弹窗
     openDialog(value){
+        console.log(ApiMap.commonData);
         http({
             ...ApiMap.goodsPriceAancel,
             data:{
@@ -205,7 +212,7 @@ class ApplyMgr extends Component{
     //处理表单数据
     handleSubmit(pageArgument){
         let fd = document.getElementById('queryApply'),fdAta = {},cd;
-        let ev = pageArgument || {currentPage:1,pageCode:1}
+        let ev = pageArgument || {currentPage:1,pageCode:1};
         if(ev){
             cd = {
                 begin:ev.pageCode === 1 ? 0 : (ev.pageCode - 1) * this.state.count,
@@ -214,7 +221,7 @@ class ApplyMgr extends Component{
         }
         for(let i = 0;i<fd.elements.length;i++){
             if(fd.elements[i].type === 'text' || fd.elements[i].type === 'select-one'){
-                fdAta[fd.elements[i].name] = fd.elements[i].value;
+                fdAta[fd.elements[i].name] = trim(fd.elements[i].value)
             }
         }
         this.getGridData({
@@ -231,6 +238,7 @@ class ApplyMgr extends Component{
             ...condition,
             ...ApiMap.commonData
         };
+        console.log(ApiMap.commonData);
         http({
             ...api,
             data
@@ -241,7 +249,8 @@ class ApplyMgr extends Component{
                     gridData:data.ret_data.adjust_list,
                     pageNumber:Math.ceil(data.ret_data.total/this.state.count),
                     currentPage:condition.currentPage ? condition.currentPage : 1,
-                    lgShow:false
+                    lgShow:false,
+                    pageCount:data.ret_data.total
                 });
             }
         }).catch(err => {
@@ -254,14 +263,13 @@ class ApplyMgr extends Component{
             ...ApiMap.goodsPriceAdjustExport,
             data:{
                 ...ApiMap.commonData,
-                adjust_status:1,
+                adjust_status:parseInt(this.adjust_status.value)||0,
                 prod_name:this.prod_name.value,
                 create_by:this.create_by.value,
                 audit_by:this.audit_by.value
-
             }
         }).then(response => {
-            downloadExcel(response,'调价申请表');
+            downloadExcel(response.data,'调价申请表');
             console.log(response);
         }).catch(err => {
             console.log(err);
@@ -323,7 +331,7 @@ class ApplyMgr extends Component{
                     </Clearfix>
                 </Condition>
                 <Grid rowKey="adjust_id" data={this.state.gridData} columns={this.columns}/>
-                <PageNation currentPage={this.state.currentPage} pageNumber={this.state.pageNumber} getPage={this.handlePage} />
+                <PageNation pageCount={this.state.pageCount} currentPage={this.state.currentPage} pageNumber={this.state.pageNumber} getPage={this.handlePage} />
                 <PriceModify lgShow={this.state.lgShow} goodsInfo={this.state.goodsInfo}/>
             </Container>
         );
