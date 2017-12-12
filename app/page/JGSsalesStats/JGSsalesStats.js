@@ -12,7 +12,7 @@ import PageNation from '../../component/pageNation/pageNation';
 // import DatePicker from "react-bootstrap-date-picker";
 import http from '../../lib/Api/http';
 import ApiMap from '../../lib/Api/ApiMap';
-import {setInitDate, getTimestamp, formatDateTime, addDate, orderStatus, downloadExcel, converson, getElementByAttr} from '../../lib/Util';
+import {setInitDate, getTimestamp, formatDateTime, addDate, orderStatus, downloadExcel, converson, getElementByAttr, toThousands} from '../../lib/Util';
 import '../../lib/styles/index.css';
 import { Modal } from 'react-bootstrap';
 
@@ -136,14 +136,14 @@ class JGSSalesStats extends Component {
                 const resData = res.data.ret_data;
                 this.setState({
                     pageNum: Math.ceil(resData.total / pageCount),
-                    totalSale: resData.total_sale.toFixed(2),
+                    totalSale: toThousands(resData.total_sale, 2),
                     totalProdNum: resData.total_prod_num,
                     totalOrderNum: resData.total_order_num,
                     total: resData.total,
                     tableData: resData.order_list.map(function (item, index) {
                         item.key = (currentPage - 1) * pageCount + index + 1;
                         item.create_date = formatDateTime(item.create_date);
-                        item.pay_amount = (item.pay_amount === undefined || item.pay_amount === null) ? '0.00' : item.pay_amount.toFixed(2);
+                        item.pay_amount = toThousands(item.pay_amount, 2);
                         return item;
                     })
                 });
@@ -317,7 +317,7 @@ class JGSSalesStats extends Component {
                                     <h5 style={{margin: 0, paddingTop: '10px', fontSize: '16px'}}>基本信息</h5>
                                 </div>
                                 <div className="pull-right" style={{verticalAlign: 'middle'}}>
-                                    <button type="button" className="btn btn-main">{orderStatus(details.order_status)}</button>
+                                    <span className="btn-state">{orderStatus(details.order_status)}</span>
                                 </div>
                             </div>
                             <div className="form-group clearfix">
@@ -372,16 +372,16 @@ class JGSSalesStats extends Component {
                                                 <img className="pull-left" src={converson(item.prod_imgs[0])} />
                                                 <div className="pull-left">
                                                     <p title={item.prod_name}>{item.prod_name}</p>
-                                                    <span>￥ {item.prod_price === undefined ? '' : item.prod_price.toFixed(2)}</span>
+                                                    <span>￥ {toThousands(item.prod_price, 2)}</span>
                                                 </div>
                                             </div>
                                             <div className="prod-col lh60">× {item.prod_num}</div>
-                                            <div className="prod-col lh60">￥ {(item.prod_num === undefined || item.prod_price === undefined) ? '' : (item.prod_num * item.prod_price).toFixed(2)}</div>
+                                            <div className="prod-col lh60">￥ {toThousands(item.prod_num * item.prod_price, 2)}</div>
                                         </li>)
                                     }
                                 </ul>
                                 <div className="list-total clearfix">
-                                    <span>合计 ￥{details.order_amount === undefined ? '' : details.order_amount.toFixed(2)}</span>
+                                    <span>合计 ￥{toThousands(details.order_amount, 2)}</span>
                                     <span>共{details.prod_num}件商品</span>
                                 </div>
                             </div>

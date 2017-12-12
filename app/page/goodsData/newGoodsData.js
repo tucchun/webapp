@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import Container from '../../component/container/Container';
 import { Form,Clearfix,FormGroup,ControlLabel,FormControl,Col,Button } from 'react-bootstrap';
 import http from '../../lib/Api/http';
-import { alert,getFirstLetter } from '../../lib/Util';
+import { alert,getFirstLetter,closeTab } from '../../lib/Util';
 import ApiMap from '../../lib/Api/ApiMap';
 import GoodsDialog from './goodsTagDialog';
 import FileUpload from 'react-fileupload';
@@ -392,7 +392,7 @@ class NewGoodsData extends Component{
                                 <ControlLabel>助记码：</ControlLabel>
                             </Col>
                             <Col sm={4}>
-                                <FormControl name="prod_assist_code" value={this.state.goodsMsg.prod_assist_code} placeholder="助记码" onChange={
+                                <FormControl name="prod_assist_code" readOnly value={this.state.goodsMsg.prod_assist_code} placeholder="助记码" onChange={
                                     ev=>{
                                         this.elementChange(ev)
                                     }
@@ -603,7 +603,11 @@ class NewGoodsData extends Component{
                         <FormGroup className="text-center">
                             <Col componentClass={ControlLabel} className="text-right" sm={2}>{''}</Col>
                             <Col sm={10}>
-                                <Button type="reset" bsSize="large">取消</Button><Button bsSize="large" type="submit" className="btn-main">保存</Button>
+                                <Button type="reset" bsSize="large" onClick={
+                                    ()=>{
+                                        closeTab('newGoodsData')
+                                    }
+                                }>取消</Button><Button bsSize="large" type="submit" className="btn-main">保存</Button>
                             </Col>
                         </FormGroup>
                     </Form>

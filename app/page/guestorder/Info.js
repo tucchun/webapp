@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Container from '../../component/container/Container';
 import Prod from '../prod/Prod';
 import DB from './DB';
-import {alert, formatDateTime, amount_format} from '../../lib/Util';
+import {alert, formatDateTime, amount_format, logger} from '../../lib/Util';
 // import logger from '../../lib/logger';
 import {Row, ControlLabel, Col} from 'react-bootstrap';
 import './style.css';
@@ -159,7 +159,7 @@ class GuestorderInfo extends Component {
             {'合计¥'}<span className="price_color">{_.reduce(_.map(data.prod_list, (prod) => {
                 return amount_format(math.eval(prod.prod_num + '*' + prod.prod_price));
               }), (sum, item) => {
-                return sum + item;
+                return amount_format(math.eval(sum + '+' + item));
               })}</span>
           </Col>
         </Row>

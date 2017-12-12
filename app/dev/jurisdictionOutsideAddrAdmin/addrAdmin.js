@@ -867,6 +867,7 @@ exports.getAuthStr = getAuthStr;
 exports.trim = trim;
 exports.getElementByAttr = getElementByAttr;
 exports.amount_format = amount_format;
+exports.toThousands = toThousands;
 
 var _react = __webpack_require__("./node_modules/react/react.js");
 
@@ -1359,6 +1360,25 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 
 function amount_format(amount) {
   return (amount || 0).toFixed(2);
+}
+
+/**
+ * 千分位化处理
+ *
+ * @param num 要处理的值(Number或者String)
+ * @param len 保留小数位数(Number)
+ * @return 金额格式的字符串,如'1,234,567.45'
+ */
+function toThousands(num, len) {
+  len = len > 0 && len <= 20 ? len : 2;
+  num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
+  var l = num.split(".")[0].split("").reverse(),
+      r = num.split(".")[1];
+  var t = "";
+  for (var i = 0; i < l.length; i++) {
+    t += l[i] + ((i + 1) % 3 === 0 && i + 1 !== l.length ? "," : "");
+  }
+  return t.split("").reverse().join("") + "." + r;
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/process/browser.js")))
 
@@ -2814,6 +2834,7 @@ var AddrAdmin = function (_Component) {
                 }
             }];
 
+            this.getAddrList();
             this.getstationHecadreListbyperm();
         }
     }, {
@@ -3042,20 +3063,15 @@ var AddrAdmin = function (_Component) {
         value: function handleClickSearch() {
             var _this7 = this;
 
-            if (this.state.queryHecadreList.length === 0) {
-                _Util.common.alert('请选择管辖者');
-                return;
-            } else {
-                this.setState({
-                    currentPage: 1
+            this.setState({
+                currentPage: 1
+            }, function () {
+                _this7.setState({
+                    beginNum: (_this7.state.currentPage - 1) * _this7.state.pageCount
                 }, function () {
-                    _this7.setState({
-                        beginNum: (_this7.state.currentPage - 1) * _this7.state.pageCount
-                    }, function () {
-                        _this7.getAddrList();
-                    });
+                    _this7.getAddrList();
                 });
-            }
+            });
         }
     }, {
         key: 'handleTogglePage',
@@ -3083,8 +3099,9 @@ var AddrAdmin = function (_Component) {
             var _this9 = this;
 
             this.state.queryHecadreList.length = 0;
-            this.state.queryHecadreList.push(parseInt(h));
-
+            if (h) {
+                this.state.queryHecadreList.push(parseInt(h));
+            }
             this.setState({
                 queryHecadreList: this.state.queryHecadreList
             }, function () {

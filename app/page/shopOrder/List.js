@@ -8,7 +8,7 @@ import Gird from '../../component/table/Table';
 import Container from '../../component/container/Container';
 import Condition from '../../component/condition/Condition';
 import PageNation from '../../component/pageNation/pageNation';
-import {alert, createTab, formatDateTime, payType, downloadExcel} from '../../lib/Util';
+import {alert, createTab, formatDateTime, payType, downloadExcel, amount_format} from '../../lib/Util';
 import ConditionForm from './ConditionForm';
 // import {logger} from '../../lib/logger';
 import 'moment/locale/zh-cn';
@@ -60,7 +60,7 @@ class OrderList extends Component {
         key: 'order_amount',
         dataIndex: 'order_amount',
         render: (value, row) => {
-          return (value || 0).toFixed(2);
+          return amount_format(value);
         }
       }, {
         title: '支付方式',
@@ -74,7 +74,7 @@ class OrderList extends Component {
         key: 'pay_amount',
         dataIndex: 'pay_amount',
         render: (value, row) => {
-          return (value || 0).toFixed(2);
+          return amount_format(value);
         }
       }, {
         title: '商品数量',
@@ -125,8 +125,8 @@ class OrderList extends Component {
     this.handleIndexCreateEnd = this.handleIndexCreateEnd.bind(this);
     this.handleIndexSelectChange = this.handleIndexSelectChange.bind(this);
     this.handleIndexInputChange = this.handleIndexInputChange.bind(this);
-    this.handleIndexDisabledStartDate = this.handleIndexDisabledStartDate.bind(this);
-    this.handleIndexDisabledEndDate = this.handleIndexDisabledEndDate.bind(this);
+
+    this.handleIndexDateChange = this.handleIndexDateChange.bind(this);
     this.state = {
       indexViewData: {
         girdData: [],
@@ -185,8 +185,7 @@ class OrderList extends Component {
       handleCreateEnd: this.handleIndexCreateEnd,
       handleSelectChange: this.handleIndexSelectChange,
       handleInputChange: this.handleIndexInputChange,
-      disabledStartDate: this.handleIndexDisabledStartDate,
-      disabledEndDate: this.handleIndexDisabledEndDate
+      handleDateChange: this.handleIndexDateChange
     };
     return (
       <Container className='p20' title={'订单管理'}>
@@ -296,21 +295,17 @@ class OrderList extends Component {
       }
     });
   }
-  //  create_start: null,
-  //  create_end: null,
-  handleIndexDisabledStartDate(startValue) {
-    const endValue = this.state.indexViewData.search_data.create_end;
-    if (!startValue || !endValue) {
-      return false;
-    }
-    return startValue.valueOf() > endValue.valueOf();
-  }
-  handleIndexDisabledEndDate(endValue) {
-    const startValue = this.state.indexViewData.search_data.create_start;
-    if (!endValue || !startValue) {
-      return false;
-    }
-    return endValue.valueOf() <= startValue.valueOf();
+
+  handleIndexDateChange(name, value){
+    this.setState({
+      indexViewData: {
+        ...this.state.indexViewData,
+        search_data: {
+          ...this.state.indexViewData.search_data,
+          [name]: (+new Date(value)) || null
+        }
+      }
+    });
   }
 }
 ReactDOM.render(

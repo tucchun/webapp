@@ -67,6 +67,13 @@
 .lh60 {
     line-height: 60px;
 }
+.btn-state {
+    display: block;
+    padding: 5px 20px;
+    color: #fff;
+    background-color: #00a0e9;
+    border-radius: 4px;
+}
 @media (min-width: 768px){
     .modal-dialog {
         width: 750px;

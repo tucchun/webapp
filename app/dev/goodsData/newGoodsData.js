@@ -600,6 +600,7 @@ exports.getAuthStr = getAuthStr;
 exports.trim = trim;
 exports.getElementByAttr = getElementByAttr;
 exports.amount_format = amount_format;
+exports.toThousands = toThousands;
 
 var _react = __webpack_require__("./node_modules/react/react.js");
 
@@ -1092,6 +1093,25 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 
 function amount_format(amount) {
   return (amount || 0).toFixed(2);
+}
+
+/**
+ * 千分位化处理
+ *
+ * @param num 要处理的值(Number或者String)
+ * @param len 保留小数位数(Number)
+ * @return 金额格式的字符串,如'1,234,567.45'
+ */
+function toThousands(num, len) {
+  len = len > 0 && len <= 20 ? len : 2;
+  num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
+  var l = num.split(".")[0].split("").reverse(),
+      r = num.split(".")[1];
+  var t = "";
+  for (var i = 0; i < l.length; i++) {
+    t += l[i] + ((i + 1) % 3 === 0 && i + 1 !== l.length ? "," : "");
+  }
+  return t.split("").reverse().join("") + "." + r;
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/process/browser.js")))
 
@@ -2123,7 +2143,7 @@ var NewGoodsData = function (_Component) {
                             _react2.default.createElement(
                                 _reactBootstrap.Col,
                                 { sm: 4 },
-                                _react2.default.createElement(_reactBootstrap.FormControl, { name: 'prod_assist_code', value: this.state.goodsMsg.prod_assist_code, placeholder: '\u52A9\u8BB0\u7801', onChange: function onChange(ev) {
+                                _react2.default.createElement(_reactBootstrap.FormControl, { name: 'prod_assist_code', readOnly: true, value: this.state.goodsMsg.prod_assist_code, placeholder: '\u52A9\u8BB0\u7801', onChange: function onChange(ev) {
                                         _this3.elementChange(ev);
                                     } })
                             )
@@ -2530,7 +2550,9 @@ var NewGoodsData = function (_Component) {
                                 { sm: 10 },
                                 _react2.default.createElement(
                                     _reactBootstrap.Button,
-                                    { type: 'reset', bsSize: 'large' },
+                                    { type: 'reset', bsSize: 'large', onClick: function onClick() {
+                                            (0, _Util.closeTab)('newGoodsData');
+                                        } },
                                     '\u53D6\u6D88'
                                 ),
                                 _react2.default.createElement(

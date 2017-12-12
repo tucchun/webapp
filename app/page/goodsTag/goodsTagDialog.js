@@ -39,7 +39,10 @@ class GoodsTagDialog extends React.Component{
                 arr[v.name] = v.value;
                 v.value ? vState[v.name] = null : vState[v.name] = 'error';
                 flg = flg && v.value;
-                if(v.value.length > 20){
+                const reg = /[^\u4e00-\u9fa5]/gi;
+                const hanzi = v.value.replace(reg,'');
+                const vlen = (hanzi ? hanzi.length:0)+v.value.length;
+                if(vlen > 20){
                     alert('标签名不能超过20个字符');
                     flg = false;
                 }

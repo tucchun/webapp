@@ -292,8 +292,11 @@ class GoodsData extends React.Component{
     //导出商品资料
     exportExcel(){
         let data = this.refs.QueryFrom.getData();
+        const intKey = ['prod_in_sale','prod_allow_sale','prod_display'];
         for(let item in data){
-            data[item] = parseInt(data[item])||data[item]
+            if(intKey.indexOf(item)!==-1){
+                data[item] = parseInt(data[item])
+            }
         }
         http({
             ...ApiMap.goodsExport,

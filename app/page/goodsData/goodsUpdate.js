@@ -304,6 +304,9 @@ class GoodsUpdate extends Component{
         }else{
             goodsMsg[key] = ev.target.value;
         }
+        if(key === 'prod_name'){
+            goodsMsg.prod_assist_code = getFirstLetter(ev.target.value);
+        }
         this.setState({goodsMsg});
     }
 
@@ -412,7 +415,7 @@ class GoodsUpdate extends Component{
                                 <ControlLabel>助记码：</ControlLabel>
                             </Col>
                             <Col sm={4}>
-                                <FormControl name="prod_assist_code" value={
+                                <FormControl name="prod_assist_code" readOnly value={
                                     this.state.goodsMsg.prod_assist_code ? this.state.goodsMsg.prod_assist_code:''
                                 } placeholder="助记码" onChange={
                                     ev=>{

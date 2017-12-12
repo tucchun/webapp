@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {DatePicker } from 'antd';
 import moment from 'moment';
 import {Form, FormGroup, ControlLabel, Button, FormControl} from 'react-bootstrap';
+import DateRange from '../../component/DateRange';
 import {logger} from '../../lib/logger';
 
 
@@ -16,10 +16,15 @@ class Condition extends Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleCreateStart = this.handleCreateStart.bind(this);
     this.handleCreateEnd = this.handleCreateEnd.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   handleSearch() {
     this.props.handleSearch(this.state);
+  }
+
+  handleDateChange(name, value) {
+    this.props.handleDateChange(name, value);
   }
 
   handleCreateStart(value, formattedValue) {
@@ -59,8 +64,7 @@ class Condition extends Component {
         <FormGroup>
           <ControlLabel>提交时间</ControlLabel>
           {' '}
-          <DatePicker name='create_start' showTime={true} onChange={this.handleCreateStart} value={create_start} format='YYYY-MM-DD HH:mm:ss'/> {'-'}
-          <DatePicker showTime={true} name='create_end' onChange={this.handleCreateEnd} value={create_end} format='YYYY-MM-DD HH:mm:ss'/>
+          <DateRange startName='create_start' endName='create_end' endValue={this.props.create_end} handleOnChange={this.handleDateChange} startValue={this.props.create_start}/>
         </FormGroup>
         {' '}
         <FormGroup controlId="receipt_name">
@@ -106,6 +110,7 @@ Condition.propTypes = {
   handleCreateStart: PropTypes.func.isRequired,
   handleCreateEnd: PropTypes.func.isRequired,
   handleSelectChange: PropTypes.func.isRequired,
-  handleInputChange: PropTypes.func.isRequired
+  handleInputChange: PropTypes.func.isRequired,
+  handleDateChange: PropTypes.func.isRequired
 };
 export default Condition;

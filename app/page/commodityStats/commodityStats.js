@@ -12,7 +12,7 @@ import PageNation from '../../component/pageNation/pageNation';
 // import DatePicker from "react-bootstrap-date-picker";
 import http from '../../lib/Api/http';
 import ApiMap from '../../lib/Api/ApiMap';
-import {setInitDate, getTimestamp, addDate, downloadExcel} from '../../lib/Util';
+import {setInitDate, getTimestamp, addDate, downloadExcel, toThousands} from '../../lib/Util';
 import '../../lib/styles/index.css';
 
 const columns = [
@@ -108,13 +108,13 @@ class CommodityStats extends Component {
                 console.log(resData);
                 this.setState({
                     pageNum: Math.ceil(resData.total / pageCount),
-                    totalSale: resData.total_sale.toFixed(2),
+                    totalSale: toThousands(resData.total_sale, 2),
                     totalProdNum: resData.total_prod_num,
                     totalOrderNum: resData.total_order_num,
                     total: resData.total,
                     tableData: resData.prod_list.map(function (item, index) {
                         item.serial_num = item.key = (currentPage - 1) * pageCount + index + 1;
-                        item.prod_sale = (item.prod_sale === undefined) ? '0.00' : item.prod_sale.toFixed(2);
+                        item.prod_sale = toThousands(item.prod_sale, 2);
                         return item;
                     })
                 });

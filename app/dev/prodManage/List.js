@@ -38,7 +38,7 @@ var Condition = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        { className: "opt clearfix" },
+        { className: "opt clearfix condition" },
         this.props.children
       );
     }
@@ -992,6 +992,7 @@ exports.getAuthStr = getAuthStr;
 exports.trim = trim;
 exports.getElementByAttr = getElementByAttr;
 exports.amount_format = amount_format;
+exports.toThousands = toThousands;
 
 var _react = __webpack_require__("./node_modules/react/react.js");
 
@@ -1485,6 +1486,25 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 function amount_format(amount) {
   return (amount || 0).toFixed(2);
 }
+
+/**
+ * 千分位化处理
+ *
+ * @param num 要处理的值(Number或者String)
+ * @param len 保留小数位数(Number)
+ * @return 金额格式的字符串,如'1,234,567.45'
+ */
+function toThousands(num, len) {
+  len = len > 0 && len <= 20 ? len : 2;
+  num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
+  var l = num.split(".")[0].split("").reverse(),
+      r = num.split(".")[1];
+  var t = "";
+  for (var i = 0; i < l.length; i++) {
+    t += l[i] + ((i + 1) % 3 === 0 && i + 1 !== l.length ? "," : "");
+  }
+  return t.split("").reverse().join("") + "." + r;
+}
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/process/browser.js")))
 
 /***/ }),
@@ -1796,6 +1816,10 @@ var _Table = __webpack_require__("./app/component/table/Table.js");
 
 var _Table2 = _interopRequireDefault(_Table);
 
+var _Condition = __webpack_require__("./app/component/condition/Condition.js");
+
+var _Condition2 = _interopRequireDefault(_Condition);
+
 var _Util = __webpack_require__("./app/lib/Util.js");
 
 var _ConditionForm = __webpack_require__("./app/page/prodManage/ConditionForm.js");
@@ -1826,6 +1850,7 @@ var Add = function (_Component) {
 
     _this.columns = [{
       title: '',
+      width: 30,
       dataIndex: 'prod_id',
       key: 'prod_id',
       render: function render(value, row) {
@@ -1848,7 +1873,7 @@ var Add = function (_Component) {
       key: 'prod_name'
     }, {
       title: '商品产地',
-      width: 80,
+      // width: 80,
       dataIndex: 'prod_src',
       key: 'prod_src'
     }, {
@@ -1892,7 +1917,7 @@ var Add = function (_Component) {
       }
     }, {
       title: '助记码',
-      width: 80,
+      width: 50,
       dataIndex: 'prod_assist_code',
       key: 'prod_assist_code'
     }];
@@ -1989,8 +2014,7 @@ var Add = function (_Component) {
       var params = this.refs.conditionForm.getData();
       this.fetchList(_extends({
         begin: this.state.begin,
-        count: this.state.count,
-        prod_display: 1
+        count: this.state.count
       }, params)).then(function (data) {
         (0, _logger.logger)(data);
         _this2.setState({ data: data });
@@ -2025,7 +2049,11 @@ var Add = function (_Component) {
               _react2.default.createElement(
                 _reactBootstrap.Col,
                 { xs: 12, md: 12 },
-                _react2.default.createElement(_ConditionForm2.default, { modal: true, tags: this.props.tags, crowds: this.props.crowds, cats: this.props.cats, handleConditionSearch: this.props.handleSearch, handleCheckboxChange: this.props.handleCheckboxChange, handleSelectChange: this.props.handleSelectChange, handleInputChange: this.props.handleInputChange, prod_assist_code: this.props.prod_assist_code, prod_name: this.props.prod_name, prod_src: this.props.prod_src, prod_cats: this.props.prod_cats, prod_tags: this.props.prod_tags, prod_crowds: this.props.prod_crowds, station_in_sale: this.props.station_in_sale })
+                _react2.default.createElement(
+                  _Condition2.default,
+                  null,
+                  _react2.default.createElement(_ConditionForm2.default, { modal: true, tags: this.props.tags, crowds: this.props.crowds, cats: this.props.cats, handleConditionSearch: this.props.handleSearch, handleCheckboxChange: this.props.handleCheckboxChange, handleSelectChange: this.props.handleSelectChange, handleInputChange: this.props.handleInputChange, prod_assist_code: this.props.prod_assist_code, prod_name: this.props.prod_name, prod_src: this.props.prod_src, prod_cats: this.props.prod_cats, prod_tags: this.props.prod_tags, prod_crowds: this.props.prod_crowds, station_in_sale: this.props.station_in_sale })
+                )
               )
             ),
             _react2.default.createElement(
@@ -2087,7 +2115,7 @@ Add.propTypes = {
   show: _propTypes2.default.bool.isRequired,
   gridData: _propTypes2.default.array.isRequired,
   begin: _propTypes2.default.number.isRequired,
-  prod_display: _propTypes2.default.number.isRequired,
+  // prod_display: PropTypes.number.isRequired,
   allCheckState: _propTypes2.default.bool.isRequired,
   closeModal: _propTypes2.default.func.isRequired
 };
@@ -2147,6 +2175,8 @@ var Condition = function (_Component) {
     _this.handleInputChange = _this.handleInputChange.bind(_this);
     _this.handleSelectChange = _this.handleSelectChange.bind(_this);
     _this.handleCheckboxChange = _this.handleCheckboxChange.bind(_this);
+    _this.checkProdCategory = _this.checkProdCategory.bind(_this);
+    _this.el = '#__prodManage-List__';
     return _this;
   }
 
@@ -2184,6 +2214,31 @@ var Condition = function (_Component) {
       var name = target.name;
       var value = target.value.trim();
       this.props.handleInputChange(name, value);
+    }
+  }, {
+    key: 'checkProdCategory',
+    value: function checkProdCategory(e) {
+      // if(this.categories)
+      var categories = document.querySelectorAll(this.el + ' .js-prod-category');
+      var category_info = document.querySelectorAll(this.el + ' .js-category-info');
+
+      var target = e.currentTarget;
+      var target_id = target.dataset['id'];
+      categories.forEach(function (item) {
+        if (target === item) {
+          target.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+      category_info.forEach(function (item) {
+        var id = item.dataset['id'];
+        if (target_id === id) {
+          item.classList.remove('hide');
+        } else {
+          item.classList.add('hide');
+        }
+      });
     }
   }, {
     key: 'render',
@@ -2232,63 +2287,55 @@ var Condition = function (_Component) {
         _reactBootstrap.Form,
         { inline: true },
         _react2.default.createElement(
-          'div',
-          { className: 'pull-left' },
+          _reactBootstrap.FormGroup,
+          { controlId: 'prod_assist_code' },
           _react2.default.createElement(
-            _reactBootstrap.FormGroup,
-            { controlId: 'prod_assist_code' },
-            _react2.default.createElement(
-              _reactBootstrap.ControlLabel,
-              null,
-              '\u52A9\u8BB0\u7801'
-            ),
-            ' ',
-            _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text', name: 'prod_assist_code', onChange: this.handleInputChange, value: this.props.prod_assist_code, placeholder: '\u52A9\u8BB0\u7801' })
+            _reactBootstrap.ControlLabel,
+            null,
+            '\u52A9\u8BB0\u7801'
           ),
           ' ',
-          _react2.default.createElement(
-            _reactBootstrap.FormGroup,
-            { controlId: 'prod_name' },
-            _react2.default.createElement(
-              _reactBootstrap.ControlLabel,
-              null,
-              '\u5546\u54C1\u540D\u79F0'
-            ),
-            ' ',
-            _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text', name: 'prod_name', onChange: this.handleInputChange, value: this.props.prod_name, placeholder: '\u5546\u54C1\u540D\u79F0' })
-          ),
-          ' ',
-          _react2.default.createElement(
-            _reactBootstrap.FormGroup,
-            { controlId: 'prod_src' },
-            _react2.default.createElement(
-              _reactBootstrap.ControlLabel,
-              null,
-              '\u5546\u54C1\u4EA7\u5730'
-            ),
-            ' ',
-            _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text', name: 'prod_src', onChange: this.handleInputChange, value: this.props.prod_src, placeholder: '\u5546\u54C1\u4EA7\u5730' })
-          ),
-          ' ',
-          station_in_sale_view,
-          ' '
+          _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text', name: 'prod_assist_code', onChange: this.handleInputChange, value: this.props.prod_assist_code, placeholder: '\u52A9\u8BB0\u7801' })
         ),
+        ' ',
         _react2.default.createElement(
-          'div',
-          { className: 'pull-right' },
+          _reactBootstrap.FormGroup,
+          { controlId: 'prod_name' },
           _react2.default.createElement(
-            _reactBootstrap.FormGroup,
-            { controlId: 'button' },
-            _react2.default.createElement(
-              _reactBootstrap.Button,
-              { bsClass: 'btn btn-main', onClick: this.handleSearch, type: 'button' },
-              '\u67E5\u8BE2'
-            )
+            _reactBootstrap.ControlLabel,
+            null,
+            '\u5546\u54C1\u540D\u79F0'
+          ),
+          ' ',
+          _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text', name: 'prod_name', onChange: this.handleInputChange, value: this.props.prod_name, placeholder: '\u5546\u54C1\u540D\u79F0' })
+        ),
+        ' ',
+        _react2.default.createElement(
+          _reactBootstrap.FormGroup,
+          { controlId: 'prod_src' },
+          _react2.default.createElement(
+            _reactBootstrap.ControlLabel,
+            null,
+            '\u5546\u54C1\u4EA7\u5730'
+          ),
+          ' ',
+          _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text', name: 'prod_src', onChange: this.handleInputChange, value: this.props.prod_src, placeholder: '\u5546\u54C1\u4EA7\u5730' })
+        ),
+        ' ',
+        station_in_sale_view,
+        ' ',
+        _react2.default.createElement(
+          _reactBootstrap.FormGroup,
+          { controlId: 'button' },
+          _react2.default.createElement(
+            _reactBootstrap.Button,
+            { bsClass: 'btn btn-main', onClick: this.handleSearch, type: 'button' },
+            '\u67E5\u8BE2'
           )
         ),
         _react2.default.createElement(
           'div',
-          { className: 'commodityManagement-cats' },
+          { className: 'mul-container' },
           _react2.default.createElement(
             _reactBootstrap.FormGroup,
             null,
@@ -2299,22 +2346,18 @@ var Condition = function (_Component) {
             ),
             _react2.default.createElement(
               'div',
-              { className: 'commodityManagement-cats commodityManagement-pl20' },
-              _react2.default.createElement(
-                _reactBootstrap.FormGroup,
-                null,
-                tags.map(function (tag) {
-                  var state = _this2.props['prod_tags'].findIndex(function (item) {
-                    return item === tag.tag_id;
-                  });
-                  var checked = state > -1 ? 'checked' : false;
-                  return _react2.default.createElement(
-                    _reactBootstrap.Checkbox,
-                    { key: tag.tag_id, name: 'prod_tags', onChange: _this2.handleCheckboxChange, value: tag.tag_id, checked: checked, inline: true },
-                    tag.tag_text
-                  );
-                })
-              )
+              { className: 'mul-check' },
+              tags.map(function (tag) {
+                var state = _this2.props['prod_tags'].findIndex(function (item) {
+                  return item === tag.tag_id;
+                });
+                var checked = state > -1 ? 'checked' : false;
+                return _react2.default.createElement(
+                  _reactBootstrap.Checkbox,
+                  { title: tag.tag_text, key: tag.tag_id, name: 'prod_tags', onChange: _this2.handleCheckboxChange, value: tag.tag_id, checked: checked, inline: true },
+                  tag.tag_text
+                );
+              })
             )
           ),
           _react2.default.createElement(
@@ -2327,22 +2370,18 @@ var Condition = function (_Component) {
             ),
             _react2.default.createElement(
               'div',
-              { className: 'commodityManagement-cats commodityManagement-pl20' },
-              _react2.default.createElement(
-                _reactBootstrap.FormGroup,
-                null,
-                crowds.map(function (crowd) {
-                  var state = _this2.props['prod_crowds'].findIndex(function (item) {
-                    return item === crowd.crowd_id;
-                  });
-                  var checked = state > -1 ? 'checked' : false;
-                  return _react2.default.createElement(
-                    _reactBootstrap.Checkbox,
-                    { name: 'prod_crowds', onChange: _this2.handleCheckboxChange, key: crowd.crowd_id, value: crowd.crowd_id, checked: checked, inline: true },
-                    crowd.crowd_text
-                  );
-                })
-              )
+              { className: 'mul-check' },
+              crowds.map(function (crowd) {
+                var state = _this2.props['prod_crowds'].findIndex(function (item) {
+                  return item === crowd.crowd_id;
+                });
+                var checked = state > -1 ? 'checked' : false;
+                return _react2.default.createElement(
+                  _reactBootstrap.Checkbox,
+                  { title: crowd.crowd_text, name: 'prod_crowds', onChange: _this2.handleCheckboxChange, key: crowd.crowd_id, value: crowd.crowd_id, checked: checked, inline: true },
+                  crowd.crowd_text
+                );
+              })
             )
           ),
           _react2.default.createElement(
@@ -2357,32 +2396,35 @@ var Condition = function (_Component) {
                 '\u5546\u54C1\u5206\u7C7B'
               )
             ),
-            cats.map(function (cat) {
+            _react2.default.createElement(
+              'div',
+              null,
+              cats.map(function (cat, index) {
+                var isActive = index === 0 ? 'active' : '';
+                return _react2.default.createElement(
+                  'span',
+                  { onClick: _this2.checkProdCategory, 'data-id': cat.cat_id, className: isActive + ' prod-category js-prod-category', key: cat.cat_id },
+                  cat.cat_text
+                );
+              })
+            ),
+            cats.map(function (cat, index) {
               var sub_cats = cat.sub_cats.map(function (sub_cat) {
                 var state = _this2.props['prod_cats'].findIndex(function (item) {
                   return item === sub_cat.cat_id;
                 });
                 var checked = state > -1 ? 'checked' : false;
-
                 return _react2.default.createElement(
                   _reactBootstrap.Checkbox,
-                  { key: sub_cat.cat_id, checked: checked, name: 'prod_cats', onChange: _this2.handleCheckboxChange, inline: true, value: sub_cat.cat_id },
+                  { title: sub_cat.cat_text, key: sub_cat.cat_id, checked: checked, name: 'prod_cats', onChange: _this2.handleCheckboxChange, inline: true, value: sub_cat.cat_id },
                   sub_cat.cat_text
                 );
               });
+              var isHidden = index !== 0 ? 'hide' : '';
               return _react2.default.createElement(
-                'span',
-                { key: cat.cat_id, className: 'commodityManagement-cats commodityManagement-pl20' },
-                _react2.default.createElement(
-                  _reactBootstrap.FormGroup,
-                  null,
-                  cat.cat_text,
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'commodityManagement-pl20' },
-                    sub_cats
-                  )
-                )
+                'div',
+                { className: isHidden + ' js-category-info', 'data-id': cat.cat_id, key: cat.cat_id },
+                sub_cats
               );
             })
           )
@@ -2739,7 +2781,7 @@ var ProdManage = function (_Component) {
       search_data: {
         begin: 0,
         count: 20,
-        prod_display: 1,
+        prod_display: undefined,
         prod_assist_code: '',
         prod_in_sale: 1,
         prod_name: '',
@@ -2780,7 +2822,6 @@ var ProdManage = function (_Component) {
     value: function doExport() {
       var search_data = this.state.indexViewData.search_data;
       _DB2.default.exportData(search_data).then(function (result) {
-        debugger;
         (0, _Util.downloadExcel)(result, '站点商品');
       });
     }
@@ -3798,7 +3839,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".commodityManagement-cats{margin:10px 0}.commodityManagement-pl20{padding-left:20px}.commodityManagement-cats .form-group{vertical-align:top;padding-right:10px}.prodmanageadd_allcheck{position:absolute;left:24px;z-index:1;top:26px}", ""]);
+exports.push([module.i, ".prodmanageadd_allcheck{position:absolute;left:24px;z-index:1;top:15px}.condition .form-group{margin-bottom:10px;margin-right:10px}.condition .checkbox-inline{width:100px;margin-right:10px;margin-bottom:5px;overflow:hidden;display:inline-block;white-space:nowrap}.condition .checkbox-inline+.checkbox-inline,.condition .radio-inline+.radio-inline{margin-left:0}.condition .mul-check{padding-top:5px}.modal-dialog .condition input[type=checkbox],.modal-dialog .condition input[type=radio]{margin-top:4px}.condition .prod-category{display:inline-block;padding:3px 20px;border:1px solid #ccc;margin-right:10px;border-radius:5px;cursor:pointer;margin-top:5px;margin-bottom:5px}.condition .prod-category.active,.condition .prod-category:hover{color:#00a0e9;border-color:#00a0e9}.mul-container .form-group{display:block}", ""]);
 
 // exports
 

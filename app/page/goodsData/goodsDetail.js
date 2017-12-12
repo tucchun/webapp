@@ -203,7 +203,7 @@ class GoodsDetail extends Component{
                             </Col>
                             <Col sm={4}>
                                 <FormControl.Static name="prod_original_price" componentClass="label" className="normalLable">
-                                    {this.state.goodsMsg.prod_original_price+'元'}
+                                    {this.state.goodsMsg.prod_original_price||''+'元'}
                                 </FormControl.Static>
                             </Col>
                         </FormGroup>

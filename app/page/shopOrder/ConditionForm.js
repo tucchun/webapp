@@ -1,15 +1,12 @@
 import React, {Component} from 'react';
-import {DatePicker } from 'antd';
-import moment from 'moment';
+// import {DatePicker} from 'antd';
 import PropTypes from 'prop-types';
 // import {logger} from '../../lib/logger';
 import {Form, FormGroup, ControlLabel, Button, FormControl} from 'react-bootstrap';
+import DateRange from '../../component/DateRange';
 import {payTypeMap} from '../../lib/Util';
-import 'moment/locale/zh-cn';
-moment.locale('zh-cn');
+
 import './conditionStyle.css';
-
-
 
 class ConditionForm extends Component {
 
@@ -20,16 +17,7 @@ class ConditionForm extends Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleCreateStart = this.handleCreateStart.bind(this);
     this.handleCreateEnd = this.handleCreateEnd.bind(this);
-    this.disabledStartDate = this.disabledStartDate.bind(this);
-    this.disabledEndDate = this.disabledEndDate.bind(this);
-  }
-
-  disabledStartDate(startValue){
-    this.props.disabledStartDate(startValue);
-  }
-
-  disabledEndDate(startValue){
-    this.props.disabledEndDate(startValue);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   doSearch() {
@@ -42,6 +30,10 @@ class ConditionForm extends Component {
 
   handleCreateEnd(value, formattedValue) {
     this.props.handleCreateEnd(value, formattedValue);
+  }
+
+  handleDateChange(name, value) {
+    this.props.handleDateChange(name, value);
   }
 
   handleSelectChange(event) {
@@ -59,8 +51,8 @@ class ConditionForm extends Component {
   }
 
   render() {
-    const create_start = this.props.create_start && moment(this.props.create_start);
-    const create_end = this.props.create_end && moment(this.props.create_end);
+    // const create_start = this.props.create_start && moment(this.props.create_start);
+    // const create_end = this.props.create_end && moment(this.props.create_end);
     return (
       <Form inline>
         <FormGroup controlId="order_no">
@@ -85,20 +77,7 @@ class ConditionForm extends Component {
         <FormGroup>
           <ControlLabel>订单时间</ControlLabel>
           {' '}
-          <DatePicker
-            name='create_start'
-            showTime={true}
-            onChange={this.handleCreateStart}
-            value={create_start}
-            // disabledDate={this.disabledStartDate}
-            format='YYYY-MM-DD HH:mm:ss'/>{'-'}
-          <DatePicker
-            name='create_end'
-            showTime={true}
-            // disabledDate={this.disabledEndDate}
-            onChange={this.handleCreateEnd}
-            value={create_end}
-            format='YYYY-MM-DD HH:mm:ss'/>
+          <DateRange startName='create_start' endName='create_end' endValue={this.props.create_end} handleOnChange={this.handleDateChange} startValue={this.props.create_start}/>
         </FormGroup>
         {' '}
         <FormGroup controlId="receipt_name">
@@ -143,7 +122,6 @@ ConditionForm.propTypes = {
   handleCreateEnd: PropTypes.func.isRequired,
   handleSelectChange: PropTypes.func.isRequired,
   handleInputChange: PropTypes.func.isRequired,
-  disabledStartDate: PropTypes.func.isRequired,
-  disabledEndDate: PropTypes.func.isRequired
+  handleDateChange: PropTypes.func.isRequired
 };
 export default ConditionForm;

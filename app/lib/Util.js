@@ -418,3 +418,22 @@ export const fetchTemplate = apiData => args => {
 export function amount_format(amount){
   return (amount || 0).toFixed(2);
 }
+
+/**
+ * 千分位化处理
+ *
+ * @param num 要处理的值(Number或者String)
+ * @param len 保留小数位数(Number)
+ * @return 金额格式的字符串,如'1,234,567.45'
+ */
+export function toThousands(num, len){
+  len = len > 0 && len <= 20 ? len : 2;
+  num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
+  let l = num.split(".")[0].split("").reverse(),
+      r = num.split(".")[1];
+  let t = "";
+  for (let i = 0; i < l.length; i++) {
+      t += l[i] + ((i + 1) % 3 === 0 && (i + 1) !== l.length ? "," : "");
+  }
+  return t.split("").reverse().join("") + "." + r;
+}

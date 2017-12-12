@@ -8,7 +8,7 @@ import Container from '../../component/container/Container';
 import Condition from '../../component/condition/Condition';
 import PageNation from '../../component/pageNation/pageNation';
 import HecadreListbyarea from './hecadreListbyarea/HecadreListbyarea';
-import {alert, downloadExcel, createTab, Util, formatDateTime} from '../../lib/Util';
+import {alert, downloadExcel, createTab, Util, formatDateTime, amount_format} from '../../lib/Util';
 import ConditionForm from './ConditionForm';
 // import {logger} from '../../lib/logger';
 import DB from './DB';
@@ -34,7 +34,10 @@ class GuestorderList extends Component {
       }, {
         title: '金额总计',
         key: 'guest_order_amount',
-        dataIndex: 'guest_order_amount'
+        dataIndex: 'guest_order_amount',
+        render(value){
+          return amount_format(value);
+        }
       }, {
         title: '商品数量',
         key: 'prod_num',
@@ -110,6 +113,7 @@ class GuestorderList extends Component {
     this.handleIndexCreateEnd = this.handleIndexCreateEnd.bind(this);
     this.handleIndexSelectChange = this.handleIndexSelectChange.bind(this);
     this.handleIndexInputChange = this.handleIndexInputChange.bind(this);
+    this.handleIndexDateChange = this.handleIndexDateChange.bind(this);
 
     // 指派健管师
     this.handleHecadreSearch = this.handleHecadreSearch.bind(this);
@@ -364,7 +368,8 @@ class GuestorderList extends Component {
       handleCreateStart: this.handleIndexCreateStart,
       handleCreateEnd: this.handleIndexCreateEnd,
       handleSelectChange: this.handleIndexSelectChange,
-      handleInputChange: this.handleIndexInputChange
+      handleInputChange: this.handleIndexInputChange,
+      handleDateChange: this.handleIndexDateChange
     };
     return (
       <Container className='p20' title={'订货意向管理'}>
@@ -592,6 +597,18 @@ class GuestorderList extends Component {
         search_data: {
           ...this.state.indexViewData.search_data,
           ...selectData
+        }
+      }
+    });
+  }
+
+  handleIndexDateChange(name, value){
+    this.setState({
+      indexViewData: {
+        ...this.state.indexViewData,
+        search_data: {
+          ...this.state.indexViewData.search_data,
+          [name]: (+new Date(value)) || null
         }
       }
     });

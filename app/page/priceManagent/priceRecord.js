@@ -67,14 +67,28 @@ class PriceRecord extends Component{
             {
                 title:'调整前价格',
                 key:'price_before',
-                dataIndex:'price_before',
+                // dataIndex:'price_before',
                 align:'left',
+                render(value){
+                    if(value.price_before!==''&&value.price_before!==null){
+                        return new Number(value.price_before).toFixed(2);
+                    }else{
+                        return '';
+                    }
+                }
             },
             {
                 title:'调整后价格',
                 key:'price_after',
-                dataIndex:'price_after',
+                // dataIndex:'price_after',
                 align:'left',
+                render(value){
+                    if(value.price_after!==''&&value.price_after!==null){
+                        return new Number(value.price_after).toFixed(2);
+                    }else{
+                        return '';
+                    }
+                }
             },
             {
                 title:'发起人',

@@ -115,14 +115,25 @@ class PriceMangent extends Component{
             {
                 title:'售价',
                 key:'prod_price',
-                dataIndex:'prod_price',
-                align:'center'
+                // dataIndex:'prod_price',
+                align:'center',
+                render(value){
+                    return new Number(value.prod_price).toFixed(2)
+                }
             },
             {
                 title:'原价',
                 key:'prod_original_price',
-                dataIndex:'prod_original_price',
-                align:'center'
+                // dataIndex:'prod_original_price',
+                align:'center',
+                render(value){
+                    if(value.prod_original_price !==''&&value.prod_original_price!==null){
+                        return new Number(value.prod_original_price).toFixed(2)
+                    }else{
+                        return ' ';
+                    }
+
+                }
             },
             {
                 title:'助记码',
@@ -201,12 +212,12 @@ class PriceMangent extends Component{
     //价格调整
     updatePrice(product){
         let target_price = product.target_price;
-        const reg = /^[0-9]*.[0-9]*$/g;
+        const reg = /(^[-+]?[1-9]\d*(\.\d{1,2})?$)|(^[-+]?[0]{1}(\.\d{1,2})?$)/g;
         if(target_price){
             if(reg.test(target_price)){
                 target_price = parseFloat(target_price)
             }else{
-                alert('价格应为数字');
+                alert('价格应为数字，且不超过两位小数');
                 return false;
             }
         }else{
@@ -250,7 +261,7 @@ class PriceMangent extends Component{
             }
         }
         http({
-            ...ApiMap.goodsPriceAdjustExport,
+            ...ApiMap.goodsPriceExport,
             responseType: 'blob',
             data:{
                 ...ApiMap.commonData,

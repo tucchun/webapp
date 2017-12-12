@@ -6,6 +6,7 @@ import ApiMap from '../../lib/Api/ApiMap';
 import http from '../../lib/Api/http';
 import {logger} from '../../lib/logger';
 import Gird from '../../component/table/Table';
+import Condition from '../../component/condition/Condition';
 import {alert} from '../../lib/Util';
 import ConditionForm from './ConditionForm';
 import PageNation from '../../component/pageNation/pageNation';
@@ -17,6 +18,7 @@ class Add extends Component {
     this.columns = [
       {
         title: '',
+        width: 30,
         dataIndex: 'prod_id',
         key: 'prod_id',
         render: (value, row) => {
@@ -37,7 +39,7 @@ class Add extends Component {
         key: 'prod_name'
       }, {
         title: '商品产地',
-        width: 80,
+        // width: 80,
         dataIndex: 'prod_src',
         key: 'prod_src'
       }, {
@@ -81,7 +83,7 @@ class Add extends Component {
         }
       }, {
         title: '助记码',
-        width: 80,
+        width: 50,
         dataIndex: 'prod_assist_code',
         key: 'prod_assist_code'
       }
@@ -159,7 +161,6 @@ class Add extends Component {
     this.fetchList({
       begin: this.state.begin,
       count: this.state.count,
-      prod_display: 1,
       ...params
     }).then(data => {
       logger(data);
@@ -179,7 +180,9 @@ class Add extends Component {
           <Grid className={'modalbody-container'}>
             <Row className="show-grid padding-align">
               <Col xs={12} md={12}>
-                <ConditionForm modal={true} tags={this.props.tags} crowds={this.props.crowds} cats={this.props.cats} handleConditionSearch={this.props.handleSearch} handleCheckboxChange={this.props.handleCheckboxChange} handleSelectChange={this.props.handleSelectChange} handleInputChange={this.props.handleInputChange} prod_assist_code={this.props.prod_assist_code} prod_name={this.props.prod_name} prod_src={this.props.prod_src} prod_cats={this.props.prod_cats} prod_tags={this.props.prod_tags} prod_crowds={this.props.prod_crowds} station_in_sale={this.props.station_in_sale}/>
+                <Condition>
+                  <ConditionForm modal={true} tags={this.props.tags} crowds={this.props.crowds} cats={this.props.cats} handleConditionSearch={this.props.handleSearch} handleCheckboxChange={this.props.handleCheckboxChange} handleSelectChange={this.props.handleSelectChange} handleInputChange={this.props.handleInputChange} prod_assist_code={this.props.prod_assist_code} prod_name={this.props.prod_name} prod_src={this.props.prod_src} prod_cats={this.props.prod_cats} prod_tags={this.props.prod_tags} prod_crowds={this.props.prod_crowds} station_in_sale={this.props.station_in_sale}/>
+                </Condition>
               </Col>
             </Row>
             <Row className="show-grid">
@@ -225,7 +228,7 @@ Add.propTypes = {
   show: PropTypes.bool.isRequired,
   gridData: PropTypes.array.isRequired,
   begin: PropTypes.number.isRequired,
-  prod_display: PropTypes.number.isRequired,
+  // prod_display: PropTypes.number.isRequired,
   allCheckState: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired
 };

@@ -38,7 +38,7 @@ var Condition = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        { className: "opt clearfix" },
+        { className: "opt clearfix condition" },
         this.props.children
       );
     }
@@ -992,6 +992,7 @@ exports.getAuthStr = getAuthStr;
 exports.trim = trim;
 exports.getElementByAttr = getElementByAttr;
 exports.amount_format = amount_format;
+exports.toThousands = toThousands;
 
 var _react = __webpack_require__("./node_modules/react/react.js");
 
@@ -1484,6 +1485,25 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 
 function amount_format(amount) {
   return (amount || 0).toFixed(2);
+}
+
+/**
+ * 千分位化处理
+ *
+ * @param num 要处理的值(Number或者String)
+ * @param len 保留小数位数(Number)
+ * @return 金额格式的字符串,如'1,234,567.45'
+ */
+function toThousands(num, len) {
+  len = len > 0 && len <= 20 ? len : 2;
+  num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
+  var l = num.split(".")[0].split("").reverse(),
+      r = num.split(".")[1];
+  var t = "";
+  for (var i = 0; i < l.length; i++) {
+    t += l[i] + ((i + 1) % 3 === 0 && i + 1 !== l.length ? "," : "");
+  }
+  return t.split("").reverse().join("") + "." + r;
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/process/browser.js")))
 
@@ -2093,8 +2113,11 @@ var GoodsData = function (_React$Component) {
         key: 'exportExcel',
         value: function exportExcel() {
             var data = this.refs.QueryFrom.getData();
+            var intKey = ['prod_in_sale', 'prod_allow_sale', 'prod_display'];
             for (var item in data) {
-                data[item] = parseInt(data[item]) || data[item];
+                if (intKey.indexOf(item) !== -1) {
+                    data[item] = parseInt(data[item]);
+                }
             }
             (0, _http2.default)(_extends({}, _ApiMap2.default.goodsExport, {
                 data: _extends({}, _ApiMap2.default.commonData, data)
@@ -2452,7 +2475,11 @@ var QueryForm = function (_Component) {
                                         '\u505C\u552E'
                                     )
                                 )
-                            ),
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'tr',
+                            null,
                             _react2.default.createElement(
                                 'td',
                                 null,
@@ -2480,11 +2507,7 @@ var QueryForm = function (_Component) {
                                         '\u4E0D\u53EF\u552E'
                                     )
                                 )
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'tr',
-                            null,
+                            ),
                             _react2.default.createElement(
                                 'td',
                                 null,
@@ -2665,7 +2688,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".onSale{color:#3155f9}.stopSale{color:#cf0d01}.goodsDataList input[type=text],.goodsDataList select{margin-left:15px;max-width:150px!important}.goodsDataList .form-inline button,.goodsDataList .form-inline label{margin-left:15px}.goodsDataList .queryMeta{padding-left:20px}.goodsDataList .queryMeta input[type=checkbox]{margin-right:5px}.goodsDataList .queryMeta .pull-left{border:1px solid #ddd;padding:5px;margin:0 5px;cursor:pointer}.goodsDataList .queryMeta div[id^=sub_cat_]{display:none}.goodsDataList .tagList,.goodsDataList .tagList .tagLabel{margin-top:10px}.goodsDataList .rc-table,.goodsDataList .rc-table-content{position:static}.goodsDataList .sub_cat{border-bottom:1px solid #e5e5e5;padding:5px 0}.goodsDataList .options{margin:5px 0}.goodsDataList .options .btn{margin:0 5px}.goodsDataList input[type=checkbox]{margin:0}", ""]);
+exports.push([module.i, ".onSale{color:#3155f9}.stopSale{color:#cf0d01}.goodsDataList{min-width:1000px}.goodsDataList input[type=text],.goodsDataList select{margin-left:15px;max-width:150px!important}.goodsDataList .form-inline button,.goodsDataList .form-inline label{margin-left:15px}.goodsDataList .queryMeta{padding-left:20px}.goodsDataList .queryMeta input[type=checkbox]{margin-right:5px}.goodsDataList .queryMeta .pull-left{border:1px solid #ddd;padding:5px;margin:0 5px;cursor:pointer}.goodsDataList .queryMeta div[id^=sub_cat_]{display:none}.goodsDataList .tagList,.goodsDataList .tagList .tagLabel{margin-top:10px}.goodsDataList .rc-table,.goodsDataList .rc-table-content{position:static}.goodsDataList .sub_cat{border-bottom:1px solid #e5e5e5;padding:5px 0}.goodsDataList .options{margin:5px 0}.goodsDataList .options .btn{margin:0 5px}.goodsDataList input[type=checkbox]{margin:0}@media (min-width:768px){.goodsDataList input[type=text],.goodsDataList select{margin-left:15px;max-width:150px!important}.goodsDataList .form-inline .form-control{width:150px}}", ""]);
 
 // exports
 

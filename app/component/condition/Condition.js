@@ -7,7 +7,7 @@ class Condition extends Component{
 
   render(){
     return (
-      <div className="opt clearfix">
+      <div className="opt clearfix condition">
         {this.props.children}
       </div>
     );

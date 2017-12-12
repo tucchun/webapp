@@ -38,7 +38,7 @@ var Condition = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        { className: "opt clearfix" },
+        { className: "opt clearfix condition" },
         this.props.children
       );
     }
@@ -992,6 +992,7 @@ exports.getAuthStr = getAuthStr;
 exports.trim = trim;
 exports.getElementByAttr = getElementByAttr;
 exports.amount_format = amount_format;
+exports.toThousands = toThousands;
 
 var _react = __webpack_require__("./node_modules/react/react.js");
 
@@ -1484,6 +1485,25 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 
 function amount_format(amount) {
   return (amount || 0).toFixed(2);
+}
+
+/**
+ * 千分位化处理
+ *
+ * @param num 要处理的值(Number或者String)
+ * @param len 保留小数位数(Number)
+ * @return 金额格式的字符串,如'1,234,567.45'
+ */
+function toThousands(num, len) {
+  len = len > 0 && len <= 20 ? len : 2;
+  num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
+  var l = num.split(".")[0].split("").reverse(),
+      r = num.split(".")[1];
+  var t = "";
+  for (var i = 0; i < l.length; i++) {
+    t += l[i] + ((i + 1) % 3 === 0 && i + 1 !== l.length ? "," : "");
+  }
+  return t.split("").reverse().join("") + "." + r;
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/process/browser.js")))
 
@@ -2345,13 +2365,23 @@ var PriceMangent = function (_Component) {
             }, {
                 title: '售价',
                 key: 'prod_price',
-                dataIndex: 'prod_price',
-                align: 'center'
+                // dataIndex:'prod_price',
+                align: 'center',
+                render: function render(value) {
+                    return new Number(value.prod_price).toFixed(2);
+                }
             }, {
                 title: '原价',
                 key: 'prod_original_price',
-                dataIndex: 'prod_original_price',
-                align: 'center'
+                // dataIndex:'prod_original_price',
+                align: 'center',
+                render: function render(value) {
+                    if (value.prod_original_price !== '' && value.prod_original_price !== null) {
+                        return new Number(value.prod_original_price).toFixed(2);
+                    } else {
+                        return ' ';
+                    }
+                }
             }, {
                 title: '助记码',
                 key: 'prod_assist_code',
@@ -2463,12 +2493,12 @@ var PriceMangent = function (_Component) {
             var _this3 = this;
 
             var target_price = product.target_price;
-            var reg = /^[0-9]*.[0-9]*$/g;
+            var reg = /(^[-+]?[1-9]\d*(\.\d{1,2})?$)|(^[-+]?[0]{1}(\.\d{1,2})?$)/g;
             if (target_price) {
                 if (reg.test(target_price)) {
                     target_price = parseFloat(target_price);
                 } else {
-                    (0, _Util.alert)('价格应为数字');
+                    (0, _Util.alert)('价格应为数字，且不超过两位小数');
                     return false;
                 }
             } else {
@@ -2510,7 +2540,7 @@ var PriceMangent = function (_Component) {
                     fData[key] = parseInt(fData[key]);
                 }
             }
-            (0, _http2.default)(_extends({}, _ApiMap2.default.goodsPriceAdjustExport, {
+            (0, _http2.default)(_extends({}, _ApiMap2.default.goodsPriceExport, {
                 responseType: 'blob',
                 data: _extends({}, _ApiMap2.default.commonData, fData)
             })).then(function (response) {

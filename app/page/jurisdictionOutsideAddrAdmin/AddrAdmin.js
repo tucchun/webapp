@@ -98,6 +98,7 @@ class AddrAdmin extends Component {
             }
         ];
 
+        this.getAddrList();
         this.getstationHecadreListbyperm();
     }
     componentDidMount() {}
@@ -278,20 +279,15 @@ class AddrAdmin extends Component {
     
     // 点击查询
     handleClickSearch() {
-        if (this.state.queryHecadreList.length === 0) {
-            common.alert('请选择管辖者');
-            return;
-        } else {
+        this.setState({
+            currentPage: 1,
+        }, () => {
             this.setState({
-                currentPage: 1,
+                beginNum: (this.state.currentPage - 1) * this.state.pageCount
             }, () => {
-                this.setState({
-                    beginNum: (this.state.currentPage - 1) * this.state.pageCount
-                }, () => {
-                    this.getAddrList();
-                });
+                this.getAddrList();
             });
-        }
+        });
     }
 
     handleTogglePage(ev) {
@@ -311,8 +307,9 @@ class AddrAdmin extends Component {
     // 选取管辖者
     selectHecadre(h) {
         this.state.queryHecadreList.length = 0;
-        this.state.queryHecadreList.push(parseInt(h));
-
+        if (h){
+            this.state.queryHecadreList.push(parseInt(h));
+        }
         this.setState({
             queryHecadreList: this.state.queryHecadreList
         }, () => {

@@ -100,11 +100,11 @@ class QueryForm extends Component {
                         <input type="text" className="form-control" name="prod_src" /></td>
                     <td><label>是否在售</label><select className="form-control" name="prod_in_sale" id="">
                         <option value={0}>全部</option><option value={1}>在售</option><option value={2}>停售</option></select></td>
+                </tr>
+                <tr>
                     <td><label>是否可售</label><select className="form-control" name="prod_allow_sale" id="">
                         <option value={0}>全部</option><option value={1}>可售</option><option value={2}>不可售</option>
                     </select></td>
-                </tr>
-                <tr>
                     <td><label>默认显示</label><select className="form-control" name="prod_display" id="">
                         <option value={0}>全部</option><option value={1}>是</option><option value={2}>否</option>
                     </select></td>

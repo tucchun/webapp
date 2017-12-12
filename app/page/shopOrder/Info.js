@@ -190,7 +190,7 @@ class ShopOrderInfo extends Component {
             {'合计¥'}<span className="price_color">{_.reduce(_.map(this.state.prod_list, (prod) => {
                 return amount_format(math.eval(prod.prod_num + '*' + prod.prod_price));
               }), (sum, item) => {
-                return sum + item;
+               return amount_format(math.eval(sum + '+' + item));
               })}</span>
           </Col>
         </Row>

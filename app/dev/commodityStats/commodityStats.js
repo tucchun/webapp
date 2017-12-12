@@ -1,4 +1,4 @@
-webpackJsonp([8],{
+webpackJsonp([9],{
 
 /***/ "./app/component/pageNation/link.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -1030,6 +1030,7 @@ exports.getAuthStr = getAuthStr;
 exports.trim = trim;
 exports.getElementByAttr = getElementByAttr;
 exports.amount_format = amount_format;
+exports.toThousands = toThousands;
 
 var _react = __webpack_require__("./node_modules/react/react.js");
 
@@ -1523,6 +1524,25 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 function amount_format(amount) {
   return (amount || 0).toFixed(2);
 }
+
+/**
+ * 千分位化处理
+ *
+ * @param num 要处理的值(Number或者String)
+ * @param len 保留小数位数(Number)
+ * @return 金额格式的字符串,如'1,234,567.45'
+ */
+function toThousands(num, len) {
+  len = len > 0 && len <= 20 ? len : 2;
+  num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
+  var l = num.split(".")[0].split("").reverse(),
+      r = num.split(".")[1];
+  var t = "";
+  for (var i = 0; i < l.length; i++) {
+    t += l[i] + ((i + 1) % 3 === 0 && i + 1 !== l.length ? "," : "");
+  }
+  return t.split("").reverse().join("") + "." + r;
+}
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/process/browser.js")))
 
 /***/ }),
@@ -2010,13 +2030,13 @@ var CommodityStats = function (_Component) {
                     console.log(resData);
                     _this2.setState({
                         pageNum: Math.ceil(resData.total / pageCount),
-                        totalSale: resData.total_sale.toFixed(2),
+                        totalSale: (0, _Util.toThousands)(resData.total_sale, 2),
                         totalProdNum: resData.total_prod_num,
                         totalOrderNum: resData.total_order_num,
                         total: resData.total,
                         tableData: resData.prod_list.map(function (item, index) {
                             item.serial_num = item.key = (currentPage - 1) * pageCount + index + 1;
-                            item.prod_sale = item.prod_sale === undefined ? '0.00' : item.prod_sale.toFixed(2);
+                            item.prod_sale = (0, _Util.toThousands)(item.prod_sale, 2);
                             return item;
                         })
                     });
@@ -4761,7 +4781,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".pdtb{padding:20px 0}.date-wrap{display:inline-block;vertical-align:middle}.date-wrap>div{position:relative}.date-wrap>div .bootstrap-datetimepicker-widget{z-index:1}.date-wrap>div .bootstrap-datetimepicker-widget .switch{text-align:center}.form-group{margin:0;padding:10px 0;border-bottom:1px solid #e5e5e5}.prod-list{margin:0;padding:0}.prod-list li{border-bottom:1px solid #e5e5e5}.list-title,.list-total,.prod-list li{padding:10px 0}.list-title span,.prod-col{width:26%;float:left;text-align:center}.list-title span:first-child,.prod-col:first-child{width:48%}.prod-col.tal{text-align:left;padding-left:10px}.prod-col.tal div{display:inline-block;width:280px;margin-left:8px}.prod-col.tal div p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:20px}.prod-col img{width:60px;height:60px;display:inline-block}.list-total span{width:26%;float:right;text-align:center}.lh60{line-height:60px}@media (min-width:768px){.modal-dialog{width:750px}}", ""]);
+exports.push([module.i, ".pdtb{padding:20px 0}.date-wrap{display:inline-block;vertical-align:middle}.date-wrap>div{position:relative}.date-wrap>div .bootstrap-datetimepicker-widget{z-index:1}.date-wrap>div .bootstrap-datetimepicker-widget .switch{text-align:center}.form-group{margin:0;padding:10px 0;border-bottom:1px solid #e5e5e5}.prod-list{margin:0;padding:0}.prod-list li{border-bottom:1px solid #e5e5e5}.list-title,.list-total,.prod-list li{padding:10px 0}.list-title span,.prod-col{width:26%;float:left;text-align:center}.list-title span:first-child,.prod-col:first-child{width:48%}.prod-col.tal{text-align:left;padding-left:10px}.prod-col.tal div{display:inline-block;width:280px;margin-left:8px}.prod-col.tal div p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:20px}.prod-col img{width:60px;height:60px;display:inline-block}.list-total span{width:26%;float:right;text-align:center}.lh60{line-height:60px}.btn-state{display:block;padding:5px 20px;color:#fff;background-color:#00a0e9;border-radius:4px}@media (min-width:768px){.modal-dialog{width:750px}}", ""]);
 
 // exports
 

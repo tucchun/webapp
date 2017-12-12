@@ -179,7 +179,7 @@ class ProdManage extends Component {
       search_data: {
         begin: 0,
         count: 20,
-        prod_display: 1,
+        prod_display: undefined,
         prod_assist_code: '',
         prod_in_sale: 1,
         prod_name: '',
@@ -221,7 +221,6 @@ class ProdManage extends Component {
   doExport(){
     const search_data = this.state.indexViewData.search_data;
     DB.exportData(search_data).then(result => {
-      debugger
       downloadExcel(result, '站点商品');
     });
   }

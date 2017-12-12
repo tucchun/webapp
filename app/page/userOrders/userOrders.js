@@ -12,7 +12,7 @@ import PageNation from '../../component/pageNation/pageNation';
 // import DatePicker from "react-bootstrap-date-picker";
 import http from '../../lib/Api/http';
 import ApiMap from '../../lib/Api/ApiMap';
-import {setInitDate, getTimestamp, addDate, orderStatus, payType, downloadExcel, formatDateTime, converson} from '../../lib/Util';
+import {setInitDate, getTimestamp, addDate, orderStatus, payType, downloadExcel, formatDateTime, converson, toThousands} from '../../lib/Util';
 import '../../lib/styles/index.css';
 import { Modal } from 'react-bootstrap';
 
@@ -138,8 +138,8 @@ class UserOrders extends Component {
                         item.key = (currentPage - 1) * pageCount + index + 1;
                         item.create_date = formatDateTime(item.create_date);
                         item.pay_type = payType(item.pay_type);
-                        item.order_amount = (item.order_amount === undefined) ? '0.00' : item.order_amount.toFixed(2);
-                        item.pay_amount = (item.pay_amount === undefined) ? '0.00' : item.pay_amount.toFixed(2);
+                        item.order_amount = toThousands(item.order_amount, 2);
+                        item.pay_amount = toThousands(item.pay_amount, 2);
                         return item;
                     })
                 });
@@ -319,7 +319,7 @@ class UserOrders extends Component {
                                     <h5 style={{margin: 0, paddingTop: '10px', fontSize: '16px'}}>基本信息</h5>
                                 </div>
                                 <div className="pull-right" style={{verticalAlign: 'middle'}}>
-                                    <button type="button" className="btn btn-main">{orderStatus(details.order_status)}</button>
+                                    <span className="btn-state">{orderStatus(details.order_status)}</span>
                                 </div>
                             </div>
                             <div className="form-group clearfix">
@@ -374,16 +374,16 @@ class UserOrders extends Component {
                                                 <img className="pull-left" src={item.prod_imgs.length !== 0 ? converson(item.prod_imgs[0]) : ''} />
                                                 <div className="pull-left">
                                                     <p title={item.prod_name}>{item.prod_name}</p>
-                                                    <span>￥ {item.prod_price === undefined ? '' : item.prod_price.toFixed(2)}</span>
+                                                    <span>￥ {toThousands(item.prod_price, 2)}</span>
                                                 </div>
                                             </div>
                                             <div className="prod-col lh60">× {item.prod_num}</div>
-                                            <div className="prod-col lh60">￥ {(item.prod_num === undefined || item.prod_price === undefined) ? '' : (item.prod_num * item.prod_price).toFixed(2)}</div>
+                                            <div className="prod-col lh60">￥ {toThousands(item.prod_num * item.prod_price, 2)}</div>
                                         </li>)
                                     }
                                 </ul>
                                 <div className="list-total clearfix">
-                                    <span>合计 ￥{details.order_amount === undefined ? '' : details.order_amount.toFixed(2)}</span>
+                                    <span>合计 ￥{toThousands(details.order_amount, 2)}</span>
                                     <span>共{details.prod_num}件商品</span>
                                 </div>
                             </div>

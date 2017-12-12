@@ -26,6 +26,8 @@ class Condition extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.checkProdCategory = this.checkProdCategory.bind(this);
+    this.el = '#__prodManage-List__';
   }
 
   handleSearch() {
@@ -58,6 +60,30 @@ class Condition extends Component {
     this.props.handleInputChange(name, value);
   }
 
+  checkProdCategory(e) {
+    // if(this.categories)
+    let categories = document.querySelectorAll(this.el + ' .js-prod-category');
+    let category_info = document.querySelectorAll(this.el + ' .js-category-info');
+
+    const target = e.currentTarget;
+    const target_id = target.dataset['id'];
+    categories.forEach((item) => {
+      if (target === item) {
+        target.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+    category_info.forEach((item) => {
+      let id = item.dataset['id'];
+      if (target_id === id) {
+        item.classList.remove('hide');
+      } else {
+        item.classList.add('hide');
+      }
+    });
+  }
+
   render() {
     const {tags, crowds, cats} = this.props;
     //inputRef={ref => {this.prod_assist_code = ref.value;}}
@@ -77,79 +103,80 @@ class Condition extends Component {
     }
     return (
       <Form inline>
-        <div className='pull-left'>
-          <FormGroup controlId="prod_assist_code">
-            <ControlLabel>助记码</ControlLabel>
-            {' '}
-            <FormControl type="text" name='prod_assist_code' onChange={this.handleInputChange} value={this.props.prod_assist_code} placeholder="助记码"/>
-          </FormGroup>
+        <FormGroup controlId="prod_assist_code">
+          <ControlLabel>助记码</ControlLabel>
           {' '}
-          <FormGroup controlId="prod_name">
-            <ControlLabel>商品名称</ControlLabel>
-            {' '}
-            <FormControl type="text" name='prod_name' onChange={this.handleInputChange} value={this.props.prod_name} placeholder="商品名称"/>
-          </FormGroup>
+          <FormControl type="text" name='prod_assist_code' onChange={this.handleInputChange} value={this.props.prod_assist_code} placeholder="助记码"/>
+        </FormGroup>
+        {' '}
+        <FormGroup controlId="prod_name">
+          <ControlLabel>商品名称</ControlLabel>
           {' '}
-          <FormGroup controlId="prod_src">
-            <ControlLabel>商品产地</ControlLabel>
-            {' '}
-            <FormControl type="text" name='prod_src' onChange={this.handleInputChange} value={this.props.prod_src} placeholder="商品产地"/>
-          </FormGroup>
+          <FormControl type="text" name='prod_name' onChange={this.handleInputChange} value={this.props.prod_name} placeholder="商品名称"/>
+        </FormGroup>
+        {' '}
+        <FormGroup controlId="prod_src">
+          <ControlLabel>商品产地</ControlLabel>
           {' '}
-          {station_in_sale_view}
-          {' '}
-        </div>
-        <div className='pull-right'>
-          <FormGroup controlId="button">
-            <Button bsClass={'btn btn-main'} onClick={this.handleSearch} type='button'>查询</Button>
-          </FormGroup>
-        </div>
-        <div className='commodityManagement-cats'>
+          <FormControl type="text" name='prod_src' onChange={this.handleInputChange} value={this.props.prod_src} placeholder="商品产地"/>
+        </FormGroup>
+        {' '}
+        {station_in_sale_view}
+        {' '}
+        <FormGroup controlId="button">
+          <Button bsClass={'btn btn-main'} onClick={this.handleSearch} type='button'>查询</Button>
+        </FormGroup>
+
+        <div className='mul-container'>
           <FormGroup>
             <ControlLabel>商品标签</ControlLabel>
-            <div className='commodityManagement-cats commodityManagement-pl20'>
-              <FormGroup>
-                {tags.map(tag => {
-                  const state = this.props['prod_tags'].findIndex(item => {
-                    return item === tag.tag_id;
-                  });
-                  const checked = (state > -1)
-                    ? 'checked'
-                    : false;
-                  return (
-                    <Checkbox key={tag.tag_id} name='prod_tags' onChange={this.handleCheckboxChange} value={tag.tag_id} checked={checked} inline>
-                      {tag.tag_text}
-                    </Checkbox>
-                  );
-                })}
-              </FormGroup>
+            <div className='mul-check'>
+              {tags.map(tag => {
+                const state = this.props['prod_tags'].findIndex(item => {
+                  return item === tag.tag_id;
+                });
+                const checked = (state > -1)
+                  ? 'checked'
+                  : false;
+                return (
+                  <Checkbox title={tag.tag_text} key={tag.tag_id} name='prod_tags' onChange={this.handleCheckboxChange} value={tag.tag_id} checked={checked} inline>
+                    {tag.tag_text}
+                  </Checkbox>
+                );
+              })}
             </div>
           </FormGroup>
           <FormGroup>
             <ControlLabel>适用人群</ControlLabel>
-            <div className='commodityManagement-cats commodityManagement-pl20'>
-              <FormGroup>
-                {crowds.map(crowd => {
-                  const state = this.props['prod_crowds'].findIndex(item => {
-                    return item === crowd.crowd_id;
-                  });
-                  const checked = (state > -1)
-                    ? 'checked'
-                    : false;
-                  return (
-                    <Checkbox name='prod_crowds' onChange={this.handleCheckboxChange} key={crowd.crowd_id} value={crowd.crowd_id} checked={checked} inline>
-                      {crowd.crowd_text}
-                    </Checkbox>
-                  );
-                })}
-              </FormGroup>
+            <div className='mul-check'>
+              {crowds.map(crowd => {
+                const state = this.props['prod_crowds'].findIndex(item => {
+                  return item === crowd.crowd_id;
+                });
+                const checked = (state > -1)
+                  ? 'checked'
+                  : false;
+                return (
+                  <Checkbox title={crowd.crowd_text} name='prod_crowds' onChange={this.handleCheckboxChange} key={crowd.crowd_id} value={crowd.crowd_id} checked={checked} inline>
+                    {crowd.crowd_text}
+                  </Checkbox>
+                );
+              })}
             </div>
           </FormGroup>
           <FormGroup>
             <div>
               <ControlLabel>商品分类</ControlLabel>
             </div>
-            {cats.map(cat => {
+            <div>
+              {cats.map((cat, index) => {
+                let isActive = index === 0 ? 'active' : '';
+                return (
+                  <span onClick={this.checkProdCategory} data-id={cat.cat_id} className={isActive + ' prod-category js-prod-category'} key={cat.cat_id}>{cat.cat_text}</span>
+                );
+              })}
+            </div>
+            {cats.map((cat, index) => {
               const sub_cats = cat.sub_cats.map(sub_cat => {
                 const state = this.props['prod_cats'].findIndex(item => {
                   return item === sub_cat.cat_id;
@@ -157,22 +184,19 @@ class Condition extends Component {
                 const checked = (state > -1)
                   ? 'checked'
                   : false;
-
                 return (
-                  <Checkbox key={sub_cat.cat_id} checked={checked} name='prod_cats' onChange={this.handleCheckboxChange} inline value={sub_cat.cat_id}>
+                  <Checkbox title={sub_cat.cat_text} key={sub_cat.cat_id} checked={checked} name='prod_cats' onChange={this.handleCheckboxChange} inline value={sub_cat.cat_id}>
                     {sub_cat.cat_text}
                   </Checkbox>
                 );
               });
+              const isHidden = index !== 0
+                ? 'hide'
+                : '';
               return (
-                <span key={cat.cat_id} className='commodityManagement-cats commodityManagement-pl20'>
-                  <FormGroup>
-                    {cat.cat_text}
-                    <div className='commodityManagement-pl20'>
-                      {sub_cats}
-                    </div>
-                  </FormGroup>
-                </span>
+                <div className={isHidden + ' js-category-info'} data-id={cat.cat_id} key={cat.cat_id}>
+                  {sub_cats}
+                </div>
               );
             })}
           </FormGroup>

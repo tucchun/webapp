@@ -1,5 +1,6 @@
 .onSale{color:#3155f9;}
 .stopSale{color:#cf0d01;}
+.goodsDataList{min-width:1000px;}
 .goodsDataList select,.goodsDataList input[type=text]{margin-left:15px;max-width:150px !important;}
 .goodsDataList .form-inline label,.goodsDataList .form-inline button{margin-left:15px;}
 .goodsDataList .queryMeta{padding-left:20px;}
@@ -12,3 +13,7 @@
 .goodsDataList .options{margin:5px 0;}
 .goodsDataList .options .btn{margin:0 5px;}
 .goodsDataList input[type=checkbox]{margin:0;}
+@media (min-width: 768px){
+    .goodsDataList select,.goodsDataList input[type=text]{margin-left:15px;max-width:150px !important;}
+    .goodsDataList .form-inline .form-control{width:150px;}
+}

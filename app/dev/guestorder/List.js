@@ -1,5 +1,157 @@
 webpackJsonp([3],{
 
+/***/ "./app/component/DateRange.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _datePicker = __webpack_require__("./node_modules/antd/lib/date-picker/index.js");
+
+var _datePicker2 = _interopRequireDefault(_datePicker);
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+__webpack_require__("./node_modules/antd/lib/date-picker/style/index.js");
+
+var _react = __webpack_require__("./node_modules/react/react.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__("./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _moment = __webpack_require__("./node_modules/moment/moment.js");
+
+var _moment2 = _interopRequireDefault(_moment);
+
+__webpack_require__("./node_modules/moment/locale/zh-cn.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+_moment2.default.locale('zh-cn');
+
+var DateRange = function (_React$Component) {
+  _inherits(DateRange, _React$Component);
+
+  function DateRange(props) {
+    _classCallCheck(this, DateRange);
+
+    var _this = _possibleConstructorReturn(this, (DateRange.__proto__ || Object.getPrototypeOf(DateRange)).call(this, props));
+
+    _this.state = { endOpen: false };
+    _this.disabledStartDate = _this.disabledStartDate.bind(_this);
+    _this.onStartChange = _this.onStartChange.bind(_this);
+    _this.handleStartOpenChange = _this.handleStartOpenChange.bind(_this);
+    _this.disabledEndDate = _this.disabledEndDate.bind(_this);
+    _this.onEndChange = _this.onEndChange.bind(_this);
+    _this.handleEndOpenChange = _this.handleEndOpenChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(DateRange, [{
+    key: 'disabledStartDate',
+    value: function disabledStartDate(startValue) {
+      var endValue = this.props.endValue;
+      if (!startValue || !endValue) {
+        return false;
+      }
+      return startValue.valueOf() > endValue.valueOf();
+    }
+  }, {
+    key: 'disabledEndDate',
+    value: function disabledEndDate(endValue) {
+      var startValue = this.props.startValue;
+      if (!endValue || !startValue) {
+        return false;
+      }
+      return endValue.valueOf() <= startValue.valueOf();
+    }
+  }, {
+    key: 'onChange',
+    value: function onChange(field, value) {
+      //defaultValue={moment({hour: 23, minute: 59, seconds: 59})}
+      //defaultValue={moment({hour: 0, minute: 0, seconds: 0})}
+      this.props.handleOnChange(field, value);
+      // this.setState({[field]: value});
+    }
+  }, {
+    key: 'onStartChange',
+    value: function onStartChange(value, formattedValue) {
+      value.seconds(0);
+      value.minute(0);
+      value.hour(0);
+      this.onChange(this.props.startName, value.toString());
+      // this.onChange('startValue', value);
+    }
+  }, {
+    key: 'onEndChange',
+    value: function onEndChange(value, formattedValue) {
+      value.seconds(59);
+      value.minute(59);
+      value.hour(23);
+      this.onChange(this.props.endName, value.toString());
+      // this.onChange('endValue', value);
+    }
+  }, {
+    key: 'handleStartOpenChange',
+    value: function handleStartOpenChange(open) {
+      if (!open) {
+        this.setState({ endOpen: true });
+      }
+    }
+  }, {
+    key: 'handleEndOpenChange',
+    value: function handleEndOpenChange(open) {
+      this.setState({ endOpen: open });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          startName = _props.startName,
+          endName = _props.endName,
+          startValue = _props.startValue,
+          endValue = _props.endValue;
+
+      var create_start = startValue && (0, _moment2.default)(startValue);
+      var create_end = endValue && (0, _moment2.default)(endValue);
+      return _react2.default.createElement(
+        'span',
+        null,
+        _react2.default.createElement(_datePicker2.default, { name: startName, disabledDate: this.disabledStartDate, showTime: true, format: 'YYYY-MM-DD HH:mm:ss', value: create_start, onChange: this.onStartChange, onOpenChange: this.handleStartOpenChange }),
+        '-',
+        _react2.default.createElement(_datePicker2.default, { name: endName, disabledDate: this.disabledEndDate, showTime: true, format: 'YYYY-MM-DD HH:mm:ss', value: create_end, onChange: this.onEndChange, open: this.state.endOpen, onOpenChange: this.handleEndOpenChange })
+      );
+    }
+  }]);
+
+  return DateRange;
+}(_react2.default.Component);
+
+DateRange.propTypes = {
+  startName: _propTypes2.default.string.isRequired,
+  endName: _propTypes2.default.string.isRequired,
+  startValue: _propTypes2.default.number,
+  endValue: _propTypes2.default.number,
+  handleOnChange: _propTypes2.default.func.isRequired
+};
+
+exports.default = DateRange;
+
+/***/ }),
+
 /***/ "./app/component/condition/Condition.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38,7 +190,7 @@ var Condition = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        { className: "opt clearfix" },
+        { className: "opt clearfix condition" },
         this.props.children
       );
     }
@@ -992,6 +1144,7 @@ exports.getAuthStr = getAuthStr;
 exports.trim = trim;
 exports.getElementByAttr = getElementByAttr;
 exports.amount_format = amount_format;
+exports.toThousands = toThousands;
 
 var _react = __webpack_require__("./node_modules/react/react.js");
 
@@ -1485,6 +1638,25 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 function amount_format(amount) {
   return (amount || 0).toFixed(2);
 }
+
+/**
+ * 千分位化处理
+ *
+ * @param num 要处理的值(Number或者String)
+ * @param len 保留小数位数(Number)
+ * @return 金额格式的字符串,如'1,234,567.45'
+ */
+function toThousands(num, len) {
+  len = len > 0 && len <= 20 ? len : 2;
+  num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
+  var l = num.split(".")[0].split("").reverse(),
+      r = num.split(".")[1];
+  var t = "";
+  for (var i = 0; i < l.length; i++) {
+    t += l[i] + ((i + 1) % 3 === 0 && i + 1 !== l.length ? "," : "");
+  }
+  return t.split("").reverse().join("") + "." + r;
+}
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/process/browser.js")))
 
 /***/ }),
@@ -1764,13 +1936,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _datePicker = __webpack_require__("./node_modules/antd/lib/date-picker/index.js");
-
-var _datePicker2 = _interopRequireDefault(_datePicker);
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-__webpack_require__("./node_modules/antd/lib/date-picker/style/index.js");
 
 var _react = __webpack_require__("./node_modules/react/react.js");
 
@@ -1785,6 +1951,10 @@ var _moment = __webpack_require__("./node_modules/moment/moment.js");
 var _moment2 = _interopRequireDefault(_moment);
 
 var _reactBootstrap = __webpack_require__("./node_modules/react-bootstrap/es/index.js");
+
+var _DateRange = __webpack_require__("./app/component/DateRange.js");
+
+var _DateRange2 = _interopRequireDefault(_DateRange);
 
 var _logger = __webpack_require__("./app/lib/logger.js");
 
@@ -1811,6 +1981,7 @@ var Condition = function (_Component) {
     _this.handleSelectChange = _this.handleSelectChange.bind(_this);
     _this.handleCreateStart = _this.handleCreateStart.bind(_this);
     _this.handleCreateEnd = _this.handleCreateEnd.bind(_this);
+    _this.handleDateChange = _this.handleDateChange.bind(_this);
     return _this;
   }
 
@@ -1818,6 +1989,11 @@ var Condition = function (_Component) {
     key: 'handleSearch',
     value: function handleSearch() {
       this.props.handleSearch(this.state);
+    }
+  }, {
+    key: 'handleDateChange',
+    value: function handleDateChange(name, value) {
+      this.props.handleDateChange(name, value);
     }
   }, {
     key: 'handleCreateStart',
@@ -1875,10 +2051,7 @@ var Condition = function (_Component) {
             '\u63D0\u4EA4\u65F6\u95F4'
           ),
           ' ',
-          _react2.default.createElement(_datePicker2.default, { name: 'create_start', showTime: true, onChange: this.handleCreateStart, value: create_start, format: 'YYYY-MM-DD HH:mm:ss' }),
-          ' ',
-          '-',
-          _react2.default.createElement(_datePicker2.default, { showTime: true, name: 'create_end', onChange: this.handleCreateEnd, value: create_end, format: 'YYYY-MM-DD HH:mm:ss' })
+          _react2.default.createElement(_DateRange2.default, { startName: 'create_start', endName: 'create_end', endValue: this.props.create_end, handleOnChange: this.handleDateChange, startValue: this.props.create_start })
         ),
         ' ',
         _react2.default.createElement(
@@ -1977,7 +2150,8 @@ Condition.propTypes = {
   handleCreateStart: _propTypes2.default.func.isRequired,
   handleCreateEnd: _propTypes2.default.func.isRequired,
   handleSelectChange: _propTypes2.default.func.isRequired,
-  handleInputChange: _propTypes2.default.func.isRequired
+  handleInputChange: _propTypes2.default.func.isRequired,
+  handleDateChange: _propTypes2.default.func.isRequired
 };
 exports.default = Condition;
 
@@ -2110,6 +2284,8 @@ __webpack_require__("./app/page/guestorder/style.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -2141,7 +2317,10 @@ var GuestorderList = function (_Component) {
     }, {
       title: '金额总计',
       key: 'guest_order_amount',
-      dataIndex: 'guest_order_amount'
+      dataIndex: 'guest_order_amount',
+      render: function render(value) {
+        return (0, _Util.amount_format)(value);
+      }
     }, {
       title: '商品数量',
       key: 'prod_num',
@@ -2224,6 +2403,7 @@ var GuestorderList = function (_Component) {
     _this.handleIndexCreateEnd = _this.handleIndexCreateEnd.bind(_this);
     _this.handleIndexSelectChange = _this.handleIndexSelectChange.bind(_this);
     _this.handleIndexInputChange = _this.handleIndexInputChange.bind(_this);
+    _this.handleIndexDateChange = _this.handleIndexDateChange.bind(_this);
 
     // 指派健管师
     _this.handleHecadreSearch = _this.handleHecadreSearch.bind(_this);
@@ -2493,7 +2673,8 @@ var GuestorderList = function (_Component) {
         handleCreateStart: this.handleIndexCreateStart,
         handleCreateEnd: this.handleIndexCreateEnd,
         handleSelectChange: this.handleIndexSelectChange,
-        handleInputChange: this.handleIndexInputChange
+        handleInputChange: this.handleIndexInputChange,
+        handleDateChange: this.handleIndexDateChange
       });
       return _react2.default.createElement(
         _Container2.default,
@@ -2744,6 +2925,15 @@ var GuestorderList = function (_Component) {
       this.setState({
         indexViewData: _extends({}, this.state.indexViewData, {
           search_data: _extends({}, this.state.indexViewData.search_data, selectData)
+        })
+      });
+    }
+  }, {
+    key: 'handleIndexDateChange',
+    value: function handleIndexDateChange(name, value) {
+      this.setState({
+        indexViewData: _extends({}, this.state.indexViewData, {
+          search_data: _extends({}, this.state.indexViewData.search_data, _defineProperty({}, name, +new Date(value) || null))
         })
       });
     }
