@@ -71,10 +71,10 @@ class GoodsDetail extends Component{
                 prod_imgs = data.ret_data.prod_imgs;
                 tagsText = data.ret_data.prod_tags.map(tag => {
                     return tag.tag_text
-                }).join(',');
+                }).join('/');
                 crowText = data.ret_data.prod_crowds.map(crows => {
                     return crows.crowd_text
-                }).join(',');
+                }).join('/');
                 this.setState({
                     goodsMsg:{
                         ...data.ret_data,

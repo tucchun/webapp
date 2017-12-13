@@ -74,7 +74,7 @@ class Add extends Component {
         render(value, row) {
           let crowdStr = _.map(row.prod_crowds, function(crowd) {
             return crowd['crowd_text'];
-          }).join('、');
+          }).join('/');
           return (
             <div>
               {crowdStr}

@@ -465,6 +465,7 @@ export function toThousands(num, len) {
   len = len > 0 && len <= 20
     ? len
     : 2;
+  num = num || 0;
   num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
   let l = num.split(".")[0].split("").reverse(),
     r = num.split(".")[1];

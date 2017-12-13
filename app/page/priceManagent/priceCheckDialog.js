@@ -42,11 +42,15 @@ class PriceCheckDialog extends Component{
             alert('备注不能超过100个字符');
             return false;
         }
+        let msg = '审核已通过';
+        if(this.state.checkType !== 'approval'){
+            msg = '已拒绝该申请';
+        }
         this.props.confim({
             ...this.state.adjectInfo,
             audit_memo:this.textarea.value,
             adjust_status:this.state.checkType === 'approval' ? 2 : 3
-        })
+        },msg)
     }
 
     render(){

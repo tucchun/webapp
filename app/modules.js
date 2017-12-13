@@ -1,6 +1,9 @@
 let components = [
   'commodityStats/commodityStats',
   'salesStats/salesStats',
+  'salesStats/salesStats2',
+  'salesStats/salesStats3',
+  'salesStats/salesStats4',
   'userOrders/userOrders',
   'userStats/userStats',
   'jgssalesStats/jgssalesStats',

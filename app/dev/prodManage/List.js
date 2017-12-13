@@ -1958,7 +1958,7 @@ var Add = function (_Component) {
       render: function render(value, row) {
         var crowdStr = _lodash2.default.map(row.prod_crowds, function (crowd) {
           return crowd['crowd_text'];
-        }).join('、');
+        }).join('/');
         return _react2.default.createElement(
           'div',
           null,
@@ -2673,7 +2673,7 @@ var ProdManage = function (_Component) {
       render: function render(value, row) {
         var crowdStr = _lodash2.default.map(row.prod_crowds, function (crowd) {
           return crowd['crowd_text'];
-        }).join('、');
+        }).join('/');
         return _react2.default.createElement(
           'div',
           null,

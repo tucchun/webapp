@@ -273,7 +273,7 @@ class PriceCheck extends Component{
     }
 
     //审核处理
-    handleCheck(adjectInfo){
+    handleCheck(adjectInfo,msg){
         http({
             ...ApiMap.goodsPriceAudit,
             data:{
@@ -285,7 +285,7 @@ class PriceCheck extends Component{
         }).then(response => {
             let data = response.data;
             if(data.ret_code === 1){
-                alert('审核成功');
+                alert(msg);
                 this.setState({
                     checkShow:false
                 });
