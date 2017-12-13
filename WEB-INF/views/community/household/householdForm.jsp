@@ -231,6 +231,7 @@
     	   }
        });
        _self.find('a.btn.confirm').on('click',function(){
+
     	   
     	   
     	   var modal = $(this).parents('#modal_generateNo'),_table = modal.find('#distristHouse table');
@@ -262,21 +263,21 @@
                };
                josn_houseNumber.push(obj);
            });
-            var nullflg = false;
             for(var i in josn_houseNumber){
-                if(josn_houseNumber[i].detail_household_no.length !== 0){
-                    nullflg = true;
-                }
-                for(var j in josn_houseNumber[i].detail_household_no){
-                    if(isNaN(josn_houseNumber[i].detail_household_no[j])){
-                        nullflg = true;
+                if(josn_houseNumber[i].detail_household_no.length === 0){
+                    null_flag = false;
+                }else{
+                    for(var j in josn_houseNumber[i].detail_household_no){
+                        if(isNaN(josn_houseNumber[i].detail_household_no[j])){
+                            null_flag = false;
+                        }
                     }
                 }
             }
            //ajax提交写在这，成功后将数据回填到表格中
            if(!null_flag){
         	   common.alert("请检查门牌号是否为空或有某个单元有重复门牌号");
-        	   return;
+        	   return false;
            }
            common.fetch({
                 url:'${ctx}/household/create',
@@ -293,17 +294,6 @@
                     }
                 }
             });
-           
-           
-           //josn_houseNumber是要提交的数据
-           /* var arr_tr = [];
-           for(var i = ){
-               var str = '<tr><td>'+'万象天成'+'</td><td>'+'1栋'+'</td><td>'+obj+'</td><td>'+josn_houseNumber[obj].join(',')+
-                   '</td><td class="optCol"><a href="#">编辑</a><a href="#" data-opt="del">删除</a></td>';
-               arr_tr.push(str);
-           }  */
-           /* 
-            _self.find('#houseNoList tbody').append(arr_tr.join('')); */
            _self.find('#modal_generateNo').modal('hide');
        });
        

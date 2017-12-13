@@ -335,6 +335,10 @@ class UserOrders extends Component {
                                 <div className="col-sm-7">{details.order_amount}</div>
                             </div>
                             <div className="form-group clearfix">
+                                <div className="col-sm-3 control-label">支付方式:</div>
+                                <div className="col-sm-7">{payType(details.pay_type)}</div>
+                            </div>
+                            <div className="form-group clearfix">
                                 <div className="col-sm-3 control-label">商品数量:</div>
                                 <div className="col-sm-7">{details.prod_num}</div>
                             </div>

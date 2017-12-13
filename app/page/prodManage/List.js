@@ -6,8 +6,6 @@ import Gird from '../../component/table/Table';
 import Container from '../../component/container/Container';
 import Condition from '../../component/condition/Condition';
 import PageNation from '../../component/pageNation/pageNation';
-import ApiMap from '../../lib/Api/ApiMap';
-import http from '../../lib/Api/http';
 import {alert, confirm, createTab, downloadExcel} from '../../lib/Util';
 import {logger} from '../../lib/logger';
 import ConditionForm from './ConditionForm';
@@ -165,7 +163,7 @@ class ProdManage extends Component {
         prod_cats: [],
         prod_tags: [],
         prod_crowds: [],
-        station_in_sale: 0
+        station_in_sale: undefined
       }
     };
     this.addViewData = {
@@ -265,7 +263,12 @@ class ProdManage extends Component {
   handleupdateProd(result) {
     if (result.ret_code === 1) {
       alert('修改成功');
-      this.serchList();
+      DB.fetchProdList(this.state.indexViewData.search_data).then(data => {
+        let pageNumber = Math.ceil(data.total / this.state.count) || 1;
+        this.setState({girdData: data.prod_list, total: data.total, pageNumber: pageNumber});
+      }).catch((err) => {
+        alert(err);
+      });
     } else {
       alert('修改失败');
     }
@@ -309,24 +312,7 @@ class ProdManage extends Component {
 
   // 翻页查询
   handleGetPage({currentPage}) {
-    /*
-    indexViewData: {
-      girdData: [],
-      pageNumber: 1,
-      total: 0,
-      search_data: {
-        begin: 0,
-        count: 5,
-        prod_assist_code: '',
-        prod_name: '',
-        prod_src: '',
-        prod_cats: [],
-        prod_tags: [],
-        prod_crowds: [],
-        station_in_sale: 1
-      }
-    }
-    */
+    debugger;
     const indexViewData = this.state.indexViewData;
     const search_data = {
       ...indexViewData.search_data,
@@ -347,95 +333,27 @@ class ProdManage extends Component {
     }).catch(err => {
       alert(err);
     });
-    // this.serchList({
-    //   begin: currentPage - 1
-    // });
-  }
-
-  // 查询订单意向分页数据
-  serchList(condition) {
-    // let data = this.refs.conditionForm.getData();
-
-    let params = {
-      ...this.state.indexViewData.search_data,
-      ...condition
-    };
-    return this.fetchList(params).then(result => {
-      let pageNumber = Math.ceil(result.total / this.state.count) || 1;
-      this.setState({girdData: result.prod_list, total: result.total, pageNumber: pageNumber, begin: params.begin});
-    }).catch((err) => {
-      alert(err);
-    });
-  }
-
-  fetchList(condition) {
-    return new Promise((resolve, reject) => {
-      const params = ApiMap.shopStationProdList;
-      http({
-        url: params.url,
-        method: params.method,
-        data: {
-          ...params.data,
-          ...condition
-        }
-      }).then(result => {
-        const data = result.data;
-        if (data.ret_code === 1) {
-          resolve(data.ret_data);
-        } else {
-          reject(data.ret_msg);
-        }
-      }).catch(err => {
-        reject('请求数据失败');
-        logger(err);
-      });
-    });
-  }
-
-  // 请求标签数据
-  fetchShopProdmeta(condition) {
-    return new Promise((resolve, reject) => {
-      const params = ApiMap.shopProdmeta;
-      http({
-        url: params.url,
-        method: params.method,
-        data: {
-          ...params.data,
-          ...condition
-        }
-      }).then(result => {
-        const data = result.data;
-        if (data.ret_code === 1) {
-          resolve(data.ret_data);
-        } else {
-          reject(data.ret_msg);
-        }
-      }).catch(err => {
-        reject('请求数据失败');
-        logger(err);
-      });
-    });
   }
 
   componentDidMount() {
     const indexViewData = this.state.indexViewData;
     const search_data = indexViewData.search_data;
-    this.fetchList(search_data).then(result => {
-      let pageNumber = Math.ceil(result.total / search_data.count) || 1;
+    const fetchStationProdList = DB.fetchStationProdList(search_data);
+    const fetchShopProdmeta = DB.fetchShopProdmeta();
+    const fetchData = Promise.all([fetchStationProdList, fetchShopProdmeta]);
+    fetchData.then(([ProdData, ProdMeta]) => {
+          debugger;
+      let pageNumber = Math.ceil(ProdData.total / search_data.count) || 1;
       this.setState({
         indexViewData: {
           ...indexViewData,
-          girdData: result.prod_list,
-          total: result.total,
+          girdData: ProdData.prod_list,
+          total: ProdData.total,
           pageNumber: pageNumber
-        }
+        },
+        cats: ProdMeta.cats, crowds: ProdMeta.crowds, tags: ProdMeta.tags
       });
     }).catch(err => {
-      alert(err);
-    });
-    this.fetchShopProdmeta().then(result => {
-      this.setState({cats: result.cats, crowds: result.crowds, tags: result.tags});
-    }).catch((err) => {
       alert(err);
     });
   }
@@ -491,19 +409,6 @@ class ProdManage extends Component {
       prod_crowds: indexViewData.search_data.prod_crowds,
       station_in_sale: indexViewData.search_data.station_in_sale
     };
-    /*
-    modifyProd: {
-      show: false,
-      prod_data: {
-        prod_id: '',
-        prod_no: '',
-        prod_name: '',
-        prod_src: '',
-        prod_spec: '',
-        station_in_sale: 1
-      }
-    }
-    */
     return (
       <Container className='p20' title={'站点商品管理'}>
         <Condition>
@@ -592,7 +497,7 @@ class ProdManage extends Component {
       ...indexViewData.search_data,
       begin: 0
     };
-    this.fetchList(search_data).then(result => {
+    DB.fetchStationProdList(search_data).then(result => {
       let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.setState({
         indexViewData: {

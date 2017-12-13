@@ -109,7 +109,7 @@ class QueryForm extends Component {
                         <option value={0}>全部</option><option value={1}>是</option><option value={2}>否</option>
                     </select></td>
                     <td><button className="btn btn-main" type="submit">查询</button></td>
-                    <td colSpan={3}>{''}</td>
+                    <td>{''}</td>
                 </tr>
                 </tbody></table>
                 <div className="tagList">

@@ -51,9 +51,7 @@
   padding: 10px 0;
 }
 
-.flex-auto{
-  padding: 20px;
-}
+
 .hospital table tbody tr td:last-child a{margin:0 5px;}
 .p20,
 .xzqy .tb-wrap,
@@ -437,7 +435,7 @@ body>div.modal>div.modal-dialog label.error{text-align:left;}
 
 
 .table-align tr > td:nth-child(2n),
-.gird-align.row > div:nth-child(2n),
+.gird-align.row > div:nth-child(2n)
 {
   text-align: left;
 }
@@ -455,11 +453,33 @@ body>div.modal>div.modal-dialog label.error{text-align:left;}
   text-align: center;
 }
 
-
-.flex-auto .row{
-  padding: 10px 0;
+.flex-auto{
+  border-color: #e5e5e5;
+  border-style: solid;
+  border-width:  0 0 1px 1px;
+  margin: 20px;
+  background-color: #f7f7f7;
 }
 
+.flex-auto .row{
+  margin: auto;
+}
+
+.flex-auto .row > div{
+  height: 45px;
+  line-height: 45px;
+  border-color: #e5e5e5;
+  border-style: solid;
+  border-width: 1px 1px 0 0;
+}
+
+.flex-auto .row > div:nth-child(2n){
+  background-color: #fff;
+}
+.auto-height{
+  height: auto!important;
+  line-height: 1.42857143!important;
+}
 .border-bottom{
   border-bottom: 1px solid #ccc;
 }
@@ -470,4 +490,55 @@ body>div.modal>div.modal-dialog label.error{text-align:left;}
   border: none;
   background-color: transparent;
   box-shadow: none;
+}
+.condition .form-group {
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+
+.condition .control-label{
+  width: 100px;
+}
+
+.condition .checkbox-inline {
+  width: 130px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.condition .checkbox-inline+.checkbox-inline, .condition .radio-inline+.radio-inline {
+  margin-left: 0;
+}
+
+.condition .mul-check {
+  padding-top: 5px;
+}
+
+.modal-dialog .condition input[type=checkbox], .modal-dialog .condition input[type=radio] {
+  margin-top: 4px;
+}
+
+.condition label{
+  /*width: 60px;*/
+}
+
+.condition .prod-category{
+  display: inline-block;
+  padding: 3px 20px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.condition .prod-category:hover,
+.condition .prod-category.active{
+  color: #00a0e9;
+  border-color: #00a0e9;
 }

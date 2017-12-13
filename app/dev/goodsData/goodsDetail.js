@@ -226,6 +226,14 @@ var ApiMap = {
     responseType: 'blob'
   },
 
+  //1.1.21	(Web)商品列表导出
+  stationProdExport: {
+    url: '/hca/web/admin/shop/station/prod/export',
+    method: 'POST',
+    data: commonData,
+    responseType: 'blob'
+  },
+
   //1.1.12	(Web)商品价格调整列表
   goodsAdjustPriceList: {
     url: '/hca/web/admin/shop/prodprice/adjust/list',
@@ -576,7 +584,7 @@ exports.default = httpServer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
+exports.fetchTemplate = exports.exportTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1070,6 +1078,34 @@ function getElementByAttr(tag, attr, value) {
   }
   return aEle;
 }
+
+// 到处请求模板
+var exportTemplate = exports.exportTemplate = function exportTemplate(apiData) {
+  return function (args) {
+    return new Promise(function (resolve, reject) {
+      (0, _http2.default)(_extends({}, apiData, {
+        data: _extends({}, apiData.data, args)
+      })).then(function (result) {
+        (0, _logger.logger)(result);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data) {
+            resolve(data);
+          } else {
+            reject('导出失败');
+          }
+        } else {
+          reject('导出失败');
+          (0, _logger.logger)(result.statusText);
+        }
+      }).catch(function (err) {
+        reject('导出失败');
+        (0, _logger.logger)(err);
+      });
+    });
+  };
+};
+
 // 请求模板
 var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
   return function (args) {
@@ -1077,14 +1113,19 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
       (0, _http2.default)(_extends({}, apiData, {
         data: _extends({}, apiData.data, args)
       })).then(function (result) {
-        var data = result.data;
-        if (data.ret_code === 1) {
-          resolve(data.ret_data);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data.ret_code === 1) {
+            resolve(data.ret_data);
+          } else {
+            reject(data.ret_msg);
+          }
         } else {
-          reject(data.ret_msg);
+          reject('操作失败');
+          (0, _logger.logger)(result.statusText);
         }
       }).catch(function (err) {
-        reject('请求数据失败');
+        reject('操作失败');
         (0, _logger.logger)(err);
       });
     });
@@ -2241,7 +2282,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".newGoodsData{padding:40px 0;width:1200px}.newGoodsData .col-sm-1,.newGoodsData .col-sm-2,.newGoodsData .col-sm-3,.newGoodsData .col-sm-4,.newGoodsData .col-sm-5,.newGoodsData .col-sm-6,.newGoodsData .col-sm-7,.newGoodsData .col-sm-8,.newGoodsData .col-sm-9,.newGoodsData .col-sm-10,.newGoodsData .col-sm-11,.newGoodsData .col-sm-12,.newGoodsData .ke-statusbar{position:static}.p20{padding:20px}.btn-main{margin:0 10px}.uploadImg{vertical-align:middle;text-align:center;width:40px;height:40px;border:1px solid #e5e5e5;font-size:18px;margin:5px;border-radius:3px;cursor:pointer}.tips,.uploadImg{display:inline-block}.tips{font-size:12px;color:gray;line-height:1.4}.control-label span{color:#ff0505}.icon.icon-add{width:25px;padding:0;position:absolute;right:25px;top:5px}.form-control-static{min-height:0}.form-group{position:relative}.normalLable{font-weight:400}.modal-dialog input[type=checkbox],.modal-dialog input[type=radio]{position:static!important}.checkbox-inline:first-child,.radio-inline:first-child{margin-left:10px}", ""]);
+exports.push([module.i, ".newGoodsData{padding:40px 0;width:1200px}.newGoodsData .col-sm-1,.newGoodsData .col-sm-2,.newGoodsData .col-sm-3,.newGoodsData .col-sm-4,.newGoodsData .col-sm-5,.newGoodsData .col-sm-6,.newGoodsData .col-sm-7,.newGoodsData .col-sm-8,.newGoodsData .col-sm-9,.newGoodsData .col-sm-10,.newGoodsData .col-sm-11,.newGoodsData .col-sm-12,.newGoodsData .ke-statusbar{position:static}.p20{padding:20px}.btn-main{margin:0 10px}.uploadImg{vertical-align:middle;text-align:center;width:40px;height:40px;border:1px solid #e5e5e5;font-size:18px;margin:5px;border-radius:3px;cursor:pointer}.tips,.uploadImg{display:inline-block}.tips{font-size:12px;color:gray;line-height:1.4}.control-label span{color:#ff0505}.icon.icon-add{width:25px;padding:0;position:absolute;right:25px;top:5px}.form-control-static{min-height:0}.form-group{position:relative}.normalLable{font-weight:400}.modal-dialog input[type=checkbox],.modal-dialog input[type=radio]{position:static!important}.checkbox-inline:first-child,.radio-inline:first-child{margin-left:10px}#goodsDetail .form-horizontal{border:1px solid #e5e5e5}#goodsDetail .form-group{border-bottom:1px solid #e5e5e5;margin:0;background:#f7f7f7}#goodsDetail .form-group .col-sm-2,#goodsDetail .form-group .col-sm-4,#goodsDetail .form-group .col-sm-10{padding:10px 0}#goodsDetail .form-group .col-sm-4,#goodsDetail .form-group .col-sm-10{border-left:1px solid #e5e5e5;padding-left:10px;background:#fff;min-height:54px}#goodsDetail .form-group .col-sm-4{border-right:1px solid #e5e5e5}#goodsDetail .form-group:last-child{border:none}#goodsDetail .form-group .col-sm-4:last-child{border-right:none}", ""]);
 
 // exports
 

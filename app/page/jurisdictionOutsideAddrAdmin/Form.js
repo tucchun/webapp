@@ -33,7 +33,7 @@ class OperateForm extends Component {
       <Form inline className="clearfix">
         <div className="pull-left">
             <FormGroup>
-                <ControlLabel>管辖者</ControlLabel>
+                {/* <ControlLabel>管辖者</ControlLabel> */}
                 {' '}
                 <FormControl
                     componentClass="select"
@@ -41,7 +41,7 @@ class OperateForm extends Component {
                     name='station_in_sale'
                     placeholder="管辖者"
                     onChange={this.toggleHecadre}>
-                    <option value="">请选择健管师</option>
+                    <option value="">管辖者</option>
                     {allHecadreList.map((item, index) =>
                       <option value={item.hecadre_uid} key={index}>{item.hecadre_name}</option>
                     )}
@@ -49,7 +49,7 @@ class OperateForm extends Component {
             </FormGroup>
             {' '}
             <FormGroup controlId="station_in_sale">
-                <ControlLabel>居民数量</ControlLabel>
+                {/* <ControlLabel>居民数量</ControlLabel> */}
                 {' '}
                 <FormControl
                     componentClass="select"
@@ -57,7 +57,7 @@ class OperateForm extends Component {
                     name='station_in_sale'
                     placeholder="居民数量"
                     onChange={this.toggleInhabitant}>
-                    <option value="0">请选择居民类型</option>
+                    <option value="0">居民数量</option>
                     <option value="2">无居民</option>
                     <option value="1">有居民</option>
                 </FormControl>

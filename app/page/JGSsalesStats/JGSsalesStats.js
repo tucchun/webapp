@@ -12,7 +12,7 @@ import PageNation from '../../component/pageNation/pageNation';
 // import DatePicker from "react-bootstrap-date-picker";
 import http from '../../lib/Api/http';
 import ApiMap from '../../lib/Api/ApiMap';
-import {setInitDate, getTimestamp, formatDateTime, addDate, orderStatus, downloadExcel, converson, getElementByAttr, toThousands} from '../../lib/Util';
+import {setInitDate, getTimestamp, formatDateTime, addDate, orderStatus, downloadExcel, converson, getElementByAttr, toThousands, payType} from '../../lib/Util';
 import '../../lib/styles/index.css';
 import { Modal } from 'react-bootstrap';
 
@@ -39,29 +39,34 @@ class JGSSalesStats extends Component {
               key: 'c',
             }, {
                 className: 'my-col-class',
-                title: '商品数量',
-                dataIndex: 'prod_num',
+                title: '支付方式',
+                dataIndex: 'pay_type',
                 key: 'd',
             }, {
                 className: 'my-col-class',
-                title: '用户姓名',
-                dataIndex: 'receipt_name',
+                title: '商品数量',
+                dataIndex: 'prod_num',
                 key: 'e',
+            }, {
+                className: 'my-col-class',
+                title: '收货人',
+                dataIndex: 'receipt_name',
+                key: 'f',
             }, {
                 className: 'my-col-class',
                 title: '联系电话',
                 dataIndex: 'receipt_contact',
-                key: 'f',
+                key: 'g',
             }, {
               className: 'my-col-class',
               title: '地址',
               dataIndex: 'receipt_address',
-              key: 'g'
+              key: 'h'
             }, {
                 className: 'my-col-class',
                 title: '操作',
                 dataIndex: 'oper',
-                key: 'h',
+                key: 'i',
                 render: (text, record) => <a onClick={e => this.viewDetails(record.order_id, e)} href="javascript:;">详情</a>,
             }
         ];
@@ -144,6 +149,7 @@ class JGSSalesStats extends Component {
                         item.key = (currentPage - 1) * pageCount + index + 1;
                         item.create_date = formatDateTime(item.create_date);
                         item.pay_amount = toThousands(item.pay_amount, 2);
+                        item.pay_type = payType(item.pay_type);
                         return item;
                     })
                 });
@@ -333,11 +339,15 @@ class JGSSalesStats extends Component {
                                 <div className="col-sm-7">{details.order_amount}</div>
                             </div>
                             <div className="form-group clearfix">
+                                <div className="col-sm-3 control-label">支付方式:</div>
+                                <div className="col-sm-7">{payType(details.pay_type)}</div>
+                            </div>
+                            <div className="form-group clearfix">
                                 <div className="col-sm-3 control-label">商品数量:</div>
                                 <div className="col-sm-7">{details.prod_num}</div>
                             </div>
                             <div className="form-group clearfix">
-                                <div className="col-sm-3 control-label">用户姓名:</div>
+                                <div className="col-sm-3 control-label">收货人:</div>
                                 <div className="col-sm-7">{details.receipt_name}</div>
                             </div>
                             <div className="form-group clearfix">

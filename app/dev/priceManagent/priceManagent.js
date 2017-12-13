@@ -293,10 +293,19 @@ var PageNation = function (_React$Component) {
                 }, onLink: function onLink(ev) {
                     return _this2.props.getPage(ev);
                 } })];
-            for (var i = 0; i < this.props.pageNumber; i++) {
-                list.push(_react2.default.createElement(_link2.default, { key: "page" + i, pageArgument: {
-                        page: (i + 1).toString(),
-                        pageCode: i + 1,
+            var pageNumber = this.props.pageNumber;
+            var pages = 5,
+                strNo = 1;
+            if (this.props.currentPage >= 3 && pageNumber >= 5) {
+                strNo = this.props.currentPage - 2;
+                pages = this.props.currentPage + 2;
+            }
+            pages = pageNumber < pages ? pageNumber : pages;
+            for (strNo; strNo <= pages; strNo++) {
+                console.log(strNo);
+                list.push(_react2.default.createElement(_link2.default, { key: "page" + strNo, pageArgument: {
+                        page: strNo.toString(),
+                        pageCode: strNo,
                         currentPage: parseInt(this.props.currentPage)
                     }, onLink: function onLink(ev) {
                         return _this2.props.getPage(ev);
@@ -613,6 +622,14 @@ var ApiMap = {
   //1.1.21	(Web)商品列表导出
   goodsExport: {
     url: '/hca/web/admin/shop/prod/export',
+    method: 'POST',
+    data: commonData,
+    responseType: 'blob'
+  },
+
+  //1.1.21	(Web)商品列表导出
+  stationProdExport: {
+    url: '/hca/web/admin/shop/station/prod/export',
     method: 'POST',
     data: commonData,
     responseType: 'blob'
@@ -968,7 +985,7 @@ exports.default = httpServer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
+exports.fetchTemplate = exports.exportTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1462,6 +1479,34 @@ function getElementByAttr(tag, attr, value) {
   }
   return aEle;
 }
+
+// 到处请求模板
+var exportTemplate = exports.exportTemplate = function exportTemplate(apiData) {
+  return function (args) {
+    return new Promise(function (resolve, reject) {
+      (0, _http2.default)(_extends({}, apiData, {
+        data: _extends({}, apiData.data, args)
+      })).then(function (result) {
+        (0, _logger.logger)(result);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data) {
+            resolve(data);
+          } else {
+            reject('导出失败');
+          }
+        } else {
+          reject('导出失败');
+          (0, _logger.logger)(result.statusText);
+        }
+      }).catch(function (err) {
+        reject('导出失败');
+        (0, _logger.logger)(err);
+      });
+    });
+  };
+};
+
 // 请求模板
 var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
   return function (args) {
@@ -1469,14 +1514,19 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
       (0, _http2.default)(_extends({}, apiData, {
         data: _extends({}, apiData.data, args)
       })).then(function (result) {
-        var data = result.data;
-        if (data.ret_code === 1) {
-          resolve(data.ret_data);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data.ret_code === 1) {
+            resolve(data.ret_data);
+          } else {
+            reject(data.ret_msg);
+          }
         } else {
-          reject(data.ret_msg);
+          reject('操作失败');
+          (0, _logger.logger)(result.statusText);
         }
       }).catch(function (err) {
-        reject('请求数据失败');
+        reject('操作失败');
         (0, _logger.logger)(err);
       });
     });
@@ -1877,12 +1927,12 @@ var PriceMaDialog = function (_Component) {
         key: 'checkValue',
         value: function checkValue() {
             var ajectTypeTag = parseInt(this.adjectType.value);
-            var reg = /^[0-9]*.[0-9]*$/g;
+            var reg = /^\+?[0-9]\d*.[0-9]{0,2}$/g;
             if (ajectTypeTag !== 1) {
-                if (reg.test(this.state.goodsInfo.target_price)) {
+                if (reg.test(this.state.goodsInfo.target_price) && this.state.goodsInfo.target_price > 0) {
                     this.props.confim(this.state.goodsInfo);
                 } else {
-                    (0, _Util.alert)('价格应为数字,且不能为空');
+                    (0, _Util.alert)('调价后价格应为数字，且不能为空');
                 }
             } else {
                 this.props.confim(this.state.goodsInfo);
@@ -2700,7 +2750,7 @@ var QueryForm = function (_Component) {
                                 _react2.default.createElement(
                                     'label',
                                     null,
-                                    '\u52A9\u8BB0\u7801'
+                                    '\xA0\xA0\xA0\xA0\u52A9\u8BB0\u7801'
                                 ),
                                 _react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'prod_assist_code', placeholder: '\u52A9\u8BB0\u7801' })
                             ),
@@ -2751,7 +2801,11 @@ var QueryForm = function (_Component) {
                                         '\u505C\u552E'
                                     )
                                 )
-                            ),
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'tr',
+                            null,
                             _react2.default.createElement(
                                 'td',
                                 null,
@@ -2810,10 +2864,10 @@ var QueryForm = function (_Component) {
                             ),
                             _react2.default.createElement(
                                 'td',
-                                null,
+                                { colSpan: 2 },
                                 _react2.default.createElement(
                                     'button',
-                                    { className: 'btn btn-main pull-right', type: 'submit' },
+                                    { className: 'btn btn-main', type: 'submit' },
                                     '\u67E5\u8BE2'
                                 )
                             )
@@ -2876,7 +2930,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".pd20{padding:20px 0}.pageNation{margin:0;padding:0;font-size:12px;float:right}.pageNation input[type=text].pageInput{width:40px!important;padding:4px;text-align:center;margin:0}.pageNation a,.pageNation input{display:inline-block;padding:4px 15px;border:1px solid #333;color:#333;border-radius:3px;margin-right:5px;text-decoration:none;vertical-align:middle}.pageNation span{display:inline-block;padding:4px}.pageNation a:last-child{margin-right:0}.pageNation a.active{border:1px solid #999;color:#999;cursor:default}.pageNation a.btn-main{color:#fff}", ""]);
+exports.push([module.i, ".pd20{padding:20px 0}.pageNation{margin:0;padding:0;font-size:12px;float:right}.pageNation input[type=text].pageInput{width:40px!important;padding:4px;text-align:center;margin:0}.pageNation a,.pageNation input{display:inline-block;width:60px;height:27px;text-align:center;line-height:27px;border:1px solid #333;color:#333;border-radius:3px;margin-right:5px;text-decoration:none;vertical-align:middle}.pageNation span{display:inline-block;padding:4px}.pageNation a:last-child{margin-right:0}.pageNation a.active{border:1px solid #999;color:#999;cursor:default}.pageNation a.btn-main{color:#fff}", ""]);
 
 // exports
 
@@ -2891,7 +2945,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".goodsDataList input[type=text],.goodsDataList select{max-width:80px}form label{margin:0 5px;vertical-align:middle}.onSale{color:#3155f9}.stopSale{color:#cf0d01}.invalid{color:#999}.modal-body{padding:20px 20px 20px 0}.opt button,.opt label{margin:0 5px}.opt *{vertical-align:middle}.optCol .cancel{color:#ff0505}div.wait{color:#fff;background:#00a0e9}div.pass{color:#fff;background:#00a65a}div.reject{color:#fff;background:#ff0505}div.canceled{color:#fff;background:gray}div.canceled,div.pass,div.reject,div.wait{margin-left:20px;padding:5px 10px;margin-bottom:10px}", ""]);
+exports.push([module.i, ".priceMan form label{margin:0 5px;vertical-align:middle}.onSale{color:#3155f9}.stopSale{color:#cf0d01}.invalid{color:#999}.modal-body{padding:20px 20px 20px 0}.opt button,.opt label{margin:0 5px}.opt *{vertical-align:middle}.optCol .cancel{color:#ff0505}div.wait{color:#fff;background:#00a0e9}div.pass{color:#fff;background:#00a65a}div.reject{color:#fff;background:#ff0505}div.canceled{color:#fff;background:gray}div.canceled,div.pass,div.reject,div.wait{margin-left:20px;padding:5px 10px;margin-bottom:10px}@media (min-width:768px){.priceMan input[type=text],.priceMan select{margin-left:15px;max-width:150px!important}.priceMan .form-inline .form-control{width:150px}}", ""]);
 
 // exports
 

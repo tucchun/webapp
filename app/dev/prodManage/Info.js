@@ -226,6 +226,14 @@ var ApiMap = {
     responseType: 'blob'
   },
 
+  //1.1.21	(Web)商品列表导出
+  stationProdExport: {
+    url: '/hca/web/admin/shop/station/prod/export',
+    method: 'POST',
+    data: commonData,
+    responseType: 'blob'
+  },
+
   //1.1.12	(Web)商品价格调整列表
   goodsAdjustPriceList: {
     url: '/hca/web/admin/shop/prodprice/adjust/list',
@@ -576,7 +584,7 @@ exports.default = httpServer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
+exports.fetchTemplate = exports.exportTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1070,6 +1078,34 @@ function getElementByAttr(tag, attr, value) {
   }
   return aEle;
 }
+
+// 到处请求模板
+var exportTemplate = exports.exportTemplate = function exportTemplate(apiData) {
+  return function (args) {
+    return new Promise(function (resolve, reject) {
+      (0, _http2.default)(_extends({}, apiData, {
+        data: _extends({}, apiData.data, args)
+      })).then(function (result) {
+        (0, _logger.logger)(result);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data) {
+            resolve(data);
+          } else {
+            reject('导出失败');
+          }
+        } else {
+          reject('导出失败');
+          (0, _logger.logger)(result.statusText);
+        }
+      }).catch(function (err) {
+        reject('导出失败');
+        (0, _logger.logger)(err);
+      });
+    });
+  };
+};
+
 // 请求模板
 var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
   return function (args) {
@@ -1077,14 +1113,19 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
       (0, _http2.default)(_extends({}, apiData, {
         data: _extends({}, apiData.data, args)
       })).then(function (result) {
-        var data = result.data;
-        if (data.ret_code === 1) {
-          resolve(data.ret_data);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data.ret_code === 1) {
+            resolve(data.ret_data);
+          } else {
+            reject(data.ret_msg);
+          }
         } else {
-          reject(data.ret_msg);
+          reject('操作失败');
+          (0, _logger.logger)(result.statusText);
         }
       }).catch(function (err) {
-        reject('请求数据失败');
+        reject('操作失败');
         (0, _logger.logger)(err);
       });
     });
@@ -1391,9 +1432,6 @@ exports.default = Security;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.exportData = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _ApiMap = __webpack_require__("./app/lib/Api/ApiMap.js");
 
@@ -1401,43 +1439,17 @@ var _ApiMap2 = _interopRequireDefault(_ApiMap);
 
 var _Util = __webpack_require__("./app/lib/Util.js");
 
-var _logger = __webpack_require__("./app/lib/logger.js");
-
-var _http = __webpack_require__("./app/lib/Api/http.js");
-
-var _http2 = _interopRequireDefault(_http);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var exportData = exports.exportData = function exportData(args) {
-  var goodsExport = _ApiMap2.default.goodsExport;
-  return new Promise(function (resolve, reject) {
-    (0, _http2.default)(_extends({}, goodsExport, {
-      data: _extends({}, goodsExport.data, args)
-    })).then(function (result) {
-      debugger;
-      var data = result.data;
-      if (data) {
-        resolve(data);
-      } else {
-        reject('导出失败');
-      }
-    }).catch(function (err) {
-      reject('导出失败');
-      (0, _logger.logger)(err);
-    });
-  });
-};
 
 var DB = {
   fetchProdList: (0, _Util.fetchTemplate)(_ApiMap2.default.shopProdList),
+  fetchShopProdmeta: (0, _Util.fetchTemplate)(_ApiMap2.default.shopProdmeta),
   fetchStationProdList: (0, _Util.fetchTemplate)(_ApiMap2.default.shopStationProdList),
   updateStationProd: (0, _Util.fetchTemplate)(_ApiMap2.default.stationProdUpdate),
   deleteStationProd: (0, _Util.fetchTemplate)(_ApiMap2.default.stationProdDelete),
   stationProdCreate: (0, _Util.fetchTemplate)(_ApiMap2.default.stationProdCreate),
   shopProdInfo: (0, _Util.fetchTemplate)(_ApiMap2.default.shopProdInfo),
-  goodsExport: (0, _Util.fetchTemplate)(_ApiMap2.default.goodsExport),
-  exportData: exportData
+  exportData: (0, _Util.exportTemplate)(_ApiMap2.default.stationProdExport)
 };
 exports.default = DB;
 
@@ -1953,7 +1965,7 @@ var ProdInfo = function (_Component) {
           ),
           _react2.default.createElement(
             _reactBootstrap.Col,
-            { sm: 10 },
+            { sm: 10, className: 'auto-height' },
             _react2.default.createElement(
               'div',
               null,

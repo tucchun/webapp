@@ -168,10 +168,19 @@ var PageNation = function (_React$Component) {
                 }, onLink: function onLink(ev) {
                     return _this2.props.getPage(ev);
                 } })];
-            for (var i = 0; i < this.props.pageNumber; i++) {
-                list.push(_react2.default.createElement(_link2.default, { key: "page" + i, pageArgument: {
-                        page: (i + 1).toString(),
-                        pageCode: i + 1,
+            var pageNumber = this.props.pageNumber;
+            var pages = 5,
+                strNo = 1;
+            if (this.props.currentPage >= 3 && pageNumber >= 5) {
+                strNo = this.props.currentPage - 2;
+                pages = this.props.currentPage + 2;
+            }
+            pages = pageNumber < pages ? pageNumber : pages;
+            for (strNo; strNo <= pages; strNo++) {
+                console.log(strNo);
+                list.push(_react2.default.createElement(_link2.default, { key: "page" + strNo, pageArgument: {
+                        page: strNo.toString(),
+                        pageCode: strNo,
                         currentPage: parseInt(this.props.currentPage)
                     }, onLink: function onLink(ev) {
                         return _this2.props.getPage(ev);
@@ -656,6 +665,14 @@ var ApiMap = {
     responseType: 'blob'
   },
 
+  //1.1.21	(Web)商品列表导出
+  stationProdExport: {
+    url: '/hca/web/admin/shop/station/prod/export',
+    method: 'POST',
+    data: commonData,
+    responseType: 'blob'
+  },
+
   //1.1.12	(Web)商品价格调整列表
   goodsAdjustPriceList: {
     url: '/hca/web/admin/shop/prodprice/adjust/list',
@@ -1006,7 +1023,7 @@ exports.default = httpServer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
+exports.fetchTemplate = exports.exportTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1500,6 +1517,34 @@ function getElementByAttr(tag, attr, value) {
   }
   return aEle;
 }
+
+// 到处请求模板
+var exportTemplate = exports.exportTemplate = function exportTemplate(apiData) {
+  return function (args) {
+    return new Promise(function (resolve, reject) {
+      (0, _http2.default)(_extends({}, apiData, {
+        data: _extends({}, apiData.data, args)
+      })).then(function (result) {
+        (0, _logger.logger)(result);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data) {
+            resolve(data);
+          } else {
+            reject('导出失败');
+          }
+        } else {
+          reject('导出失败');
+          (0, _logger.logger)(result.statusText);
+        }
+      }).catch(function (err) {
+        reject('导出失败');
+        (0, _logger.logger)(err);
+      });
+    });
+  };
+};
+
 // 请求模板
 var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
   return function (args) {
@@ -1507,14 +1552,19 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
       (0, _http2.default)(_extends({}, apiData, {
         data: _extends({}, apiData.data, args)
       })).then(function (result) {
-        var data = result.data;
-        if (data.ret_code === 1) {
-          resolve(data.ret_data);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data.ret_code === 1) {
+            resolve(data.ret_data);
+          } else {
+            reject(data.ret_msg);
+          }
         } else {
-          reject(data.ret_msg);
+          reject('操作失败');
+          (0, _logger.logger)(result.statusText);
         }
       }).catch(function (err) {
-        reject('请求数据失败');
+        reject('操作失败');
         (0, _logger.logger)(err);
       });
     });
@@ -1976,6 +2026,7 @@ var SalesStats = function (_Component) {
             endTime: (0, _Util.setInitDate)().endTime,
             format: "YYYY-MM-DD",
             orgId: 0,
+            orgLevel: 0,
             tableData: []
         };
 
@@ -2062,6 +2113,7 @@ var SalesStats = function (_Component) {
                         totalProdNum: resData.total_prod_num,
                         totalOrderNum: resData.total_order_num,
                         orgId: resData.org_id,
+                        orgLevel: resData.org_level,
                         total: resData.total,
                         tableData: resData.stat_list.map(function (item, index) {
                             item.key = (currentPage - 1) * pageCount + index + 1;
@@ -2164,7 +2216,9 @@ var SalesStats = function (_Component) {
     }, {
         key: 'createTab',
         value: function createTab(id, e) {
-            if (id.toString().length === 10) {
+            var orgLevel = this.state.orgLevel;
+
+            if (orgLevel === 4) {
                 (0, _Util.closeTab)('__jgssalesStats-jgssalesStats__', function () {
                     common.createTab({
                         uri: 'app/dist/jgssalesStats/jgssalesStats.html',
@@ -2179,14 +2233,12 @@ var SalesStats = function (_Component) {
                     hecadreUid: id
                 });
             } else {
-                (0, _Util.closeTab)('__salesStats-salesStats__', function () {
-                    common.createTab({
-                        uri: 'app/dist/salesStats/salesStats.html',
-                        data: {
-                            name: '销售统计'
-                        },
-                        key: 'salesStats-salesStats'
-                    });
+                common.createTab({
+                    uri: 'app/dist/salesStats/salesStats' + (orgLevel + 1) + '.html',
+                    data: {
+                        name: '销售统计'
+                    },
+                    key: 'salesStats-salesStats' + (orgLevel + 1)
                 });
                 common.Util.data('parms', {
                     orgId: id
@@ -4820,7 +4872,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".pd20{padding:20px 0}.pageNation{margin:0;padding:0;font-size:12px;float:right}.pageNation input[type=text].pageInput{width:40px!important;padding:4px;text-align:center;margin:0}.pageNation a,.pageNation input{display:inline-block;padding:4px 15px;border:1px solid #333;color:#333;border-radius:3px;margin-right:5px;text-decoration:none;vertical-align:middle}.pageNation span{display:inline-block;padding:4px}.pageNation a:last-child{margin-right:0}.pageNation a.active{border:1px solid #999;color:#999;cursor:default}.pageNation a.btn-main{color:#fff}", ""]);
+exports.push([module.i, ".pd20{padding:20px 0}.pageNation{margin:0;padding:0;font-size:12px;float:right}.pageNation input[type=text].pageInput{width:40px!important;padding:4px;text-align:center;margin:0}.pageNation a,.pageNation input{display:inline-block;width:60px;height:27px;text-align:center;line-height:27px;border:1px solid #333;color:#333;border-radius:3px;margin-right:5px;text-decoration:none;vertical-align:middle}.pageNation span{display:inline-block;padding:4px}.pageNation a:last-child{margin-right:0}.pageNation a.active{border:1px solid #999;color:#999;cursor:default}.pageNation a.btn-main{color:#fff}", ""]);
 
 // exports
 

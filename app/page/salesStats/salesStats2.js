@@ -61,7 +61,6 @@ class SalesStats extends Component {
             endTime: setInitDate().endTime,
             format: "YYYY-MM-DD",
             orgId: 0,
-            orgLevel: 0,
             tableData: []
         };
 
@@ -133,7 +132,6 @@ class SalesStats extends Component {
                     totalProdNum: resData.total_prod_num,
                     totalOrderNum: resData.total_order_num,
                     orgId: resData.org_id,
-                    orgLevel: resData.org_level,
                     total: resData.total,
                     tableData: resData.stat_list.map(function (item, index) {
                         item.key = (currentPage - 1) * pageCount + index + 1;
@@ -218,33 +216,16 @@ class SalesStats extends Component {
     }
 
     createTab(id, e) {
-        const {orgLevel} = this.state;
-        if (orgLevel === 4) {
-            closeTab('__jgssalesStats-jgssalesStats__', function() {
-                common.createTab({
-                    uri: 'app/dist/jgssalesStats/jgssalesStats.html',
-                    data: {
-                        name: '销售统计-健管师'
-                    },
-                    key: 'jgssalesStats',
-                });
-            })
-            common.Util.data('parms', {
-                orgId: (common.Util.data('parms') === undefined || common.Util.data('parms').orgId === undefined) ? this.state.orgId : common.Util.data('parms').orgId,
-                hecadreUid: id
-            });
-        } else {
-            common.createTab({
-                uri: 'app/dist/salesStats/salesStats' + (orgLevel + 1) + '.html',
-                data: {
-                    name: '销售统计'
-                },
-                key: 'salesStats-salesStats' + (orgLevel + 1),
-            });
-            common.Util.data('parms', {
-                orgId: id
-            });
-        }
+        common.createTab({
+            uri: 'app/dist/salesStats/salesStats3.html',
+            data: {
+                name: '销售统计'
+            },
+            key: 'salesStats-salesStats3',
+        });
+        common.Util.data('parms', {
+            orgId: id
+        });
 
     }
 
@@ -307,5 +288,5 @@ class SalesStats extends Component {
 
 ReactDOM.render(
     <LocaleProvider locale={zh_CN}><SalesStats /></LocaleProvider>,
-    document.getElementById('__salesStats/salesStats__')
+    document.getElementById('__salesStats/salesStats2__')
 );

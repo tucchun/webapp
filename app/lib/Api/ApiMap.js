@@ -141,6 +141,14 @@ const ApiMap = {
     responseType: 'blob'
   },
 
+  //1.1.21	(Web)商品列表导出
+  stationProdExport: {
+    url: '/hca/web/admin/shop/station/prod/export',
+    method: 'POST',
+    data: commonData,
+    responseType: 'blob'
+  },
+
   //1.1.12	(Web)商品价格调整列表
   goodsAdjustPriceList: {
     url: '/hca/web/admin/shop/prodprice/adjust/list',

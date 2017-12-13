@@ -1,5 +1,4 @@
-.goodsDataList input[type=text],.goodsDataList select{max-width:80px;}
-form label{margin:0 5px;vertical-align:middle;}
+.priceMan form label{margin:0 5px;vertical-align:middle;}
 .onSale{color:#3155f9;}
 .stopSale{color:#cf0d01;}
 .invalid{color:#999999;}
@@ -13,3 +12,7 @@ div.pass{color:#fff;background:#00a65a;}
 div.reject{color:#fff;background:#ff0505;}
 div.canceled{color:#fff;background:gray;}
 div.wait,div.pass,div.reject,div.canceled{margin-left:20px;padding:5px 10px;margin-bottom:10px;}
+@media (min-width: 768px){
+    .priceMan select,.priceMan input[type=text]{margin-left:15px;max-width:150px !important;}
+    .priceMan .form-inline .form-control{width:150px;}
+}

@@ -18,7 +18,7 @@ class Add extends Component {
     this.columns = [
       {
         title: '',
-        width: 30,
+        width: 25,
         dataIndex: 'prod_id',
         key: 'prod_id',
         render: (value, row) => {
@@ -29,33 +29,33 @@ class Add extends Component {
         }
       }, {
         title: '商品编号',
-        width: 80,
+        width: 70,
         dataIndex: 'prod_no',
         key: 'prod_no'
       }, {
         title: '商品名称',
-        width: 80,
+        width: 70,
         dataIndex: 'prod_name',
         key: 'prod_name'
       }, {
         title: '商品产地',
-        // width: 80,
+        width: 100,
         dataIndex: 'prod_src',
         key: 'prod_src'
       }, {
         title: '商品规格',
-        width: 80,
+        width: 70,
         dataIndex: 'prod_spec',
         key: 'prod_spec'
       }, {
         title: '商品分类',
-        width: 80,
+        width: 70,
         dataIndex: 'prod_cat.cat_text',
         key: 'prod_cat_text'
       }, {
         title: '商品标签',
         key: 'prod_tags_txt',
-        width: 80,
+        width: 50,
         render(value, row) {
           let tagStr = _.map(row.prod_tags, function(tag) {
             return tag['tag_text'];
@@ -68,7 +68,7 @@ class Add extends Component {
         }
       }, {
         title: '适用人群',
-        width: 100,
+        width: 70,
         dataIndex: 'prod_crowds.crowd_text',
         key: 'prod_crowds_txt',
         render(value, row) {
@@ -172,7 +172,7 @@ class Add extends Component {
 
   render() {
     return (
-      <Modal bsSize='large' show={this.props.show}>
+      <Modal className='prodManage-modal' show={this.props.show}>
         <Modal.Header closeButton={true} onHide={this.closeModal}>
           <Modal.Title>新增</Modal.Title>
         </Modal.Header>

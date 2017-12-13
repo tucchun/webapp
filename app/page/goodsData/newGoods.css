@@ -17,3 +17,13 @@
 .normalLable{font-weight:normal;}
 .modal-dialog input[type=checkbox], .modal-dialog input[type=radio]{position: static !important;}
 .checkbox-inline:first-child, .radio-inline:first-child{margin-left:10px;}
+#goodsDetail .form-horizontal{border:1px solid #e5e5e5}
+#goodsDetail .form-group{border-bottom:1px solid #e5e5e5;margin:0;background:#f7f7f7;}
+#goodsDetail .form-group .col-sm-2,
+#goodsDetail .form-group .col-sm-10,
+#goodsDetail .form-group .col-sm-4{padding:10px 0;}
+#goodsDetail .form-group .col-sm-10,
+#goodsDetail .form-group .col-sm-4{border-left:1px solid #e5e5e5;padding-left:10px;background:#fff;min-height:54px;}
+#goodsDetail .form-group .col-sm-4{border-right:1px solid #e5e5e5;}
+#goodsDetail .form-group:last-child{border:none;}
+#goodsDetail .form-group .col-sm-4:last-child{border-right:none;}

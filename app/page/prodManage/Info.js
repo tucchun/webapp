@@ -261,7 +261,7 @@ class ProdInfo extends Component {
           <Col sm={2}>
             <ControlLabel>商品介绍：</ControlLabel>
           </Col>
-          <Col sm={10}>
+          <Col sm={10} className='auto-height'>
             <div>
               <FormControl.Static name="prod_intro" componentClass="div" className="normalLable" dangerouslySetInnerHTML={{
                 __html: data.prod_intro

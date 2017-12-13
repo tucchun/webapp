@@ -27,7 +27,6 @@ class Condition extends Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.checkProdCategory = this.checkProdCategory.bind(this);
-    this.el = '#__prodManage-List__';
   }
 
   handleSearch() {
@@ -61,10 +60,8 @@ class Condition extends Component {
   }
 
   checkProdCategory(e) {
-    // if(this.categories)
-    let categories = document.querySelectorAll(this.el + ' .js-prod-category');
-    let category_info = document.querySelectorAll(this.el + ' .js-category-info');
-
+    let categories = this.refs.categorys.querySelectorAll('.js-prod-category');
+    let category_info = this.refs.category_infos.querySelectorAll('.js-category-info');
     const target = e.currentTarget;
     const target_id = target.dataset['id'];
     categories.forEach((item) => {
@@ -92,7 +89,7 @@ class Condition extends Component {
         <ControlLabel>是否上架</ControlLabel>
         {' '}
         <FormControl componentClass="select" value={this.props.station_in_sale} onChange={this.handleSelectChange} name='station_in_sale' placeholder="是否上架">
-          <option value={0}>请选择</option>
+          <option value>请选择</option>
           <option value="2">未上架</option>
           <option value="1">上架</option>
         </FormControl>
@@ -123,9 +120,11 @@ class Condition extends Component {
         {' '}
         {station_in_sale_view}
         {' '}
-        <FormGroup controlId="button">
-          <Button bsClass={'btn btn-main'} onClick={this.handleSearch} type='button'>查询</Button>
-        </FormGroup>
+        {
+          this.props.modal ? null : (<FormGroup controlId="button">
+            <Button bsClass={'btn btn-main'} onClick={this.handleSearch} type='button'>查询</Button>
+          </FormGroup>)
+        }
 
         <div className='mul-container'>
           <FormGroup>
@@ -168,7 +167,7 @@ class Condition extends Component {
             <div>
               <ControlLabel>商品分类</ControlLabel>
             </div>
-            <div>
+            <div ref='categorys'>
               {cats.map((cat, index) => {
                 let isActive = index === 0 ? 'active' : '';
                 return (
@@ -176,30 +175,37 @@ class Condition extends Component {
                 );
               })}
             </div>
-            {cats.map((cat, index) => {
-              const sub_cats = cat.sub_cats.map(sub_cat => {
-                const state = this.props['prod_cats'].findIndex(item => {
-                  return item === sub_cat.cat_id;
+            <div ref='category_infos'>
+              {cats.map((cat, index) => {
+                const sub_cats = cat.sub_cats.map(sub_cat => {
+                  const state = this.props['prod_cats'].findIndex(item => {
+                    return item === sub_cat.cat_id;
+                  });
+                  const checked = (state > -1)
+                    ? 'checked'
+                    : false;
+                  return (
+                    <Checkbox title={sub_cat.cat_text} key={sub_cat.cat_id} checked={checked} name='prod_cats' onChange={this.handleCheckboxChange} inline value={sub_cat.cat_id}>
+                      {sub_cat.cat_text}
+                    </Checkbox>
+                  );
                 });
-                const checked = (state > -1)
-                  ? 'checked'
-                  : false;
+                const isHidden = index !== 0
+                  ? 'hide'
+                  : '';
                 return (
-                  <Checkbox title={sub_cat.cat_text} key={sub_cat.cat_id} checked={checked} name='prod_cats' onChange={this.handleCheckboxChange} inline value={sub_cat.cat_id}>
-                    {sub_cat.cat_text}
-                  </Checkbox>
+                  <div className={isHidden + ' js-category-info'} data-id={cat.cat_id} key={cat.cat_id}>
+                    {sub_cats}
+                  </div>
                 );
-              });
-              const isHidden = index !== 0
-                ? 'hide'
-                : '';
-              return (
-                <div className={isHidden + ' js-category-info'} data-id={cat.cat_id} key={cat.cat_id}>
-                  {sub_cats}
-                </div>
-              );
-            })}
+              })}
+            </div>
           </FormGroup>
+          {
+            this.props.modal ? (<FormGroup className='text-right' controlId="button">
+              <Button bsClass={'btn btn-main'} onClick={this.handleSearch} type='button'>查询</Button>
+            </FormGroup>) : null
+          }
         </div>
 
       </Form>

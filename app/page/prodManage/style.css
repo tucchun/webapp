@@ -18,52 +18,7 @@
   top: 15px;
 }
 
-.condition .form-group {
-  margin-bottom: 10px;
-  margin-right: 10px;
-}
 
-.condition .checkbox-inline {
-  width: 100px;
-  margin-right: 10px;
-  margin-bottom: 5px;
-  overflow: hidden;
-  display: inline-block;
-  white-space: nowrap;
-}
-
-.condition .checkbox-inline+.checkbox-inline, .condition .radio-inline+.radio-inline {
-  margin-left: 0;
-}
-
-.condition .mul-check {
-  padding-top: 5px;
-}
-
-.modal-dialog .condition input[type=checkbox], .modal-dialog .condition input[type=radio] {
-  margin-top: 4px;
-}
-
-.condition label{
-  /*width: 60px;*/
-}
-
-.condition .prod-category{
-  display: inline-block;
-  padding: 3px 20px;
-  border: 1px solid #ccc;
-  margin-right: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.condition .prod-category:hover,
-.condition .prod-category.active{
-  color: #00a0e9;
-  border-color: #00a0e9;
-}
 
 .mul-container .form-group{
   display: block;

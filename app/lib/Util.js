@@ -392,6 +392,36 @@ export function getElementByAttr(tag, attr, value) {
   }
   return aEle;
 }
+
+// 到处请求模板
+export const exportTemplate = (apiData) => (args) => {
+  return new Promise((resolve, reject) => {
+    http({
+      ...apiData,
+      data: {
+        ...apiData.data,
+        ...args
+      }
+    }).then(result => {
+      logger(result);
+      if (result.status === 200) {
+        const data = result.data;
+        if (data) {
+          resolve(data);
+        } else {
+          reject('导出失败');
+        }
+      } else {
+        reject('导出失败');
+        logger(result.statusText);
+      }
+    }).catch(err => {
+      reject('导出失败');
+      logger(err);
+    });
+  });
+};
+
 // 请求模板
 export const fetchTemplate = apiData => args => {
   return new Promise((resolve, reject) => {
@@ -402,20 +432,25 @@ export const fetchTemplate = apiData => args => {
         ...args
       }
     }).then(result => {
-      const data = result.data;
-      if (data.ret_code === 1) {
-        resolve(data.ret_data);
+      if (result.status === 200) {
+        const data = result.data;
+        if (data.ret_code === 1) {
+          resolve(data.ret_data);
+        } else {
+          reject(data.ret_msg);
+        }
       } else {
-        reject(data.ret_msg);
+        reject('操作失败');
+        logger(result.statusText);
       }
     }).catch(err => {
-      reject('请求数据失败');
+      reject('操作失败');
       logger(err);
     });
   });
 };
 
-export function amount_format(amount){
+export function amount_format(amount) {
   return (amount || 0).toFixed(2);
 }
 
@@ -426,14 +461,18 @@ export function amount_format(amount){
  * @param len 保留小数位数(Number)
  * @return 金额格式的字符串,如'1,234,567.45'
  */
-export function toThousands(num, len){
-  len = len > 0 && len <= 20 ? len : 2;
+export function toThousands(num, len) {
+  len = len > 0 && len <= 20
+    ? len
+    : 2;
   num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
   let l = num.split(".")[0].split("").reverse(),
-      r = num.split(".")[1];
+    r = num.split(".")[1];
   let t = "";
   for (let i = 0; i < l.length; i++) {
-      t += l[i] + ((i + 1) % 3 === 0 && (i + 1) !== l.length ? "," : "");
+    t += l[i] + ((i + 1) % 3 === 0 && (i + 1) !== l.length
+      ? ","
+      : "");
   }
   return t.split("").reverse().join("") + "." + r;
 }

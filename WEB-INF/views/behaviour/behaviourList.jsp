@@ -88,7 +88,7 @@
 	                    <td>
 	                    	<c:if test="${list.registerCount==0}">${list.registerCount }</c:if>
 	                    	<c:if test="${list.registerCount>0}">
-	                    		<a href="#" class="js-zcDetail" data-id="${list.loginOrganizationId };0;0;${list.registerUserIdList}">${list.registerCount }</a>
+	                    		<a href="#" class="js-zcDetail" data-id="${list.loginOrganizationId };0;0;">${list.registerCount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>
@@ -134,7 +134,7 @@
 	                    <td>
 	                    	<c:if test="${noTeamMap.registerCount==0}">${noTeamMap.registerCount }</c:if>
 	                    	<c:if test="${noTeamMap.registerCount>0}">
-	                    		<a href="#" class="js-zcDetail" data-id="${noTeamMap.loginOrganizationId};1;0;${noTeamMap.zcRegisterUserIdList}">${noTeamMap.registerCount }</a>
+	                    		<a href="#" class="js-zcDetail" data-id="${noTeamMap.loginOrganizationId};1;0;${noTeamMap.hecadreIdList}">${noTeamMap.registerCount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>
@@ -294,7 +294,9 @@
      		var noTeamNext = id_arr[1];
      		var noHecadreNext = id_arr[2];
      		var registerUserIdList = id_arr[3];
-     		var params="?date_startStr=${date_startStr}&date_endStr=${date_endStr}&userIdList="+registerUserIdList;
+     		var params="?organizationId="+orgId+"&date_startStr=${date_startStr}&date_endStr=${date_endStr}"+
+     				"&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext="+noTeamNext+
+					"&noHecadreNext="+noHecadreNext+"&userIdList="+registerUserIdList;
      		common.createTab({
 				uri: '${ctx}/behaviour/register'+params,
      			data: {name: '居民注册明细表'},

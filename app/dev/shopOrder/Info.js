@@ -226,6 +226,14 @@ var ApiMap = {
     responseType: 'blob'
   },
 
+  //1.1.21	(Web)商品列表导出
+  stationProdExport: {
+    url: '/hca/web/admin/shop/station/prod/export',
+    method: 'POST',
+    data: commonData,
+    responseType: 'blob'
+  },
+
   //1.1.12	(Web)商品价格调整列表
   goodsAdjustPriceList: {
     url: '/hca/web/admin/shop/prodprice/adjust/list',
@@ -576,7 +584,7 @@ exports.default = httpServer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
+exports.fetchTemplate = exports.exportTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1070,6 +1078,34 @@ function getElementByAttr(tag, attr, value) {
   }
   return aEle;
 }
+
+// 到处请求模板
+var exportTemplate = exports.exportTemplate = function exportTemplate(apiData) {
+  return function (args) {
+    return new Promise(function (resolve, reject) {
+      (0, _http2.default)(_extends({}, apiData, {
+        data: _extends({}, apiData.data, args)
+      })).then(function (result) {
+        (0, _logger.logger)(result);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data) {
+            resolve(data);
+          } else {
+            reject('导出失败');
+          }
+        } else {
+          reject('导出失败');
+          (0, _logger.logger)(result.statusText);
+        }
+      }).catch(function (err) {
+        reject('导出失败');
+        (0, _logger.logger)(err);
+      });
+    });
+  };
+};
+
 // 请求模板
 var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
   return function (args) {
@@ -1077,14 +1113,19 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
       (0, _http2.default)(_extends({}, apiData, {
         data: _extends({}, apiData.data, args)
       })).then(function (result) {
-        var data = result.data;
-        if (data.ret_code === 1) {
-          resolve(data.ret_data);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data.ret_code === 1) {
+            resolve(data.ret_data);
+          } else {
+            reject(data.ret_msg);
+          }
         } else {
-          reject(data.ret_msg);
+          reject('操作失败');
+          (0, _logger.logger)(result.statusText);
         }
       }).catch(function (err) {
-        reject('请求数据失败');
+        reject('操作失败');
         (0, _logger.logger)(err);
       });
     });

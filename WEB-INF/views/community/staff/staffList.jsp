@@ -137,11 +137,17 @@
                 content:"确认解绑？",
                 success:function(){
                     var self = this;
-                    $.get("${ctx}/staff/unbind/"+id,function(data){
-                    	common.alert(data.ret_msg);
-                        $self.find("#js-confirm").trigger('click');
-                        self.hide();
-                    },"json");
+                    common.fetch({
+                        url:"${ctx}/staff/unbind/"+id,
+                        type:'post',
+                        dataType:'json',
+                        success:function(data){
+                            common.alert(data.ret_msg);
+                            $self.find("#js-confirm").trigger('click');
+                            self.hide();
+                        }
+
+                    });
                 }
             });
         });

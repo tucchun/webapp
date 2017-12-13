@@ -293,10 +293,19 @@ var PageNation = function (_React$Component) {
                 }, onLink: function onLink(ev) {
                     return _this2.props.getPage(ev);
                 } })];
-            for (var i = 0; i < this.props.pageNumber; i++) {
-                list.push(_react2.default.createElement(_link2.default, { key: "page" + i, pageArgument: {
-                        page: (i + 1).toString(),
-                        pageCode: i + 1,
+            var pageNumber = this.props.pageNumber;
+            var pages = 5,
+                strNo = 1;
+            if (this.props.currentPage >= 3 && pageNumber >= 5) {
+                strNo = this.props.currentPage - 2;
+                pages = this.props.currentPage + 2;
+            }
+            pages = pageNumber < pages ? pageNumber : pages;
+            for (strNo; strNo <= pages; strNo++) {
+                console.log(strNo);
+                list.push(_react2.default.createElement(_link2.default, { key: "page" + strNo, pageArgument: {
+                        page: strNo.toString(),
+                        pageCode: strNo,
                         currentPage: parseInt(this.props.currentPage)
                     }, onLink: function onLink(ev) {
                         return _this2.props.getPage(ev);
@@ -613,6 +622,14 @@ var ApiMap = {
   //1.1.21	(Web)商品列表导出
   goodsExport: {
     url: '/hca/web/admin/shop/prod/export',
+    method: 'POST',
+    data: commonData,
+    responseType: 'blob'
+  },
+
+  //1.1.21	(Web)商品列表导出
+  stationProdExport: {
+    url: '/hca/web/admin/shop/station/prod/export',
     method: 'POST',
     data: commonData,
     responseType: 'blob'
@@ -968,7 +985,7 @@ exports.default = httpServer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
+exports.fetchTemplate = exports.exportTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1462,6 +1479,34 @@ function getElementByAttr(tag, attr, value) {
   }
   return aEle;
 }
+
+// 到处请求模板
+var exportTemplate = exports.exportTemplate = function exportTemplate(apiData) {
+  return function (args) {
+    return new Promise(function (resolve, reject) {
+      (0, _http2.default)(_extends({}, apiData, {
+        data: _extends({}, apiData.data, args)
+      })).then(function (result) {
+        (0, _logger.logger)(result);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data) {
+            resolve(data);
+          } else {
+            reject('导出失败');
+          }
+        } else {
+          reject('导出失败');
+          (0, _logger.logger)(result.statusText);
+        }
+      }).catch(function (err) {
+        reject('导出失败');
+        (0, _logger.logger)(err);
+      });
+    });
+  };
+};
+
 // 请求模板
 var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
   return function (args) {
@@ -1469,14 +1514,19 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
       (0, _http2.default)(_extends({}, apiData, {
         data: _extends({}, apiData.data, args)
       })).then(function (result) {
-        var data = result.data;
-        if (data.ret_code === 1) {
-          resolve(data.ret_data);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data.ret_code === 1) {
+            resolve(data.ret_data);
+          } else {
+            reject(data.ret_msg);
+          }
         } else {
-          reject(data.ret_msg);
+          reject('操作失败');
+          (0, _logger.logger)(result.statusText);
         }
       }).catch(function (err) {
-        reject('请求数据失败');
+        reject('操作失败');
         (0, _logger.logger)(err);
       });
     });
@@ -1850,7 +1900,7 @@ var Add = function (_Component) {
 
     _this.columns = [{
       title: '',
-      width: 30,
+      width: 25,
       dataIndex: 'prod_id',
       key: 'prod_id',
       render: function render(value, row) {
@@ -1863,33 +1913,33 @@ var Add = function (_Component) {
       }
     }, {
       title: '商品编号',
-      width: 80,
+      width: 70,
       dataIndex: 'prod_no',
       key: 'prod_no'
     }, {
       title: '商品名称',
-      width: 80,
+      width: 70,
       dataIndex: 'prod_name',
       key: 'prod_name'
     }, {
       title: '商品产地',
-      // width: 80,
+      width: 100,
       dataIndex: 'prod_src',
       key: 'prod_src'
     }, {
       title: '商品规格',
-      width: 80,
+      width: 70,
       dataIndex: 'prod_spec',
       key: 'prod_spec'
     }, {
       title: '商品分类',
-      width: 80,
+      width: 70,
       dataIndex: 'prod_cat.cat_text',
       key: 'prod_cat_text'
     }, {
       title: '商品标签',
       key: 'prod_tags_txt',
-      width: 80,
+      width: 50,
       render: function render(value, row) {
         var tagStr = _lodash2.default.map(row.prod_tags, function (tag) {
           return tag['tag_text'];
@@ -1902,7 +1952,7 @@ var Add = function (_Component) {
       }
     }, {
       title: '适用人群',
-      width: 100,
+      width: 70,
       dataIndex: 'prod_crowds.crowd_text',
       key: 'prod_crowds_txt',
       render: function render(value, row) {
@@ -2027,7 +2077,7 @@ var Add = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         _reactBootstrap.Modal,
-        { bsSize: 'large', show: this.props.show },
+        { className: 'prodManage-modal', show: this.props.show },
         _react2.default.createElement(
           _reactBootstrap.Modal.Header,
           { closeButton: true, onHide: this.closeModal },
@@ -2176,7 +2226,6 @@ var Condition = function (_Component) {
     _this.handleSelectChange = _this.handleSelectChange.bind(_this);
     _this.handleCheckboxChange = _this.handleCheckboxChange.bind(_this);
     _this.checkProdCategory = _this.checkProdCategory.bind(_this);
-    _this.el = '#__prodManage-List__';
     return _this;
   }
 
@@ -2218,10 +2267,8 @@ var Condition = function (_Component) {
   }, {
     key: 'checkProdCategory',
     value: function checkProdCategory(e) {
-      // if(this.categories)
-      var categories = document.querySelectorAll(this.el + ' .js-prod-category');
-      var category_info = document.querySelectorAll(this.el + ' .js-category-info');
-
+      var categories = this.refs.categorys.querySelectorAll('.js-prod-category');
+      var category_info = this.refs.category_infos.querySelectorAll('.js-category-info');
       var target = e.currentTarget;
       var target_id = target.dataset['id'];
       categories.forEach(function (item) {
@@ -2265,7 +2312,7 @@ var Condition = function (_Component) {
           { componentClass: 'select', value: this.props.station_in_sale, onChange: this.handleSelectChange, name: 'station_in_sale', placeholder: '\u662F\u5426\u4E0A\u67B6' },
           _react2.default.createElement(
             'option',
-            { value: 0 },
+            { value: true },
             '\u8BF7\u9009\u62E9'
           ),
           _react2.default.createElement(
@@ -2324,7 +2371,7 @@ var Condition = function (_Component) {
         ' ',
         station_in_sale_view,
         ' ',
-        _react2.default.createElement(
+        this.props.modal ? null : _react2.default.createElement(
           _reactBootstrap.FormGroup,
           { controlId: 'button' },
           _react2.default.createElement(
@@ -2398,7 +2445,7 @@ var Condition = function (_Component) {
             ),
             _react2.default.createElement(
               'div',
-              null,
+              { ref: 'categorys' },
               cats.map(function (cat, index) {
                 var isActive = index === 0 ? 'active' : '';
                 return _react2.default.createElement(
@@ -2408,26 +2455,39 @@ var Condition = function (_Component) {
                 );
               })
             ),
-            cats.map(function (cat, index) {
-              var sub_cats = cat.sub_cats.map(function (sub_cat) {
-                var state = _this2.props['prod_cats'].findIndex(function (item) {
-                  return item === sub_cat.cat_id;
+            _react2.default.createElement(
+              'div',
+              { ref: 'category_infos' },
+              cats.map(function (cat, index) {
+                var sub_cats = cat.sub_cats.map(function (sub_cat) {
+                  var state = _this2.props['prod_cats'].findIndex(function (item) {
+                    return item === sub_cat.cat_id;
+                  });
+                  var checked = state > -1 ? 'checked' : false;
+                  return _react2.default.createElement(
+                    _reactBootstrap.Checkbox,
+                    { title: sub_cat.cat_text, key: sub_cat.cat_id, checked: checked, name: 'prod_cats', onChange: _this2.handleCheckboxChange, inline: true, value: sub_cat.cat_id },
+                    sub_cat.cat_text
+                  );
                 });
-                var checked = state > -1 ? 'checked' : false;
+                var isHidden = index !== 0 ? 'hide' : '';
                 return _react2.default.createElement(
-                  _reactBootstrap.Checkbox,
-                  { title: sub_cat.cat_text, key: sub_cat.cat_id, checked: checked, name: 'prod_cats', onChange: _this2.handleCheckboxChange, inline: true, value: sub_cat.cat_id },
-                  sub_cat.cat_text
+                  'div',
+                  { className: isHidden + ' js-category-info', 'data-id': cat.cat_id, key: cat.cat_id },
+                  sub_cats
                 );
-              });
-              var isHidden = index !== 0 ? 'hide' : '';
-              return _react2.default.createElement(
-                'div',
-                { className: isHidden + ' js-category-info', 'data-id': cat.cat_id, key: cat.cat_id },
-                sub_cats
-              );
-            })
-          )
+              })
+            )
+          ),
+          this.props.modal ? _react2.default.createElement(
+            _reactBootstrap.FormGroup,
+            { className: 'text-right', controlId: 'button' },
+            _react2.default.createElement(
+              _reactBootstrap.Button,
+              { bsClass: 'btn btn-main', onClick: this.handleSearch, type: 'button' },
+              '\u67E5\u8BE2'
+            )
+          ) : null
         )
       );
     }
@@ -2466,9 +2526,6 @@ exports.default = Condition;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.exportData = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _ApiMap = __webpack_require__("./app/lib/Api/ApiMap.js");
 
@@ -2476,43 +2533,17 @@ var _ApiMap2 = _interopRequireDefault(_ApiMap);
 
 var _Util = __webpack_require__("./app/lib/Util.js");
 
-var _logger = __webpack_require__("./app/lib/logger.js");
-
-var _http = __webpack_require__("./app/lib/Api/http.js");
-
-var _http2 = _interopRequireDefault(_http);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var exportData = exports.exportData = function exportData(args) {
-  var goodsExport = _ApiMap2.default.goodsExport;
-  return new Promise(function (resolve, reject) {
-    (0, _http2.default)(_extends({}, goodsExport, {
-      data: _extends({}, goodsExport.data, args)
-    })).then(function (result) {
-      debugger;
-      var data = result.data;
-      if (data) {
-        resolve(data);
-      } else {
-        reject('导出失败');
-      }
-    }).catch(function (err) {
-      reject('导出失败');
-      (0, _logger.logger)(err);
-    });
-  });
-};
 
 var DB = {
   fetchProdList: (0, _Util.fetchTemplate)(_ApiMap2.default.shopProdList),
+  fetchShopProdmeta: (0, _Util.fetchTemplate)(_ApiMap2.default.shopProdmeta),
   fetchStationProdList: (0, _Util.fetchTemplate)(_ApiMap2.default.shopStationProdList),
   updateStationProd: (0, _Util.fetchTemplate)(_ApiMap2.default.stationProdUpdate),
   deleteStationProd: (0, _Util.fetchTemplate)(_ApiMap2.default.stationProdDelete),
   stationProdCreate: (0, _Util.fetchTemplate)(_ApiMap2.default.stationProdCreate),
   shopProdInfo: (0, _Util.fetchTemplate)(_ApiMap2.default.shopProdInfo),
-  goodsExport: (0, _Util.fetchTemplate)(_ApiMap2.default.goodsExport),
-  exportData: exportData
+  exportData: (0, _Util.exportTemplate)(_ApiMap2.default.stationProdExport)
 };
 exports.default = DB;
 
@@ -2523,6 +2554,8 @@ exports.default = DB;
 
 "use strict";
 
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -2557,14 +2590,6 @@ var _Condition2 = _interopRequireDefault(_Condition);
 var _pageNation = __webpack_require__("./app/component/pageNation/pageNation.js");
 
 var _pageNation2 = _interopRequireDefault(_pageNation);
-
-var _ApiMap = __webpack_require__("./app/lib/Api/ApiMap.js");
-
-var _ApiMap2 = _interopRequireDefault(_ApiMap);
-
-var _http = __webpack_require__("./app/lib/Api/http.js");
-
-var _http2 = _interopRequireDefault(_http);
 
 var _Util = __webpack_require__("./app/lib/Util.js");
 
@@ -2767,7 +2792,7 @@ var ProdManage = function (_Component) {
         prod_cats: [],
         prod_tags: [],
         prod_crowds: [],
-        station_in_sale: 0
+        station_in_sale: undefined
       }
     };
     _this.addViewData = {
@@ -2875,9 +2900,16 @@ var ProdManage = function (_Component) {
   }, {
     key: 'handleupdateProd',
     value: function handleupdateProd(result) {
+      var _this3 = this;
+
       if (result.ret_code === 1) {
         (0, _Util.alert)('修改成功');
-        this.serchList();
+        _DB2.default.fetchProdList(this.state.indexViewData.search_data).then(function (data) {
+          var pageNumber = Math.ceil(data.total / _this3.state.count) || 1;
+          _this3.setState({ girdData: data.prod_list, total: data.total, pageNumber: pageNumber });
+        }).catch(function (err) {
+          (0, _Util.alert)(err);
+        });
       } else {
         (0, _Util.alert)('修改失败');
       }
@@ -2916,36 +2948,19 @@ var ProdManage = function (_Component) {
   }, {
     key: 'handleGetPage',
     value: function handleGetPage(_ref) {
-      var _this3 = this;
+      var _this4 = this;
 
       var currentPage = _ref.currentPage;
 
-      /*
-      indexViewData: {
-        girdData: [],
-        pageNumber: 1,
-        total: 0,
-        search_data: {
-          begin: 0,
-          count: 5,
-          prod_assist_code: '',
-          prod_name: '',
-          prod_src: '',
-          prod_cats: [],
-          prod_tags: [],
-          prod_crowds: [],
-          station_in_sale: 1
-        }
-      }
-      */
+      debugger;
       var indexViewData = this.state.indexViewData;
       var search_data = _extends({}, indexViewData.search_data, {
         begin: (currentPage - 1) * indexViewData.search_data.count
       });
       _DB2.default.fetchStationProdList(search_data).then(function (result) {
         var pageNumber = Math.ceil(result.total / search_data.count) || 1;
-        _this3.setState({
-          indexViewData: _extends({}, _this3.state.indexViewData, {
+        _this4.setState({
+          indexViewData: _extends({}, _this4.state.indexViewData, {
             girdData: result.prod_list,
             total: result.total,
             currentPage: currentPage,
@@ -2956,74 +2971,6 @@ var ProdManage = function (_Component) {
       }).catch(function (err) {
         (0, _Util.alert)(err);
       });
-      // this.serchList({
-      //   begin: currentPage - 1
-      // });
-    }
-
-    // 查询订单意向分页数据
-
-  }, {
-    key: 'serchList',
-    value: function serchList(condition) {
-      var _this4 = this;
-
-      // let data = this.refs.conditionForm.getData();
-
-      var params = _extends({}, this.state.indexViewData.search_data, condition);
-      return this.fetchList(params).then(function (result) {
-        var pageNumber = Math.ceil(result.total / _this4.state.count) || 1;
-        _this4.setState({ girdData: result.prod_list, total: result.total, pageNumber: pageNumber, begin: params.begin });
-      }).catch(function (err) {
-        (0, _Util.alert)(err);
-      });
-    }
-  }, {
-    key: 'fetchList',
-    value: function fetchList(condition) {
-      return new Promise(function (resolve, reject) {
-        var params = _ApiMap2.default.shopStationProdList;
-        (0, _http2.default)({
-          url: params.url,
-          method: params.method,
-          data: _extends({}, params.data, condition)
-        }).then(function (result) {
-          var data = result.data;
-          if (data.ret_code === 1) {
-            resolve(data.ret_data);
-          } else {
-            reject(data.ret_msg);
-          }
-        }).catch(function (err) {
-          reject('请求数据失败');
-          (0, _logger.logger)(err);
-        });
-      });
-    }
-
-    // 请求标签数据
-
-  }, {
-    key: 'fetchShopProdmeta',
-    value: function fetchShopProdmeta(condition) {
-      return new Promise(function (resolve, reject) {
-        var params = _ApiMap2.default.shopProdmeta;
-        (0, _http2.default)({
-          url: params.url,
-          method: params.method,
-          data: _extends({}, params.data, condition)
-        }).then(function (result) {
-          var data = result.data;
-          if (data.ret_code === 1) {
-            resolve(data.ret_data);
-          } else {
-            reject(data.ret_msg);
-          }
-        }).catch(function (err) {
-          reject('请求数据失败');
-          (0, _logger.logger)(err);
-        });
-      });
     }
   }, {
     key: 'componentDidMount',
@@ -3032,20 +2979,24 @@ var ProdManage = function (_Component) {
 
       var indexViewData = this.state.indexViewData;
       var search_data = indexViewData.search_data;
-      this.fetchList(search_data).then(function (result) {
-        var pageNumber = Math.ceil(result.total / search_data.count) || 1;
+      var fetchStationProdList = _DB2.default.fetchStationProdList(search_data);
+      var fetchShopProdmeta = _DB2.default.fetchShopProdmeta();
+      var fetchData = Promise.all([fetchStationProdList, fetchShopProdmeta]);
+      fetchData.then(function (_ref2) {
+        var _ref3 = _slicedToArray(_ref2, 2),
+            ProdData = _ref3[0],
+            ProdMeta = _ref3[1];
+
+        debugger;
+        var pageNumber = Math.ceil(ProdData.total / search_data.count) || 1;
         _this5.setState({
           indexViewData: _extends({}, indexViewData, {
-            girdData: result.prod_list,
-            total: result.total,
+            girdData: ProdData.prod_list,
+            total: ProdData.total,
             pageNumber: pageNumber
-          })
+          }),
+          cats: ProdMeta.cats, crowds: ProdMeta.crowds, tags: ProdMeta.tags
         });
-      }).catch(function (err) {
-        (0, _Util.alert)(err);
-      });
-      this.fetchShopProdmeta().then(function (result) {
-        _this5.setState({ cats: result.cats, crowds: result.crowds, tags: result.tags });
       }).catch(function (err) {
         (0, _Util.alert)(err);
       });
@@ -3103,19 +3054,6 @@ var ProdManage = function (_Component) {
         prod_crowds: indexViewData.search_data.prod_crowds,
         station_in_sale: indexViewData.search_data.station_in_sale
       };
-      /*
-      modifyProd: {
-        show: false,
-        prod_data: {
-          prod_id: '',
-          prod_no: '',
-          prod_name: '',
-          prod_src: '',
-          prod_spec: '',
-          station_in_sale: 1
-        }
-      }
-      */
       return _react2.default.createElement(
         _Container2.default,
         { className: 'p20', title: '站点商品管理' },
@@ -3227,7 +3165,7 @@ var ProdManage = function (_Component) {
       var search_data = _extends({}, indexViewData.search_data, {
         begin: 0
       });
-      this.fetchList(search_data).then(function (result) {
+      _DB2.default.fetchStationProdList(search_data).then(function (result) {
         var pageNumber = Math.ceil(result.total / search_data.count) || 1;
         _this7.setState({
           indexViewData: _extends({}, indexViewData, {
@@ -3461,10 +3399,10 @@ var ProdManage = function (_Component) {
     }
   }, {
     key: 'handleAddPage',
-    value: function handleAddPage(_ref2) {
+    value: function handleAddPage(_ref4) {
       var _this11 = this;
 
-      var currentPage = _ref2.currentPage;
+      var currentPage = _ref4.currentPage;
 
       // const begin = currentPage - 1;
       var addViewData = this.state.addViewData;
@@ -3824,7 +3762,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".pd20{padding:20px 0}.pageNation{margin:0;padding:0;font-size:12px;float:right}.pageNation input[type=text].pageInput{width:40px!important;padding:4px;text-align:center;margin:0}.pageNation a,.pageNation input{display:inline-block;padding:4px 15px;border:1px solid #333;color:#333;border-radius:3px;margin-right:5px;text-decoration:none;vertical-align:middle}.pageNation span{display:inline-block;padding:4px}.pageNation a:last-child{margin-right:0}.pageNation a.active{border:1px solid #999;color:#999;cursor:default}.pageNation a.btn-main{color:#fff}", ""]);
+exports.push([module.i, ".pd20{padding:20px 0}.pageNation{margin:0;padding:0;font-size:12px;float:right}.pageNation input[type=text].pageInput{width:40px!important;padding:4px;text-align:center;margin:0}.pageNation a,.pageNation input{display:inline-block;width:60px;height:27px;text-align:center;line-height:27px;border:1px solid #333;color:#333;border-radius:3px;margin-right:5px;text-decoration:none;vertical-align:middle}.pageNation span{display:inline-block;padding:4px}.pageNation a:last-child{margin-right:0}.pageNation a.active{border:1px solid #999;color:#999;cursor:default}.pageNation a.btn-main{color:#fff}", ""]);
 
 // exports
 
@@ -3839,7 +3777,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".prodmanageadd_allcheck{position:absolute;left:24px;z-index:1;top:15px}.condition .form-group{margin-bottom:10px;margin-right:10px}.condition .checkbox-inline{width:100px;margin-right:10px;margin-bottom:5px;overflow:hidden;display:inline-block;white-space:nowrap}.condition .checkbox-inline+.checkbox-inline,.condition .radio-inline+.radio-inline{margin-left:0}.condition .mul-check{padding-top:5px}.modal-dialog .condition input[type=checkbox],.modal-dialog .condition input[type=radio]{margin-top:4px}.condition .prod-category{display:inline-block;padding:3px 20px;border:1px solid #ccc;margin-right:10px;border-radius:5px;cursor:pointer;margin-top:5px;margin-bottom:5px}.condition .prod-category.active,.condition .prod-category:hover{color:#00a0e9;border-color:#00a0e9}.mul-container .form-group{display:block}", ""]);
+exports.push([module.i, ".prodmanageadd_allcheck{position:absolute;left:24px;z-index:1;top:15px}.mul-container .form-group{display:block}", ""]);
 
 // exports
 

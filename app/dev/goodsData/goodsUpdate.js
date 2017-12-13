@@ -226,6 +226,14 @@ var ApiMap = {
     responseType: 'blob'
   },
 
+  //1.1.21	(Web)商品列表导出
+  stationProdExport: {
+    url: '/hca/web/admin/shop/station/prod/export',
+    method: 'POST',
+    data: commonData,
+    responseType: 'blob'
+  },
+
   //1.1.12	(Web)商品价格调整列表
   goodsAdjustPriceList: {
     url: '/hca/web/admin/shop/prodprice/adjust/list',
@@ -576,7 +584,7 @@ exports.default = httpServer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
+exports.fetchTemplate = exports.exportTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1070,6 +1078,34 @@ function getElementByAttr(tag, attr, value) {
   }
   return aEle;
 }
+
+// 到处请求模板
+var exportTemplate = exports.exportTemplate = function exportTemplate(apiData) {
+  return function (args) {
+    return new Promise(function (resolve, reject) {
+      (0, _http2.default)(_extends({}, apiData, {
+        data: _extends({}, apiData.data, args)
+      })).then(function (result) {
+        (0, _logger.logger)(result);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data) {
+            resolve(data);
+          } else {
+            reject('导出失败');
+          }
+        } else {
+          reject('导出失败');
+          (0, _logger.logger)(result.statusText);
+        }
+      }).catch(function (err) {
+        reject('导出失败');
+        (0, _logger.logger)(err);
+      });
+    });
+  };
+};
+
 // 请求模板
 var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
   return function (args) {
@@ -1077,14 +1113,19 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
       (0, _http2.default)(_extends({}, apiData, {
         data: _extends({}, apiData.data, args)
       })).then(function (result) {
-        var data = result.data;
-        if (data.ret_code === 1) {
-          resolve(data.ret_data);
+        if (result.status === 200) {
+          var data = result.data;
+          if (data.ret_code === 1) {
+            resolve(data.ret_data);
+          } else {
+            reject(data.ret_msg);
+          }
         } else {
-          reject(data.ret_msg);
+          reject('操作失败');
+          (0, _logger.logger)(result.statusText);
         }
       }).catch(function (err) {
-        reject('请求数据失败');
+        reject('操作失败');
         (0, _logger.logger)(err);
       });
     });
@@ -1797,8 +1838,9 @@ var GoodsUpdate = function (_Component) {
             var prod_imgs = this.imgData.map(function (img) {
                 return img.img;
             });
+            var reg = /[^\u4e00-\u9fa5]/gi;
             var data = this.state.goodsMsg,
-                priceReg = /(^[-+]?[1-9]\d*(\.\d{1,2})?$)|(^[-+]?[0]{1}(\.\d{1,2})?$)/g;;
+                priceReg = /(^[-+]?[1-9]\d*(\.\d{1,2})?$)|(^[-+]?[0]{1}(\.\d{1,2})?$)/g;
             data.prod_imgs = [].concat(_toConsumableArray(data.prod_imgs), _toConsumableArray(prod_imgs));
             var must = {
                 prod_name: '商品名称不能为空',
@@ -1812,10 +1854,12 @@ var GoodsUpdate = function (_Component) {
                 prod_in_sale: '是否在售不能为空',
                 prod_allow_sale: '是否可售不能为空',
                 prod_display: '默认显示不能为空',
-                prod_imgs: '商品图片不能为空',
+                prod_imgs: '请上传商品图片',
                 prod_intro: '商品介绍不能为空'
             };
             for (var key in data) {
+                var hanzi = '',
+                    vlen = 0;
                 switch (key) {
                     case 'prod_imgs':
                         if (data[key].length === 0) {
@@ -1852,13 +1896,17 @@ var GoodsUpdate = function (_Component) {
                         break;
                     case 'prod_name':
                     case 'prod_src':
-                        if (data[key].length > 100) {
+                        hanzi = data[key].replace(reg, '');
+                        vlen = (hanzi ? hanzi.length : 0) + data[key].length;
+                        if (vlen > 100) {
                             (0, _Util.alert)('商品名称，商品产地不能超过100个字符');
                             return false;
                         }
                         break;
                     case 'prod_spec':
-                        if (data[key].length > 50) {
+                        hanzi = data[key].replace(reg, '');
+                        vlen = (hanzi ? hanzi.length : 0) + data[key].length;
+                        if (vlen > 50) {
                             (0, _Util.alert)('商品规格不能超过50个字符');
                             return false;
                         }
@@ -1906,12 +1954,17 @@ var GoodsUpdate = function (_Component) {
                 },
                 beforeChoose: function beforeChoose() {
                     var imgCount = that.state.goodsMsg.prod_imgs.length + that.imgData.length;
-                    return imgCount >= 10 ? false : true;
+                    if (imgCount >= 10) {
+                        (0, _Util.alert)('商品图片最多只可上传10张');
+                        return false;
+                    } else {
+                        return true;
+                    }
                 },
                 beforeUpload: function beforeUpload(files, mill) {
                     var size = files[0].size;
                     if (size > 1024 * 500) {
-                        (0, _Util.alert)('图片大小不能超过500K');
+                        (0, _Util.alert)('图片太大，上传的图片不能大于500K');
                         return false;
                     }
                 }
@@ -1929,7 +1982,7 @@ var GoodsUpdate = function (_Component) {
                 goodsMsg[key] = ev.target.value;
             }
             if (key === 'prod_name') {
-                goodsMsg.prod_assist_code = getFirstLetter(ev.target.value);
+                goodsMsg.prod_assist_code = (0, _Util.getFirstLetter)(ev.target.value);
             }
             this.setState({ goodsMsg: goodsMsg });
         }
@@ -2482,7 +2535,7 @@ var GoodsUpdate = function (_Component) {
                                     _reactBootstrap.Clearfix,
                                     null,
                                     this.state.showImg.map(function (img, index) {
-                                        return _react2.default.createElement('img', { src: img.url, key: index, className: 'uploadImg', alt: '\u5546\u54C1\u56FE\u7247', onClick: function onClick() {
+                                        return _react2.default.createElement('img', { src: img.url, key: index, title: '\u70B9\u51FB\u53EF\u5220\u9664\u56FE\u7247', className: 'uploadImg', alt: '\u5546\u54C1\u56FE\u7247', onClick: function onClick() {
                                                 var prodImg = _this4.state.goodsMsg.prod_imgs,
                                                     showImg = _this4.state.showImg,
                                                     showIndx = -1;
@@ -2518,7 +2571,7 @@ var GoodsUpdate = function (_Component) {
                                 _react2.default.createElement(
                                     _reactBootstrap.FormControl.Static,
                                     { bsClass: 'tips', componentClass: 'span' },
-                                    '\u4E0A\u4F20\u56FE\u7247\u5BBD\u9AD8\u6BD4\u4F8B\u4E3A4:3\uFF0C\u5927\u5C0F500K\u4EE5\u5185\u56FE\u7247'
+                                    '\u4E0A\u4F20\u56FE\u7247\u5BBD\u9AD8\u6BD4\u4F8B\u4E3A4:3\uFF0C\u5927\u5C0F500K\u4EE5\u5185\u56FE\u7247\u3002\u4E0A\u4F20\u540E\uFF0C\u70B9\u51FB\u56FE\u7247\u53EF\u4EE5\u5220\u9664\u3002'
                                 )
                             )
                         ),
@@ -2633,7 +2686,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".newGoodsData{padding:40px 0;width:1200px}.newGoodsData .col-sm-1,.newGoodsData .col-sm-2,.newGoodsData .col-sm-3,.newGoodsData .col-sm-4,.newGoodsData .col-sm-5,.newGoodsData .col-sm-6,.newGoodsData .col-sm-7,.newGoodsData .col-sm-8,.newGoodsData .col-sm-9,.newGoodsData .col-sm-10,.newGoodsData .col-sm-11,.newGoodsData .col-sm-12,.newGoodsData .ke-statusbar{position:static}.p20{padding:20px}.btn-main{margin:0 10px}.uploadImg{vertical-align:middle;text-align:center;width:40px;height:40px;border:1px solid #e5e5e5;font-size:18px;margin:5px;border-radius:3px;cursor:pointer}.tips,.uploadImg{display:inline-block}.tips{font-size:12px;color:gray;line-height:1.4}.control-label span{color:#ff0505}.icon.icon-add{width:25px;padding:0;position:absolute;right:25px;top:5px}.form-control-static{min-height:0}.form-group{position:relative}.normalLable{font-weight:400}.modal-dialog input[type=checkbox],.modal-dialog input[type=radio]{position:static!important}.checkbox-inline:first-child,.radio-inline:first-child{margin-left:10px}", ""]);
+exports.push([module.i, ".newGoodsData{padding:40px 0;width:1200px}.newGoodsData .col-sm-1,.newGoodsData .col-sm-2,.newGoodsData .col-sm-3,.newGoodsData .col-sm-4,.newGoodsData .col-sm-5,.newGoodsData .col-sm-6,.newGoodsData .col-sm-7,.newGoodsData .col-sm-8,.newGoodsData .col-sm-9,.newGoodsData .col-sm-10,.newGoodsData .col-sm-11,.newGoodsData .col-sm-12,.newGoodsData .ke-statusbar{position:static}.p20{padding:20px}.btn-main{margin:0 10px}.uploadImg{vertical-align:middle;text-align:center;width:40px;height:40px;border:1px solid #e5e5e5;font-size:18px;margin:5px;border-radius:3px;cursor:pointer}.tips,.uploadImg{display:inline-block}.tips{font-size:12px;color:gray;line-height:1.4}.control-label span{color:#ff0505}.icon.icon-add{width:25px;padding:0;position:absolute;right:25px;top:5px}.form-control-static{min-height:0}.form-group{position:relative}.normalLable{font-weight:400}.modal-dialog input[type=checkbox],.modal-dialog input[type=radio]{position:static!important}.checkbox-inline:first-child,.radio-inline:first-child{margin-left:10px}#goodsDetail .form-horizontal{border:1px solid #e5e5e5}#goodsDetail .form-group{border-bottom:1px solid #e5e5e5;margin:0;background:#f7f7f7}#goodsDetail .form-group .col-sm-2,#goodsDetail .form-group .col-sm-4,#goodsDetail .form-group .col-sm-10{padding:10px 0}#goodsDetail .form-group .col-sm-4,#goodsDetail .form-group .col-sm-10{border-left:1px solid #e5e5e5;padding-left:10px;background:#fff;min-height:54px}#goodsDetail .form-group .col-sm-4{border-right:1px solid #e5e5e5}#goodsDetail .form-group:last-child{border:none}#goodsDetail .form-group .col-sm-4:last-child{border-right:none}", ""]);
 
 // exports
 

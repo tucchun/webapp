@@ -38,12 +38,20 @@ class PageNation extends React.Component{
                 }
             } onLink={ev => this.props.getPage(ev)} />
         ];
-        for(let i = 0;i < this.props.pageNumber;i++){
+        const pageNumber = this.props.pageNumber;
+        let pages = 5,strNo = 1;
+        if(this.props.currentPage >= 3 && pageNumber >= 5){
+            strNo = this.props.currentPage - 2;
+            pages = this.props.currentPage + 2;
+        }
+        pages = pageNumber < pages ? pageNumber:pages;
+        for(strNo;strNo <= pages;strNo++){
+            console.log(strNo);
             list.push(
-                <Link key={"page"+i} pageArgument={
+                <Link key={"page"+strNo} pageArgument={
                     {
-                        page:(i+1).toString(),
-                        pageCode:i+1,
+                        page:(strNo).toString(),
+                        pageCode:strNo,
                         currentPage:parseInt(this.props.currentPage)
                     }
                 } onLink={ev => this.props.getPage(ev)} />

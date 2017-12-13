@@ -30,12 +30,12 @@ class PriceMaDialog extends Component{
     }
     checkValue(){
         const ajectTypeTag = parseInt(this.adjectType.value);
-        const reg = /^[0-9]*.[0-9]*$/g;
+        const reg = /^\+?[0-9]\d*.[0-9]{0,2}$/g;
         if(ajectTypeTag !== 1){
-            if(reg.test(this.state.goodsInfo.target_price)){
+            if(reg.test(this.state.goodsInfo.target_price)&&this.state.goodsInfo.target_price > 0){
                 this.props.confim(this.state.goodsInfo);
             }else{
-                alert('价格应为数字,且不能为空');
+                alert('调价后价格应为数字，且不能为空');
             }
         }else{
             this.props.confim(this.state.goodsInfo);

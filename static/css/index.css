@@ -238,3 +238,6 @@ body{
     padding: 9px 10px;
     border-radius: 0 4px 0 0;
 }
+.tab-content{
+    min-width:1200px;
+}

@@ -80,7 +80,7 @@ class QueryForm extends Component {
             } id="from-query-priceManagent" inline>
                 <table><tbody>
                 <tr>
-                    <td><label>助记码</label>
+                    <td><label>&nbsp;&nbsp;&nbsp;&nbsp;助记码</label>
                         <input type="text" className="form-control" name="prod_assist_code" placeholder="助记码" /></td>
                     <td><label>商品名称</label>
                         <input type="text" className="form-control" name="prod_name" placeholder="商品名称" /></td>
@@ -88,13 +88,15 @@ class QueryForm extends Component {
                         <input type="text" className="form-control" name="prod_src" placeholder="商品产地" /></td>
                     <td><label>是否在售</label><select className="form-control" name="prod_in_sale" id="">
                         <option value={0}>全部</option><option value={1}>在售</option><option value={2}>停售</option></select></td>
+                </tr>
+                <tr>
                     <td><label>是否可售</label><select className="form-control" name="prod_allow_sale" id="">
                         <option value={0}>全部</option><option value={1}>可售</option><option value={2}>不可售</option>
                     </select></td>
                     <td><label>默认显示</label><select className="form-control" name="prod_display" id="">
                         <option value={0}>全部</option><option value={1}>是</option><option value={2}>否</option>
                     </select></td>
-                    <td><button className="btn btn-main pull-right" type="submit">查询</button></td>
+                    <td colSpan={2}><button className="btn btn-main" type="submit">查询</button></td>
                 </tr>
                 </tbody></table>
             </Form>

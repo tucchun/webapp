@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import Container from '../../component/container/Container';
 import { Form,Clearfix,FormGroup,ControlLabel,FormControl,Col,Button } from 'react-bootstrap';
 import http from '../../lib/Api/http';
-import { alert,closeTab,converson } from '../../lib/Util';
+import { alert,closeTab,converson,getFirstLetter } from '../../lib/Util';
 import ApiMap from '../../lib/Api/ApiMap';
 import GoodsDialog from './goodsTagDialog';
 import FileUpload from 'react-fileupload';
@@ -175,7 +175,8 @@ class GoodsUpdate extends Component{
         let prod_imgs = this.imgData.map(img=>{
             return img.img;
         });
-        let data = this.state.goodsMsg,priceReg = /(^[-+]?[1-9]\d*(\.\d{1,2})?$)|(^[-+]?[0]{1}(\.\d{1,2})?$)/g;;
+        const reg = /[^\u4e00-\u9fa5]/gi;
+        let data = this.state.goodsMsg,priceReg = /(^[-+]?[1-9]\d*(\.\d{1,2})?$)|(^[-+]?[0]{1}(\.\d{1,2})?$)/g;
         data.prod_imgs = [...data.prod_imgs,...prod_imgs];
         let must = {
             prod_name:'商品名称不能为空',
@@ -189,10 +190,11 @@ class GoodsUpdate extends Component{
             prod_in_sale:'是否在售不能为空',
             prod_allow_sale:'是否可售不能为空',
             prod_display:'默认显示不能为空',
-            prod_imgs:'商品图片不能为空',
+            prod_imgs:'请上传商品图片',
             prod_intro:'商品介绍不能为空',
         };
         for(let key in data){
+            let hanzi = '',vlen = 0;
             switch (key){
                 case 'prod_imgs':
                     if(data[key].length === 0){
@@ -229,13 +231,17 @@ class GoodsUpdate extends Component{
                     break;
                 case 'prod_name':
                 case 'prod_src':
-                    if(data[key].length > 100){
+                    hanzi = data[key].replace(reg,'');
+                    vlen = (hanzi ? hanzi.length:0)+data[key].length;
+                    if(vlen > 100){
                         alert('商品名称，商品产地不能超过100个字符');
                         return false;
                     }
                     break;
                 case 'prod_spec':
-                    if(data[key].length > 50){
+                    hanzi = data[key].replace(reg,'');
+                    vlen = (hanzi ? hanzi.length:0)+data[key].length;
+                    if(vlen > 50){
                         alert('商品规格不能超过50个字符');
                         return false;
                     }
@@ -284,12 +290,17 @@ class GoodsUpdate extends Component{
             },
             beforeChoose:function(){
                 let imgCount = that.state.goodsMsg.prod_imgs.length + that.imgData.length;
-                return imgCount >= 10 ? false : true;
+                if(imgCount >= 10){
+                    alert('商品图片最多只可上传10张');
+                    return false;
+                }else{
+                    return true;
+                }
             },
             beforeUpload:function (files,mill) {
                 const size = files[0].size;
                 if(size > (1024*500)){
-                    alert('图片大小不能超过500K');
+                    alert('图片太大，上传的图片不能大于500K');
                     return false;
                 }
             }
@@ -573,7 +584,7 @@ class GoodsUpdate extends Component{
                                 <Clearfix>
                                     {
                                         this.state.showImg.map((img,index)=>{
-                                            return (<img src={img.url} key={index} className="uploadImg" alt="商品图片" onClick={
+                                            return (<img src={img.url} key={index} title="点击可删除图片" className="uploadImg" alt="商品图片" onClick={
                                                 ()=>{
                                                     let prodImg = this.state.goodsMsg.prod_imgs,showImg = this.state.showImg,showIndx = -1;
                                                     const index = prodImg.indexOf(img.dataUrl);
@@ -603,7 +614,7 @@ class GoodsUpdate extends Component{
                                     </FileUpload>
                                     <input type="hidden" name="prod_imgs" />
                                 </Clearfix>
-                                <FormControl.Static bsClass="tips" componentClass="span">上传图片宽高比例为4:3，大小500K以内图片</FormControl.Static>
+                                <FormControl.Static bsClass="tips" componentClass="span">上传图片宽高比例为4:3，大小500K以内图片。上传后，点击图片可以删除。</FormControl.Static>
                             </Col>
                         </FormGroup>
                         <FormGroup>

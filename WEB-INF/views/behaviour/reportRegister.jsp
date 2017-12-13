@@ -58,7 +58,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <tags:pagination page="${pages}" action="${ctx}/behaviour/register?date_startStr=${date_startStr}&date_endStr=${date_endStr}&userIdList=${userIdList}" pageId="behaviourZCDetail" />
+            <tags:pagination page="${pages}" action="${ctx}/behaviour/register?organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}&userIdList=${userIdList}" pageId="behaviourZCDetail" />
         </div>
     </div>
 </div>
@@ -69,7 +69,7 @@
         
         $self.find("#btn-export").on('click',function(e){
             common.download({
-            	url:"${ctx}/behaviour/register?date_startStr=${date_startStr}&date_endStr=${date_endStr}&userIdList=${userIdList}&download=download"
+            	url:"${ctx}/behaviour/register?download=download&organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}&userIdList=${userIdList}"
             });
         });
         
