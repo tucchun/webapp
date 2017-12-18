@@ -23,7 +23,16 @@ class SalesStats extends Component {
               className: 'my-col-class',
               title: '名称',
               dataIndex: 'stat_name',
-              key: 'a'
+              key: 'a',
+              render: (text, record) => {
+                return (
+                    <div>
+                        {record.stat_at_job === 2
+                        ? <span className="stat-name">{record.stat_name}<span className="job-state" href="javascript:;">已离职</span></span>
+                        : record.stat_name}
+                    </div>
+                );
+              }
             }, {
               className: 'my-col-class',
               id: '123',

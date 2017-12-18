@@ -1133,7 +1133,11 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 };
 
 function amount_format(amount) {
-  return (amount || 0).toFixed(2);
+  if (amount && typeof amount === 'number') {
+    return amount.toFixed(2);
+  }
+  return '';
+  // return (amount || 0).toFixed(2);
 }
 
 /**
@@ -1145,6 +1149,7 @@ function amount_format(amount) {
  */
 function toThousands(num, len) {
   len = len > 0 && len <= 20 ? len : 2;
+  num = num || 0;
   num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
   var l = num.split(".")[0].split("").reverse(),
       r = num.split(".")[1];
@@ -1539,7 +1544,7 @@ var GuestorderInfo = function (_Component) {
       var data = this.state;
       return _react2.default.createElement(
         _Container2.default,
-        { className: 'flex-auto gird-align', title: '站点商品管理>>详情' },
+        { className: 'flex-auto gird-align', title: '订货意向管理>>详情' },
         _react2.default.createElement(
           _reactBootstrap.Row,
           { className: 'border-bottom gird-align' },
@@ -1554,123 +1559,119 @@ var GuestorderInfo = function (_Component) {
           )
         ),
         _react2.default.createElement(
-          _reactBootstrap.Row,
-          { className: 'gird-align' },
+          'div',
+          { className: 'prod-baseInfo' },
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u610F\u5411\u5355\u53F7'
+            _reactBootstrap.Row,
+            { className: 'flex-auto-item' },
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u610F\u5411\u5355\u53F7\uFF1A'
+              ),
+              data.guest_order_no
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u63D0\u4EA4\u65F6\u95F4\uFF1A'
+              ),
+              (0, _Util.formatDateTime)(data.create_date)
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u91D1\u989D\u603B\u8BA1\uFF1A'
+              ),
+              (0, _Util.amount_format)(data.guest_order_amount)
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u5546\u54C1\u6570\u91CF\uFF1A'
+              ),
+              data.prod_num
+            )
           ),
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            data.guest_order_no
+            _reactBootstrap.Row,
+            { className: 'flex-auto-item' },
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u6536\u8D27\u4EBA\uFF1A'
+              ),
+              data.receipt_name
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u8054\u7CFB\u7535\u8BDD\uFF1A'
+              ),
+              data.receipt_contact
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u6307\u5B9A\u5065\u5EB7\u7BA1\u7406\u5E08\uFF1A'
+              ),
+              data.hecadre_assigned
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u64CD\u4F5C\u4EBA\uFF1A'
+              ),
+              data.assign_by
+            )
           ),
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u63D0\u4EA4\u65F6\u95F4'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            (0, _Util.formatDateTime)(data.create_date)
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Row,
-          { className: 'gird-align' },
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u91D1\u989D\u603B\u8BA1'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            data.guest_order_amount
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u5546\u54C1\u6570\u91CF'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            data.prod_num
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Row,
-          { className: 'gird-align' },
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u6536\u8D27\u4EBA'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            data.receipt_name
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u8054\u7CFB\u7535\u8BDD'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            data.receipt_contact
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Row,
-          { className: 'gird-align' },
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u5730\u5740'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            data.receipt_address
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u6307\u5B9A\u5065\u5EB7\u7BA1\u7406\u5E08'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            data.hecadre_assigned
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Row,
-          { className: 'gird-align' },
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u64CD\u4F5C\u4EBA'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            data.assign_by
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u64CD\u4F5C\u65F6\u95F4'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            (0, _Util.formatDateTime)(data.assign_date)
+            _reactBootstrap.Row,
+            { className: 'flex-auto-item' },
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u64CD\u4F5C\u65F6\u95F4\uFF1A'
+              ),
+              (0, _Util.formatDateTime)(data.assign_date)
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 9 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u5730\u5740\uFF1A'
+              ),
+              data.receipt_address
+            )
           )
         ),
         _react2.default.createElement(
@@ -1705,35 +1706,39 @@ var GuestorderInfo = function (_Component) {
             '\u91D1\u989D'
           )
         ),
-        data.prod_list.map(function (prod) {
-          var prod_imgs = prod.prod_imgs || [];
-          var prod_imgs_src = prod_imgs.length > 0 ? prod_imgs[0] : undefined;
-          return _react2.default.createElement(
-            _reactBootstrap.Row,
-            { key: prod.prod_id, className: 'border-bottom' },
-            _react2.default.createElement(
-              _reactBootstrap.Col,
-              { sm: 4 },
-              _react2.default.createElement(_Prod2.default, { prod_imgs_src: prod_imgs_src, prod_price: (0, _Util.amount_format)(prod.prod_price), prod_name: prod.prod_name })
-            ),
-            _react2.default.createElement(
-              _reactBootstrap.Col,
-              { sm: 4, className: 'guestorder-prod text-center' },
-              'x',
-              prod.prod_num
-            ),
-            _react2.default.createElement(
-              _reactBootstrap.Col,
-              { sm: 4, className: 'guestorder-prod text-center' },
-              '¥',
+        _react2.default.createElement(
+          'div',
+          { className: 'prod-item-cnt' },
+          data.prod_list.map(function (prod) {
+            var prod_imgs = prod.prod_imgs || [];
+            var prod_imgs_src = prod_imgs.length > 0 ? prod_imgs[0] : undefined;
+            return _react2.default.createElement(
+              _reactBootstrap.Row,
+              { key: prod.prod_id, className: 'prod-item' },
               _react2.default.createElement(
-                'span',
-                { className: 'price_color' },
-                (0, _Util.amount_format)(math.eval(prod.prod_num + '*' + prod.prod_price))
+                _reactBootstrap.Col,
+                { sm: 4 },
+                _react2.default.createElement(_Prod2.default, { prod_imgs_src: prod_imgs_src, prod_price: (0, _Util.amount_format)(prod.prod_price), prod_name: prod.prod_name })
+              ),
+              _react2.default.createElement(
+                _reactBootstrap.Col,
+                { sm: 4, className: 'guestorder-prod text-center' },
+                'x',
+                prod.prod_num
+              ),
+              _react2.default.createElement(
+                _reactBootstrap.Col,
+                { sm: 4, className: 'guestorder-prod text-center' },
+                '¥',
+                _react2.default.createElement(
+                  'span',
+                  { className: 'price_color' },
+                  (0, _Util.amount_format)(math.eval(prod.prod_num + '*' + prod.prod_price))
+                )
               )
-            )
-          );
-        }),
+            );
+          })
+        ),
         _react2.default.createElement(
           _reactBootstrap.Row,
           { className: 'text-center' },
@@ -1879,7 +1884,7 @@ var Prod = function (_React$Component) {
           ),
           _react2.default.createElement(
             'div',
-            null,
+            { className: 'prod-price-inner' },
             '\xA5',
             _react2.default.createElement(
               'span',
@@ -3215,7 +3220,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".prod-img{overflow:hidden}.prod-img>img{width:100%;height:auto;vertical-align:middle}.prod-instr-txt{height:40px}.prod-price{color:red}", ""]);
+exports.push([module.i, ".prod .prod-img{overflow:hidden;line-height:80px;height:80px}.prod .prod-img>img{width:100%;height:auto;vertical-align:middle}.prod .prod-instr{padding:20px}.prod .prod-price{color:red;font-weight:700}.prod *{line-height:1.42857143}", ""]);
 
 // exports
 

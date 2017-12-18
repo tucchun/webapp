@@ -8,7 +8,14 @@ import Container from '../../component/container/Container';
 import Condition from '../../component/condition/Condition';
 import PageNation from '../../component/pageNation/pageNation';
 import HecadreListbyarea from './hecadreListbyarea/HecadreListbyarea';
-import {alert, downloadExcel, createTab, Util, formatDateTime, amount_format} from '../../lib/Util';
+import {
+  alert,
+  downloadExcel,
+  createTab,
+  Util,
+  formatDateTime,
+  amount_format
+} from '../../lib/Util';
 import ConditionForm from './ConditionForm';
 // import {logger} from '../../lib/logger';
 import DB from './DB';
@@ -35,7 +42,7 @@ class GuestorderList extends Component {
         title: '金额总计',
         key: 'guest_order_amount',
         dataIndex: 'guest_order_amount',
-        render(value){
+        render(value) {
           return amount_format(value);
         }
       }, {
@@ -144,7 +151,7 @@ class GuestorderList extends Component {
         count: 20
       }
     };
-    this.HecadreViewData = {
+    this.hecadreViewData = {
       show: false,
       guest_order_id: 0,
       province: [],
@@ -170,8 +177,8 @@ class GuestorderList extends Component {
       indexViewData: {
         ...this.indexViewData
       },
-      HecadreViewData: {
-        ...this.HecadreViewData
+      hecadreViewData: {
+        ...this.hecadreViewData
       }
     };
   }
@@ -294,9 +301,9 @@ class GuestorderList extends Component {
       street_area_id = row.street_area_id;
 
     this.fetchArea(province_area_id, city_area_id, district_area_id).then(([province, city, district, street]) => {
-      const HecadreViewData = this.state.HecadreViewData;
+      const hecadreViewData = this.state.hecadreViewData;
       const args = {
-        ...HecadreViewData.search_data,
+        ...hecadreViewData.search_data,
         province_area_id: province_area_id,
         city_area_id: city_area_id,
         district_area_id: district_area_id,
@@ -307,8 +314,8 @@ class GuestorderList extends Component {
         let pageNumber = Math.ceil(result.total / args.count) || 1;
         this.station[args.street_area_id] = result.station_list;
         this.setState({
-          HecadreViewData: {
-            ...HecadreViewData,
+          hecadreViewData: {
+            ...hecadreViewData,
             show: true,
             province: province,
             city: city,
@@ -336,25 +343,25 @@ class GuestorderList extends Component {
   }
 
   render() {
-    const state_HecadreViewData = this.state.HecadreViewData;
-    const HecadreViewData = {
-      show: state_HecadreViewData.show,
-      guest_order_id: state_HecadreViewData.guest_order_id,
-      pageCount: state_HecadreViewData.total,
-      begin: state_HecadreViewData.search_data.begin,
-      currentPage: state_HecadreViewData.currentPage,
-      pageNumber: state_HecadreViewData.pageNumber,
-      province_area_id: state_HecadreViewData.search_data.province_area_id,
-      city_area_id: state_HecadreViewData.search_data.city_area_id,
-      district_area_id: state_HecadreViewData.search_data.district_area_id,
-      street_area_id: state_HecadreViewData.search_data.street_area_id,
-      station_id: state_HecadreViewData.search_data.station_id,
-      province: state_HecadreViewData.province,
-      city: state_HecadreViewData.city,
-      district: state_HecadreViewData.district,
-      street: state_HecadreViewData.street,
-      station: state_HecadreViewData.station,
-      girdData: state_HecadreViewData.girdData,
+    const state_hecadreViewData = this.state.hecadreViewData;
+    const hecadreViewData = {
+      show: state_hecadreViewData.show,
+      guest_order_id: state_hecadreViewData.guest_order_id,
+      pageCount: state_hecadreViewData.total,
+      begin: state_hecadreViewData.search_data.begin,
+      currentPage: state_hecadreViewData.currentPage,
+      pageNumber: state_hecadreViewData.pageNumber,
+      province_area_id: state_hecadreViewData.search_data.province_area_id,
+      city_area_id: state_hecadreViewData.search_data.city_area_id,
+      district_area_id: state_hecadreViewData.search_data.district_area_id,
+      street_area_id: state_hecadreViewData.search_data.street_area_id,
+      station_id: state_hecadreViewData.search_data.station_id,
+      province: state_hecadreViewData.province,
+      city: state_hecadreViewData.city,
+      district: state_hecadreViewData.district,
+      street: state_hecadreViewData.street,
+      station: state_hecadreViewData.station,
+      girdData: state_hecadreViewData.girdData,
       handleSearch: this.handleHecadreSearch,
       assignHecadre: this.handleassignHecadre,
       handleSelectChange: this.handleHecadreSelectChange,
@@ -383,7 +390,7 @@ class GuestorderList extends Component {
         </Condition>
         <Gird rowKey='guest_order_id' columns={this.columns} data={this.state.indexViewData.girdData}/>
         <PageNation pageCount={this.state.indexViewData.total} getPage={this.handleGetPage} currentPage={this.state.indexViewData.currentPage} pageNumber={this.state.indexViewData.pageNumber}/>
-        <HecadreListbyarea {...HecadreViewData}/>
+        <HecadreListbyarea {...hecadreViewData}/>
       </Container>
     );
   }
@@ -391,7 +398,6 @@ class GuestorderList extends Component {
   handleExport() {
     const search_data = this.state.indexViewData.search_data;
     DB.exportData(search_data).then(result => {
-      debugger
       downloadExcel(result, '订货意向');
     });
   }
@@ -411,34 +417,35 @@ class GuestorderList extends Component {
 
   }
   handleHecadreSearch() {
-    const HecadreViewData = this.state.HecadreViewData;
+    const hecadreViewData = this.state.hecadreViewData;
     const search_data = {
-      ...HecadreViewData.search_data,
+      ...hecadreViewData.search_data,
       begin: 0
     };
     DB.fetchListbyareastation(search_data).then((result) => {
+      // debugger;
       let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.station[search_data.street_area_id] = result.station_list;
-      this.setState({
-        HecadreViewData: {
-          ...this.state.HecadreViewData,
-          girdData: result.hecadre_list || [],
-          station: result.station_list || [],
-          total: result.total,
-          pageNumber,
-          currentPage: 1,
-          search_data
-        }
-      });
+      let _hecadreViewData = {
+        ...hecadreViewData,
+        girdData: result.hecadre_list || [],
+        total: result.total,
+        pageNumber,
+        currentPage: 1,
+        search_data
+      };
+      if (!search_data.station_id) {
+        hecadreViewData['station'] = result.station_list;
+      }
+      this.setState({hecadreViewData: _hecadreViewData});
     }).catch(err => {
       alert(err);
     });
   }
   handleHecadreSelectChange(selectData) {
-    debugger;
-    const HecadreViewData = this.state.HecadreViewData;
+    const hecadreViewData = this.state.hecadreViewData;
     const search_data = {
-      ...HecadreViewData.search_data,
+      ...hecadreViewData.search_data,
       ...selectData
     };
     // 把当前区域下面区的置空
@@ -457,15 +464,15 @@ class GuestorderList extends Component {
     // 当选择区时，查询列表获取卫生站信息。
     this.fetchArea(search_data.province_area_id, search_data.city_area_id, search_data.district_area_id).then(([province, city, district, street]) => {
       if (index === 3) {
-        const hecadreViewData = this.state.HecadreViewData;
+        // const hecadreViewData = this.state.hecadreViewData;
         const search_data2 = {
           ...hecadreViewData.search_data,
           ...search_data
         };
         if (this.station[search_data2.street_area_id]) {
           this.setState({
-            HecadreViewData: {
-              ...this.state.HecadreViewData,
+            hecadreViewData: {
+              ...this.state.hecadreViewData,
               station: this.station[search_data2.street_area_id],
               search_data: search_data2
             }
@@ -474,8 +481,8 @@ class GuestorderList extends Component {
           DB.fetchListbyareastation(search_data2).then((result) => {
             this.station[search_data2.street_area_id] = result.station_list;
             this.setState({
-              HecadreViewData: {
-                ...this.state.HecadreViewData,
+              hecadreViewData: {
+                ...this.state.hecadreViewData,
                 station: result.station_list || [],
                 search_data: search_data2
               }
@@ -486,8 +493,8 @@ class GuestorderList extends Component {
         }
       } else {
         this.setState({
-          HecadreViewData: {
-            ...HecadreViewData,
+          hecadreViewData: {
+            ...hecadreViewData,
             show: true,
             province: province,
             city: city,
@@ -502,23 +509,23 @@ class GuestorderList extends Component {
   }
   handleHecadreHideModal() {
     this.setState({
-      HecadreViewData: {
-        ...this.HecadreViewData,
+      hecadreViewData: {
+        ...this.hecadreViewData,
         show: false
       }
     });
   }
   handleHecadreGetPage({currentPage}) {
-    const HecadreViewData = this.state.HecadreViewData;
+    const hecadreViewData = this.state.hecadreViewData;
     const search_data = {
-      ...HecadreViewData.search_data,
-      begin: (currentPage - 1) * HecadreViewData.search_data.count
+      ...hecadreViewData.search_data,
+      begin: (currentPage - 1) * hecadreViewData.search_data.count
     };
     DB.fetchListbyareastation(search_data).then((result) => {
       let pageNumber = Math.ceil(result.total / search_data.count) || 1;
       this.setState({
-        HecadreViewData: {
-          ...this.state.HecadreViewData,
+        hecadreViewData: {
+          ...this.state.hecadreViewData,
           girdData: result.hecadre_list,
           // station: result.station_list,
           total: result.total,
@@ -563,7 +570,7 @@ class GuestorderList extends Component {
         ...this.state.indexViewData,
         search_data: {
           ...this.state.indexViewData.search_data,
-          create_start: (+ new Date(formattedValue)) || null
+          create_start: (+new Date(formattedValue)) || null
         }
       }
     });
@@ -574,7 +581,7 @@ class GuestorderList extends Component {
         ...this.state.indexViewData,
         search_data: {
           ...this.state.indexViewData.search_data,
-          create_end: (+ new Date(formattedValue)) || null
+          create_end: (+new Date(formattedValue)) || null
         }
       }
     });
@@ -602,7 +609,7 @@ class GuestorderList extends Component {
     });
   }
 
-  handleIndexDateChange(name, value){
+  handleIndexDateChange(name, value) {
     this.setState({
       indexViewData: {
         ...this.state.indexViewData,

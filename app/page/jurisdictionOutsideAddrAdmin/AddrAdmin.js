@@ -31,7 +31,8 @@ class AddrAdmin extends Component {
             allHecadreList: [],
             queryHecadreList: [],
             hasResident: 0,
-            tableData: []
+            tableData: [],
+            
         };
 
         this.handleHealthManagerModal = this.handleHealthManagerModal.bind(this);
@@ -124,6 +125,7 @@ class AddrAdmin extends Component {
 
     handleAddrModifyModal(item){
         this.setState({
+            needModifyItem: item,
             showAddrModifyModal: true
         });
 
@@ -133,6 +135,7 @@ class AddrAdmin extends Component {
     }
     closeAddrModifyModal(){
         this.setState({
+            needModifyItem: {},
             showAddrModifyModal: false
         });
     }
@@ -327,7 +330,7 @@ class AddrAdmin extends Component {
     }
 
     render() {
-        const {pageNum, currentPage, tableData, showHealthManagerModal, showAddrModifyModal, showComfirmModifyModal, needModifyItem, allHecadreList, total} = this.state;
+        const {pageNum, currentPage, tableData, showHealthManagerModal, showAddrModifyModal, showComfirmModifyModal, allHecadreList, total, needModifyItem} = this.state;
         const columns = this.columns;
         return (
             <div className="wrap hospital">
@@ -366,6 +369,7 @@ class AddrAdmin extends Component {
                 isShow={showHealthManagerModal}
                 hide={this.closeHealthManagerModal} />
                 <AddrModifyModal
+                needModifyItem={needModifyItem}
                 getAddrList={this.getAddrList}
                 isShow={showAddrModifyModal}
                 hide={this.closeAddrModifyModal} />

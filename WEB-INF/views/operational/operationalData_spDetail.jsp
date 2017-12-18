@@ -55,7 +55,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <tags:pagination page="${pages}" action="${ctx}/operationalData/spDetail?organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&hecadreIdListStr=${hecadreIdListStr}" pageId="operationalDataSPDetail" />
+            <tags:pagination page="${pages}" action="${ctx}/operationalData/spDetail?organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&hecadreIdListStr=${hecadreIdListStr}&organizId=${organizId}" pageId="operationalDataSPDetail" />
         </div>
     </div>
 </div>
@@ -66,7 +66,7 @@
 		var $self = $("#operationalDataSPDetail");
 		
 		$self.find("#btn-export").on('click',function(e){
-	        window.location.href="${ctx}/operationalData/spDetail?download=download&organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&hecadreIdListStr=${hecadreIdListStr}";
+	        window.location.href="${ctx}/operationalData/spDetail?download=download&organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&hecadreIdListStr=${hecadreIdListStr}&organizId=${organizId}";
 	    });
 		
 		$self.find(".js-itemDetail").on("click", function(e){

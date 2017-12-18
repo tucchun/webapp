@@ -1,4 +1,4 @@
-webpackJsonp([21],{
+webpackJsonp([24],{
 
 /***/ "./app/component/container/Container.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -1133,7 +1133,11 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 };
 
 function amount_format(amount) {
-  return (amount || 0).toFixed(2);
+  if (amount && typeof amount === 'number') {
+    return amount.toFixed(2);
+  }
+  return '';
+  // return (amount || 0).toFixed(2);
 }
 
 /**
@@ -1145,6 +1149,7 @@ function amount_format(amount) {
  */
 function toThousands(num, len) {
   len = len > 0 && len <= 20 ? len : 2;
+  num = num || 0;
   num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
   var l = num.split(".")[0].split("").reverse(),
       r = num.split(".")[1];
@@ -1597,7 +1602,7 @@ var ProdInfo = function (_Component) {
 
       return _react2.default.createElement(
         _Container2.default,
-        { className: 'flex-auto gird-align', title: '站点商品管理>>详情' },
+        { className: 'data-display flex-auto gird-align', title: '站点商品管理>>详情' },
         _react2.default.createElement(
           _reactBootstrap.Row,
           { className: 'gird-align' },
@@ -1872,7 +1877,7 @@ var ProdInfo = function (_Component) {
             { sm: 10 },
             data.prod_tags.map(function (tag) {
               return tag.tag_text;
-            }).join('、')
+            }).join('/')
           )
         ),
         _react2.default.createElement(
@@ -1892,7 +1897,7 @@ var ProdInfo = function (_Component) {
             { sm: 10 },
             data.prod_crowds.map(function (crowd) {
               return crowd['crowd_text'];
-            }).join('、')
+            }).join('/')
           )
         ),
         _react2.default.createElement(
@@ -1945,7 +1950,7 @@ var ProdInfo = function (_Component) {
           ),
           _react2.default.createElement(
             _reactBootstrap.Col,
-            { sm: 10 },
+            { sm: 10, className: 'auto-height prodManage-info-img' },
             data.prod_imgs.map(function (imgSrc, index) {
               return _react2.default.createElement('img', { key: index, src: (0, _Util.converson)(imgSrc) });
             })

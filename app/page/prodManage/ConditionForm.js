@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Select} from 'antd';
+import _ from 'lodash';
 import {
   Form,
   FormGroup,
@@ -8,6 +10,8 @@ import {
   FormControl,
   Checkbox
 } from 'react-bootstrap';
+
+const Option = Select.Option;
 
 class Condition extends Component {
 
@@ -27,6 +31,7 @@ class Condition extends Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.checkProdCategory = this.checkProdCategory.bind(this);
+    this.changeProdTags = this.changeProdTags.bind(this);
   }
 
   handleSearch() {
@@ -43,6 +48,12 @@ class Condition extends Component {
     const name = target.name;
     const value = parseInt(target.value) || 0;
     this.props.handleCheckboxChange(name, value);
+  }
+
+  changeProdTags(value){
+    debugger;
+    value = parseInt(value) || 0;
+    this.props.handleCheckboxChange('prod_tags', value);
   }
 
   handleSelectChange(event) {
@@ -64,21 +75,36 @@ class Condition extends Component {
     let category_info = this.refs.category_infos.querySelectorAll('.js-category-info');
     const target = e.currentTarget;
     const target_id = target.dataset['id'];
-    categories.forEach((item) => {
+    _.forEach(categories, (item) => {
       if (target === item) {
         target.classList.add('active');
       } else {
         item.classList.remove('active');
       }
     });
-    category_info.forEach((item) => {
+// categories.forEach((item) => {
+//   if (target === item) {
+//     target.classList.add('active');
+//   } else {
+//     item.classList.remove('active');
+//   }
+// });
+    _.forEach(category_info, (item) => {
       let id = item.dataset['id'];
       if (target_id === id) {
         item.classList.remove('hide');
       } else {
         item.classList.add('hide');
       }
-    });
+    } );
+    // category_info.forEach((item) => {
+    //   let id = item.dataset['id'];
+    //   if (target_id === id) {
+    //     item.classList.remove('hide');
+    //   } else {
+    //     item.classList.add('hide');
+    //   }
+    // });
   }
 
   render() {
@@ -130,19 +156,18 @@ class Condition extends Component {
           <FormGroup>
             <ControlLabel>商品标签</ControlLabel>
             <div className='mul-check'>
-              {tags.map(tag => {
-                const state = this.props['prod_tags'].findIndex(item => {
-                  return item === tag.tag_id;
-                });
-                const checked = (state > -1)
-                  ? 'checked'
-                  : false;
-                return (
-                  <Checkbox title={tag.tag_text} key={tag.tag_id} name='prod_tags' onChange={this.handleCheckboxChange} value={tag.tag_id} checked={checked} inline>
-                    {tag.tag_text}
-                  </Checkbox>
-                );
-              })}
+              <Select
+                mode="multiple"
+                placeholder="商品标签"
+                style={{ width: '100%' }}
+                name='prod_tags'
+                defaultValue={this.props['prod_tags']}
+                onChange={this.changeProdTags}
+              >
+                {tags.map(tag => {
+                  return <Option key={tag.tag_id}>{tag.tag_text}</Option>;
+                })}
+              </Select>
             </div>
           </FormGroup>
           <FormGroup>

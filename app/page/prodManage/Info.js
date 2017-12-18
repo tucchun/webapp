@@ -98,7 +98,7 @@ class ProdInfo extends Component {
     }
 
     return (
-      <Container className='flex-auto gird-align' title={'站点商品管理>>详情'}>
+      <Container className='data-display flex-auto gird-align' title={'站点商品管理>>详情'}>
         <Row className='gird-align'>
           <Col sm={2}>
             <ControlLabel>商品编号：</ControlLabel>
@@ -218,7 +218,7 @@ class ProdInfo extends Component {
           <Col sm={10}>
             {data.prod_tags.map(function(tag) {
               return tag.tag_text;
-            }).join('、')}
+            }).join('/')}
           </Col>
         </Row>
         <Row className='gird-align'>
@@ -228,7 +228,7 @@ class ProdInfo extends Component {
           <Col sm={10}>
             {data.prod_crowds.map((crowd) => {
               return crowd['crowd_text'];
-            }).join('、')}
+            }).join('/')}
           </Col>
         </Row>
         <Row className='gird-align'>
@@ -251,7 +251,7 @@ class ProdInfo extends Component {
           <Col sm={2}>
             <ControlLabel>商品图片：</ControlLabel>
           </Col>
-          <Col sm={10}>
+          <Col sm={10} className='auto-height prodManage-info-img'>
             {data.prod_imgs.map((imgSrc, index) => {
               return <img key={index} src={converson(imgSrc)}/>;
             })}

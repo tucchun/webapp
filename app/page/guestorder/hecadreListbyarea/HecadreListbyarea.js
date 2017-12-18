@@ -83,6 +83,7 @@ class HecadreListbyarea extends Component {
 
   render() {
     this.checkValue = '';
+    debugger;
     return (
       <Modal bsSize='large' show={this.props.show}>
         <Modal.Header>

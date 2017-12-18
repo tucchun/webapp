@@ -14,10 +14,8 @@
 }
 .pageNation a,.pageNation input{
     display:inline-block;
-    width:60px;
-    height:27px;
+    padding:4px 10px;
     text-align:center;
-    line-height:27px;
     border:1px solid #333;
     color:#333;
     border-radius:3px;

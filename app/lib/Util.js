@@ -451,7 +451,11 @@ export const fetchTemplate = apiData => args => {
 };
 
 export function amount_format(amount) {
-  return (amount || 0).toFixed(2);
+  if (amount && typeof amount === 'number') {
+    return amount.toFixed(2);
+  }
+  return '';
+  // return (amount || 0).toFixed(2);
 }
 
 /**

@@ -23,7 +23,16 @@ class SalesStats extends Component {
               className: 'my-col-class',
               title: '名称',
               dataIndex: 'stat_name',
-              key: 'a'
+              key: 'a',
+              render: (text, record) => {
+                return (
+                    <div>
+                        {record.stat_at_job === 2
+                        ? <span className="stat-name">{record.stat_name}<span className="job-state" href="javascript:;">已离职</span></span>
+                        : record.stat_name}
+                    </div>
+                );
+              }
             }, {
               className: 'my-col-class',
               id: '123',
@@ -218,6 +227,9 @@ class SalesStats extends Component {
     }
 
     createTab(id, e) {
+        console.log(common.Util.data('parms'));
+        console.log(this.state.orgId);
+        debugger;
         const {orgLevel} = this.state;
         if (orgLevel === 4) {
             closeTab('__jgssalesStats-jgssalesStats__', function() {
@@ -229,8 +241,9 @@ class SalesStats extends Component {
                     key: 'jgssalesStats',
                 });
             })
+
             common.Util.data('parms', {
-                orgId: (common.Util.data('parms') === undefined || common.Util.data('parms').orgId === undefined) ? this.state.orgId : common.Util.data('parms').orgId,
+                orgId: (common.Util.data('parms') === undefined || common.Util.data('parms').orgId === undefined || common.Util.data('parms').orgId === 0) ? this.state.orgId : common.Util.data('parms').orgId,
                 hecadreUid: id
             });
         } else {

@@ -268,9 +268,13 @@
                     null_flag = false;
                 }else{
                     for(var j in josn_houseNumber[i].detail_household_no){
-                        if(isNaN(josn_houseNumber[i].detail_household_no[j])){
+                        var reg = /NaN/g;
+                        if(reg.test(josn_houseNumber[i].detail_household_no[j])){
                             null_flag = false;
                         }
+                        //if(isNaN(josn_houseNumber[i].detail_household_no[j])){
+                            //null_flag = false;
+                        //}
                     }
                 }
             }

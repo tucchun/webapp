@@ -30,7 +30,6 @@ class GoodsUpdate extends Component{
         this.editor = {};
         this.tags = {};
         this.fileUploadArgument = this.fileUploadArgument.bind(this);
-        this.imgData = [];
         this.closeDialog = this.closeDialog.bind(this);
     }
 
@@ -112,8 +111,7 @@ class GoodsUpdate extends Component{
                 'justifyfull','insertorderedlist','insertunorderedlist','indent','outdent','subscript',
                 'superscript','quickformat','selectall','|','fullscreen','/',
                 'formatblock','fontname','fontsize','|','forecolor','hilitecolor','bold',
-                'italic','underline','strikethrough','lineheight','removeformat','|','image',
-                'flash','media','insertfile','table','hr','pagebreak',
+                'italic','underline','strikethrough','lineheight','removeformat','|','image','insertfile','table','hr','pagebreak',
                 'anchor', 'link', 'unlink'],
             uploadJson:'/hca/web/management/upload/uploadFile1',
             afterChange:function(){
@@ -172,12 +170,9 @@ class GoodsUpdate extends Component{
 
     submitHandler(ev){
         ev.preventDefault();
-        let prod_imgs = this.imgData.map(img=>{
-            return img.img;
-        });
         const reg = /[^\u4e00-\u9fa5]/gi;
         let data = this.state.goodsMsg,priceReg = /(^[-+]?[1-9]\d*(\.\d{1,2})?$)|(^[-+]?[0]{1}(\.\d{1,2})?$)/g;
-        data.prod_imgs = [...data.prod_imgs,...prod_imgs];
+        data.prod_imgs = [...data.prod_imgs];
         let must = {
             prod_name:'商品名称不能为空',
             prod_spec:'商品规格不能为空',
@@ -282,14 +277,20 @@ class GoodsUpdate extends Component{
             chooseAndUpload:true,
             accept:'image/jpeg,image/png',
             uploadSuccess:function(res){
-                console.log(res);
-                that.imgData.push(res);
+                const objImg = {url:res.imgUrl,dataUrl:res.img};
+                let showImg = [...that.state.showImg,objImg];
                 that.setState({
-                    showImg:[...that.state.showImg,res.imgUrl]
+                    showImg,
+                    goodsMsg:{
+                        ...that.state.goodsMsg,
+                        prod_imgs:showImg.map(item => {
+                            return item.dataUrl;
+                        })
+                    }
                 });
             },
             beforeChoose:function(){
-                let imgCount = that.state.goodsMsg.prod_imgs.length + that.imgData.length;
+                let imgCount = that.state.showImg.length;
                 if(imgCount >= 10){
                     alert('商品图片最多只可上传10张');
                     return false;
@@ -586,17 +587,14 @@ class GoodsUpdate extends Component{
                                         this.state.showImg.map((img,index)=>{
                                             return (<img src={img.url} key={index} title="点击可删除图片" className="uploadImg" alt="商品图片" onClick={
                                                 ()=>{
-                                                    let prodImg = this.state.goodsMsg.prod_imgs,showImg = this.state.showImg,showIndx = -1;
-                                                    const index = prodImg.indexOf(img.dataUrl);
-                                                    for(let index in showImg){
-                                                        if(showImg[index].dataUrl === img.dataUrl){
-                                                            showIndx = index;
+                                                    let showImg = this.state.showImg,showIndx = -1;
+                                                    for(let idx in showImg){
+                                                        if(showImg[idx].dataUrl === img.dataUrl){
+                                                            showIndx = idx;
                                                         }
                                                     }
                                                     showImg.splice(showIndx,1);
-                                                    if(index!==-1){
-                                                        prodImg.splice(index,1);
-                                                    }
+                                                    let prodImg = showImg.map(ims => {return ims.dataUrl});
                                                     this.setState({
                                                         ...this.state,
                                                         showImg,

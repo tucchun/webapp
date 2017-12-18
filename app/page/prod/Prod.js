@@ -15,7 +15,7 @@ class Prod extends React.Component {
         </Col>
         <Col sm={8} className="prod-instr">
           <div className="prod-instr-txt">{prod_name}</div>
-          <div>¥<span className='prod-price'>{prod_price}</span>
+          <div className='prod-price-inner'>¥<span className='prod-price'>{prod_price}</span>
           </div>
         </Col>
       </div>

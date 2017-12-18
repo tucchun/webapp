@@ -94,7 +94,9 @@ class ProdManage extends Component {
             return '上架';
           }
           if (row.station_in_sale === 2) {
-            return <a style={{color: 'red'}}>未上架</a>;
+            return <a style={{
+              color: 'red'
+            }}>未上架</a>;
           }
           return ' ';
         }
@@ -216,7 +218,7 @@ class ProdManage extends Component {
     };
   }
   //导出
-  doExport(){
+  doExport() {
     const search_data = this.state.indexViewData.search_data;
     DB.exportData(search_data).then(result => {
       downloadExcel(result, '站点商品');
@@ -238,7 +240,7 @@ class ProdManage extends Component {
     });
   }
 
-  handleCloseModifyModal(){
+  handleCloseModifyModal() {
     this.setState({
       modifyProd: {
         ...this.state.modifyProd,
@@ -342,7 +344,7 @@ class ProdManage extends Component {
     const fetchShopProdmeta = DB.fetchShopProdmeta();
     const fetchData = Promise.all([fetchStationProdList, fetchShopProdmeta]);
     fetchData.then(([ProdData, ProdMeta]) => {
-          debugger;
+      debugger;
       let pageNumber = Math.ceil(ProdData.total / search_data.count) || 1;
       this.setState({
         indexViewData: {
@@ -351,7 +353,9 @@ class ProdManage extends Component {
           total: ProdData.total,
           pageNumber: pageNumber
         },
-        cats: ProdMeta.cats, crowds: ProdMeta.crowds, tags: ProdMeta.tags
+        cats: ProdMeta.cats,
+        crowds: ProdMeta.crowds,
+        tags: ProdMeta.tags
       });
     }).catch(err => {
       alert(err);
@@ -423,8 +427,7 @@ class ProdManage extends Component {
         </Condition>
         <Gird rowKey='prod_id' columns={this.columns} data={this.state.indexViewData.girdData}/>
         <PageNation pageCount={this.state.indexViewData.total} getPage={this.handleGetPage} currentPage={this.state.indexViewData.currentPage} pageNumber={this.state.indexViewData.pageNumber}/>
-        <ModifyProd updateProd={this.updateProd} handleSelectChange={this.modifyProdSelectChange} handleHideModal={this.hideModifyProd} closeModal={this.handleCloseModifyModal}
-         {...this.state.modifyProd.prod_data} show={this.state.modifyProd.show}/>
+        <ModifyProd updateProd={this.updateProd} handleSelectChange={this.modifyProdSelectChange} handleHideModal={this.hideModifyProd} closeModal={this.handleCloseModifyModal} {...this.state.modifyProd.prod_data} show={this.state.modifyProd.show}/>
         <Add {...addViewProps}/>
       </Container>
     );
@@ -514,6 +517,7 @@ class ProdManage extends Component {
     });
   }
   handleIndexCheckboxChange(name, value) {
+    debugger;
     const arr = this.state.indexViewData.search_data[name];
     const index = arr.findIndex(item => {
       return item === value;
@@ -579,7 +583,7 @@ class ProdManage extends Component {
 }
   */
 
-  handleCloseAddModal(){
+  handleCloseAddModal() {
     this.setState({
       addViewData: {
         ...this.state.addViewData,
@@ -589,12 +593,19 @@ class ProdManage extends Component {
   }
 
   handleAddProds() {
-    DB.stationProdCreate({prod_id_list: this.state.addViewData.addProdIds}).then(() => {
-      this.hideAddModal();
-      this.handleIndexSearch();
-    }).catch(err => {
-      alert(err);
-    });
+    const prod_id_list = this.state.addViewData.addProdIds;
+
+    if (prod_id_list.length === 0) {
+      alert('请选择商品');
+    } else {
+      DB.stationProdCreate({prod_id_list: this.state.addViewData.addProdIds}).then(() => {
+        this.hideAddModal();
+        this.handleIndexSearch();
+      }).catch(err => {
+        alert(err);
+      });
+    }
+
   }
   handleAddOnCheck(e, data) {
     const checkedState = e.target.checked;

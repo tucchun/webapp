@@ -1133,7 +1133,11 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 };
 
 function amount_format(amount) {
-  return (amount || 0).toFixed(2);
+  if (amount && typeof amount === 'number') {
+    return amount.toFixed(2);
+  }
+  return '';
+  // return (amount || 0).toFixed(2);
 }
 
 /**
@@ -1145,6 +1149,7 @@ function amount_format(amount) {
  */
 function toThousands(num, len) {
   len = len > 0 && len <= 20 ? len : 2;
+  num = num || 0;
   num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
   var l = num.split(".")[0].split("").reverse(),
       r = num.split(".")[1];
@@ -1491,7 +1496,7 @@ var Prod = function (_React$Component) {
           ),
           _react2.default.createElement(
             'div',
-            null,
+            { className: 'prod-price-inner' },
             '\xA5',
             _react2.default.createElement(
               'span',
@@ -1686,119 +1691,115 @@ var ShopOrderInfo = function (_Component) {
             { sm: 6 },
             _react2.default.createElement(
               _reactBootstrap.ControlLabel,
-              { className: 'pull-right' },
+              { className: 'pull-right price_color' },
               (0, _Util.orderStatus)(this.state.order_status)
             )
           )
         ),
         _react2.default.createElement(
-          _reactBootstrap.Row,
-          { className: 'gird-align' },
+          'div',
+          { className: 'prod-baseInfo' },
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u8BA2\u5355\u7F16\u53F7'
+            _reactBootstrap.Row,
+            { className: 'flex-auto-item' },
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u8BA2\u5355\u7F16\u53F7\uFF1A'
+              ),
+              this.state.order_no
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u8BA2\u5355\u65F6\u95F4\uFF1A'
+              ),
+              (0, _Util.formatDateTime)(this.state.create_date)
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u8BA2\u5355\u91D1\u989D\uFF08\u5143\uFF09\uFF1A'
+              ),
+              (0, _Util.amount_format)(this.state.order_amount)
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u5546\u54C1\u6570\u91CF\uFF1A'
+              ),
+              this.state.prod_num
+            )
           ),
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            this.state.order_no
+            _reactBootstrap.Row,
+            { className: 'flex-auto-item' },
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u6536\u8D27\u4EBA\uFF1A'
+              ),
+              this.state.receipt_name
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u8054\u7CFB\u7535\u8BDD\uFF1A'
+              ),
+              this.state.receipt_contact
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u63A8\u8350\u4EBA\uFF1A'
+              ),
+              this.state.create_hecadre
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 3 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u9001\u8D27\u4EBA\uFF1A'
+              ),
+              this.state.ship_hecadre
+            )
           ),
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u8BA2\u5355\u65F6\u95F4'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            (0, _Util.formatDateTime)(this.state.create_date)
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Row,
-          { className: 'gird-align' },
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u8BA2\u5355\u91D1\u989D\uFF08\u5143\uFF09'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            this.state.order_amount
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u5546\u54C1\u6570\u91CF'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            this.state.prod_num
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Row,
-          { className: 'gird-align' },
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u6536\u8D27\u4EBA'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            this.state.receipt_name
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u8054\u7CFB\u7535\u8BDD'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            this.state.receipt_contact
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Row,
-          { className: 'gird-align' },
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u5730\u5740'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 10 },
-            this.state.receipt_address
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Row,
-          { className: 'gird-align' },
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u63A8\u8350\u4EBA'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            this.state.create_hecadre
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 2 },
-            '\u9001\u8D27\u4EBA'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 4 },
-            this.state.ship_hecadre
+            _reactBootstrap.Row,
+            { className: 'flex-auto-item' },
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { sm: 12 },
+              _react2.default.createElement(
+                _reactBootstrap.ControlLabel,
+                null,
+                '\u5730\u5740\uFF1A'
+              ),
+              this.state.receipt_address
+            )
           )
         ),
         _react2.default.createElement(
@@ -1833,35 +1834,39 @@ var ShopOrderInfo = function (_Component) {
             '\u91D1\u989D'
           )
         ),
-        this.state.prod_list.map(function (prod) {
-          var prod_imgs = prod.prod_imgs || [];
-          var prod_imgs_src = prod_imgs.length > 0 ? prod_imgs[0] : undefined;
-          return _react2.default.createElement(
-            _reactBootstrap.Row,
-            { key: prod.prod_id, className: 'border-bottom' },
-            _react2.default.createElement(
-              _reactBootstrap.Col,
-              { sm: 4 },
-              _react2.default.createElement(_Prod2.default, { prod_imgs_src: prod_imgs_src, prod_price: (0, _Util.amount_format)(prod.prod_price), prod_name: prod.prod_name })
-            ),
-            _react2.default.createElement(
-              _reactBootstrap.Col,
-              { sm: 4, className: 'guestorder-prod text-center' },
-              'x',
-              prod.prod_num
-            ),
-            _react2.default.createElement(
-              _reactBootstrap.Col,
-              { sm: 4, className: 'guestorder-prod text-center' },
-              '¥',
+        _react2.default.createElement(
+          'div',
+          { className: 'prod-item-cnt' },
+          this.state.prod_list.map(function (prod) {
+            var prod_imgs = prod.prod_imgs || [];
+            var prod_imgs_src = prod_imgs.length > 0 ? prod_imgs[0] : undefined;
+            return _react2.default.createElement(
+              _reactBootstrap.Row,
+              { key: prod.prod_id, className: 'prod-item' },
               _react2.default.createElement(
-                'span',
-                { className: 'price_color' },
-                (0, _Util.amount_format)(math.eval(prod.prod_num + '*' + prod.prod_price))
+                _reactBootstrap.Col,
+                { sm: 4 },
+                _react2.default.createElement(_Prod2.default, { prod_imgs_src: prod_imgs_src, prod_price: (0, _Util.amount_format)(prod.prod_price), prod_name: prod.prod_name })
+              ),
+              _react2.default.createElement(
+                _reactBootstrap.Col,
+                { sm: 4, className: 'guestorder-prod text-center' },
+                'x',
+                prod.prod_num
+              ),
+              _react2.default.createElement(
+                _reactBootstrap.Col,
+                { sm: 4, className: 'guestorder-prod text-center' },
+                '¥',
+                _react2.default.createElement(
+                  'span',
+                  { className: 'price_color' },
+                  (0, _Util.amount_format)(math.eval(prod.prod_num + '*' + prod.prod_price))
+                )
               )
-            )
-          );
-        }),
+            );
+          })
+        ),
         _react2.default.createElement(
           _reactBootstrap.Row,
           { className: 'text-center' },
@@ -1898,43 +1903,48 @@ var ShopOrderInfo = function (_Component) {
         ),
         _react2.default.createElement(
           _reactBootstrap.Row,
-          null,
+          { className: 'border-bottom gird-align' },
           _react2.default.createElement(
             _reactBootstrap.Col,
-            { sm: 6, className: 'text-left' },
-            '支付方式'
-          ),
+            { sm: 12 },
+            _react2.default.createElement(
+              _reactBootstrap.ControlLabel,
+              null,
+              '\u652F\u4ED8\u4FE1\u606F'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          _reactBootstrap.Row,
+          { className: 'prod-payType' },
           _react2.default.createElement(
             _reactBootstrap.Col,
-            { sm: 6, className: 'text-right' },
+            { sm: 4 },
+            _react2.default.createElement(
+              _reactBootstrap.ControlLabel,
+              null,
+              '\u652F\u4ED8\u65B9\u5F0F\uFF1A'
+            ),
             (0, _Util.payType)(this.state.pay_type)
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Row,
-          null,
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 6, className: 'text-left' },
-            '实付金额'
           ),
           _react2.default.createElement(
             _reactBootstrap.Col,
-            { sm: 6, className: 'text-right' },
+            { sm: 4 },
+            _react2.default.createElement(
+              _reactBootstrap.ControlLabel,
+              null,
+              '\u5B9E\u4ED8\u91D1\u989D\uFF1A'
+            ),
             (0, _Util.amount_format)(this.state.pay_amount)
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Row,
-          null,
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 6, className: 'text-left' },
-            '支付时间'
           ),
           _react2.default.createElement(
             _reactBootstrap.Col,
-            { sm: 6, className: 'text-right' },
+            { sm: 4 },
+            _react2.default.createElement(
+              _reactBootstrap.ControlLabel,
+              null,
+              '\u652F\u4ED8\u65F6\u95F4\uFF1A'
+            ),
             (0, _Util.formatDateTime)(this.state.pay_date)
           )
         )
@@ -3250,7 +3260,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".prod-img{overflow:hidden}.prod-img>img{width:100%;height:auto;vertical-align:middle}.prod-instr-txt{height:40px}.prod-price{color:red}", ""]);
+exports.push([module.i, ".prod .prod-img{overflow:hidden;line-height:80px;height:80px}.prod .prod-img>img{width:100%;height:auto;vertical-align:middle}.prod .prod-instr{padding:20px}.prod .prod-price{color:red;font-weight:700}.prod *{line-height:1.42857143}", ""]);
 
 // exports
 

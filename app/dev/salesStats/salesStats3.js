@@ -1,281 +1,4 @@
-webpackJsonp([3],{
-
-/***/ "./app/component/DateRange.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _datePicker = __webpack_require__("./node_modules/antd/lib/date-picker/index.js");
-
-var _datePicker2 = _interopRequireDefault(_datePicker);
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-__webpack_require__("./node_modules/antd/lib/date-picker/style/index.js");
-
-var _react = __webpack_require__("./node_modules/react/react.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__("./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _moment = __webpack_require__("./node_modules/moment/moment.js");
-
-var _moment2 = _interopRequireDefault(_moment);
-
-__webpack_require__("./node_modules/moment/locale/zh-cn.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-_moment2.default.locale('zh-cn');
-
-var DateRange = function (_React$Component) {
-  _inherits(DateRange, _React$Component);
-
-  function DateRange(props) {
-    _classCallCheck(this, DateRange);
-
-    var _this = _possibleConstructorReturn(this, (DateRange.__proto__ || Object.getPrototypeOf(DateRange)).call(this, props));
-
-    _this.state = { endOpen: false };
-    _this.disabledStartDate = _this.disabledStartDate.bind(_this);
-    _this.onStartChange = _this.onStartChange.bind(_this);
-    _this.handleStartOpenChange = _this.handleStartOpenChange.bind(_this);
-    _this.disabledEndDate = _this.disabledEndDate.bind(_this);
-    _this.onEndChange = _this.onEndChange.bind(_this);
-    _this.handleEndOpenChange = _this.handleEndOpenChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(DateRange, [{
-    key: 'disabledStartDate',
-    value: function disabledStartDate(startValue) {
-      var endValue = this.props.endValue;
-      if (!startValue || !endValue) {
-        return false;
-      }
-      return startValue.valueOf() > endValue.valueOf();
-    }
-  }, {
-    key: 'disabledEndDate',
-    value: function disabledEndDate(endValue) {
-      var startValue = this.props.startValue;
-      if (!endValue || !startValue) {
-        return false;
-      }
-      return endValue.valueOf() <= startValue.valueOf();
-    }
-  }, {
-    key: 'onChange',
-    value: function onChange(field, value) {
-      //defaultValue={moment({hour: 23, minute: 59, seconds: 59})}
-      //defaultValue={moment({hour: 0, minute: 0, seconds: 0})}
-      this.props.handleOnChange(field, value);
-      // this.setState({[field]: value});
-    }
-  }, {
-    key: 'onStartChange',
-    value: function onStartChange(value, formattedValue) {
-      value.seconds(0);
-      value.minute(0);
-      value.hour(0);
-      this.onChange(this.props.startName, value.toString());
-      // this.onChange('startValue', value);
-    }
-  }, {
-    key: 'onEndChange',
-    value: function onEndChange(value, formattedValue) {
-      value.seconds(59);
-      value.minute(59);
-      value.hour(23);
-      this.onChange(this.props.endName, value.toString());
-      // this.onChange('endValue', value);
-    }
-  }, {
-    key: 'handleStartOpenChange',
-    value: function handleStartOpenChange(open) {
-      if (!open) {
-        this.setState({ endOpen: true });
-      }
-    }
-  }, {
-    key: 'handleEndOpenChange',
-    value: function handleEndOpenChange(open) {
-      this.setState({ endOpen: open });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          startName = _props.startName,
-          endName = _props.endName,
-          startValue = _props.startValue,
-          endValue = _props.endValue;
-
-      var create_start = startValue && (0, _moment2.default)(startValue);
-      var create_end = endValue && (0, _moment2.default)(endValue);
-      return _react2.default.createElement(
-        'span',
-        null,
-        _react2.default.createElement(_datePicker2.default, { name: startName, disabledDate: this.disabledStartDate, showTime: true, format: 'YYYY-MM-DD HH:mm:ss', value: create_start, onChange: this.onStartChange, onOpenChange: this.handleStartOpenChange }),
-        '-',
-        _react2.default.createElement(_datePicker2.default, { name: endName, disabledDate: this.disabledEndDate, showTime: true, format: 'YYYY-MM-DD HH:mm:ss', value: create_end, onChange: this.onEndChange, open: this.state.endOpen, onOpenChange: this.handleEndOpenChange })
-      );
-    }
-  }]);
-
-  return DateRange;
-}(_react2.default.Component);
-
-DateRange.propTypes = {
-  startName: _propTypes2.default.string.isRequired,
-  endName: _propTypes2.default.string.isRequired,
-  startValue: _propTypes2.default.number,
-  endValue: _propTypes2.default.number,
-  handleOnChange: _propTypes2.default.func.isRequired
-};
-
-exports.default = DateRange;
-
-/***/ }),
-
-/***/ "./app/component/condition/Condition.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__("./node_modules/react/react.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Condition = function (_Component) {
-  _inherits(Condition, _Component);
-
-  function Condition(props) {
-    _classCallCheck(this, Condition);
-
-    return _possibleConstructorReturn(this, (Condition.__proto__ || Object.getPrototypeOf(Condition)).call(this, props));
-  }
-
-  _createClass(Condition, [{
-    key: "render",
-    value: function render() {
-      return _react2.default.createElement(
-        "div",
-        { className: "opt clearfix condition" },
-        this.props.children
-      );
-    }
-  }]);
-
-  return Condition;
-}(_react.Component);
-
-exports.default = Condition;
-
-/***/ }),
-
-/***/ "./app/component/container/Container.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__("./node_modules/react/react.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__("./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Container = function (_Component) {
-  _inherits(Container, _Component);
-
-  function Container(props) {
-    _classCallCheck(this, Container);
-
-    return _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, props));
-  }
-
-  _createClass(Container, [{
-    key: 'render',
-    value: function render() {
-      var clazz = this.props.className;
-      clazz = clazz + ' tb-wrap' || '';
-      return _react2.default.createElement(
-        'div',
-        { className: 'wrap' },
-        _react2.default.createElement(
-          'div',
-          { className: 'tb-head' },
-          this.props.title
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'tb-content' },
-          _react2.default.createElement(
-            'div',
-            { className: clazz },
-            this.props.children
-          )
-        )
-      );
-    }
-  }]);
-
-  return Container;
-}(_react.Component);
-
-Container.propTypes = {
-  title: _propTypes2.default.string.isRequired
-};
-
-exports.default = Container;
-
-/***/ }),
+webpackJsonp([8],{
 
 /***/ "./app/component/pageNation/link.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -553,6 +276,169 @@ if(false) {
 	if(!content.locals) {
 		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js!./pagenation.css", function() {
 			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js!./pagenation.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./app/component/salesData/SalesData.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = SalesData;
+
+var _react = __webpack_require__("./node_modules/react/react.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__("./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+__webpack_require__("./app/component/salesData/style/index.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// export default class SalesData extends Component {
+//   render() {
+//     return (
+//         <div className="sales-data">
+//             <div className="item">
+//                 <p>{this.props.totalAmount}<span>元</span></p>
+//                 <span>订单总额</span>
+//             </div>
+//             <div className="item">
+//                 <p>{this.props.totalGoods}</p>
+//                 <span>商品总数</span>
+//             </div>
+//             <div className="item">
+//                 <p>{this.props.totalPerson}</p>
+//                 <span>购买总人次</span>
+//             </div>
+//         </div>
+//     );
+//   }
+// }
+
+function SalesData(props) {
+    return _react2.default.createElement(
+        'div',
+        { className: 'sales-data' },
+        _react2.default.createElement(
+            'div',
+            { className: 'item' },
+            _react2.default.createElement(
+                'p',
+                null,
+                props.totalAmount,
+                _react2.default.createElement(
+                    'span',
+                    null,
+                    '\u5143'
+                )
+            ),
+            _react2.default.createElement(
+                'span',
+                null,
+                '\u8BA2\u5355\u603B\u989D'
+            )
+        ),
+        _react2.default.createElement(
+            'div',
+            { className: 'item' },
+            _react2.default.createElement(
+                'p',
+                null,
+                props.totalGoods
+            ),
+            _react2.default.createElement(
+                'span',
+                null,
+                '\u5546\u54C1\u603B\u6570'
+            )
+        ),
+        _react2.default.createElement(
+            'div',
+            { className: 'item' },
+            _react2.default.createElement(
+                'p',
+                null,
+                props.totalPerson
+            ),
+            _react2.default.createElement(
+                'span',
+                null,
+                '\u8D2D\u4E70\u603B\u4EBA\u6B21'
+            )
+        )
+    );
+}
+
+SalesData.defaultProps = {
+    totalAmount: 0,
+    totalGoods: 0,
+    totalPerson: 0
+};
+SalesData.propTypes = {
+    totalAmount: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number]),
+    totalGoods: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number]),
+    totalPerson: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number])
+};
+
+/***/ }),
+
+/***/ "./app/component/salesData/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _SalesData = __webpack_require__("./app/component/salesData/SalesData.js");
+
+var _SalesData2 = _interopRequireDefault(_SalesData);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _SalesData2.default;
+
+/***/ }),
+
+/***/ "./app/component/salesData/style/index.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/postcss-loader/lib/index.js!./app/component/salesData/style/index.css");
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/style-loader/lib/addStyles.js")(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js!./index.css", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/postcss-loader/lib/index.js!./index.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -1986,1457 +1872,13 @@ exports.default = Security;
 
 /***/ }),
 
-/***/ "./app/page/guestorder/ConditionForm.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__("./node_modules/react/react.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__("./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _moment = __webpack_require__("./node_modules/moment/moment.js");
-
-var _moment2 = _interopRequireDefault(_moment);
-
-var _reactBootstrap = __webpack_require__("./node_modules/react-bootstrap/es/index.js");
-
-var _DateRange = __webpack_require__("./app/component/DateRange.js");
-
-var _DateRange2 = _interopRequireDefault(_DateRange);
-
-var _logger = __webpack_require__("./app/lib/logger.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Condition = function (_Component) {
-  _inherits(Condition, _Component);
-
-  function Condition(props) {
-    _classCallCheck(this, Condition);
-
-    var _this = _possibleConstructorReturn(this, (Condition.__proto__ || Object.getPrototypeOf(Condition)).call(this, props));
-
-    _this.handleSearch = _this.handleSearch.bind(_this);
-    _this.handleInputChange = _this.handleInputChange.bind(_this);
-    _this.handleSelectChange = _this.handleSelectChange.bind(_this);
-    _this.handleCreateStart = _this.handleCreateStart.bind(_this);
-    _this.handleCreateEnd = _this.handleCreateEnd.bind(_this);
-    _this.handleDateChange = _this.handleDateChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(Condition, [{
-    key: 'handleSearch',
-    value: function handleSearch() {
-      this.props.handleSearch(this.state);
-    }
-  }, {
-    key: 'handleDateChange',
-    value: function handleDateChange(name, value) {
-      this.props.handleDateChange(name, value);
-    }
-  }, {
-    key: 'handleCreateStart',
-    value: function handleCreateStart(value, formattedValue) {
-      this.props.handleCreateStart(value, formattedValue);
-    }
-  }, {
-    key: 'handleCreateEnd',
-    value: function handleCreateEnd(value, formattedValue) {
-      this.props.handleCreateEnd(value, formattedValue);
-    }
-  }, {
-    key: 'handleSelectChange',
-    value: function handleSelectChange(event) {
-      var target = event.target;
-      var name = target.name;
-      var value = parseInt(target.value) || 0;
-      this.props.handleSelectChange(_defineProperty({}, name, value));
-    }
-  }, {
-    key: 'handleInputChange',
-    value: function handleInputChange(event) {
-      var target = event.target;
-      var name = target.name;
-      var value = target.value.trim();
-      // this.setState({[name]: target.value});
-      this.props.handleInputChange(_defineProperty({}, name, value));
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var create_start = this.props.create_start && (0, _moment2.default)(this.props.create_start);
-      var create_end = this.props.create_end && (0, _moment2.default)(this.props.create_end);
-      return _react2.default.createElement(
-        _reactBootstrap.Form,
-        { inline: true },
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          { controlId: 'guest_order_no' },
-          _react2.default.createElement(
-            _reactBootstrap.ControlLabel,
-            null,
-            '\u610F\u5411\u5355\u53F7'
-          ),
-          ' ',
-          _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text', name: 'guest_order_no', onChange: this.handleInputChange, value: this.props.guest_order_no, placeholder: '\u610F\u5411\u5355\u53F7' })
-        ),
-        ' ',
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          null,
-          _react2.default.createElement(
-            _reactBootstrap.ControlLabel,
-            null,
-            '\u63D0\u4EA4\u65F6\u95F4'
-          ),
-          ' ',
-          _react2.default.createElement(_DateRange2.default, { startName: 'create_start', endName: 'create_end', endValue: this.props.create_end, handleOnChange: this.handleDateChange, startValue: this.props.create_start })
-        ),
-        ' ',
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          { controlId: 'receipt_name' },
-          _react2.default.createElement(
-            _reactBootstrap.ControlLabel,
-            null,
-            '\u6536\u8D27\u4EBA'
-          ),
-          ' ',
-          _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text', name: 'receipt_name', onChange: this.handleInputChange, value: this.props.receipt_name, placeholder: '\u6536\u8D27\u4EBA' })
-        ),
-        ' ',
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          { controlId: 'receipt_contact' },
-          _react2.default.createElement(
-            _reactBootstrap.ControlLabel,
-            null,
-            '\u8054\u7CFB\u7535\u8BDD'
-          ),
-          ' ',
-          _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text', name: 'receipt_contact', onChange: this.handleInputChange, value: this.props.receipt_contact, placeholder: '\u8054\u7CFB\u7535\u8BDD' })
-        ),
-        ' ',
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          { controlId: 'guest_order_status' },
-          _react2.default.createElement(
-            _reactBootstrap.ControlLabel,
-            null,
-            '\u72B6\u6001'
-          ),
-          ' ',
-          _react2.default.createElement(
-            _reactBootstrap.FormControl,
-            { componentClass: 'select', value: this.props.guest_order_status, onChange: this.handleSelectChange, name: 'guest_order_status', placeholder: '\u72B6\u6001' },
-            _react2.default.createElement(
-              'option',
-              null,
-              '\u8BF7\u9009\u62E9'
-            ),
-            _react2.default.createElement(
-              'option',
-              { value: 1 },
-              '\u5F85\u6307\u5B9A'
-            ),
-            _react2.default.createElement(
-              'option',
-              { value: 2 },
-              '\u5F85\u5904\u7406'
-            ),
-            _react2.default.createElement(
-              'option',
-              { value: 3 },
-              '\u5DF2\u5904\u7406'
-            ),
-            _react2.default.createElement(
-              'option',
-              { value: 4 },
-              '\u5DF2\u53D6\u6D88'
-            ),
-            _react2.default.createElement(
-              'option',
-              { value: 5 },
-              '\u5DF2\u62D2\u7EDD'
-            )
-          )
-        ),
-        ' ',
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          { controlId: 'station_in_sale' },
-          _react2.default.createElement(
-            _reactBootstrap.Button,
-            { bsClass: 'btn btn-main', onClick: this.handleSearch, type: 'button' },
-            '\u67E5\u8BE2'
-          )
-        )
-      );
-    }
-  }]);
-
-  return Condition;
-}(_react.Component);
-
-Condition.propTypes = {
-  create_start: _propTypes2.default.number,
-  create_end: _propTypes2.default.number,
-  guest_order_no: _propTypes2.default.string.isRequired,
-  receipt_name: _propTypes2.default.string.isRequired,
-  receipt_contact: _propTypes2.default.string.isRequired,
-  guest_order_status: _propTypes2.default.number.isRequired,
-  handleSearch: _propTypes2.default.func.isRequired,
-  handleCreateStart: _propTypes2.default.func.isRequired,
-  handleCreateEnd: _propTypes2.default.func.isRequired,
-  handleSelectChange: _propTypes2.default.func.isRequired,
-  handleInputChange: _propTypes2.default.func.isRequired,
-  handleDateChange: _propTypes2.default.func.isRequired
-};
-exports.default = Condition;
-
-/***/ }),
-
-/***/ "./app/page/guestorder/DB.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _ApiMap = __webpack_require__("./app/lib/Api/ApiMap.js");
-
-var _ApiMap2 = _interopRequireDefault(_ApiMap);
-
-var _Util = __webpack_require__("./app/lib/Util.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DB = {
-  shopGuestorderList: (0, _Util.fetchTemplate)(_ApiMap2.default.shopGuestorderList),
-  fetchArealist: (0, _Util.fetchTemplate)(_ApiMap2.default.getArealist),
-  fetchListbyareastation: (0, _Util.fetchTemplate)(_ApiMap2.default.listbyareastation),
-  shopGuestorderAssign: (0, _Util.fetchTemplate)(_ApiMap2.default.shopGuestorderAssign),
-  shopGuestorder: (0, _Util.fetchTemplate)(_ApiMap2.default.shopGuestorder),
-  exportData: (0, _Util.exportTemplate)(_ApiMap2.default.shopGuestorderExport)
-};
-exports.default = DB;
-
-/***/ }),
-
-/***/ "./app/page/guestorder/List.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _localeProvider = __webpack_require__("./node_modules/antd/lib/locale-provider/index.js");
-
-var _localeProvider2 = _interopRequireDefault(_localeProvider);
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-__webpack_require__("./node_modules/antd/lib/locale-provider/style/index.js");
-
-var _react = __webpack_require__("./node_modules/react/react.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__("./node_modules/react-dom/index.js");
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _zh_CN = __webpack_require__("./node_modules/antd/lib/locale-provider/zh_CN.js");
-
-var _zh_CN2 = _interopRequireDefault(_zh_CN);
-
-var _Table = __webpack_require__("./app/component/table/Table.js");
-
-var _Table2 = _interopRequireDefault(_Table);
-
-var _Container = __webpack_require__("./app/component/container/Container.js");
-
-var _Container2 = _interopRequireDefault(_Container);
-
-var _Condition = __webpack_require__("./app/component/condition/Condition.js");
-
-var _Condition2 = _interopRequireDefault(_Condition);
-
-var _pageNation = __webpack_require__("./app/component/pageNation/pageNation.js");
-
-var _pageNation2 = _interopRequireDefault(_pageNation);
-
-var _HecadreListbyarea = __webpack_require__("./app/page/guestorder/hecadreListbyarea/HecadreListbyarea.js");
-
-var _HecadreListbyarea2 = _interopRequireDefault(_HecadreListbyarea);
-
-var _Util = __webpack_require__("./app/lib/Util.js");
-
-var _ConditionForm = __webpack_require__("./app/page/guestorder/ConditionForm.js");
-
-var _ConditionForm2 = _interopRequireDefault(_ConditionForm);
-
-var _DB = __webpack_require__("./app/page/guestorder/DB.js");
-
-var _DB2 = _interopRequireDefault(_DB);
-
-__webpack_require__("./app/page/guestorder/style.css");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-// import {logger} from '../../lib/logger';
-
-
-var GuestorderList = function (_Component) {
-  _inherits(GuestorderList, _Component);
-
-  function GuestorderList(props) {
-    _classCallCheck(this, GuestorderList);
-
-    // list 列参数
-    var _this = _possibleConstructorReturn(this, (GuestorderList.__proto__ || Object.getPrototypeOf(GuestorderList)).call(this, props));
-
-    _this.columns = [{
-      title: '意向单号',
-      key: 'guest_order_no',
-      dataIndex: 'guest_order_no'
-    }, {
-      title: '提交时间',
-      key: 'create_date',
-      dataIndex: 'create_date',
-      render: function render(value) {
-        return (0, _Util.formatDateTime)(value);
-      }
-    }, {
-      title: '金额总计',
-      key: 'guest_order_amount',
-      dataIndex: 'guest_order_amount',
-      render: function render(value) {
-        return (0, _Util.amount_format)(value);
-      }
-    }, {
-      title: '商品数量',
-      key: 'prod_num',
-      dataIndex: 'prod_num'
-    }, {
-      title: '收货人',
-      key: 'receipt_name',
-      dataIndex: 'receipt_name'
-    }, {
-      title: '联系电话',
-      key: 'receipt_contact',
-      dataIndex: 'receipt_contact'
-    }, {
-      title: '地址',
-      key: 'receipt_address',
-      dataIndex: 'receipt_address'
-    }, {
-      title: '指定健管师',
-      key: 'hecadre_assigned',
-      dataIndex: 'hecadre_assigned'
-    }, {
-      title: '状态',
-      key: 'guest_order_status',
-      dataIndex: 'guest_order_status',
-      render: function render(value, row) {
-        if (row.guest_order_status === 1) {
-          return '待指定';
-        }
-        if (row.guest_order_status === 2) {
-          return '待处理';
-        }
-        if (row.guest_order_status === 3) {
-          return '已处理';
-        }
-        if (row.guest_order_status === 4) {
-          return '已取消';
-        }
-        if (row.guest_order_status === 5) {
-          return '已拒绝';
-        }
-        return ' ';
-      }
-    }, {
-      key: 'Operations',
-      title: '操作',
-      render: function render(value, row) {
-        var status = null;
-        if (row.guest_order_status === 1) {
-          status = _react2.default.createElement(
-            'a',
-            { onClick: function onClick(e) {
-                _this.guestorderAssign(e, row);
-              }, href: '#' },
-            '\u6307\u5B9A\u5065\u7BA1\u5E08'
-          );
-        }
-        return _react2.default.createElement(
-          'div',
-          { className: 'optCol' },
-          status,
-          _react2.default.createElement(
-            'a',
-            { href: '#', onClick: function onClick(e) {
-                _this.showGuestorderInfo(e, row);
-              } },
-            '\u8BE6\u60C5'
-          )
-        );
-      }
-    }];
-
-    _this.handleGetPage = _this.handleGetPage.bind(_this);
-    _this.guestorderAssign = _this.guestorderAssign.bind(_this);
-    _this.showGuestorderInfo = _this.showGuestorderInfo.bind(_this);
-    _this.handleExport = _this.handleExport.bind(_this);
-
-    // 列表查询事件
-    _this.handleIndexSearch = _this.handleIndexSearch.bind(_this);
-    _this.handleIndexCreateStart = _this.handleIndexCreateStart.bind(_this);
-    _this.handleIndexCreateEnd = _this.handleIndexCreateEnd.bind(_this);
-    _this.handleIndexSelectChange = _this.handleIndexSelectChange.bind(_this);
-    _this.handleIndexInputChange = _this.handleIndexInputChange.bind(_this);
-    _this.handleIndexDateChange = _this.handleIndexDateChange.bind(_this);
-
-    // 指派健管师
-    _this.handleHecadreSearch = _this.handleHecadreSearch.bind(_this);
-    _this.handleHecadreSelectChange = _this.handleHecadreSelectChange.bind(_this);
-    _this.handleHecadreHideModal = _this.handleHecadreHideModal.bind(_this);
-    _this.handleHecadreGetPage = _this.handleHecadreGetPage.bind(_this);
-    _this.handleassignHecadre = _this.handleassignHecadre.bind(_this);
-
-    _this.province = {};
-    _this.city = {};
-    _this.district = {};
-    _this.street = {};
-    _this.station = {};
-
-    _this.indexViewData = {
-      girdData: [],
-      pageNumber: 1,
-      total: 0,
-      currentPage: 1,
-      search_data: {
-        create_start: null,
-        create_end: null,
-        guest_order_no: '',
-        receipt_name: '',
-        receipt_contact: '',
-        guest_order_status: 0,
-        begin: 0,
-        count: 20
-      }
-    };
-    _this.hecadreViewData = {
-      show: false,
-      guest_order_id: 0,
-      province: [],
-      city: [],
-      district: [],
-      street: [],
-      station: [],
-      girdData: [],
-      pageNumber: 1,
-      currentPage: 1,
-      total: 0,
-      search_data: {
-        province_area_id: 0,
-        city_area_id: 0,
-        district_area_id: 0,
-        street_area_id: 0,
-        station_id: 0,
-        begin: 0,
-        count: 20
-      }
-    };
-    _this.state = {
-      indexViewData: _extends({}, _this.indexViewData),
-      hecadreViewData: _extends({}, _this.hecadreViewData)
-    };
-    return _this;
-  }
-
-  // 显示商品详情
-
-
-  _createClass(GuestorderList, [{
-    key: 'showGuestorderInfo',
-    value: function showGuestorderInfo(e, data) {
-      (0, _Util.createTab)({
-        uri: 'app/dist/guestorder/Info.html',
-        data: {
-          name: '订货意向详情'
-        },
-        key: 'GuestorderInfo'
-      });
-      _Util.Util.data('guestorder/Info', data);
-    }
-
-    // 翻页查询
-
-  }, {
-    key: 'handleGetPage',
-    value: function handleGetPage(_ref) {
-      var _this2 = this;
-
-      var currentPage = _ref.currentPage;
-
-      var indexViewData = this.state.indexViewData;
-      var search_data = _extends({}, indexViewData.search_data, {
-        begin: (currentPage - 1) * indexViewData.search_data.count
-      });
-
-      _DB2.default.shopGuestorderList(search_data).then(function (result) {
-        var pageNumber = Math.ceil(result.total / search_data.count) || 1;
-        _this2.setState({
-          indexViewData: _extends({}, indexViewData, {
-            girdData: result.guest_order_list,
-            total: result.total,
-            currentPage: currentPage,
-            pageNumber: pageNumber,
-            search_data: search_data
-          })
-        });
-      }).catch(function (err) {
-        (0, _Util.alert)(err);
-      });
-    }
-  }, {
-    key: 'fetchArea',
-    value: function fetchArea(province_area_id, city_area_id, district_area_id) {
-      var _this3 = this;
-
-      var fetchProvince = new Promise(function (resolve, reject) {
-        if (_lodash2.default.isEmpty(_this3.province)) {
-          _DB2.default.fetchArealist().then(function (result) {
-            _this3.province = result;
-            resolve(result);
-          }).catch(function (err) {
-            reject(err);
-          });
-        } else {
-          resolve(_this3.province);
-        }
-      });
-
-      var fetchCity = new Promise(function (resolve, reject) {
-        var city = _this3.city;
-        if (!province_area_id) {
-          resolve([]);
-        } else {
-          if (_lodash2.default.isEmpty(city) || _lodash2.default.isEmpty(city[province_area_id])) {
-            _DB2.default.fetchArealist({ area_id_higher: province_area_id }).then(function (result) {
-              city[province_area_id] = result;
-              resolve(result);
-            }).catch(function (err) {
-              reject(err);
-            });
-          } else {
-            resolve(city[province_area_id]);
-          }
-        }
-      });
-
-      var fetchDistrict = new Promise(function (resolve, reject) {
-        var district = _this3.district;
-        if (!city_area_id) {
-          resolve([]);
-        } else {
-          if (_lodash2.default.isEmpty(district) || _lodash2.default.isEmpty(district[city_area_id])) {
-            _DB2.default.fetchArealist({ area_id_higher: city_area_id }).then(function (result) {
-              district[city_area_id] = result;
-              resolve(result);
-            }).catch(function (err) {
-              reject(err);
-            });
-          } else {
-            resolve(district[city_area_id]);
-          }
-        }
-      });
-
-      var fetchStreet = new Promise(function (resolve, reject) {
-        var street = _this3.street;
-        if (!district_area_id) {
-          resolve([]);
-        } else {
-          if (_lodash2.default.isEmpty(street) || _lodash2.default.isEmpty(street[district_area_id])) {
-            _DB2.default.fetchArealist({ area_id_higher: district_area_id }).then(function (result) {
-              street[district_area_id] = result;
-              resolve(result);
-            }).catch(function (err) {
-              reject(err);
-            });
-          } else {
-            resolve(street[district_area_id]);
-          }
-        }
-      });
-
-      return Promise.all([fetchProvince, fetchCity, fetchDistrict, fetchStreet]);
-    }
-
-    // 显示指派健管师弹出框
-
-  }, {
-    key: 'guestorderAssign',
-    value: function guestorderAssign(e, row) {
-      var _this4 = this;
-
-      e.preventDefault();
-      var province_area_id = row.province_area_id,
-          city_area_id = row.city_area_id,
-          district_area_id = row.district_area_id,
-          street_area_id = row.street_area_id;
-
-      this.fetchArea(province_area_id, city_area_id, district_area_id).then(function (_ref2) {
-        var _ref3 = _slicedToArray(_ref2, 4),
-            province = _ref3[0],
-            city = _ref3[1],
-            district = _ref3[2],
-            street = _ref3[3];
-
-        var hecadreViewData = _this4.state.hecadreViewData;
-        var args = _extends({}, hecadreViewData.search_data, {
-          province_area_id: province_area_id,
-          city_area_id: city_area_id,
-          district_area_id: district_area_id,
-          street_area_id: street_area_id,
-          station_id: undefined
-        });
-        _DB2.default.fetchListbyareastation(args).then(function (result) {
-          var pageNumber = Math.ceil(result.total / args.count) || 1;
-          _this4.station[args.street_area_id] = result.station_list;
-          _this4.setState({
-            hecadreViewData: _extends({}, hecadreViewData, {
-              show: true,
-              province: province,
-              city: city,
-              district: district,
-              street: street,
-              guest_order_id: row.guest_order_id,
-              station: result.station_list,
-              girdData: result.hecadre_list,
-              pageNumber: pageNumber,
-              total: result.total,
-              search_data: _extends({}, args)
-            })
-          });
-        }).catch(function (err) {
-          (0, _Util.alert)(err);
-        });
-      });
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.handleIndexSearch();
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var state_hecadreViewData = this.state.hecadreViewData;
-      var hecadreViewData = {
-        show: state_hecadreViewData.show,
-        guest_order_id: state_hecadreViewData.guest_order_id,
-        pageCount: state_hecadreViewData.total,
-        begin: state_hecadreViewData.search_data.begin,
-        currentPage: state_hecadreViewData.currentPage,
-        pageNumber: state_hecadreViewData.pageNumber,
-        province_area_id: state_hecadreViewData.search_data.province_area_id,
-        city_area_id: state_hecadreViewData.search_data.city_area_id,
-        district_area_id: state_hecadreViewData.search_data.district_area_id,
-        street_area_id: state_hecadreViewData.search_data.street_area_id,
-        station_id: state_hecadreViewData.search_data.station_id,
-        province: state_hecadreViewData.province,
-        city: state_hecadreViewData.city,
-        district: state_hecadreViewData.district,
-        street: state_hecadreViewData.street,
-        station: state_hecadreViewData.station,
-        girdData: state_hecadreViewData.girdData,
-        handleSearch: this.handleHecadreSearch,
-        assignHecadre: this.handleassignHecadre,
-        handleSelectChange: this.handleHecadreSelectChange,
-        hideHecadreModal: this.handleHecadreHideModal,
-        handleGetPage: this.handleHecadreGetPage
-      };
-
-      var conditonViewProps = _extends({}, this.state.indexViewData.search_data, {
-        handleSearch: this.handleIndexSearch,
-        handleCreateStart: this.handleIndexCreateStart,
-        handleCreateEnd: this.handleIndexCreateEnd,
-        handleSelectChange: this.handleIndexSelectChange,
-        handleInputChange: this.handleIndexInputChange,
-        handleDateChange: this.handleIndexDateChange
-      });
-      return _react2.default.createElement(
-        _Container2.default,
-        { className: 'p20', title: '订货意向管理' },
-        _react2.default.createElement(
-          _Condition2.default,
-          null,
-          _react2.default.createElement(
-            'div',
-            { className: 'pull-left' },
-            _react2.default.createElement(_ConditionForm2.default, conditonViewProps)
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'pull-right' },
-            _react2.default.createElement(
-              'button',
-              { className: 'btn btn-main', onClick: this.handleExport },
-              '\u5BFC\u51FA'
-            )
-          )
-        ),
-        _react2.default.createElement(_Table2.default, { rowKey: 'guest_order_id', columns: this.columns, data: this.state.indexViewData.girdData }),
-        _react2.default.createElement(_pageNation2.default, { pageCount: this.state.indexViewData.total, getPage: this.handleGetPage, currentPage: this.state.indexViewData.currentPage, pageNumber: this.state.indexViewData.pageNumber }),
-        _react2.default.createElement(_HecadreListbyarea2.default, hecadreViewData)
-      );
-    }
-  }, {
-    key: 'handleExport',
-    value: function handleExport() {
-      var search_data = this.state.indexViewData.search_data;
-      _DB2.default.exportData(search_data).then(function (result) {
-        (0, _Util.downloadExcel)(result, '订货意向');
-      });
-    }
-
-    // 指派健管师
-
-  }, {
-    key: 'handleassignHecadre',
-    value: function handleassignHecadre(args) {
-      var _this5 = this;
-
-      if (args.hecadre_uid) {
-        _DB2.default.shopGuestorderAssign({ guest_order_id: args.guest_order_id, hecadre_uid: args.hecadre_uid }).then(function () {
-          _this5.handleIndexSearch();
-          _this5.handleHecadreHideModal();
-        }).catch(function (err) {
-          (0, _Util.alert)(err);
-        });
-      } else {
-        (0, _Util.alert)('请选择健管师');
-      }
-    }
-  }, {
-    key: 'handleHecadreSearch',
-    value: function handleHecadreSearch() {
-      var _this6 = this;
-
-      var hecadreViewData = this.state.hecadreViewData;
-      var search_data = _extends({}, hecadreViewData.search_data, {
-        begin: 0
-      });
-      _DB2.default.fetchListbyareastation(search_data).then(function (result) {
-        // debugger;
-        var pageNumber = Math.ceil(result.total / search_data.count) || 1;
-        _this6.station[search_data.street_area_id] = result.station_list;
-        var _hecadreViewData = _extends({}, hecadreViewData, {
-          girdData: result.hecadre_list || [],
-          total: result.total,
-          pageNumber: pageNumber,
-          currentPage: 1,
-          search_data: search_data
-        });
-        if (!search_data.station_id) {
-          hecadreViewData['station'] = result.station_list;
-        }
-        _this6.setState({ hecadreViewData: _hecadreViewData });
-      }).catch(function (err) {
-        (0, _Util.alert)(err);
-      });
-    }
-  }, {
-    key: 'handleHecadreSelectChange',
-    value: function handleHecadreSelectChange(selectData) {
-      var _this7 = this;
-
-      var hecadreViewData = this.state.hecadreViewData;
-      var search_data = _extends({}, hecadreViewData.search_data, selectData);
-      // 把当前区域下面区的置空
-      var areaArr = ['province_area_id', 'city_area_id', 'district_area_id', 'street_area_id', 'station_id'];
-      var area = _lodash2.default.keys(selectData)[0];
-      var index = _lodash2.default.findIndex(areaArr, function (item) {
-        return item === area;
-      });
-      if (index > -1) {
-        for (var i = index + 1; i < areaArr.length; i++) {
-          search_data[areaArr[i]] = 0;
-        }
-      }
-
-      // 省市区级联
-      // 当选择区时，查询列表获取卫生站信息。
-      this.fetchArea(search_data.province_area_id, search_data.city_area_id, search_data.district_area_id).then(function (_ref4) {
-        var _ref5 = _slicedToArray(_ref4, 4),
-            province = _ref5[0],
-            city = _ref5[1],
-            district = _ref5[2],
-            street = _ref5[3];
-
-        if (index === 3) {
-          // const hecadreViewData = this.state.hecadreViewData;
-          var search_data2 = _extends({}, hecadreViewData.search_data, search_data);
-          if (_this7.station[search_data2.street_area_id]) {
-            _this7.setState({
-              hecadreViewData: _extends({}, _this7.state.hecadreViewData, {
-                station: _this7.station[search_data2.street_area_id],
-                search_data: search_data2
-              })
-            });
-          } else {
-            _DB2.default.fetchListbyareastation(search_data2).then(function (result) {
-              _this7.station[search_data2.street_area_id] = result.station_list;
-              _this7.setState({
-                hecadreViewData: _extends({}, _this7.state.hecadreViewData, {
-                  station: result.station_list || [],
-                  search_data: search_data2
-                })
-              });
-            }).catch(function (err) {
-              (0, _Util.alert)(err);
-            });
-          }
-        } else {
-          _this7.setState({
-            hecadreViewData: _extends({}, hecadreViewData, {
-              show: true,
-              province: province,
-              city: city,
-              district: district,
-              street: street,
-              // station: [],
-              search_data: search_data
-            })
-          });
-        }
-      });
-    }
-  }, {
-    key: 'handleHecadreHideModal',
-    value: function handleHecadreHideModal() {
-      this.setState({
-        hecadreViewData: _extends({}, this.hecadreViewData, {
-          show: false
-        })
-      });
-    }
-  }, {
-    key: 'handleHecadreGetPage',
-    value: function handleHecadreGetPage(_ref6) {
-      var _this8 = this;
-
-      var currentPage = _ref6.currentPage;
-
-      var hecadreViewData = this.state.hecadreViewData;
-      var search_data = _extends({}, hecadreViewData.search_data, {
-        begin: (currentPage - 1) * hecadreViewData.search_data.count
-      });
-      _DB2.default.fetchListbyareastation(search_data).then(function (result) {
-        var pageNumber = Math.ceil(result.total / search_data.count) || 1;
-        _this8.setState({
-          hecadreViewData: _extends({}, _this8.state.hecadreViewData, {
-            girdData: result.hecadre_list,
-            // station: result.station_list,
-            total: result.total,
-            currentPage: currentPage,
-            pageNumber: pageNumber,
-            pageCode: pageNumber,
-            search_data: search_data
-          })
-        });
-      }).catch(function (err) {
-        (0, _Util.alert)(err);
-      });
-    }
-
-    // 列表查询事件
-
-  }, {
-    key: 'handleIndexSearch',
-    value: function handleIndexSearch() {
-      var _this9 = this;
-
-      // const condition = this.state.indexViewData.search_data;
-      var indexViewData = this.state.indexViewData;
-      var search_data = _extends({}, indexViewData.search_data, {
-        begin: 0
-      });
-      _DB2.default.shopGuestorderList(search_data).then(function (result) {
-        var pageNumber = Math.ceil(result.total / search_data.count) || 1;
-        _this9.setState({
-          indexViewData: _extends({}, indexViewData, {
-            girdData: result.guest_order_list,
-            total: result.total,
-            pageNumber: pageNumber,
-            currentPage: 1,
-            search_data: search_data
-          })
-        });
-      }).catch(function (err) {
-        (0, _Util.alert)(err);
-      });
-    }
-  }, {
-    key: 'handleIndexCreateStart',
-    value: function handleIndexCreateStart(value, formattedValue) {
-      this.setState({
-        indexViewData: _extends({}, this.state.indexViewData, {
-          search_data: _extends({}, this.state.indexViewData.search_data, {
-            create_start: +new Date(formattedValue) || null
-          })
-        })
-      });
-    }
-  }, {
-    key: 'handleIndexCreateEnd',
-    value: function handleIndexCreateEnd(value, formattedValue) {
-      this.setState({
-        indexViewData: _extends({}, this.state.indexViewData, {
-          search_data: _extends({}, this.state.indexViewData.search_data, {
-            create_end: +new Date(formattedValue) || null
-          })
-        })
-      });
-    }
-  }, {
-    key: 'handleIndexSelectChange',
-    value: function handleIndexSelectChange(selectData) {
-      this.setState({
-        indexViewData: _extends({}, this.state.indexViewData, {
-          search_data: _extends({}, this.state.indexViewData.search_data, selectData)
-        })
-      });
-    }
-  }, {
-    key: 'handleIndexInputChange',
-    value: function handleIndexInputChange(selectData) {
-      this.setState({
-        indexViewData: _extends({}, this.state.indexViewData, {
-          search_data: _extends({}, this.state.indexViewData.search_data, selectData)
-        })
-      });
-    }
-  }, {
-    key: 'handleIndexDateChange',
-    value: function handleIndexDateChange(name, value) {
-      this.setState({
-        indexViewData: _extends({}, this.state.indexViewData, {
-          search_data: _extends({}, this.state.indexViewData.search_data, _defineProperty({}, name, +new Date(value) || null))
-        })
-      });
-    }
-  }]);
-
-  return GuestorderList;
-}(_react.Component);
-
-_reactDom2.default.render(_react2.default.createElement(
-  _localeProvider2.default,
-  { locale: _zh_CN2.default },
-  _react2.default.createElement(GuestorderList, null)
-), document.getElementById('__guestorder/List__'));
-
-/***/ }),
-
-/***/ "./app/page/guestorder/hecadreListbyarea/ConditionForm.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__("./node_modules/react/react.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _logger = __webpack_require__("./app/lib/logger.js");
-
-var _ApiMap = __webpack_require__("./app/lib/Api/ApiMap.js");
-
-var _ApiMap2 = _interopRequireDefault(_ApiMap);
-
-var _http = __webpack_require__("./app/lib/Api/http.js");
-
-var _http2 = _interopRequireDefault(_http);
-
-var _Util = __webpack_require__("./app/lib/Util.js");
-
-var _propTypes = __webpack_require__("./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _reactBootstrap = __webpack_require__("./node_modules/react-bootstrap/es/index.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Condition = function (_Component) {
-  _inherits(Condition, _Component);
-
-  function Condition(props) {
-    _classCallCheck(this, Condition);
-
-    var _this = _possibleConstructorReturn(this, (Condition.__proto__ || Object.getPrototypeOf(Condition)).call(this, props));
-
-    _this.handleSearch = _this.handleSearch.bind(_this);
-    _this.handleSelectChange = _this.handleSelectChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(Condition, [{
-    key: 'handleSearch',
-    value: function handleSearch() {
-      (0, _logger.logger)(this.state);
-      this.props.handleSearch(this.state);
-    }
-  }, {
-    key: 'getData',
-    value: function getData() {
-      return _lodash2.default.pick(this.state, ['province_area_id', 'city_area_id', 'district_area_id', 'street_area_id', 'station_id']);
-    }
-  }, {
-    key: 'handleSelectChange',
-    value: function handleSelectChange(event) {
-      var target = event.target;
-      var name = target.name;
-      var value = parseInt(target.value) || 0;
-      this.props.handleSelectChange(_defineProperty({}, name, value));
-      // this.setState({[name]: value});
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        _reactBootstrap.Form,
-        { inline: true },
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          { controlId: 'province_area_id' },
-          _react2.default.createElement(
-            _reactBootstrap.ControlLabel,
-            null,
-            '\u9009\u62E9\u793E\u533A\u536B\u751F\u7AD9'
-          ),
-          ' ',
-          _react2.default.createElement(
-            _reactBootstrap.FormControl,
-            { componentClass: 'select', value: this.props.province_area_id, onChange: this.handleSelectChange, name: 'province_area_id', placeholder: '\u7701' },
-            _react2.default.createElement(
-              'option',
-              null,
-              '\u8BF7\u9009\u62E9'
-            ),
-            this.props.province.map(function (item) {
-              return _react2.default.createElement(
-                'option',
-                { key: item.area_id, value: item.area_id },
-                item.area_name
-              );
-            }),
-            _react2.default.createElement(
-              'option',
-              null,
-              '\u7701'
-            )
-          )
-        ),
-        ' ',
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          { controlId: 'city_area_id' },
-          _react2.default.createElement(
-            _reactBootstrap.FormControl,
-            { componentClass: 'select', value: this.props.city_area_id, onChange: this.handleSelectChange, name: 'city_area_id', placeholder: '\u5E02' },
-            _react2.default.createElement(
-              'option',
-              null,
-              '\u8BF7\u9009\u62E9'
-            ),
-            this.props.city.map(function (item) {
-              return _react2.default.createElement(
-                'option',
-                { key: item.area_id, value: item.area_id },
-                item.area_name
-              );
-            })
-          )
-        ),
-        ' ',
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          { controlId: 'district_area_id' },
-          _react2.default.createElement(
-            _reactBootstrap.FormControl,
-            { componentClass: 'select', value: this.props.district_area_id, onChange: this.handleSelectChange, name: 'district_area_id', placeholder: '\u533A/\u53BF' },
-            _react2.default.createElement(
-              'option',
-              null,
-              '\u8BF7\u9009\u62E9'
-            ),
-            this.props.district.map(function (item) {
-              return _react2.default.createElement(
-                'option',
-                { key: item.area_id, value: item.area_id },
-                item.area_name
-              );
-            })
-          )
-        ),
-        ' ',
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          { controlId: 'street_area_id' },
-          _react2.default.createElement(
-            _reactBootstrap.FormControl,
-            { componentClass: 'select', value: this.props.street_area_id, onChange: this.handleSelectChange, name: 'street_area_id', placeholder: '\u8857\u9053' },
-            _react2.default.createElement(
-              'option',
-              null,
-              '\u8BF7\u9009\u62E9'
-            ),
-            this.props.street.map(function (item) {
-              return _react2.default.createElement(
-                'option',
-                { key: item.area_id, value: item.area_id },
-                item.area_name
-              );
-            })
-          )
-        ),
-        ' ',
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          { controlId: 'station_id' },
-          _react2.default.createElement(
-            _reactBootstrap.FormControl,
-            { componentClass: 'select', value: this.props.station_id, onChange: this.handleSelectChange, name: 'station_id', placeholder: '\u5355\u4F4D' },
-            _react2.default.createElement(
-              'option',
-              null,
-              '\u8BF7\u9009\u62E9'
-            ),
-            this.props.station.map(function (item) {
-              return _react2.default.createElement(
-                'option',
-                { key: item.station_id, value: item.station_id },
-                item.station_name
-              );
-            })
-          )
-        ),
-        ' ',
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          null,
-          _react2.default.createElement(
-            _reactBootstrap.Button,
-            { bsClass: 'btn btn-main', onClick: this.handleSearch, type: 'button' },
-            '\u67E5\u8BE2'
-          )
-        )
-      );
-    }
-  }]);
-
-  return Condition;
-}(_react.Component);
-
-Condition.propTypes = {
-  province_area_id: _propTypes2.default.number,
-  city_area_id: _propTypes2.default.number,
-  district_area_id: _propTypes2.default.number,
-  street_area_id: _propTypes2.default.number,
-  station_id: _propTypes2.default.number,
-  province: _propTypes2.default.array.isRequired,
-  city: _propTypes2.default.array.isRequired,
-  district: _propTypes2.default.array.isRequired,
-  street: _propTypes2.default.array.isRequired,
-  station: _propTypes2.default.array.isRequired,
-  handleSearch: _propTypes2.default.func.isRequired,
-  handleSelectChange: _propTypes2.default.func.isRequired
-};
-
-exports.default = Condition;
-
-/***/ }),
-
-/***/ "./app/page/guestorder/hecadreListbyarea/HecadreListbyarea.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__("./node_modules/react/react.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__("./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _reactBootstrap = __webpack_require__("./node_modules/react-bootstrap/es/index.js");
-
-var _logger = __webpack_require__("./app/lib/logger.js");
-
-var _Table = __webpack_require__("./app/component/table/Table.js");
-
-var _Table2 = _interopRequireDefault(_Table);
-
-var _ConditionForm = __webpack_require__("./app/page/guestorder/hecadreListbyarea/ConditionForm.js");
-
-var _ConditionForm2 = _interopRequireDefault(_ConditionForm);
-
-var _pageNation = __webpack_require__("./app/component/pageNation/pageNation.js");
-
-var _pageNation2 = _interopRequireDefault(_pageNation);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-// import _ from 'lodash';
-
-// import {alert} from '../../../lib/Util';
-
-
-var HecadreListbyarea = function (_Component) {
-  _inherits(HecadreListbyarea, _Component);
-
-  function HecadreListbyarea(props) {
-    _classCallCheck(this, HecadreListbyarea);
-
-    var _this = _possibleConstructorReturn(this, (HecadreListbyarea.__proto__ || Object.getPrototypeOf(HecadreListbyarea)).call(this, props));
-
-    _this.columns = [{
-      title: '',
-      dataIndex: 'hecadre_uid',
-      key: 'hecadre_uid',
-      align: 'center',
-      render: function render(value, row) {
-        return _react2.default.createElement('input', { type: 'radio', value: row.hecadre_uid, onClick: function onClick(e) {
-            _this.handleRadioCheck(e);
-          }, name: 'hecadre_uid' });
-      }
-    }, {
-      title: '姓名',
-      dataIndex: 'hecadre_name',
-      key: 'hecadre_name'
-    }, {
-      title: '性别',
-      dataIndex: 'hecadre_sex',
-      key: 'hecadre_sex'
-    }, {
-      title: '单位',
-      dataIndex: 'hecadre_station',
-      key: 'hecadre_station'
-    }, {
-      title: '科室',
-      dataIndex: 'hecadre_department',
-      key: 'hecadre_department'
-    }, {
-      title: '职务',
-      dataIndex: 'hecadre_title',
-      key: 'hecadre_title'
-    }, {
-      title: '全/兼职',
-      dataIndex: 'hecadre_worktype',
-      key: 'hecadre_worktype'
-    }];
-    _this.checkValue = '';
-    _this.handleRadioCheck = _this.handleRadioCheck.bind(_this);
-    _this.hideHecadreModal = _this.hideHecadreModal.bind(_this);
-    _this.assignHecadre = _this.assignHecadre.bind(_this);
-    _this.handleSelectChange = _this.handleSelectChange.bind(_this);
-    _this.handleGetPage = _this.handleGetPage.bind(_this);
-    return _this;
-  }
-
-  _createClass(HecadreListbyarea, [{
-    key: 'assignHecadre',
-    value: function assignHecadre() {
-      this.props.assignHecadre({
-        hecadre_uid: this.checkValue,
-        guest_order_id: this.props.guest_order_id
-      });
-    }
-  }, {
-    key: 'handleRadioCheck',
-    value: function handleRadioCheck(e) {
-      this.checkValue = parseInt(e.target.value);
-      (0, _logger.logger)(this.checkValue);
-    }
-  }, {
-    key: 'handleGetPage',
-    value: function handleGetPage(pageArgs) {
-      this.props.handleGetPage(pageArgs);
-    }
-  }, {
-    key: 'handleSelectChange',
-    value: function handleSelectChange() {
-      this.props.handleSelectChange();
-    }
-  }, {
-    key: 'hideHecadreModal',
-    value: function hideHecadreModal() {
-      this.props.hideHecadreModal();
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      this.checkValue = '';
-      debugger;
-      return _react2.default.createElement(
-        _reactBootstrap.Modal,
-        { bsSize: 'large', show: this.props.show },
-        _react2.default.createElement(
-          _reactBootstrap.Modal.Header,
-          null,
-          _react2.default.createElement(
-            _reactBootstrap.Modal.Title,
-            null,
-            '\u6307\u5B9A\u5065\u7BA1\u5E08'
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Modal.Body,
-          null,
-          _react2.default.createElement(
-            _reactBootstrap.Grid,
-            { className: 'modalbody-container' },
-            _react2.default.createElement(
-              _reactBootstrap.Row,
-              { className: 'show-grid padding-align' },
-              _react2.default.createElement(
-                _reactBootstrap.Col,
-                { xs: 12, md: 12 },
-                _react2.default.createElement(_ConditionForm2.default, this.props)
-              )
-            ),
-            _react2.default.createElement(
-              _reactBootstrap.Row,
-              { className: 'show-grid' },
-              _react2.default.createElement(
-                _reactBootstrap.Col,
-                { xs: 12, md: 12 },
-                _react2.default.createElement(_Table2.default, { rowKey: 'hecadre_uid', columns: this.columns, data: this.props.girdData }),
-                _react2.default.createElement(_pageNation2.default, { pageCount: this.props.pageCount, getPage: this.handleGetPage, currentPage: this.props.currentPage, pageNumber: this.props.pageNumber })
-              )
-            )
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Modal.Footer,
-          null,
-          _react2.default.createElement(
-            _reactBootstrap.Button,
-            { onClick: this.hideHecadreModal },
-            '\u53D6\u6D88'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Button,
-            { className: 'btn btn-main', onClick: this.assignHecadre },
-            '\u786E\u8BA4'
-          )
-        )
-      );
-    }
-  }]);
-
-  return HecadreListbyarea;
-}(_react.Component);
-
-_ConditionForm2.default.propTypes = {
-  show: _propTypes2.default.bool.isRequired,
-  begin: _propTypes2.default.number.isRequired,
-  currentPage: _propTypes2.default.number.isRequired,
-  pageNumber: _propTypes2.default.number.isRequired,
-  guest_order_id: _propTypes2.default.number.isRequired,
-  girdData: _propTypes2.default.array.isRequired,
-  assignHecadre: _propTypes2.default.func.isRequired,
-  handleSelectChange: _propTypes2.default.func.isRequired,
-  hideHecadreModal: _propTypes2.default.func.isRequired,
-  handleGetPage: _propTypes2.default.func.isRequired
-};
-
-exports.default = HecadreListbyarea;
-
-/***/ }),
-
-/***/ "./app/page/guestorder/style.css":
+/***/ "./app/lib/styles/index.css":
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/postcss-loader/lib/index.js!./app/page/guestorder/style.css");
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/postcss-loader/lib/index.js!./app/lib/styles/index.css");
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -3450,8 +1892,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js!./style.css", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js!./style.css");
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js!./index.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/postcss-loader/lib/index.js!./index.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -3459,6 +1901,446 @@ if(false) {
 	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
+
+/***/ }),
+
+/***/ "./app/page/salesStats/salesStats3.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _localeProvider = __webpack_require__("./node_modules/antd/lib/locale-provider/index.js");
+
+var _localeProvider2 = _interopRequireDefault(_localeProvider);
+
+var _datePicker = __webpack_require__("./node_modules/antd/lib/date-picker/index.js");
+
+var _datePicker2 = _interopRequireDefault(_datePicker);
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+__webpack_require__("./node_modules/antd/lib/locale-provider/style/index.js");
+
+__webpack_require__("./node_modules/antd/lib/date-picker/style/index.js");
+
+var _react = __webpack_require__("./node_modules/react/react.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__("./node_modules/react-dom/index.js");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _moment = __webpack_require__("./node_modules/moment/moment.js");
+
+var _moment2 = _interopRequireDefault(_moment);
+
+__webpack_require__("./node_modules/moment/locale/zh-cn.js");
+
+var _zh_CN = __webpack_require__("./node_modules/antd/lib/locale-provider/zh_CN.js");
+
+var _zh_CN2 = _interopRequireDefault(_zh_CN);
+
+var _salesData = __webpack_require__("./app/component/salesData/index.js");
+
+var _salesData2 = _interopRequireDefault(_salesData);
+
+var _Table = __webpack_require__("./app/component/table/Table.js");
+
+var _Table2 = _interopRequireDefault(_Table);
+
+var _pageNation = __webpack_require__("./app/component/pageNation/pageNation.js");
+
+var _pageNation2 = _interopRequireDefault(_pageNation);
+
+var _http = __webpack_require__("./app/lib/Api/http.js");
+
+var _http2 = _interopRequireDefault(_http);
+
+var _ApiMap = __webpack_require__("./app/lib/Api/ApiMap.js");
+
+var _ApiMap2 = _interopRequireDefault(_ApiMap);
+
+var _Util = __webpack_require__("./app/lib/Util.js");
+
+__webpack_require__("./app/lib/styles/index.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+_moment2.default.locale('zh-cn');
+// import DatePicker from "react-bootstrap-date-picker";
+
+var SalesStats = function (_Component) {
+    _inherits(SalesStats, _Component);
+
+    function SalesStats(props) {
+        _classCallCheck(this, SalesStats);
+
+        var _this = _possibleConstructorReturn(this, (SalesStats.__proto__ || Object.getPrototypeOf(SalesStats)).call(this, props));
+
+        _this.columns = [{
+            className: 'my-col-class',
+            title: '名称',
+            dataIndex: 'stat_name',
+            key: 'a'
+        }, {
+            className: 'my-col-class',
+            id: '123',
+            title: '订单金额(元)',
+            dataIndex: 'stat_sale',
+            key: 'b'
+        }, {
+            className: 'my-col-class',
+            title: '商品数量',
+            dataIndex: 'stat_prod_num',
+            key: 'c'
+        }, {
+            className: 'my-col-class',
+            title: '购买人次',
+            dataIndex: 'stat_order_num',
+            key: 'd'
+        }, {
+            className: 'my-col-class',
+            title: '操作',
+            dataIndex: 'e',
+            key: 'e',
+            render: function render(text, record) {
+                return _react2.default.createElement(
+                    'a',
+                    { onClick: function onClick(e) {
+                            return _this.createTab(record.stat_id, e);
+                        }, href: 'javascript:;' },
+                    '\u8BE6\u60C5'
+                );
+            }
+        }];
+        _this.state = {
+            totalSale: 0,
+            totalProdNum: 0,
+            totalOrderNum: 0,
+            total: 0,
+            pageNum: 0,
+            pageCount: 10,
+            currentPage: 1,
+            beginNum: 0,
+            startTime: (0, _Util.setInitDate)().startTime,
+            endTime: (0, _Util.setInitDate)().endTime,
+            format: "YYYY-MM-DD",
+            orgId: 0,
+            tableData: []
+        };
+
+        _this.handleStartTimeChange = _this.handleStartTimeChange.bind(_this);
+        _this.handleEndTimeChange = _this.handleEndTimeChange.bind(_this);
+        _this.handleClickSearch = _this.handleClickSearch.bind(_this);
+        _this.handleClickExport = _this.handleClickExport.bind(_this);
+        _this.handleTogglePage = _this.handleTogglePage.bind(_this);
+        return _this;
+    }
+
+    _createClass(SalesStats, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            var _this2 = this;
+
+            console.log(common.Util.data('parms'));
+
+            if (!common.Util.data('parms') || !common.Util.data('parms').orgId) {
+                this.setState({
+                    orgId: 0
+                }, function () {
+                    _this2.getShopSaleStat();
+                });
+            } else {
+                this.setState({
+                    orgId: common.Util.data('parms').orgId
+                }, function () {
+                    _this2.getShopSaleStat();
+                });
+            }
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var aEle = document.getElementById('tab-li-__salesStats-salesStats__').getElementsByClassName('tab-i-close js-tab-close');
+            function cleanParms() {
+                common.Util.data('parms', {
+                    orgId: 0
+                });
+            }
+            for (var i = 0; i < aEle.length; i++) {
+                aEle[i].addEventListener("click", cleanParms, false);
+            }
+        }
+
+        // 获取销售统计
+
+    }, {
+        key: 'getShopSaleStat',
+        value: function getShopSaleStat() {
+            var _this3 = this;
+
+            var _state = this.state,
+                startTime = _state.startTime,
+                endTime = _state.endTime,
+                pageCount = _state.pageCount,
+                currentPage = _state.currentPage,
+                orgId = _state.orgId,
+                beginNum = _state.beginNum;
+
+            var parms = _extends({}, _ApiMap2.default.commonData, {
+                org_id: orgId,
+                stat_start: (0, _Util.getTimestamp)(startTime),
+                stat_end: (0, _Util.getTimestamp)(endTime) + 86400000,
+                begin: beginNum,
+                count: pageCount
+            });
+            if (orgId === 0) {
+                delete parms.org_id;
+            }
+
+            (0, _http2.default)({
+                url: _ApiMap2.default.getShopSaleStat.url,
+                method: _ApiMap2.default.getShopSaleStat.method,
+                data: parms
+            }).then(function (res) {
+                if (res.data.ret_code === 1) {
+                    var resData = res.data.ret_data;
+                    console.log(resData);
+                    _this3.setState({
+                        pageNum: Math.ceil(resData.total / pageCount),
+                        totalSale: (0, _Util.toThousands)(resData.total_sale, 2),
+                        totalProdNum: resData.total_prod_num,
+                        totalOrderNum: resData.total_order_num,
+                        orgId: resData.org_id,
+                        total: resData.total,
+                        tableData: resData.stat_list.map(function (item, index) {
+                            item.key = (currentPage - 1) * pageCount + index + 1;
+                            item.stat_sale = (0, _Util.toThousands)(item.stat_sale, 2);
+                            return item;
+                        })
+                    });
+                } else {
+                    common.alert(res.data.ret_msg);
+                }
+            }, function (error) {
+                common.alert(error);
+            });
+        }
+    }, {
+        key: 'handleStartTimeChange',
+        value: function handleStartTimeChange(value, formattedValue) {
+            this.setState({
+                startTime: formattedValue
+            });
+        }
+    }, {
+        key: 'handleEndTimeChange',
+        value: function handleEndTimeChange(value, formattedValue) {
+            this.setState({
+                endTime: formattedValue
+            });
+        }
+    }, {
+        key: 'handleClickSearch',
+        value: function handleClickSearch() {
+            var _this4 = this;
+
+            var _state2 = this.state,
+                startTime = _state2.startTime,
+                endTime = _state2.endTime;
+
+            if ((0, _Util.getTimestamp)(startTime) > (0, _Util.getTimestamp)(endTime)) {
+                common.alert('开始时间不能晚于结束时间');
+                return;
+            } else {
+                this.setState({
+                    currentPage: 1
+                }, function () {
+                    _this4.setState({
+                        beginNum: (_this4.state.currentPage - 1) * _this4.state.pageCount
+                    }, function () {
+                        _this4.getShopSaleStat();
+                    });
+                });
+            }
+        }
+
+        // 导出销售统计
+
+    }, {
+        key: 'handleClickExport',
+        value: function handleClickExport() {
+            var _state3 = this.state,
+                startTime = _state3.startTime,
+                endTime = _state3.endTime,
+                orgId = _state3.orgId;
+
+            var parms = _extends({}, _ApiMap2.default.commonData, {
+                org_id: orgId,
+                stat_start: (0, _Util.getTimestamp)(startTime),
+                stat_end: (0, _Util.getTimestamp)(endTime) + 86400000
+            });
+            if (orgId === 0) {
+                delete parms.org_id;
+            }
+            (0, _http2.default)({
+                url: _ApiMap2.default.shopSaleStatExport.url,
+                method: _ApiMap2.default.shopSaleStatExport.method,
+                data: parms,
+                responseType: 'blob'
+            }).then(function (res) {
+                (0, _Util.downloadExcel)(res.data, '销售统计');
+            }, function (error) {
+                common.alert(error);
+            });
+        }
+    }, {
+        key: 'handleTogglePage',
+        value: function handleTogglePage(ev) {
+            var _this5 = this;
+
+            console.log(this.state.currentPage);
+            console.log(ev);
+            this.setState({
+                currentPage: ev.currentPage
+            }, function () {
+                _this5.setState({
+                    beginNum: (_this5.state.currentPage - 1) * _this5.state.pageCount
+                }, function () {
+                    _this5.getShopSaleStat();
+                });
+            });
+        }
+    }, {
+        key: 'createTab',
+        value: function createTab(id, e) {
+            common.createTab({
+                uri: 'app/dist/salesStats/salesStats4.html',
+                data: {
+                    name: '销售统计'
+                },
+                key: 'salesStats-salesStats4'
+            });
+            common.Util.data('parms', {
+                orgId: id
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _state4 = this.state,
+                totalSale = _state4.totalSale,
+                totalProdNum = _state4.totalProdNum,
+                totalOrderNum = _state4.totalOrderNum,
+                startTime = _state4.startTime,
+                endTime = _state4.endTime,
+                format = _state4.format,
+                inputFormat = _state4.inputFormat,
+                mode = _state4.mode,
+                pageNum = _state4.pageNum,
+                currentPage = _state4.currentPage,
+                tableData = _state4.tableData,
+                total = _state4.total;
+
+            var columns = this.columns;
+            var start = startTime && (0, _moment2.default)(new Date((0, _Util.getTimestamp)(startTime)));
+            var end = endTime && (0, _moment2.default)(new Date((0, _Util.getTimestamp)(endTime)));
+            return _react2.default.createElement(
+                'div',
+                { className: 'wrap hospital' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'tb-head' },
+                    '\u9500\u552E\u7EDF\u8BA1'
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'tb-content' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'tb-wrap' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'clearfix pdtb' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'pull-left' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'date-wrap' },
+                                    _react2.default.createElement(_datePicker2.default, {
+                                        value: start,
+                                        dateFormat: format,
+                                        onChange: this.handleStartTimeChange
+                                    })
+                                ),
+                                '\xA0\xA0\xA0\xA0-\xA0\xA0\xA0\xA0',
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'date-wrap' },
+                                    _react2.default.createElement(_datePicker2.default, {
+                                        value: end,
+                                        dateFormat: format,
+                                        onChange: this.handleEndTimeChange
+                                    })
+                                ),
+                                '\xA0\xA0\xA0\xA0\xA0\xA0',
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-main', id: 'js-search', onClick: this.handleClickSearch },
+                                    '\u67E5\u8BE2'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'pull-right' },
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-main', id: 'btn-export', onClick: this.handleClickExport },
+                                    '\u5BFC\u51FA'
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(_salesData2.default, {
+                            totalAmount: totalSale,
+                            totalGoods: totalProdNum,
+                            totalPerson: totalOrderNum
+                        }),
+                        _react2.default.createElement(_Table2.default, {
+                            rowClassName: 'my-row-class',
+                            columns: columns,
+                            data: tableData
+                        }),
+                        tableData.length !== 0 ? _react2.default.createElement(_pageNation2.default, {
+                            pageCount: total,
+                            pageNumber: pageNum,
+                            currentPage: currentPage,
+                            getPage: this.handleTogglePage
+                        }) : null
+                    )
+                )
+            );
+        }
+    }]);
+
+    return SalesStats;
+}(_react.Component);
+
+_reactDom2.default.render(_react2.default.createElement(
+    _localeProvider2.default,
+    { locale: _zh_CN2.default },
+    _react2.default.createElement(SalesStats, null)
+), document.getElementById('__salesStats/salesStats3__'));
 
 /***/ }),
 
@@ -5987,7 +4869,7 @@ exports.push([module.i, ".pd20{padding:20px 0}.pageNation{margin:0;padding:0;fon
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/lib/index.js!./app/page/guestorder/style.css":
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/lib/index.js!./app/component/salesData/style/index.css":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(undefined);
@@ -5995,7 +4877,22 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".guestorder-prod{height:100px;line-height:100px}", ""]);
+exports.push([module.i, ".sales-data{width:100%;border:1px solid #eee;padding:20px 0;margin-bottom:30px}.sales-data:after{content:\" \";display:table;clear:both}.sales-data .item{width:33.333333%;float:left;text-align:center}.sales-data .item p{font-size:30px;font-weight:700;color:#c00}.sales-data .item span,.sales-data .item sub{font-size:12px}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/lib/index.js!./app/lib/styles/index.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".pdtb{padding:20px 0}.date-wrap{display:inline-block;vertical-align:middle}.date-wrap>div{position:relative}.date-wrap>div .bootstrap-datetimepicker-widget{z-index:1}.date-wrap>div .bootstrap-datetimepicker-widget .switch{text-align:center}.form-group{margin:0;padding:10px 0;border-bottom:1px solid #e5e5e5}.prod-list{margin:0;padding:0}.prod-list li{border-bottom:1px solid #e5e5e5}.list-title,.list-total,.prod-list li{padding:10px 0}.list-title span,.prod-col{width:26%;float:left;text-align:center}.list-title span:first-child,.prod-col:first-child{width:48%}.prod-col.tal{text-align:left;padding-left:10px}.prod-col.tal div{display:inline-block;width:280px;margin-left:8px}.prod-col.tal div p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:20px}.prod-col img{width:60px;height:60px;display:inline-block}.list-total span{width:26%;float:right;text-align:center}.lh60{line-height:60px}.btn-state{display:block;padding:5px 20px;color:#fff;background-color:#00a0e9;border-radius:4px}.stat-name{position:relative}.stat-name .job-state{position:absolute;font-size:12px;color:#fff;top:-5px;left:100%;background-color:#00a0e9;border-radius:9px;width:46px;padding:0 4px}@media (min-width:768px){.modal-dialog{width:750px}}", ""]);
 
 // exports
 
@@ -34630,4 +33527,4 @@ module.exports = __webpack_amd_options__;
 
 /***/ })
 
-},["./app/page/guestorder/List.js"]);
+},["./app/page/salesStats/salesStats3.js"]);

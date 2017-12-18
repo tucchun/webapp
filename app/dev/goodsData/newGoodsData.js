@@ -1,4 +1,4 @@
-webpackJsonp([18],{
+webpackJsonp([21],{
 
 /***/ "./app/component/container/Container.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -1133,7 +1133,11 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 };
 
 function amount_format(amount) {
-  return (amount || 0).toFixed(2);
+  if (amount && typeof amount === 'number') {
+    return amount.toFixed(2);
+  }
+  return '';
+  // return (amount || 0).toFixed(2);
 }
 
 /**
@@ -1145,6 +1149,7 @@ function amount_format(amount) {
  */
 function toThousands(num, len) {
   len = len > 0 && len <= 20 ? len : 2;
+  num = num || 0;
   num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
   var l = num.split(".")[0].split("").reverse(),
       r = num.split(".")[1];
@@ -1775,7 +1780,7 @@ var NewGoodsData = function (_Component) {
                 width: "100%",
                 height: 300,
                 filterMode: false,
-                items: ['source', '|', 'undo', 'redo', '|', 'preview', 'cut', 'copy', 'paste', 'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript', 'quickformat', 'selectall', '|', 'fullscreen', '/', 'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'flash', 'media', 'insertfile', 'table', 'hr', 'pagebreak', 'anchor', 'link', 'unlink'],
+                items: ['source', '|', 'undo', 'redo', '|', 'preview', 'cut', 'copy', 'paste', 'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript', 'quickformat', 'selectall', '|', 'fullscreen', '/', 'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'insertfile', 'table', 'hr', 'pagebreak', 'anchor', 'link', 'unlink'],
                 uploadJson: '/hca/web/management/upload/uploadFile1',
                 afterChange: function afterChange() {
                     this.sync();
@@ -2535,15 +2540,16 @@ var NewGoodsData = function (_Component) {
                                                 var prodImg = _this3.state.goodsMsg.prod_imgs,
                                                     showImg = _this3.state.showImg,
                                                     showIndx = -1;
-                                                var index = prodImg.indexOf(img.dataUrl);
-                                                for (var _index in showImg) {
-                                                    if (showImg[_index].dataUrl === img.dataUrl) {
-                                                        showIndx = _index;
+                                                var imgIndex = prodImg.indexOf(img.dataUrl);
+                                                for (var idx in showImg) {
+                                                    if (showImg[idx].dataUrl === img.dataUrl) {
+                                                        showIndx = idx;
                                                     }
                                                 }
                                                 showImg.splice(showIndx, 1);
-                                                if (index !== -1) {
-                                                    prodImg.splice(index, 1);
+                                                if (imgIndex !== -1) {
+                                                    prodImg.splice(imgIndex, 1);
+                                                    _this3.imgData.splice(imgIndex, 1);
                                                 }
                                                 _this3.setState(_extends({}, _this3.state, {
                                                     showImg: showImg,

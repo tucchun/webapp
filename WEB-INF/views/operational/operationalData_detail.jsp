@@ -53,7 +53,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <tags:pagination page="${pages}" action="${ctx}/operationalData/detail?organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&hecadreIdListStr=${hecadreIdListStr}" pageId="operationalDataDetail" />
+            <tags:pagination page="${pages}" action="${ctx}/operationalData/detail?organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&hecadreIdListStr=${hecadreIdListStr}&organizId=${organizId}" pageId="operationalDataDetail" />
         </div>
     </div>
 </div>
@@ -64,7 +64,7 @@
 		var $self = $("#operationalDataDetail");
 		
 		$self.find("#btn-export").on('click',function(e){
-	        window.location.href="${ctx}/operationalData/detail?download=download&organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&hecadreIdListStr=${hecadreIdListStr}";
+	        window.location.href="${ctx}/operationalData/detail?download=download&organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&hecadreIdListStr=${hecadreIdListStr}&organizId=${organizId}";
 	    });
 		
 		$self.find(".js-view").on("click", function(e){

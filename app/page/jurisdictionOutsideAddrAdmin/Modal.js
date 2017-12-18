@@ -106,15 +106,15 @@ export class AddrModifyModal extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        checkedProvince: "",
-        checkedCity: "",
-        checkedArea: "",
-        checkedStreet: "",
-        checkedCommittee: "",
-        buildingName: "",
-        buildingNo: "",
-        buildingUnit: "",
-        householdNo: "",
+        checkedProvince: '',
+        checkedCity: '',
+        checkedArea: '',
+        checkedStreet: '',
+        checkedCommittee: '',
+        buildingName: '',
+        buildingNo: '',
+        buildingUnit: '',
+        householdNo: '',
         provinceList: [],
         cityList: [],
         areaList: [],
@@ -141,6 +141,8 @@ export class AddrModifyModal extends Component {
 
       this.getPCAList('provinceList');
     }
+
+    componentDidMount() {}
   
     // 确认修改地址
     comfirmModify() {
@@ -163,14 +165,14 @@ export class AddrModifyModal extends Component {
         common.alert('请填写小区名');
         return;
       }
-      if (buildingNo.trim() === '') {
-        common.alert('请填写楼栋');
-        return;
-      }
-      if (buildingUnit.trim() === '') {
-        common.alert('请填写单元');
-        return;
-      }
+      // if (buildingNo.trim() === '') {
+      //   common.alert('请填写楼栋');
+      //   return;
+      // }
+      // if (buildingUnit.trim() === '') {
+      //   common.alert('请填写单元');
+      //   return;
+      // }
       if (householdNo.trim() === '') {
         common.alert('请填写门牌号');
         return;
@@ -391,9 +393,8 @@ export class AddrModifyModal extends Component {
       });
     }
 
-  
     render() {
-      const {isShow, hide} = this.props;
+      const {isShow, hide, needModifyItem} = this.props;
       const {provinceList, cityList, areaList, streetList, committeeList} = this.state;
       return (
         <Modal show={isShow} onHide={hide}>
@@ -408,6 +409,7 @@ export class AddrModifyModal extends Component {
                       <FormControl
                           componentClass="select"
                           name='station_in_sale'
+                          // value={needModifyItem.province_area_id}
                           placeholder="省"
                           style={{marginLeft: 0}}
                           onChange={this.changeProvince}>
@@ -419,6 +421,7 @@ export class AddrModifyModal extends Component {
                       <FormControl
                           componentClass="select"
                           name='station_in_sale'
+                          // value={needModifyItem.city_area_id}
                           placeholder="市"
                           onChange={this.changeCity}>
                           <option value="">请选择市</option>
@@ -429,6 +432,7 @@ export class AddrModifyModal extends Component {
                       <FormControl
                           componentClass="select"
                           name='station_in_sale'
+                          // value={needModifyItem.district_area_id}
                           placeholder="区"
                           onChange={this.changeArea}>
                           <option value="">请选择区</option>
@@ -444,7 +448,8 @@ export class AddrModifyModal extends Component {
                       <FormControl
                           componentClass="select"
                           name='station_in_sale'
-                          placeholder="省"
+                          // value={needModifyItem.street_area_id}
+                          placeholder="街道"
                           style={{marginLeft: 0}}
                           onChange={this.changeStreet}>
                           <option value="">请选择街道</option>
@@ -460,7 +465,8 @@ export class AddrModifyModal extends Component {
                       <FormControl
                           componentClass="select"
                           name='station_in_sale'
-                          placeholder="省"
+                          // value={needModifyItem.village_area_id}
+                          placeholder="居委会"
                           style={{marginLeft: 0}}
                           onChange={this.changeCommittee}>
                           <option value="">请选择居委会</option>
@@ -473,25 +479,33 @@ export class AddrModifyModal extends Component {
                 <div className="form-group clearfix modal-from">
                     <div className="col-sm-2 control-label">小区:</div>
                     <div className="col-sm-7">
-                      <FormControl type="text" placeholder="小区" onChange={this.changebuildingName} />
+                      <FormControl type="text" placeholder="小区"
+                        // value={needModifyItem.building_name}
+                        onChange={this.changebuildingName} />
                     </div>
                 </div>
                 <div className="form-group clearfix modal-from">
                     <div className="col-sm-2 control-label">楼栋:</div>
                     <div className="col-sm-7">
-                      <FormControl type="text" placeholder="楼栋" onChange={this.changebuildingNo} />
+                      <FormControl type="text" placeholder="楼栋"
+                        // value={needModifyItem.building_no}
+                        onChange={this.changebuildingNo} />
                     </div>
                 </div>
                 <div className="form-group clearfix modal-from">
                     <div className="col-sm-2 control-label">单元:</div>
                     <div className="col-sm-7">
-                      <FormControl type="text" placeholder="单元" onChange={this.changebuildingUnit} />
+                      <FormControl type="text" placeholder="单元"
+                        // value={needModifyItem.building_unit}
+                        onChange={this.changebuildingUnit} />
                     </div>
                 </div>
                 <div className="form-group clearfix modal-from">
                     <div className="col-sm-2 control-label">门牌号:</div>
                     <div className="col-sm-7">
-                      <FormControl type="text" placeholder="门牌号" onChange={this.changehouseholdNo} />
+                      <FormControl type="text" placeholder="门牌号"
+                        // value={needModifyItem.household_no}
+                        onChange={this.changehouseholdNo} />
                     </div>
                 </div>
             </div>

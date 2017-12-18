@@ -72,73 +72,54 @@ class ShopOrderInfo extends Component {
             <ControlLabel>基本信息</ControlLabel>
           </Col>
           <Col sm={6}>
-            <ControlLabel className='pull-right'>{orderStatus(this.state.order_status)}</ControlLabel>
+            <ControlLabel className='pull-right price_color'>{orderStatus(this.state.order_status)}</ControlLabel>
           </Col>
         </Row>
-        <Row className='gird-align'>
-          <Col sm={2}>
-            订单编号
-          </Col>
-          <Col sm={4}>
-            {this.state.order_no}
-          </Col>
-          <Col sm={2}>
-            订单时间
-          </Col>
-          <Col sm={4}>
-            {formatDateTime(this.state.create_date)}
-          </Col>
-        </Row>
-        <Row className='gird-align'>
-          <Col sm={2}>
-            订单金额（元）
-          </Col>
-          <Col sm={4}>
-            {this.state.order_amount}
-          </Col>
-          <Col sm={2}>
-            商品数量
-          </Col>
-          <Col sm={4}>
-            {this.state.prod_num}
-          </Col>
-        </Row>
-        <Row className='gird-align'>
-          <Col sm={2}>
-            收货人
-          </Col>
-          <Col sm={4}>
-            {this.state.receipt_name}
-          </Col>
-          <Col sm={2}>
-            联系电话
-          </Col>
-          <Col sm={4}>
-            {this.state.receipt_contact}
-          </Col>
-        </Row>
-        <Row className='gird-align'>
-          <Col sm={2}>
-            地址
-          </Col>
-          <Col sm={10}>
-            {this.state.receipt_address}
-          </Col>
-        </Row>
-        <Row className='gird-align'>
-          <Col sm={2}>
-            推荐人
-          </Col>
-          <Col sm={4}>
-            {this.state.create_hecadre}
-          </Col>
-          <Col sm={2}>
-            送货人
-          </Col>
-          <Col sm={4}>
-            {this.state.ship_hecadre}
-          </Col>
-        </Row>
+        <div className='prod-baseInfo'>
+          <Row className='flex-auto-item'>
+            <Col sm={3}>
+              <ControlLabel>订单编号：</ControlLabel>
+              {this.state.order_no}
+            </Col>
+            <Col sm={3}>
+              <ControlLabel>订单时间：</ControlLabel>
+              {formatDateTime(this.state.create_date)}
+            </Col>
+            <Col sm={3}>
+              <ControlLabel>订单金额（元）：</ControlLabel>
+              {amount_format(this.state.order_amount)}
+            </Col>
+            <Col sm={3}>
+              <ControlLabel>商品数量：</ControlLabel>
+              {this.state.prod_num}
+            </Col>
+          </Row>
+          <Row className='flex-auto-item'>
+            <Col sm={3}>
+              <ControlLabel>收货人：</ControlLabel>
+              {this.state.receipt_name}
+            </Col>
+            <Col sm={3}>
+              <ControlLabel>联系电话：</ControlLabel>
+              {this.state.receipt_contact}
+            </Col>
+            <Col sm={3}>
+              <ControlLabel>推荐人：</ControlLabel>
+              {this.state.create_hecadre}
+            </Col>
+            <Col sm={3}>
+              <ControlLabel>送货人：</ControlLabel>
+              {this.state.ship_hecadre}
+            </Col>
+          </Row>
+          <Row className='flex-auto-item'>
+            <Col sm={12}>
+              <ControlLabel>地址：</ControlLabel>
+              {this.state.receipt_address}
+            </Col>
+          </Row>
+        </div>
+
         <Row className='border-bottom gird-align'>
           <Col sm={12}>
             <ControlLabel>订单商品</ControlLabel>
@@ -155,27 +136,29 @@ class ShopOrderInfo extends Component {
             金额
           </Col>
         </Row>
-        {
-          this.state.prod_list.map(prod => {
-            const prod_imgs = prod.prod_imgs || [];
-            const prod_imgs_src = prod_imgs.length > 0
-              ? prod_imgs[0]
-              : undefined;
-            return (
-              <Row key={prod.prod_id} className='border-bottom'>
-                <Col sm={4}>
-                  <Prod prod_imgs_src={prod_imgs_src} prod_price={amount_format(prod.prod_price)} prod_name={prod.prod_name}/>
-                </Col>
-                <Col sm={4} className='guestorder-prod text-center'>
-                  {'x'}{prod.prod_num}
-                </Col>
-                <Col sm={4} className='guestorder-prod text-center'>
-                  {'¥'}<span className='price_color'>{amount_format(math.eval(prod.prod_num + '*' + prod.prod_price))}</span>
-                </Col>
-              </Row>
-            );
-          })
-        }
+        <div className='prod-item-cnt'>
+          {
+            this.state.prod_list.map(prod => {
+              const prod_imgs = prod.prod_imgs || [];
+              const prod_imgs_src = prod_imgs.length > 0
+                ? prod_imgs[0]
+                : undefined;
+              return (
+                <Row key={prod.prod_id} className='prod-item'>
+                  <Col sm={4}>
+                    <Prod prod_imgs_src={prod_imgs_src} prod_price={amount_format(prod.prod_price)} prod_name={prod.prod_name}/>
+                  </Col>
+                  <Col sm={4} className='guestorder-prod text-center'>
+                    {'x'}{prod.prod_num}
+                  </Col>
+                  <Col sm={4} className='guestorder-prod text-center'>
+                    {'¥'}<span className='price_color'>{amount_format(math.eval(prod.prod_num + '*' + prod.prod_price))}</span>
+                  </Col>
+                </Row>
+              );
+            })
+          }
+        </div>
         <Row className='text-center'>
           <Col sm={4}></Col>
           <Col sm={4}>
@@ -190,31 +173,26 @@ class ShopOrderInfo extends Component {
             {'合计¥'}<span className="price_color">{_.reduce(_.map(this.state.prod_list, (prod) => {
                 return amount_format(math.eval(prod.prod_num + '*' + prod.prod_price));
               }), (sum, item) => {
-               return amount_format(math.eval(sum + '+' + item));
+                return amount_format(math.eval(sum + '+' + item));
               })}</span>
           </Col>
         </Row>
-        <Row>
-          <Col sm={6} className='text-left'>
-            {'支付方式'}
+        <Row className='border-bottom gird-align'>
+          <Col sm={12}>
+            <ControlLabel>支付信息</ControlLabel>
           </Col>
-          <Col sm={6} className='text-right'>
+        </Row>
+        <Row className='prod-payType'>
+          <Col sm={4}>
+            <ControlLabel>支付方式：</ControlLabel>
             {payType(this.state.pay_type)}
           </Col>
-        </Row>
-        <Row>
-          <Col sm={6} className='text-left'>
-            {'实付金额'}
-          </Col>
-          <Col sm={6} className='text-right'>
+          <Col sm={4}>
+            <ControlLabel>实付金额：</ControlLabel>
             {amount_format(this.state.pay_amount)}
           </Col>
-        </Row>
-        <Row>
-          <Col sm={6} className='text-left'>
-            {'支付时间'}
-          </Col>
-          <Col sm={6} className='text-right'>
+          <Col sm={4}>
+            <ControlLabel>支付时间：</ControlLabel>
             {formatDateTime(this.state.pay_date)}
           </Col>
         </Row>

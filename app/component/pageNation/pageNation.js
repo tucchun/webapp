@@ -6,19 +6,24 @@ import './pagenation.css';
 class PageNation extends React.Component{
     constructor(props) {
         super(props);
-        this.state = props;
+        // this.state = props;
+        this.state = {
+            ...props,
+            pageCodes:0
+        }
     }
     getPageNumber(ev){
-        let pageNumber = parseInt(ev.target.value);
+        let pageCodes = parseInt(ev.target.value);
         this.setState({
-            pageNumber
+            pageCodes
         });
     }
     goPage(ev){
         ev.preventDefault();
+        const p = this.state.pageCodes ? this.state.pageCodes : this.state.currentPage;
         this.props.getPage({
-            pageCode : this.state.pageNumber,
-            currentPage : this.state.pageNumber
+            pageCode : p,
+            currentPage : p
         });
     }
     getLinkList(){
@@ -46,7 +51,6 @@ class PageNation extends React.Component{
         }
         pages = pageNumber < pages ? pageNumber:pages;
         for(strNo;strNo <= pages;strNo++){
-            console.log(strNo);
             list.push(
                 <Link key={"page"+strNo} pageArgument={
                     {

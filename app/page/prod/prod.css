@@ -1,17 +1,24 @@
-.prod-img{
+.prod .prod-img {
   overflow: hidden;
+  line-height: 80px;
+  height: 80px;
 }
-.prod-img > img{
+
+.prod .prod-img>img {
   width: 100%;
   height: auto;
   vertical-align: middle;
 }
-.prod-instr-txt{
-  height: 40px;
+
+.prod  .prod-instr {
+  padding: 20px;
 }
-.prod-price{
+
+.prod .prod-price {
   color: red;
+  font-weight: bold;
 }
-.prod{
-  /*height: 100px;*/
+
+.prod * {
+  line-height: 1.42857143;
 }

@@ -82,49 +82,49 @@
 	                    <td>
 		                    <c:if test="${list.jmcount==0}">${list.jmcount }</c:if>
 	                    	<c:if test="${list.jmcount>0}">
-			                    <a href="#" class="js-jmDetail" data-id="0;${list.loginOrganizationId };'';''">${list.jmcount }</a>
+			                    <a href="#" class="js-jmDetail" data-id="${noTeamNext};${list.loginOrganizationId };;">${list.jmcount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>
 		                    <c:if test="${list.jdcount==0}">${list.jdcount }</c:if>
 	                    	<c:if test="${list.jdcount>0}">
-			                    <a href="#" class="js-jdDetail" data-id="0;${list.loginOrganizationId };'';${group_all}">${list.jdcount }</a>
+			                    <a href="#" class="js-jdDetail" data-id="${noTeamNext};${list.loginOrganizationId };;${group_all}">${list.jdcount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>
 		                    <c:if test="${list.childcount==0}">${list.childcount }</c:if>
 	                    	<c:if test="${list.childcount>0}">
-			                    <a href="#" class="js-jdDetail" data-id="0;${list.loginOrganizationId };'';${group_children}">${list.childcount }</a>
+			                    <a href="#" class="js-jdDetail" data-id="${noTeamNext};${list.loginOrganizationId };;${group_children}">${list.childcount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>
 		                    <c:if test="${list.maternalcount==0}">${list.maternalcount }</c:if>
 	                    	<c:if test="${list.maternalcount>0}">
-			                    <a href="#" class="js-jdDetail" data-id="0;${list.loginOrganizationId };'';${group_maternal}">${list.maternalcount }</a>
+			                    <a href="#" class="js-jdDetail" data-id="${noTeamNext};${list.loginOrganizationId };;${group_maternal}">${list.maternalcount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>
 		                    <c:if test="${list.oldMancount==0}">${list.oldMancount }</c:if>
 	                    	<c:if test="${list.oldMancount>0}">
-			                    <a href="#" class="js-jdDetail" data-id="0;${list.loginOrganizationId };'';${group_aged}">${list.oldMancount }</a>
+			                    <a href="#" class="js-jdDetail" data-id="${noTeamNext};${list.loginOrganizationId };;${group_aged}">${list.oldMancount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>
 		                    <c:if test="${list.highBloodPrescount==0}">${list.highBloodPrescount }</c:if>
 	                    	<c:if test="${list.highBloodPrescount>0}">
-			                    <a href="#" class="js-jdDetail" data-id="0;${list.loginOrganizationId };'';${group_hypertension}">${list.highBloodPrescount }</a>
+			                    <a href="#" class="js-jdDetail" data-id="${noTeamNext};${list.loginOrganizationId };;${group_hypertension}">${list.highBloodPrescount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>
 		                    <c:if test="${list.diabeticscount==0}">${list.diabeticscount }</c:if>
 	                    	<c:if test="${list.diabeticscount>0}">
-			                    <a href="#" class="js-jdDetail" data-id="0;${list.loginOrganizationId };'';${group_diabetic}">${list.diabeticscount }</a>
+			                    <a href="#" class="js-jdDetail" data-id="${noTeamNext};${list.loginOrganizationId };;${group_diabetic}">${list.diabeticscount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>
 		                    <c:if test="${list.coronaryHeartDiscount==0}">${list.coronaryHeartDiscount }</c:if>
 	                    	<c:if test="${list.coronaryHeartDiscount>0}">
-			                    <a href="#" class="js-jdDetail" data-id="0;${list.loginOrganizationId };'';${group_coronary_heart}">${list.coronaryHeartDiscount }</a>
+			                    <a href="#" class="js-jdDetail" data-id="${noTeamNext};${list.loginOrganizationId };;${group_coronary_heart}">${list.coronaryHeartDiscount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>${list.sfcount }</td>
@@ -133,13 +133,13 @@
 	                    <td>
 		                    <c:if test="${list.qycount==0}">${list.qycount }</c:if>
 	                    	<c:if test="${list.qycount>0}">
-			                    <a href="#" class="js-detail" data-id="0;${list.loginOrganizationId };'';''">${list.qycount }</a>
+			                    <a href="#" class="js-detail" data-id="${noTeamNext};${list.loginOrganizationId };;">${list.qycount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>
 		                    <c:if test="${list.spcount==0}">${list.spcount }</c:if>
 	                    	<c:if test="${list.spcount>0}">
-			                    <a href="#" class="js-spDetail" data-id="0;${list.loginOrganizationId };'';''">${list.spcount }</a>
+			                    <a href="#" class="js-spDetail" data-id="${noTeamNext};${list.loginOrganizationId };;">${list.spcount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>${list.date_startStr }</td>
@@ -155,7 +155,7 @@
         				<td>
         					<c:if test="${noTeamMap.jmcount==0}">${noTeamMap.jmcount }</c:if>
 	                    	<c:if test="${noTeamMap.jmcount>0}">
-		        				<a href="#" class="js-jmDetail" data-id="1;${noTeamMap.loginOrganizationId};${hecadreIdListStr};''">${noTeamMap.jmcount}</a>
+		        				<a href="#" class="js-jmDetail" data-id="1;${noTeamMap.loginOrganizationId};${hecadreIdListStr};">${noTeamMap.jmcount}</a>
 	                    	</c:if>
         				</td>
 	                    <td>
@@ -206,13 +206,13 @@
 	                    <td>
         					<c:if test="${noTeamMap.qycount==0}">${noTeamMap.qycount }</c:if>
 	                    	<c:if test="${noTeamMap.qycount>0}">
-			                    <a href="#" class="js-detail" data-id="1;${noTeamMap.loginOrganizationId};${hecadreIdListStr};''">${noTeamMap.qycount }</a>
+			                    <a href="#" class="js-detail" data-id="1;${noTeamMap.loginOrganizationId};${hecadreIdListStr};">${noTeamMap.qycount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>
         					<c:if test="${noTeamMap.spcount==0}">${noTeamMap.spcount }</c:if>
 	                    	<c:if test="${noTeamMap.spcount>0}">
-			                    <a href="#" class="js-spDetail" data-id="1;${noTeamMap.loginOrganizationId};${hecadreIdListStr};''">${noTeamMap.spcount }</a>
+			                    <a href="#" class="js-spDetail" data-id="1;${noTeamMap.loginOrganizationId};${hecadreIdListStr};">${noTeamMap.spcount }</a>
 	                    	</c:if>
 	                    </td>
 	                    <td>${noTeamMap.date_startStr }</td>
@@ -277,7 +277,7 @@
      		var noTeamNext = id_arr[0];
      		var orgId = id_arr[1];
      		var hecadreIdListStr = id_arr[2];
-     		var params='?organizationId='+orgId+"&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext="+noTeamNext+"&hecadreIdListStr="+hecadreIdListStr;
+     		var params='?organizationId='+orgId+"&date_startStr=${date_startStr}&date_endStr=${date_endStr}&organizId=${loginOrganizationId}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext="+noTeamNext+"&hecadreIdListStr="+hecadreIdListStr;
 			common.createTab({
 				uri: '${ctx}/operationalData/detail'+params,
      			data: {name: '家庭医生详细签约列表'},
@@ -290,7 +290,7 @@
      		var noTeamNext = id_arr[0];
      		var orgId = id_arr[1];
      		var hecadreIdListStr = id_arr[2];
-     		var params='?organizationId='+orgId+"&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext="+noTeamNext+"&hecadreIdListStr="+hecadreIdListStr;
+     		var params='?organizationId='+orgId+"&date_startStr=${date_startStr}&date_endStr=${date_endStr}&organizId=${loginOrganizationId}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext="+noTeamNext+"&hecadreIdListStr="+hecadreIdListStr;
 			common.createTab({
 				uri: '${ctx}/operationalData/spDetail'+params,
      			data: {name: '家庭医生健康服务包签约列表'},
@@ -304,7 +304,7 @@
      		var orgId = id_arr[1];
      		var hecadreIdListStr = id_arr[2];
      		var groupCode = id_arr[3];
-     		var params='?organizationId='+orgId+"&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext="+noTeamNext+"&hecadreIdListStr="+hecadreIdListStr+"&groupCode="+groupCode;
+     		var params='?organizationId='+orgId+"&date_startStr=${date_startStr}&date_endStr=${date_endStr}&organizId=${loginOrganizationId}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext="+noTeamNext+"&hecadreIdListStr="+hecadreIdListStr+"&groupCode="+groupCode;
 			common.createTab({
 				uri: '${ctx}/operationalData/jdDetail'+params,
      			data: {name: '居民信息详细列表'},
@@ -317,7 +317,7 @@
      		var noTeamNext = id_arr[0];
      		var orgId = id_arr[1];
      		var hecadreIdListStr = id_arr[2];
-     		var params='?organizationId='+orgId+"&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext="+noTeamNext+"&hecadreIdListStr="+hecadreIdListStr;
+     		var params='?organizationId='+orgId+"&date_startStr=${date_startStr}&date_endStr=${date_endStr}&organizId=${loginOrganizationId}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext="+noTeamNext+"&hecadreIdListStr="+hecadreIdListStr;
 			common.createTab({
 				uri: '${ctx}/operationalData/jmDetail'+params,
      			data: {name: '居民信息详细列表'},

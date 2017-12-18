@@ -34,7 +34,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		22: 0
+/******/ 		25: 0
 /******/ 	};this['installedModules'] = installedModules;//---------local-vars--------
 /******/
 /******/ 	// The require function
@@ -91,7 +91,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "" + ({"0":"vendor","1":"guestorder/Info","2":"shopOrder/Info","3":"guestorder/List","4":"shopOrder/List","5":"userStats/userStats","6":"userOrders/userOrders","7":"salesStats/salesStats","8":"jgssalesStats/jgssalesStats","9":"commodityStats/commodityStats","10":"prodManage/List","11":"jurisdictionOutsideAddrAdmin/addrAdmin","12":"priceManagent/priceManagent","13":"priceManagent/priceCheck","14":"priceManagent/priceRecord","15":"priceManagent/applyMgr","16":"goodsTag/goodsTag","17":"goodsData/goodsData","18":"goodsData/newGoodsData","19":"goodsData/goodsUpdate","20":"goodsData/goodsDetail","21":"prodManage/Info"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "" + ({"0":"vendor","1":"guestorder/Info","2":"shopOrder/Info","3":"guestorder/List","4":"shopOrder/List","5":"userStats/userStats","6":"userOrders/userOrders","7":"salesStats/salesStats4","8":"salesStats/salesStats3","9":"salesStats/salesStats2","10":"salesStats/salesStats","11":"jgssalesStats/jgssalesStats","12":"commodityStats/commodityStats","13":"prodManage/List","14":"jurisdictionOutsideAddrAdmin/addrAdmin","15":"priceManagent/priceManagent","16":"priceManagent/priceCheck","17":"priceManagent/priceRecord","18":"priceManagent/applyMgr","19":"goodsTag/goodsTag","20":"goodsData/goodsData","21":"goodsData/newGoodsData","22":"goodsData/goodsUpdate","23":"goodsData/goodsDetail","24":"prodManage/Info"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {

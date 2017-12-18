@@ -1,4 +1,4 @@
-webpackJsonp([19],{
+webpackJsonp([22],{
 
 /***/ "./app/component/container/Container.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -1133,7 +1133,11 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 };
 
 function amount_format(amount) {
-  return (amount || 0).toFixed(2);
+  if (amount && typeof amount === 'number') {
+    return amount.toFixed(2);
+  }
+  return '';
+  // return (amount || 0).toFixed(2);
 }
 
 /**
@@ -1145,6 +1149,7 @@ function amount_format(amount) {
  */
 function toThousands(num, len) {
   len = len > 0 && len <= 20 ? len : 2;
+  num = num || 0;
   num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
   var l = num.split(".")[0].split("").reverse(),
       r = num.split(".")[1];
@@ -1687,7 +1692,6 @@ var GoodsUpdate = function (_Component) {
         _this.editor = {};
         _this.tags = {};
         _this.fileUploadArgument = _this.fileUploadArgument.bind(_this);
-        _this.imgData = [];
         _this.closeDialog = _this.closeDialog.bind(_this);
         return _this;
     }
@@ -1773,7 +1777,7 @@ var GoodsUpdate = function (_Component) {
             this.editor = KindEditor.create(document.getElementsByName('prod_intro')[0], {
                 width: "100%",
                 height: 300,
-                items: ['source', '|', 'undo', 'redo', '|', 'preview', 'cut', 'copy', 'paste', 'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript', 'quickformat', 'selectall', '|', 'fullscreen', '/', 'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'flash', 'media', 'insertfile', 'table', 'hr', 'pagebreak', 'anchor', 'link', 'unlink'],
+                items: ['source', '|', 'undo', 'redo', '|', 'preview', 'cut', 'copy', 'paste', 'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript', 'quickformat', 'selectall', '|', 'fullscreen', '/', 'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'insertfile', 'table', 'hr', 'pagebreak', 'anchor', 'link', 'unlink'],
                 uploadJson: '/hca/web/management/upload/uploadFile1',
                 afterChange: function afterChange() {
                     this.sync();
@@ -1835,13 +1839,10 @@ var GoodsUpdate = function (_Component) {
         key: 'submitHandler',
         value: function submitHandler(ev) {
             ev.preventDefault();
-            var prod_imgs = this.imgData.map(function (img) {
-                return img.img;
-            });
             var reg = /[^\u4e00-\u9fa5]/gi;
             var data = this.state.goodsMsg,
                 priceReg = /(^[-+]?[1-9]\d*(\.\d{1,2})?$)|(^[-+]?[0]{1}(\.\d{1,2})?$)/g;
-            data.prod_imgs = [].concat(_toConsumableArray(data.prod_imgs), _toConsumableArray(prod_imgs));
+            data.prod_imgs = [].concat(_toConsumableArray(data.prod_imgs));
             var must = {
                 prod_name: '商品名称不能为空',
                 prod_spec: '商品规格不能为空',
@@ -1946,14 +1947,19 @@ var GoodsUpdate = function (_Component) {
                 chooseAndUpload: true,
                 accept: 'image/jpeg,image/png',
                 uploadSuccess: function uploadSuccess(res) {
-                    console.log(res);
-                    that.imgData.push(res);
+                    var objImg = { url: res.imgUrl, dataUrl: res.img };
+                    var showImg = [].concat(_toConsumableArray(that.state.showImg), [objImg]);
                     that.setState({
-                        showImg: [].concat(_toConsumableArray(that.state.showImg), [res.imgUrl])
+                        showImg: showImg,
+                        goodsMsg: _extends({}, that.state.goodsMsg, {
+                            prod_imgs: showImg.map(function (item) {
+                                return item.dataUrl;
+                            })
+                        })
                     });
                 },
                 beforeChoose: function beforeChoose() {
-                    var imgCount = that.state.goodsMsg.prod_imgs.length + that.imgData.length;
+                    var imgCount = that.state.showImg.length;
                     if (imgCount >= 10) {
                         (0, _Util.alert)('商品图片最多只可上传10张');
                         return false;
@@ -2536,19 +2542,17 @@ var GoodsUpdate = function (_Component) {
                                     null,
                                     this.state.showImg.map(function (img, index) {
                                         return _react2.default.createElement('img', { src: img.url, key: index, title: '\u70B9\u51FB\u53EF\u5220\u9664\u56FE\u7247', className: 'uploadImg', alt: '\u5546\u54C1\u56FE\u7247', onClick: function onClick() {
-                                                var prodImg = _this4.state.goodsMsg.prod_imgs,
-                                                    showImg = _this4.state.showImg,
+                                                var showImg = _this4.state.showImg,
                                                     showIndx = -1;
-                                                var index = prodImg.indexOf(img.dataUrl);
-                                                for (var _index in showImg) {
-                                                    if (showImg[_index].dataUrl === img.dataUrl) {
-                                                        showIndx = _index;
+                                                for (var idx in showImg) {
+                                                    if (showImg[idx].dataUrl === img.dataUrl) {
+                                                        showIndx = idx;
                                                     }
                                                 }
                                                 showImg.splice(showIndx, 1);
-                                                if (index !== -1) {
-                                                    prodImg.splice(index, 1);
-                                                }
+                                                var prodImg = showImg.map(function (ims) {
+                                                    return ims.dataUrl;
+                                                });
                                                 _this4.setState(_extends({}, _this4.state, {
                                                     showImg: showImg,
                                                     goodsMsg: _extends({}, _this4.state.goodsMsg, {

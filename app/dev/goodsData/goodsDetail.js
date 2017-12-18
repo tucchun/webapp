@@ -1,4 +1,4 @@
-webpackJsonp([20],{
+webpackJsonp([23],{
 
 /***/ "./app/component/container/Container.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -1133,7 +1133,11 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 };
 
 function amount_format(amount) {
-  return (amount || 0).toFixed(2);
+  if (amount && typeof amount === 'number') {
+    return amount.toFixed(2);
+  }
+  return '';
+  // return (amount || 0).toFixed(2);
 }
 
 /**
@@ -1145,6 +1149,7 @@ function amount_format(amount) {
  */
 function toThousands(num, len) {
   len = len > 0 && len <= 20 ? len : 2;
+  num = num || 0;
   num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
   var l = num.split(".")[0].split("").reverse(),
       r = num.split(".")[1];
@@ -1547,10 +1552,10 @@ var GoodsDetail = function (_Component) {
                     prod_imgs = data.ret_data.prod_imgs;
                     tagsText = data.ret_data.prod_tags.map(function (tag) {
                         return tag.tag_text;
-                    }).join(',');
+                    }).join('/');
                     crowText = data.ret_data.prod_crowds.map(function (crows) {
                         return crows.crowd_text;
-                    }).join(',');
+                    }).join('/');
                     _this2.setState({
                         goodsMsg: _extends({}, data.ret_data, {
                             prod_tags: prod_tags,

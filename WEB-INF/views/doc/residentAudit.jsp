@@ -79,7 +79,7 @@
     </c:forEach>
     </tbody>
 </table>
-<tags:pagination page="${pages}" action="${ctx}/residentAudit" pageId="residentAudit"  table_id="residentAudit"/>
+<tags:pagination page="${pages}" action="${ctx}/residentAudit?state=${pages.searchMap['state']}&twocate=${pages.searchMap['twocate']}&onecate=${pages.searchMap['onecate']}" pageId="residentAudit"  table_id="residentAudit"/>
     </div>
 </div>
 

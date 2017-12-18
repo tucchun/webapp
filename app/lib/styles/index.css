@@ -74,6 +74,21 @@
     background-color: #00a0e9;
     border-radius: 4px;
 }
+.stat-name {
+    position: relative;
+}
+.stat-name .job-state {
+    position: absolute;
+    font-size: 12px;
+    color: #fff;
+    top:-5px;
+    left: 100%;
+    background-color: #00a0e9;
+    border-radius: 9px;
+    width: 46px;
+    padding: 0 4px;
+}
+
 @media (min-width: 768px){
     .modal-dialog {
         width: 750px;

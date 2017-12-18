@@ -1,4 +1,4 @@
-webpackJsonp([13],{
+webpackJsonp([16],{
 
 /***/ "./app/component/condition/Condition.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -219,6 +219,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__("./node_modules/react/react.js");
@@ -252,27 +254,31 @@ var PageNation = function (_React$Component) {
     function PageNation(props) {
         _classCallCheck(this, PageNation);
 
+        // this.state = props;
         var _this = _possibleConstructorReturn(this, (PageNation.__proto__ || Object.getPrototypeOf(PageNation)).call(this, props));
 
-        _this.state = props;
+        _this.state = _extends({}, props, {
+            pageCodes: 0
+        });
         return _this;
     }
 
     _createClass(PageNation, [{
         key: 'getPageNumber',
         value: function getPageNumber(ev) {
-            var pageNumber = parseInt(ev.target.value);
+            var pageCodes = parseInt(ev.target.value);
             this.setState({
-                pageNumber: pageNumber
+                pageCodes: pageCodes
             });
         }
     }, {
         key: 'goPage',
         value: function goPage(ev) {
             ev.preventDefault();
+            var p = this.state.pageCodes ? this.state.pageCodes : this.state.currentPage;
             this.props.getPage({
-                pageCode: this.state.pageNumber,
-                currentPage: this.state.pageNumber
+                pageCode: p,
+                currentPage: p
             });
         }
     }, {
@@ -302,7 +308,6 @@ var PageNation = function (_React$Component) {
             }
             pages = pageNumber < pages ? pageNumber : pages;
             for (strNo; strNo <= pages; strNo++) {
-                console.log(strNo);
                 list.push(_react2.default.createElement(_link2.default, { key: "page" + strNo, pageArgument: {
                         page: strNo.toString(),
                         pageCode: strNo,
@@ -1534,7 +1539,11 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 };
 
 function amount_format(amount) {
-  return (amount || 0).toFixed(2);
+  if (amount && typeof amount === 'number') {
+    return amount.toFixed(2);
+  }
+  return '';
+  // return (amount || 0).toFixed(2);
 }
 
 /**
@@ -1546,6 +1555,7 @@ function amount_format(amount) {
  */
 function toThousands(num, len) {
   len = len > 0 && len <= 20 ? len : 2;
+  num = num || 0;
   num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
   var l = num.split(".")[0].split("").reverse(),
       r = num.split(".")[1];
@@ -2249,7 +2259,7 @@ var PriceCheck = function (_Component) {
 
     }, {
         key: 'handleCheck',
-        value: function handleCheck(adjectInfo) {
+        value: function handleCheck(adjectInfo, msg) {
             var _this4 = this;
 
             (0, _http2.default)(_extends({}, _ApiMap2.default.goodsPriceAudit, {
@@ -2261,7 +2271,7 @@ var PriceCheck = function (_Component) {
             })).then(function (response) {
                 var data = response.data;
                 if (data.ret_code === 1) {
-                    (0, _Util.alert)('审核成功');
+                    (0, _Util.alert)(msg);
                     _this4.setState({
                         checkShow: false
                     });
@@ -2542,10 +2552,14 @@ var PriceCheckDialog = function (_Component) {
                 (0, _Util.alert)('备注不能超过100个字符');
                 return false;
             }
+            var msg = '审核已通过';
+            if (this.state.checkType !== 'approval') {
+                msg = '已拒绝该申请';
+            }
             this.props.confim(_extends({}, this.state.adjectInfo, {
                 audit_memo: this.textarea.value,
                 adjust_status: this.state.checkType === 'approval' ? 2 : 3
-            }));
+            }), msg);
         }
     }, {
         key: 'render',
@@ -2981,7 +2995,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".pd20{padding:20px 0}.pageNation{margin:0;padding:0;font-size:12px;float:right}.pageNation input[type=text].pageInput{width:40px!important;padding:4px;text-align:center;margin:0}.pageNation a,.pageNation input{display:inline-block;width:60px;height:27px;text-align:center;line-height:27px;border:1px solid #333;color:#333;border-radius:3px;margin-right:5px;text-decoration:none;vertical-align:middle}.pageNation span{display:inline-block;padding:4px}.pageNation a:last-child{margin-right:0}.pageNation a.active{border:1px solid #999;color:#999;cursor:default}.pageNation a.btn-main{color:#fff}", ""]);
+exports.push([module.i, ".pd20{padding:20px 0}.pageNation{margin:0;padding:0;font-size:12px;float:right}.pageNation input[type=text].pageInput{width:40px!important;padding:4px;text-align:center;margin:0}.pageNation a,.pageNation input{display:inline-block;padding:4px 10px;text-align:center;border:1px solid #333;color:#333;border-radius:3px;margin-right:5px;text-decoration:none;vertical-align:middle}.pageNation span{display:inline-block;padding:4px}.pageNation a:last-child{margin-right:0}.pageNation a.active{border:1px solid #999;color:#999;cursor:default}.pageNation a.btn-main{color:#fff}", ""]);
 
 // exports
 

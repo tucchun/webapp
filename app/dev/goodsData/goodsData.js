@@ -1,4 +1,4 @@
-webpackJsonp([17],{
+webpackJsonp([20],{
 
 /***/ "./app/component/condition/Condition.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -219,6 +219,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__("./node_modules/react/react.js");
@@ -252,27 +254,31 @@ var PageNation = function (_React$Component) {
     function PageNation(props) {
         _classCallCheck(this, PageNation);
 
+        // this.state = props;
         var _this = _possibleConstructorReturn(this, (PageNation.__proto__ || Object.getPrototypeOf(PageNation)).call(this, props));
 
-        _this.state = props;
+        _this.state = _extends({}, props, {
+            pageCodes: 0
+        });
         return _this;
     }
 
     _createClass(PageNation, [{
         key: 'getPageNumber',
         value: function getPageNumber(ev) {
-            var pageNumber = parseInt(ev.target.value);
+            var pageCodes = parseInt(ev.target.value);
             this.setState({
-                pageNumber: pageNumber
+                pageCodes: pageCodes
             });
         }
     }, {
         key: 'goPage',
         value: function goPage(ev) {
             ev.preventDefault();
+            var p = this.state.pageCodes ? this.state.pageCodes : this.state.currentPage;
             this.props.getPage({
-                pageCode: this.state.pageNumber,
-                currentPage: this.state.pageNumber
+                pageCode: p,
+                currentPage: p
             });
         }
     }, {
@@ -302,7 +308,6 @@ var PageNation = function (_React$Component) {
             }
             pages = pageNumber < pages ? pageNumber : pages;
             for (strNo; strNo <= pages; strNo++) {
-                console.log(strNo);
                 list.push(_react2.default.createElement(_link2.default, { key: "page" + strNo, pageArgument: {
                         page: strNo.toString(),
                         pageCode: strNo,
@@ -1534,7 +1539,11 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
 };
 
 function amount_format(amount) {
-  return (amount || 0).toFixed(2);
+  if (amount && typeof amount === 'number') {
+    return amount.toFixed(2);
+  }
+  return '';
+  // return (amount || 0).toFixed(2);
 }
 
 /**
@@ -1546,6 +1555,7 @@ function amount_format(amount) {
  */
 function toThousands(num, len) {
   len = len > 0 && len <= 20 ? len : 2;
+  num = num || 0;
   num = parseFloat((num + "").replace(/[^\d\.-]/g, "")).toFixed(len) + "";
   var l = num.split(".")[0].split("").reverse(),
       r = num.split(".")[1];
@@ -2372,7 +2382,16 @@ var QueryForm = function (_Component) {
 
     _createClass(QueryForm, [{
         key: 'getMouseOver',
-        value: function getMouseOver(cat) {
+        value: function getMouseOver(cat, e) {
+            var cats = document.getElementById('from-query-goodsData').querySelectorAll('.queryMeta .pull-left');
+            var target = e.currentTarget;
+            cats.forEach(function (item) {
+                if (item === target) {
+                    target.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
             this.setState({
                 pCatId: cat.cat_id
             });
@@ -2668,8 +2687,8 @@ var QueryForm = function (_Component) {
                             cats.map(function (cat) {
                                 return _react2.default.createElement(
                                     'div',
-                                    { className: 'pull-left', onMouseOver: function onMouseOver(ev) {
-                                            return _this2.getMouseOver(cat);
+                                    { className: "pull-left", onClick: function onClick(ev) {
+                                            return _this2.getMouseOver(cat, ev);
                                         }, key: cat.cat_id },
                                     cat.cat_text
                                 );
@@ -2723,7 +2742,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".pd20{padding:20px 0}.pageNation{margin:0;padding:0;font-size:12px;float:right}.pageNation input[type=text].pageInput{width:40px!important;padding:4px;text-align:center;margin:0}.pageNation a,.pageNation input{display:inline-block;width:60px;height:27px;text-align:center;line-height:27px;border:1px solid #333;color:#333;border-radius:3px;margin-right:5px;text-decoration:none;vertical-align:middle}.pageNation span{display:inline-block;padding:4px}.pageNation a:last-child{margin-right:0}.pageNation a.active{border:1px solid #999;color:#999;cursor:default}.pageNation a.btn-main{color:#fff}", ""]);
+exports.push([module.i, ".pd20{padding:20px 0}.pageNation{margin:0;padding:0;font-size:12px;float:right}.pageNation input[type=text].pageInput{width:40px!important;padding:4px;text-align:center;margin:0}.pageNation a,.pageNation input{display:inline-block;padding:4px 10px;text-align:center;border:1px solid #333;color:#333;border-radius:3px;margin-right:5px;text-decoration:none;vertical-align:middle}.pageNation span{display:inline-block;padding:4px}.pageNation a:last-child{margin-right:0}.pageNation a.active{border:1px solid #999;color:#999;cursor:default}.pageNation a.btn-main{color:#fff}", ""]);
 
 // exports
 
@@ -2738,7 +2757,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, ".onSale{color:#3155f9}.stopSale{color:#cf0d01}.goodsDataList{min-width:1000px}.goodsDataList input[type=text],.goodsDataList select{margin-left:15px;max-width:150px!important}.goodsDataList .form-inline button,.goodsDataList .form-inline label{margin-left:15px}.goodsDataList .queryMeta{padding-left:20px}.goodsDataList .queryMeta input[type=checkbox]{margin-right:5px}.goodsDataList .queryMeta .pull-left{border:1px solid #ddd;padding:5px;margin:0 5px;cursor:pointer}.goodsDataList .queryMeta div[id^=sub_cat_]{display:none}.goodsDataList .tagList,.goodsDataList .tagList .tagLabel{margin-top:10px}.goodsDataList .rc-table,.goodsDataList .rc-table-content{position:static}.goodsDataList .sub_cat{border-bottom:1px solid #e5e5e5;padding:5px 0}.goodsDataList .options{margin:5px 0}.goodsDataList .options .btn{margin:0 5px}.goodsDataList input[type=checkbox]{margin:0}@media (min-width:768px){.goodsDataList input[type=text],.goodsDataList select{margin-left:15px;max-width:150px!important}.goodsDataList .form-inline .form-control{width:150px}}", ""]);
+exports.push([module.i, ".onSale{color:#3155f9}.stopSale{color:#cf0d01}.goodsDataList{min-width:1000px}.goodsDataList input[type=text],.goodsDataList select{margin-left:15px;max-width:150px!important}.goodsDataList .form-inline button,.goodsDataList .form-inline label{margin-left:15px}.goodsDataList .queryMeta{padding-left:20px}.goodsDataList .queryMeta input[type=checkbox]{margin-right:5px}.goodsDataList .queryMeta .pull-left{border:1px solid #ddd;padding:5px;margin:0 5px;cursor:pointer}.goodsDataList .queryMeta div[id^=sub_cat_]{display:none}.goodsDataList .tagList,.goodsDataList .tagList .tagLabel{margin-top:10px}.goodsDataList .rc-table,.goodsDataList .rc-table-content{position:static}.goodsDataList .sub_cat{border-bottom:1px solid #e5e5e5;padding:5px 0 5px 10px;min-height:40px}.goodsDataList .options{margin:5px 0}.goodsDataList .options .btn{margin:0 5px}.goodsDataList input[type=checkbox]{margin:0}.goodsDataList .tagLabel .queryMeta div.pull-left{display:inline-block;padding:3px 20px;border:1px solid #ccc;margin-right:10px;border-radius:5px;cursor:pointer;margin-top:5px;margin-bottom:5px}.goodsDataList .tagLabel .queryMeta div.pull-left.active,.goodsDataList .tagLabel .queryMeta div.pull-left:hover{border-color:#00a0e9;color:#00a0e9}@media (min-width:768px){.goodsDataList input[type=text],.goodsDataList select{margin-left:15px;max-width:150px!important}.goodsDataList .form-inline .form-control{width:150px}}", ""]);
 
 // exports
 

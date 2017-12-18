@@ -84,8 +84,7 @@ class NewGoodsData extends Component{
                 'justifyfull','insertorderedlist','insertunorderedlist','indent','outdent','subscript',
                 'superscript','quickformat','selectall','|','fullscreen','/',
                 'formatblock','fontname','fontsize','|','forecolor','hilitecolor','bold',
-                'italic','underline','strikethrough','lineheight','removeformat','|','image',
-                'flash','media','insertfile','table','hr','pagebreak',
+                'italic','underline','strikethrough','lineheight','removeformat','|','image','insertfile','table','hr','pagebreak',
                 'anchor', 'link', 'unlink'],
             uploadJson:'/hca/web/management/upload/uploadFile1',
             afterChange:function(){
@@ -571,15 +570,16 @@ class NewGoodsData extends Component{
                                             return (<img src={img.url} key={index} className="uploadImg" alt="商品图片" onClick={
                                                 ()=>{
                                                     let prodImg = this.state.goodsMsg.prod_imgs,showImg = this.state.showImg,showIndx = -1;
-                                                    const index = prodImg.indexOf(img.dataUrl);
-                                                    for(let index in showImg){
-                                                        if(showImg[index].dataUrl === img.dataUrl){
-                                                            showIndx = index;
+                                                    const imgIndex = prodImg.indexOf(img.dataUrl);
+                                                    for(let idx in showImg){
+                                                        if(showImg[idx].dataUrl === img.dataUrl){
+                                                            showIndx = idx;
                                                         }
                                                     }
                                                     showImg.splice(showIndx,1);
-                                                    if(index!==-1){
-                                                        prodImg.splice(index,1);
+                                                    if(imgIndex!==-1){
+                                                        prodImg.splice(imgIndex,1);
+                                                        this.imgData.splice(imgIndex,1);
                                                     }
                                                     this.setState({
                                                         ...this.state,

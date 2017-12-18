@@ -23,7 +23,16 @@ class QueryForm extends Component {
         this.handleCheckbox = this.handleCheckbox.bind(this);
     }
 
-    getMouseOver(cat){
+    getMouseOver(cat,e){
+        let cats = document.getElementById('from-query-goodsData').querySelectorAll('.queryMeta .pull-left');
+        const target = e.currentTarget;
+        cats.forEach((item) => {
+            if(item === target){
+                target.classList.add('active');
+            }else{
+                item.classList.remove('active');
+            }
+        });
         this.setState({
             pCatId: cat.cat_id
         });
@@ -146,8 +155,8 @@ class QueryForm extends Component {
                             {
                                 cats.map(cat => {
                                     return (
-                                        <div className="pull-left" onMouseOver={
-                                            ev => this.getMouseOver(cat)
+                                        <div className={"pull-left"} onClick={
+                                            ev => this.getMouseOver(cat,ev)
                                         } key={cat.cat_id}>{cat.cat_text}</div>
                                     );
                                 })
