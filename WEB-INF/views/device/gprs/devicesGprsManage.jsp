@@ -50,7 +50,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<tags:pagination pageId="equipmentGprs" paginationSize="5" action="${ctx}/equipmentGprs" page="${pages}"></tags:pagination>
+			<tags:pagination pageId="equipmentGprs" paginationSize="5" action="${ctx}/equipmentGprs?equipmentId=${pages.searchMap['equipmentId']}&healthManagerMan=${pages.searchMap['healthManagerMan']}" page="${pages}"></tags:pagination>
 		</div>
 	</div>
 </div>

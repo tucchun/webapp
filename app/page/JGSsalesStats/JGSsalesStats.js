@@ -326,43 +326,43 @@ class JGSSalesStats extends Component {
                                     <span className="btn-state">{orderStatus(details.order_status)}</span>
                                 </div>
                             </div>
-                            <div className="form-group clearfix">
+                            <div className="details-form-group clearfix">
                                 <div className="col-sm-3 control-label">订单编号:</div>
                                 <div className="col-sm-7">{details.order_no}</div>
                             </div>
-                            <div className="form-group clearfix">
+                            <div className="details-form-group clearfix">
                                 <div className="col-sm-3 control-label">订单时间:</div>
                                 <div className="col-sm-7">{formatDateTime(details.create_date)}</div>
                             </div>
-                            <div className="form-group clearfix">
+                            <div className="details-form-group clearfix">
                                 <div className="col-sm-3 control-label">订单金额（元）:</div>
                                 <div className="col-sm-7">{details.order_amount}</div>
                             </div>
-                            <div className="form-group clearfix">
+                            <div className="details-form-group clearfix">
                                 <div className="col-sm-3 control-label">支付方式:</div>
                                 <div className="col-sm-7">{payType(details.pay_type)}</div>
                             </div>
-                            <div className="form-group clearfix">
+                            <div className="details-form-group clearfix">
                                 <div className="col-sm-3 control-label">商品数量:</div>
                                 <div className="col-sm-7">{details.prod_num}</div>
                             </div>
-                            <div className="form-group clearfix">
+                            <div className="details-form-group clearfix">
                                 <div className="col-sm-3 control-label">收货人:</div>
                                 <div className="col-sm-7">{details.receipt_name}</div>
                             </div>
-                            <div className="form-group clearfix">
+                            <div className="details-form-group clearfix">
                                 <div className="col-sm-3 control-label">联系电话:</div>
                                 <div className="col-sm-7">{details.receipt_contact}</div>
                             </div>
-                            <div className="form-group clearfix">
+                            <div className="details-form-group clearfix">
                                 <div className="col-sm-3 control-label">地址:</div>
                                 <div className="col-sm-7">{details.receipt_address}</div>
                             </div>
-                            <div className="form-group clearfix">
+                            <div className="details-form-group clearfix">
                                 <div className="col-sm-3 control-label">推荐人:</div>
                                 <div className="col-sm-7">{details.create_hecadre}</div>
                             </div>
-                            <div className="form-group clearfix">
+                            <div className="details-form-group clearfix">
                                 <div className="col-sm-3 control-label">送货人:</div>
                                 <div className="col-sm-7">{details.ship_hecadre}</div>
                             </div>

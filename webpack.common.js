@@ -15,7 +15,7 @@ for (let i = 0; i < modules.length; i++) {
     id: "__" + modules[i] + "__",
     moduleId: entry[modules[i]],
     template: path.join(__dirname, './app/template.ejs'),
-    chunks: [modules[i]]
+    chunks: [modules[i], 'vendor', 'runtime']
   }));
 }
 
@@ -25,23 +25,7 @@ module.exports = {
     vendor: [
       "babel-polyfill",
       'react',
-      'react-dom',
-      'jquery',
-      'dot',
-      'lodash',
-      'rc-table',
-      'node-forge',
-      'viewerjs',
-      'react-bootstrap-date-picker',
-      'es6-promise',
-      'react-bootstrap',
-      'prop-types',
-      'object-assign',
-      'axios',
-      'rc-table/assets/index.css',
-      './app/component/table/rc-table.css',
-      './static/assets/jquery.mloading-master/src/jquery.mloading.js',
-      './static/assets/jquery.mloading-master/src/jquery.mloading.css'
+      'react-dom'
     ]
   },
 

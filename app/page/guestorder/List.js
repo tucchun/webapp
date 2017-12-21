@@ -128,6 +128,7 @@ class GuestorderList extends Component {
     this.handleHecadreHideModal = this.handleHecadreHideModal.bind(this);
     this.handleHecadreGetPage = this.handleHecadreGetPage.bind(this);
     this.handleassignHecadre = this.handleassignHecadre.bind(this);
+    this.handleHecadreRadioCheck = this.handleHecadreRadioCheck.bind(this);
 
     this.province = {};
     this.city = {};
@@ -154,6 +155,7 @@ class GuestorderList extends Component {
     this.hecadreViewData = {
       show: false,
       guest_order_id: 0,
+      hecadre_uid: 0,
       province: [],
       city: [],
       district: [],
@@ -347,6 +349,7 @@ class GuestorderList extends Component {
     const hecadreViewData = {
       show: state_hecadreViewData.show,
       guest_order_id: state_hecadreViewData.guest_order_id,
+      hecadre_uid: state_hecadreViewData.hecadre_uid,
       pageCount: state_hecadreViewData.total,
       begin: state_hecadreViewData.search_data.begin,
       currentPage: state_hecadreViewData.currentPage,
@@ -366,7 +369,8 @@ class GuestorderList extends Component {
       assignHecadre: this.handleassignHecadre,
       handleSelectChange: this.handleHecadreSelectChange,
       hideHecadreModal: this.handleHecadreHideModal,
-      handleGetPage: this.handleHecadreGetPage
+      handleGetPage: this.handleHecadreGetPage,
+      handleRadioCheck: this.handleHecadreRadioCheck
     };
 
     const conditonViewProps = {
@@ -415,6 +419,15 @@ class GuestorderList extends Component {
       alert('请选择健管师');
     }
 
+  }
+  handleHecadreRadioCheck(hecadre_uid){
+    debugger;
+    this.setState({
+      hecadreViewData: {
+        ...this.state.hecadreViewData,
+        hecadre_uid
+      }
+    });
   }
   handleHecadreSearch() {
     const hecadreViewData = this.state.hecadreViewData;
@@ -516,6 +529,7 @@ class GuestorderList extends Component {
     });
   }
   handleHecadreGetPage({currentPage}) {
+    debugger;
     const hecadreViewData = this.state.hecadreViewData;
     const search_data = {
       ...hecadreViewData.search_data,
@@ -531,6 +545,7 @@ class GuestorderList extends Component {
           total: result.total,
           currentPage,
           pageNumber,
+          hecadre_uid: 0,
           pageCode: pageNumber,
           search_data
         }

@@ -59,24 +59,24 @@
                         </tbody>
                     </table>
                     <div class="center"><a class="btn btn-main save">保存</a></div>
-                    <div id="modal_doctorGroup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_doctorGroupLabel" aria-hidden="true">
-				        <div class="modal-dialog">
-				            <div class="modal-content">
-				                <div class="modal-header">
-				                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				                    <h4 class="modal-title" id="modal_doctorGroupLabel">网格住户分配</h4>
-				                </div>
-				                <div class="modal-body js_houselist" id="distristHouse">
-				                <div class="district tree-wrap"></div>
-				                </div>
-				                <div class="modal-footer">
-				                    <a class="btn btn-main confirm" data-dismiss="modal" aria-hidden="true">保存</a>
-				                    <a class="btn btn-default" data-dismiss="modal">取消</a>
-				                </div>
-				            </div>
-				        </div>
-				    </div>
                 </div>
+                <div id="modal_doctorGroup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_doctorGroupLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title" id="modal_doctorGroupLabel">网格住户分配</h4>
+    </div>
+    <div class="modal-body js_houselist" id="distristHouse">
+    <div class="district tree-wrap"></div>
+    </div>
+    <div class="modal-footer">
+    <a class="btn btn-main confirm" data-dismiss="modal" aria-hidden="true">保存</a>
+    <a class="btn btn-default" data-dismiss="modal">取消</a>
+    </div>
+    </div>
+    </div>
+    </div>
             </div>
            </form>
         </div>

@@ -18,9 +18,16 @@ class HecadreListbyarea extends Component {
         dataIndex: 'hecadre_uid',
         key: 'hecadre_uid',
         align: 'center',
-        render: (value, row) => <input type='radio' value={row.hecadre_uid} onClick={(e) => {
-          this.handleRadioCheck(e);
-        }} name='hecadre_uid'/>
+        render: (value, row) =>{
+          debugger;
+          logger(row.hecadre_uid === this.props.hecadre_uid)
+          return <input
+                  type='radio'
+                  checked={row.hecadre_uid === this.props.hecadre_uid}
+                  value={row.hecadre_uid}
+                  onClick={(e) => {this.handleRadioCheck(e);}}
+                  name='hecadre_uid'/>;
+        }
       }, {
         title: '姓名',
         dataIndex: 'hecadre_name',
@@ -57,13 +64,15 @@ class HecadreListbyarea extends Component {
 
   assignHecadre(){
     this.props.assignHecadre({
-      hecadre_uid: this.checkValue,
+      hecadre_uid: this.props.hecadre_uid,
       guest_order_id: this.props.guest_order_id
     });
   }
 
   handleRadioCheck(e){
-    this.checkValue = parseInt(e.target.value);
+    // this.checkValue = parseInt(e.target.value);
+    const hecadre_uid = parseInt(e.target.value);
+    this.props.handleRadioCheck(hecadre_uid);
     logger(this.checkValue);
   }
 
@@ -82,8 +91,6 @@ class HecadreListbyarea extends Component {
 
 
   render() {
-    this.checkValue = '';
-    debugger;
     return (
       <Modal bsSize='large' show={this.props.show}>
         <Modal.Header>
@@ -120,11 +127,13 @@ Condition.propTypes = {
   currentPage: PropTypes.number.isRequired,
   pageNumber: PropTypes.number.isRequired,
   guest_order_id: PropTypes.number.isRequired,
+  hecadre_uid: PropTypes.number.isRequired,
   girdData: PropTypes.array.isRequired,
   assignHecadre: PropTypes.func.isRequired,
   handleSelectChange: PropTypes.func.isRequired,
   hideHecadreModal: PropTypes.func.isRequired,
-  handleGetPage: PropTypes.func.isRequired
+  handleGetPage: PropTypes.func.isRequired,
+  handleRadioCheck: PropTypes.func.isRequired
 };
 
 export default HecadreListbyarea;

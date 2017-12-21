@@ -517,7 +517,6 @@ class ProdManage extends Component {
     });
   }
   handleIndexCheckboxChange(name, value) {
-    debugger;
     const arr = this.state.indexViewData.search_data[name];
     const index = arr.findIndex(item => {
       return item === value;

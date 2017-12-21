@@ -15,10 +15,10 @@
                      	 	<select name="onecate" class="form-control" id="js-onecate" />
                      	 	<select name="twocate" class="form-control" id="js-twocate" />
 							<select name="state" class="form-control">
-								<option value="all">审核状态</option>
 								<option value="0" <c:if test="${pages.searchMap['state'] == 0}">selected</c:if>>待审核</option>
 								<option value="1" <c:if test="${pages.searchMap['state'] == 1}">selected</c:if>>通过审核</option>
 								<option value="2" <c:if test="${pages.searchMap['state'] == 2}">selected</c:if>>未通过审核</option>
+								<option value="3" <c:if test="${pages.searchMap['state'] == 3}">selected</c:if>>审核状态</option>
 							</select>
                         <input type="button" class="btn btn-main" value="查询" id="js-search" />
                      </form>

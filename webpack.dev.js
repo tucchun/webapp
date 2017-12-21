@@ -38,7 +38,8 @@ module.exports = Merge(CommonConfig, {
   output: {
     filename: '[name].js',
     chunkFilename: '[name].js',
-    publicPath: './app/dev/',
+    publicPath: './dev/',
+    // publicPath: './app/dev/',
     path: path.join(__dirname, './app/dev')
   }
 });
