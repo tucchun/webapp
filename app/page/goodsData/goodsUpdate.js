@@ -22,6 +22,7 @@ class GoodsUpdate extends Component{
             tagList:[],
             tagsText:'',
             crowText:'',
+            crowsText:'',
             dialogName:'商品标签',
             dataKey:'prod_tags',
             showImg:[],
@@ -50,7 +51,8 @@ class GoodsUpdate extends Component{
             this.setState({goods_cat:cats});
             this.tags = {
                 tags:[...data.ret_data.tags],
-                crowds:[...data.ret_data.crowds]
+                crowds:[...data.ret_data.doc_crowds],
+                prod_crowds:[...data.ret_data.prod_crowds]
             };
         }).catch(err=>{})
     }
@@ -63,12 +65,16 @@ class GoodsUpdate extends Component{
                 prod_id:prodId
             }
         }).then(response=>{
-            let data = response.data,prod_tags = [],prod_crowds=[],prod_imgs=[],crowText = '',tagsText = '';
+            let data = response.data,prod_tags = [],prod_crowds=[],doc_crowds = [],
+                prod_imgs=[],crowText = '',crowsText = '', tagsText = '';
             if(data.ret_code === 1){
                 prod_tags = data.ret_data.prod_tags.map(tag => {
                     return parseInt(tag.tag_id)
                 });
                 prod_crowds = data.ret_data.prod_crowds.map(crows => {
+                    return parseInt(crows.crowd_id)
+                });
+                doc_crowds = data.ret_data.doc_crowds.map(crows => {
                     return parseInt(crows.crowd_id)
                 });
                 prod_imgs = data.ret_data.prod_imgs;
@@ -78,16 +84,23 @@ class GoodsUpdate extends Component{
                 crowText = data.ret_data.prod_crowds.map(crows => {
                     return crows.crowd_text
                 }).join(',');
+                if(data.ret_data.doc_crowds.length){
+                    crowsText = data.ret_data.doc_crowds.map(crows => {
+                        return crows.crowd_text
+                    }).join(',');
+                }
                 this.setState({
                     goodsMsg:{
                         ...data.ret_data,
                         prod_tags,
                         prod_crowds,
+                        doc_crowds,
                         prod_imgs,
                         prod_cat:data.ret_data.prod_cat.cat_id
                     },
                     crowText,
                     tagsText,
+                    crowsText,
                     showImg:prod_imgs.map(img => {
                         const objImg = {url:converson(img),dataUrl:img};
                         return objImg;
@@ -132,17 +145,26 @@ class GoodsUpdate extends Component{
         let choseTag = [],tagList = [],lgShow = true,dialogName = '商品标签',dataKey='prod_tags';
         if(type === 'tags'){
             tagList = this.tags.tags;
+            dataKey = 'prod_tags';
             choseTag = this.state.goodsMsg.prod_tags;
             this.setState({
                 lgShow,choseTag,tagList,dialogName,dataKey
             });
-        }else{
+        }else if(type === 'crowds'){
             tagList = this.tags.crowds;
-            dataKey = 'prod_crowds';
-            dialogName = '适用人群';
-            choseTag = this.state.goodsMsg.prod_crowds;
+            dataKey = 'doc_crowds';
+            dialogName = '档案人群分类';
+            choseTag = this.state.goodsMsg.doc_crowds;
             this.setState({
-                lgShow,tagList,choseTag,dataKey,dialogName
+                lgShow,choseTag,tagList,dialogName,dataKey
+            });
+        }else{
+            tagList = this.tags.prod_crowds;
+            choseTag = this.state.goodsMsg.prod_crowds;
+            dataKey = 'prod_crowds';
+            dialogName = '筛选人群分类';
+            this.setState({
+                lgShow,choseTag,tagList,dialogName,dataKey
             });
         }
     }
@@ -152,18 +174,35 @@ class GoodsUpdate extends Component{
             let prod_tags = data['prod_tags'].map(tag => {
                 return parseInt(tag);
             });
-            this.setState({tagsText:data.text,goodsMsg:{
-                ...this.state.goodsMsg,
-                prod_tags
-            }});
-        }else{
+            this.setState({
+                tagsText:data.text,
+                choseTag:prod_tags,
+                goodsMsg:{
+                    ...this.state.goodsMsg,
+                    prod_tags
+                }});
+        }else if(data['prod_crowds']){
             let prod_crowds = data['prod_crowds'].map(crow => {
                 return parseInt(crow);
             });
-            this.setState({crowText:data.text,goodsMsg:{
-                ...this.state.goodsMsg,
-                prod_crowds
-            }});
+            this.setState({
+                crowText:data.text,
+                choseTag:prod_crowds,
+                goodsMsg:{
+                    ...this.state.goodsMsg,
+                    prod_crowds:prod_crowds
+                }});
+        }else{
+            let doc_crowds = data['doc_crowds'].map(crow => {
+                return parseInt(crow);
+            });
+            this.setState({
+                crowsText:data.text,
+                choseTag:doc_crowds,
+                goodsMsg:{
+                    ...this.state.goodsMsg,
+                    doc_crowds:doc_crowds
+                }});
         }
         this.setState({lgShow:false});
     }
@@ -548,13 +587,26 @@ class GoodsUpdate extends Component{
                         </FormGroup>
                         <FormGroup>
                             <Col className="text-right" sm={2}>
-                                <ControlLabel>适用人群：</ControlLabel>
+                                <ControlLabel>档案人群分类：</ControlLabel>
                             </Col>
                             <Col sm={10}>
-                                <FormControl name="prod_crowds" value={this.state.crowText?this.state.crowText:''} placeholder="适用人群" readOnly />
+                                <FormControl name="doc_crowds" value={this.state.crowsText} placeholder="档案人群分类" readOnly />
                                 <FormControl.Static className="icon icon-add" componentClass="span" onClick={
                                     () => {
-                                        this.openDialog('crows')
+                                        this.openDialog('crowds')
+                                    }
+                                } />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col className="text-right" sm={2}>
+                                <ControlLabel>筛选人群分类：</ControlLabel>
+                            </Col>
+                            <Col sm={10}>
+                                <FormControl name="prod_crowds" value={this.state.crowText} placeholder="筛选人群分类" readOnly />
+                                <FormControl.Static className="icon icon-add" componentClass="span" onClick={
+                                    () => {
+                                        this.openDialog('prod_crowds')
                                     }
                                 } />
                             </Col>

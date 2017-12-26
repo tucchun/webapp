@@ -344,6 +344,30 @@ const ApiMap = {
     url: '/hca/web/admin/shop/prod',
     method: 'POST',
     data: commonData
+  },
+
+  //1.1.32	(Web)商品筛选人群列表
+  shopCrowd:{
+    url:'/hca/web/admin/shop/prod/crowd/list',
+    method:'POST'
+  },
+
+  //1.1.31	(Web)商品筛选人群新增
+  newShopCrowd:{
+    url:'/hca/web/admin/shop/prod/crowd/create',
+    method:'POST'
+  },
+
+  //1.1.33	(Web)商品筛选人群删除
+  delShopCrowd:{
+    url:'/hca/web/admin/shop/prod/crowd/delete',
+    method:'POST'
+  },
+
+  //1.1.34	(Web)商品筛选人群修改
+  updateShopCrowd:{
+      url:'/hca/web/admin/shop/prod/crowd/update',
+      method:'POST'
   }
 };
 

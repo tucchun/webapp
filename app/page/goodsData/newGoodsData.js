@@ -37,6 +37,7 @@ class NewGoodsData extends Component{
             tagList:[],
             tagsText:'',
             crowText:'',
+            crowsText:'',
             dialogName:'商品标签',
             dataKey:'prod_tags',
             showImg:[],
@@ -67,7 +68,8 @@ class NewGoodsData extends Component{
             this.setState({goods_cat:cats});
             this.tags = {
                 tags:[...data.ret_data.tags],
-                crowds:[...data.ret_data.crowds]
+                crowds:[...data.ret_data.doc_crowds],
+                prod_crowds:[...data.ret_data.prod_crowds]
             };
         }).catch(err=>{})
     }
@@ -110,11 +112,18 @@ class NewGoodsData extends Component{
                 dialogName:'商品标签',
                 dataKey:'prod_tags'
             });
-        }else{
+        }else if(type === 'crowds'){
             this.setState({
                 lgShow:true,
                 tagList:this.tags.crowds,
-                dialogName:'适用人群',
+                dialogName:'档案人群分类',
+                dataKey:'doc_crowds'
+            });
+        }else{
+            this.setState({
+                lgShow:true,
+                tagList:this.tags.prod_crowds,
+                dialogName:'筛选人群分类',
                 dataKey:'prod_crowds'
             });
         }
@@ -133,7 +142,7 @@ class NewGoodsData extends Component{
                 ...this.state.goodsMsg,
                 prod_tags
             }});
-        }else{
+        }else if(data['prod_crowds']){
             let prod_crowds = data['prod_crowds'].map(crow => {
                 return parseInt(crow);
             });
@@ -142,8 +151,19 @@ class NewGoodsData extends Component{
                 choseTag:prod_crowds,
                 goodsMsg:{
                 ...this.state.goodsMsg,
-                prod_crowds
+                    prod_crowds:prod_crowds
             }});
+        }else{
+            let doc_crowds = data['doc_crowds'].map(crow => {
+                return parseInt(crow);
+            });
+            this.setState({
+                crowsText:data.text,
+                choseTag:doc_crowds,
+                goodsMsg:{
+                    ...this.state.goodsMsg,
+                    doc_crowds:doc_crowds
+                }});
         }
         this.setState({lgShow:false});
     }
@@ -530,13 +550,26 @@ class NewGoodsData extends Component{
                         </FormGroup>
                         <FormGroup>
                             <Col className="text-right" sm={2}>
-                                <ControlLabel>适用人群：</ControlLabel>
+                                <ControlLabel>档案人群分类：</ControlLabel>
                             </Col>
                             <Col sm={10}>
-                                <FormControl name="prod_crowds" value={this.state.crowText} placeholder="适用人群" readOnly />
+                                <FormControl name="doc_crowds" value={this.state.crowsText} placeholder="档案人群分类" readOnly />
                                 <FormControl.Static className="icon icon-add" componentClass="span" onClick={
                                     () => {
-                                        this.openDialog('crows')
+                                        this.openDialog('crowds')
+                                    }
+                                } />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col className="text-right" sm={2}>
+                                <ControlLabel>筛选人群分类：</ControlLabel>
+                            </Col>
+                            <Col sm={10}>
+                                <FormControl name="prod_crowds" value={this.state.crowText} placeholder="筛选人群分类" readOnly />
+                                <FormControl.Static className="icon icon-add" componentClass="span" onClick={
+                                    () => {
+                                        this.openDialog('prod_crowds')
                                     }
                                 } />
                             </Col>

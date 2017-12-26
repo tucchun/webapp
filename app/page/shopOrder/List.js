@@ -59,7 +59,7 @@ class OrderList extends Component {
         title: '订单金额',
         key: 'order_amount',
         dataIndex: 'order_amount',
-        render: (value, row) => {
+        render: (value) => {
           return amount_format(value);
         }
       }, {
@@ -73,7 +73,7 @@ class OrderList extends Component {
         title: '实付金额',
         key: 'pay_amount',
         dataIndex: 'pay_amount',
-        render: (value, row) => {
+        render: (value) => {
           return amount_format(value);
         }
       }, {

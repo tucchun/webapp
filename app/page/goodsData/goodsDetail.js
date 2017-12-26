@@ -59,7 +59,7 @@ class GoodsDetail extends Component{
                 prod_id:prodId
             }
         }).then(response=>{
-            let data = response.data,prod_tags = [],prod_crowds=[],prod_imgs=[],crowText = '',tagsText = '';
+            let data = response.data,prod_tags = [],prod_crowds=[],prod_imgs=[],crowText = '',tagsText = '',crowsText = '';
             console.log(data);
             if(data.ret_code === 1){
                 prod_tags = data.ret_data.prod_tags.map(tag => {
@@ -72,7 +72,10 @@ class GoodsDetail extends Component{
                 tagsText = data.ret_data.prod_tags.map(tag => {
                     return tag.tag_text
                 }).join('/');
-                crowText = data.ret_data.prod_crowds.map(crows => {
+                crowText = data.ret_data.doc_crowds.map(crows => {
+                    return crows.crowd_text
+                }).join('/');
+                crowsText = data.ret_data.prod_crowds.map(crows => {
                     return crows.crowd_text
                 }).join('/');
                 this.setState({
@@ -84,6 +87,7 @@ class GoodsDetail extends Component{
                         prod_cat:data.ret_data.prod_cat
                     },
                     crowText,
+                    crowsText,
                     tagsText,
                     showImg:prod_imgs.map(img => {
                         return converson(img);
@@ -267,7 +271,15 @@ class GoodsDetail extends Component{
                         </FormGroup>
                         <FormGroup>
                             <Col className="text-right" sm={2}>
-                                <ControlLabel>适用人群：</ControlLabel>
+                                <ControlLabel>档案人群：</ControlLabel>
+                            </Col>
+                            <Col sm={10}>
+                                <FormControl.Static name="doc_crowds" componentClass="label" className="normalLable">{this.state.crowsText}</FormControl.Static>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col className="text-right" sm={2}>
+                                <ControlLabel>筛选人群：</ControlLabel>
                             </Col>
                             <Col sm={10}>
                                 <FormControl.Static name="prod_crowds" componentClass="label" className="normalLable">{this.state.crowText}</FormControl.Static>

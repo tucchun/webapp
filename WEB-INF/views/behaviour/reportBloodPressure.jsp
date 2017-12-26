@@ -43,7 +43,7 @@
                     <tr>
                         <td><a href="#" data-id="${record.user.id}" class="js-view">${record.user.realName }</a></td>
                         <td>${record.decodeSex}</td>
-                        <td>${record.decodeAge}岁</td>
+                        <td>${record.decodeAge}</td>
                         <td>${record.residentGroups}</td>
                         <td>${record.measureNumDevice}次</td>
                         <td>${record.measureNumBluetooth}次</td>

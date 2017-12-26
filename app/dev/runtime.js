@@ -34,7 +34,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		4: 0
+/******/ 		26: 0
 /******/ 	};this['installedModules'] = installedModules;//---------local-vars--------
 /******/
 /******/ 	// The require function
@@ -91,7 +91,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "" + ({"0":"guestorder/Info","1":"guestorder/List","2":"vendor","3":"CommodityManagement"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "" + ({"0":"vendor","1":"guestorder/Info","2":"shopOrder/Info","3":"guestorder/List","4":"shopOrder/List","5":"userStats/userStats","6":"userOrders/userOrders","7":"salesStats/salesStats4","8":"salesStats/salesStats3","9":"salesStats/salesStats2","10":"salesStats/salesStats","11":"jgssalesStats/jgssalesStats","12":"commodityStats/commodityStats","13":"prodManage/List","14":"jurisdictionOutsideAddrAdmin/addrAdmin","15":"priceManagent/priceManagent","16":"priceManagent/priceCheck","17":"priceManagent/priceRecord","18":"priceManagent/applyMgr","19":"goodsTag/goodsTag","20":"goodsData/goodsData","21":"filterCrowd/filterCrowd","22":"goodsData/newGoodsData","23":"goodsData/goodsUpdate","24":"goodsData/goodsDetail","25":"prodManage/Info"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -141,7 +141,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "./dev/";
+/******/ 	__webpack_require__.p = "./app/dev/";
 /******/
 /******/ 	// on error function for async loading
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };//---------require-extensions--------

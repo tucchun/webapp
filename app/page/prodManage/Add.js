@@ -69,10 +69,10 @@ class Add extends Component {
       }, {
         title: '适用人群',
         width: 70,
-        dataIndex: 'prod_crowds.crowd_text',
-        key: 'prod_crowds_txt',
+        dataIndex: 'doc_crowds.crowd_text',
+        key: 'doc_crowds_txt',
         render(value, row) {
-          let crowdStr = _.map(row.prod_crowds, function(crowd) {
+          let crowdStr = _.map(row.doc_crowds, function(crowd) {
             return crowd['crowd_text'];
           }).join('/');
           return (
@@ -181,7 +181,7 @@ class Add extends Component {
             <Row className="show-grid padding-align">
               <Col xs={12} md={12}>
                 <Condition>
-                  <ConditionForm modal={true} tags={this.props.tags} crowds={this.props.crowds} cats={this.props.cats} handleConditionSearch={this.props.handleSearch} handleCheckboxChange={this.props.handleCheckboxChange} handleSelectChange={this.props.handleSelectChange} handleInputChange={this.props.handleInputChange} prod_assist_code={this.props.prod_assist_code} prod_name={this.props.prod_name} prod_src={this.props.prod_src} prod_cats={this.props.prod_cats} prod_tags={this.props.prod_tags} prod_crowds={this.props.prod_crowds} station_in_sale={this.props.station_in_sale}/>
+                  <ConditionForm modal={true} tags={this.props.tags} crowds={this.props.crowds} cats={this.props.cats} handleConditionSearch={this.props.handleSearch} handleCheckboxChange={this.props.handleCheckboxChange} handleSelectChange={this.props.handleSelectChange} handleInputChange={this.props.handleInputChange} prod_assist_code={this.props.prod_assist_code} prod_name={this.props.prod_name} prod_src={this.props.prod_src} prod_cats={this.props.prod_cats} prod_tags={this.props.prod_tags} doc_crowds={this.props.doc_crowds} station_in_sale={this.props.station_in_sale}/>
                 </Condition>
               </Col>
             </Row>
@@ -219,7 +219,7 @@ Add.propTypes = {
   prod_src: PropTypes.string.isRequired,
   prod_cats: PropTypes.array.isRequired,
   prod_tags: PropTypes.array.isRequired,
-  prod_crowds: PropTypes.array.isRequired,
+  doc_crowds: PropTypes.array.isRequired,
   addProdIds: PropTypes.array.isRequired,
   station_in_sale: PropTypes.number,
   hideAddModal: PropTypes.func.isRequired,

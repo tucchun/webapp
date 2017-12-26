@@ -1,19 +1,11 @@
-const Merge = require('webpack-merge');
+const merge = require('webpack-merge');
 const CommonConfig = require('./webpack.common.js');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 const Plugin = require("./app/lib/HashMapPlugin.js");
 
-module.exports = Merge(CommonConfig, {
-  module: {
-    rules: [{
-      test: /\.css$/,
-      use: [
-        'postcss-loader'
-      ]
-    }]
-  },
+module.exports = merge(CommonConfig, {
   plugins: [
     new CleanWebpackPlugin(['./app/dist']),
     new webpack.DefinePlugin({

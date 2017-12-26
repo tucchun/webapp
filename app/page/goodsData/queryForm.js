@@ -14,6 +14,7 @@ class QueryForm extends Component {
                 prod_cats: '',
                 prod_tags: '',
                 prod_crowds: '',
+                doc_crows:'',
                 prod_in_sale:0,
                 prod_allow_sale:0,
                 prod_display:0
@@ -94,7 +95,7 @@ class QueryForm extends Component {
     }
 
     render(){
-        const {tags, crowds, cats} = this.props;
+        const {tags, crowds,prod_crowds, cats} = this.props;
         return (
             <Form bsClass="form" onSubmit={
                 ev => this.getFormData(ev)
@@ -137,9 +138,22 @@ class QueryForm extends Component {
                         </div>
                     </div>
                     <div className="tagLabel">
-                        <label htmlFor="">人群分类</label>
+                        <label htmlFor="">档案人群分类</label>
                         <div className="queryMeta">
                             {crowds.map(crow => {
+                                return (
+                                    <label key={crow.crowd_id}>
+                                        <input type="checkbox" onChange={
+                                            ev => this.handleCheckbox()
+                                        } value={crow.crowd_id} name="doc_crowds"/>{crow.crowd_text}</label>
+                                );
+                            })}
+                        </div>
+                    </div>
+                    <div className="tagLabel">
+                        <label htmlFor="">筛选人群分类</label>
+                        <div className="queryMeta">
+                            {prod_crowds.map(crow => {
                                 return (
                                     <label key={crow.crowd_id}>
                                         <input type="checkbox" onChange={
@@ -193,6 +207,7 @@ class QueryForm extends Component {
 QueryForm.propTypes = {
     cats:PropTypes.array.isRequired,
     crowds:PropTypes.array.isRequired,
+    prod_crowds:PropTypes.array.isRequired,
     tags:PropTypes.array.isRequired,
     submitHandle:PropTypes.func.isRequired
 };

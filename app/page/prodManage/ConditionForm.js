@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Select} from 'antd';
 import _ from 'lodash';
 import {
   Form,
@@ -10,8 +9,6 @@ import {
   FormControl,
   Checkbox
 } from 'react-bootstrap';
-
-const Option = Select.Option;
 
 class Condition extends Component {
 
@@ -23,7 +20,7 @@ class Condition extends Component {
       prod_src: '',
       prod_cats: [],
       prod_tags: [],
-      prod_crowds: [],
+      doc_crowds: [],
       station_in_sale: 1
     };
     this.handleSearch = this.handleSearch.bind(this);
@@ -31,7 +28,6 @@ class Condition extends Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.checkProdCategory = this.checkProdCategory.bind(this);
-    this.changeProdTags = this.changeProdTags.bind(this);
   }
 
   handleSearch() {
@@ -48,12 +44,6 @@ class Condition extends Component {
     const name = target.name;
     const value = parseInt(target.value) || 0;
     this.props.handleCheckboxChange(name, value);
-  }
-
-  changeProdTags(value){
-    debugger;
-    value = parseInt(value) || 0;
-    this.props.handleCheckboxChange('prod_tags', value);
   }
 
   handleSelectChange(event) {
@@ -156,32 +146,33 @@ class Condition extends Component {
           <FormGroup>
             <ControlLabel>商品标签</ControlLabel>
             <div className='mul-check'>
-              <Select
-                mode="multiple"
-                placeholder="商品标签"
-                style={{ width: '100%' }}
-                name='prod_tags'
-                defaultValue={this.props['prod_tags']}
-                onChange={this.changeProdTags}
-              >
-                {tags.map(tag => {
-                  return <Option key={tag.tag_id}>{tag.tag_text}</Option>;
-                })}
-              </Select>
+              {tags.map(tag => {
+                const state = this.props['prod_tags'].findIndex(item => {
+                  return item === tag.tag_id;
+                });
+                const checked = (state > -1)
+                  ? 'checked'
+                  : false;
+                return (
+                  <Checkbox title={tag.tag_text} key={tag.tag_id} name='prod_tags' onChange={this.handleCheckboxChange} value={tag.tag_id} checked={checked} inline>
+                    {tag.tag_text}
+                  </Checkbox>
+                );
+              })}
             </div>
           </FormGroup>
           <FormGroup>
-            <ControlLabel>适用人群</ControlLabel>
+            <ControlLabel>档案人群分类</ControlLabel>
             <div className='mul-check'>
               {crowds.map(crowd => {
-                const state = this.props['prod_crowds'].findIndex(item => {
+                const state = this.props['doc_crowds'].findIndex(item => {
                   return item === crowd.crowd_id;
                 });
                 const checked = (state > -1)
                   ? 'checked'
                   : false;
                 return (
-                  <Checkbox title={crowd.crowd_text} name='prod_crowds' onChange={this.handleCheckboxChange} key={crowd.crowd_id} value={crowd.crowd_id} checked={checked} inline>
+                  <Checkbox title={crowd.crowd_text} name='doc_crowds' onChange={this.handleCheckboxChange} key={crowd.crowd_id} value={crowd.crowd_id} checked={checked} inline>
                     {crowd.crowd_text}
                   </Checkbox>
                 );
@@ -251,7 +242,7 @@ Condition.propTypes = {
   prod_src: PropTypes.string.isRequired,
   prod_cats: PropTypes.array.isRequired,
   prod_tags: PropTypes.array.isRequired,
-  prod_crowds: PropTypes.array.isRequired,
+  doc_crowds: PropTypes.array.isRequired,
   station_in_sale: PropTypes.number
 };
 

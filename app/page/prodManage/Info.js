@@ -98,7 +98,7 @@ class ProdInfo extends Component {
     }
 
     return (
-      <Container className='data-display flex-auto gird-align' title={'站点商品管理>>详情'}>
+      <Container className='data-display gird-align' title={'站点商品管理>>详情'}>
         <Row className='gird-align'>
           <Col sm={2}>
             <ControlLabel>商品编号：</ControlLabel>
@@ -223,7 +223,17 @@ class ProdInfo extends Component {
         </Row>
         <Row className='gird-align'>
           <Col sm={2}>
-            <ControlLabel>适用人群：</ControlLabel>
+            <ControlLabel>档案人群分类：</ControlLabel>
+          </Col>
+          <Col sm={10}>
+            {(data.doc_crowds || []).map((crowd) => {
+              return crowd['crowd_text'];
+            }).join('/')}
+          </Col>
+        </Row>
+        <Row className='gird-align'>
+          <Col sm={2}>
+            <ControlLabel>筛选人群分类：</ControlLabel>
           </Col>
           <Col sm={10}>
             {data.prod_crowds.map((crowd) => {

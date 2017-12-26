@@ -22,6 +22,7 @@ class GoodsData extends React.Component{
             gridData : [],
             cats:[],
             crowds:[],
+            prod_crowds:[],
             tags:[]
         };
         this.getPage = this.getPage.bind(this);
@@ -75,7 +76,7 @@ class GoodsData extends React.Component{
                 }
             },
             {
-                title:'适用人群',
+                title:'档案人群分类',
                 key:'prod_crowds',
                 render(value){
                     let tags = [],prod_tag = value.prod_crowds;
@@ -165,7 +166,7 @@ class GoodsData extends React.Component{
             response => {
                 let data = response.data;
                 if(data.ret_code === 1){
-                    this.setState({cats: data.ret_data.cats, crowds: data.ret_data.crowds, tags: data.ret_data.tags});
+                    this.setState({cats: data.ret_data.cats, crowds: data.ret_data.doc_crowds, tags: data.ret_data.tags,prod_crowds:data.ret_data.prod_crowds});
                 }
             }
         ).catch(err => {
@@ -188,10 +189,10 @@ class GoodsData extends React.Component{
             'prod_allow_sale',
             'prod_display'
         ];
-        const floatKey = ['prod_price','prod_original_price'];
+        // const floatKey = ['prod_price','prod_original_price'];
         for(let key in ev){
             if(ev[key]){
-                if(key === 'prod_cats' || key === 'prod_tags' || key === 'prod_crowds'){
+                if(key === 'prod_cats' || key === 'prod_tags' || key === 'prod_crowds' || key === 'doc_crowds'){
                     condition[key] = ev[key].split(',');
                     for(let i in condition[key]){
                         condition[key][i] = parseInt(condition[key][i]) || 0;
@@ -330,7 +331,7 @@ class GoodsData extends React.Component{
             <Container className="p20" title={'商品资料管理'}>
                 <div className="goodsDataList">
                     <Condition>
-                        <QueryForm cats = {this.state.cats} crowds = {this.state.crowds} tags = {this.state.tags}
+                        <QueryForm cats = {this.state.cats} crowds = {this.state.crowds} prod_crowds={this.state.prod_crowds} tags = {this.state.tags}
                                    submitHandle={this.submitHandle} ref="QueryFrom"/>
                         <div className="options clearfix">
                             <div className="pull-right">

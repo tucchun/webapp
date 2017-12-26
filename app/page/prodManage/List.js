@@ -56,10 +56,10 @@ class ProdManage extends Component {
           );
         }
       }, {
-        title: '适用人群',
+        title: '档案人群分类',
         key: 'prod_crowd_txt',
         render(value, row) {
-          let crowdStr = _.map(row.prod_crowds, function(crowd) {
+          let crowdStr = _.map(row.doc_crowds, function(crowd) {
             return crowd['crowd_text'];
           }).join('/');
           return (
@@ -164,7 +164,7 @@ class ProdManage extends Component {
         prod_src: '',
         prod_cats: [],
         prod_tags: [],
-        prod_crowds: [],
+        doc_crowds: [],
         station_in_sale: undefined
       }
     };
@@ -186,7 +186,7 @@ class ProdManage extends Component {
         prod_src: '',
         prod_cats: [],
         prod_tags: [],
-        prod_crowds: [],
+        doc_crowds: [],
         exclude_station_product: 1
       }
     };
@@ -314,7 +314,6 @@ class ProdManage extends Component {
 
   // 翻页查询
   handleGetPage({currentPage}) {
-    debugger;
     const indexViewData = this.state.indexViewData;
     const search_data = {
       ...indexViewData.search_data,
@@ -344,8 +343,8 @@ class ProdManage extends Component {
     const fetchShopProdmeta = DB.fetchShopProdmeta();
     const fetchData = Promise.all([fetchStationProdList, fetchShopProdmeta]);
     fetchData.then(([ProdData, ProdMeta]) => {
-      debugger;
       let pageNumber = Math.ceil(ProdData.total / search_data.count) || 1;
+
       this.setState({
         indexViewData: {
           ...indexViewData,
@@ -354,7 +353,7 @@ class ProdManage extends Component {
           pageNumber: pageNumber
         },
         cats: ProdMeta.cats,
-        crowds: ProdMeta.crowds,
+        crowds: ProdMeta.doc_crowds,
         tags: ProdMeta.tags
       });
     }).catch(err => {
@@ -390,7 +389,7 @@ class ProdManage extends Component {
       prod_src: addViewData.search_data.prod_src,
       prod_cats: addViewData.search_data.prod_cats,
       prod_tags: addViewData.search_data.prod_tags,
-      prod_crowds: addViewData.search_data.prod_crowds,
+      doc_crowds: addViewData.search_data.doc_crowds,
       station_in_sale: addViewData.search_data.station_in_sale,
       prod_display: addViewData.search_data.prod_display,
       begin: addViewData.search_data.begin
@@ -410,7 +409,7 @@ class ProdManage extends Component {
       prod_src: indexViewData.search_data.prod_src,
       prod_cats: indexViewData.search_data.prod_cats,
       prod_tags: indexViewData.search_data.prod_tags,
-      prod_crowds: indexViewData.search_data.prod_crowds,
+      doc_crowds: indexViewData.search_data.doc_crowds,
       station_in_sale: indexViewData.search_data.station_in_sale
     };
     return (
@@ -490,7 +489,7 @@ class ProdManage extends Component {
       prod_src: '',
       prod_cats: [],
       prod_tags: [],
-      prod_crowds: [],
+      doc_crowds: [],
       station_in_sale: 1
     }
   }*/
@@ -575,7 +574,7 @@ class ProdManage extends Component {
       prod_src: '',
       prod_cats: [],
       prod_tags: [],
-      prod_crowds: [],
+      doc_crowds: [],
       station_in_sale: 1
     }
   }
