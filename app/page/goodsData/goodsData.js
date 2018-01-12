@@ -79,7 +79,7 @@ class GoodsData extends React.Component{
                 title:'档案人群分类',
                 key:'prod_crowds',
                 render(value){
-                    let tags = [],prod_tag = value.prod_crowds;
+                    let tags = [],prod_tag = value.doc_crowds;
                     for(let i = 0;i<prod_tag.length;i++){
                         tags.push(prod_tag[i].crowd_text);
                     }
@@ -192,7 +192,7 @@ class GoodsData extends React.Component{
         // const floatKey = ['prod_price','prod_original_price'];
         for(let key in ev){
             if(ev[key]){
-                if(key === 'prod_cats' || key === 'prod_tags' || key === 'prod_crowds' || key === 'doc_crowds'){
+                if(key === 'prod_cats' || key === 'prod_tags' || key === 'prod_tags' || key === 'prod_crowds' || key === 'doc_crowds'){
                     condition[key] = ev[key].split(',');
                     for(let i in condition[key]){
                         condition[key][i] = parseInt(condition[key][i]) || 0;
@@ -293,10 +293,19 @@ class GoodsData extends React.Component{
     //导出商品资料
     exportExcel(){
         let data = this.refs.QueryFrom.getData();
-        const intKey = ['prod_in_sale','prod_allow_sale','prod_display'];
+        const intKey = ['prod_in_sale','prod_tags','prod_allow_sale','prod_display','prod_cats','doc_crowds','prod_crowds'];
         for(let item in data){
             if(intKey.indexOf(item)!==-1){
-                data[item] = parseInt(data[item])
+                if(item === 'prod_cats' ||
+                    item === 'doc_crowds' ||
+                    item === 'prod_crowds' || item === 'prod_tags'){
+                    data[item] = new Array(data[item]);
+                    data[item] = data[item].map(no=>{
+                        return parseInt(no);
+                    })
+                }else{
+                    data[item] = parseInt(data[item])
+                }
             }
         }
         http({

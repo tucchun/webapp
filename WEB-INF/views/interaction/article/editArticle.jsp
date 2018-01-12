@@ -95,6 +95,14 @@
                            <div style="color: #848282">文章详情，不超过10000个汉字</div>
                         </td>
                     </tr>
+                    <tr>
+							<td></td>
+							<td>
+								<div class="col-sm-2">
+									<input type="checkbox" value="1" name="recommendStatus" <c:if test="${article.recommendStatus==1 }">checked</c:if> > 推荐到APP首页
+								</div>
+							</td>
+						</tr>
 						<tr>
 							<td colspan="2">
 								<div class="col-sm-12 form-submit-btns text-center">

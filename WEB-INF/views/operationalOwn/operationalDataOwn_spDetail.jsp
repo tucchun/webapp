@@ -14,7 +14,6 @@
         <div class="tb-wrap">
             <div class="opt clearfix">
                 <div class="pull-right">
-                    <input type="hidden" id="organizationId" name="organizationId" value="${organizationId }" />
                     <c:if test="${orgLevel==4}">
                     <button type="button" class="btn btn-main" id="btn-export">导出</button>
                     </c:if>
@@ -40,7 +39,7 @@
                 <tbody>
                 <c:forEach items="${pages.content}" var="list" varStatus="status">
                 <tr>
-                    <td><a href="#" data-id="${list.user_id}" class="js-view">${list.userName }</a></td>
+                    <td><a href="#" data-id="${list.userId}" class="js-view">${list.userName }</a></td>
                     <td>${list.sexStr }</td>
                     <td>${list.age }</td>
                     <td>${list.personId }</td>
@@ -56,7 +55,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <tags:pagination page="${pages}" action="${ctx}/operationalDataOwn/spDetail?organizationId=${organizationId}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}&userIdList=${userIdList}" pageId="operationalDataOwnSPDetail" />
+            <tags:pagination page="${pages}" action="${ctx}/operationalDataOwn/spDetail?organizationId=${organizationId}&doctorUid=${doctorUid}&hecadreUid=${hecadreUid}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}" pageId="operationalDataOwnSPDetail" />
         </div>
     </div>
 </div>
@@ -67,7 +66,7 @@
 		var $self = $("#operationalDataOwnSPDetail");
 		
 		$self.find("#btn-export").on('click',function(e){
-	        window.location.href="${ctx}/operationalDataOwn/spDetail?download=download&organizationId=${organizationId}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}&userIdList=${userIdList}";
+	        window.location.href="${ctx}/operationalDataOwn/spDetail?download=download&organizationId=${organizationId}&doctorUid=${doctorUid}&hecadreUid=${hecadreUid}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}";
 	    });
 		
 		$self.find(".js-itemDetail").on("click", function(e){

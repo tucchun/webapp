@@ -10,7 +10,7 @@ var prj = main.getAttribute("data-prj");
 var ver = main.getAttribute("data-ver");
 var loginusername = main.getAttribute("data-username");
 
-window.__evn__ = 'dist'; //dev开发环境，dist生产环境
+window.__evn__ = 'dev'; //dev开发环境，dist生产环境
 // 线上 测试环境 demo数据改为false
 if (location.href.indexOf('newcaresz.com') > 0 || location.href.indexOf('192.168.1.232') > 0) {
   window.__evn__ = 'dist';
@@ -55,7 +55,7 @@ require.config({
       deps: ['jquery']
     },
     vendor: {
-      deps: ['runtime', 'js/common']
+      deps: ['runtime', 'js/common', 'dll']
     },
     appEnv: {
       exports: 'appEnv'
@@ -83,7 +83,8 @@ require.config({
     loading: ctx + 'static/assets/jquery.mloading-master/src/jquery.mloading',
     runtime: ctx + 'app/' + window.__evn__ + '/runtime',
     vendor: ctx + 'app/' + window.__evn__ + '/vendor',
-    appEnv: ctx + 'app/' + window.__evn__ + '/manifest.json'
+    appEnv: ctx + 'app/' + window.__evn__ + '/manifest.json',
+    dll: ctx + 'app/common/dll/' + window.__evn__ + '/lib',
   }
 });
 
@@ -101,6 +102,7 @@ require([
   "datetimepicker",
   "local.datetimepicker",
   'loading',
+  'dll',
   'runtime',
   'vendor'
 ], function($, common, menu, Dialog, security, appEnv, backspace) {

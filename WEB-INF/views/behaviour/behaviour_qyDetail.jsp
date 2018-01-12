@@ -14,7 +14,6 @@
         <div class="tb-wrap">
             <div class="opt clearfix">
                 <div class="pull-right">
-                    <input type="hidden" id="organizationId" name="organizationId" value="${organizationId }" />
                     <button type="button" class="btn btn-main" id="btn-export">导出</button>
                 </div>
             </div>
@@ -37,7 +36,7 @@
                 <tbody>
                 <c:forEach items="${pages.content}" var="list" varStatus="status">
                 <tr>
-                    <td><a href="#" data-id="${list.user_id}" class="js-view">${list.userName }</a></td>
+                    <td><a href="#" data-id="${list.userId}" class="js-view">${list.userName }</a></td>
                     <td>${list.sexStr }</td>
                     <td>${list.age }</td>
                     <td>${list.residentMobile }</td>
@@ -52,7 +51,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <tags:pagination page="${pages}" action="${ctx}/behaviour/detail?organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}&userIdList=${userIdList}" pageId="behaviourDetail" />
+            <tags:pagination page="${pages}" action="${ctx}/behaviour/qyDetail?organizationId=${organizationId}&doctorUid=${doctorUid}&hecadreUid=${hecadreUid}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}" pageId="behaviourQYDetail" />
         </div>
     </div>
 </div>
@@ -60,10 +59,10 @@
 <script>
 
 	require([ 'jquery' ], function($) {
-		var $self = $("#behaviourDetail");
+		var $self = $("#behaviourQYDetail");
 		
 		$self.find("#btn-export").on('click',function(e){
-	        window.location.href="${ctx}/behaviour/detail?download=download&organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}&userIdList=${userIdList}";
+	        window.location.href="${ctx}/behaviour/qyDetail?download=download&organizationId=${organizationId}&doctorUid=${doctorUid}&hecadreUid=${hecadreUid}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}";
 	    });
 		
 		$self.find(".js-view").on("click", function(e){

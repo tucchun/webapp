@@ -309,4 +309,4 @@ class OrderList extends Component {
   }
 }
 ReactDOM.render(
-  <LocaleProvider locale={zh_CN}>< OrderList/></LocaleProvider>, document.getElementById('__shopOrder/List__'));
+  < OrderList/>, document.getElementById('__shopOrder/List__'));

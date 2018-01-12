@@ -271,18 +271,18 @@ class GoodsDetail extends Component{
                         </FormGroup>
                         <FormGroup>
                             <Col className="text-right" sm={2}>
-                                <ControlLabel>档案人群：</ControlLabel>
+                                <ControlLabel>档案人群分类：</ControlLabel>
                             </Col>
                             <Col sm={10}>
-                                <FormControl.Static name="doc_crowds" componentClass="label" className="normalLable">{this.state.crowsText}</FormControl.Static>
+                                <FormControl.Static name="doc_crowds" componentClass="label" className="normalLable">{this.state.crowText}</FormControl.Static>
                             </Col>
                         </FormGroup>
                         <FormGroup>
                             <Col className="text-right" sm={2}>
-                                <ControlLabel>筛选人群：</ControlLabel>
+                                <ControlLabel>筛选人群分类：</ControlLabel>
                             </Col>
                             <Col sm={10}>
-                                <FormControl.Static name="prod_crowds" componentClass="label" className="normalLable">{this.state.crowText}</FormControl.Static>
+                                <FormControl.Static name="prod_crowds" componentClass="label" className="normalLable">{this.state.crowsText}</FormControl.Static>
                             </Col>
                         </FormGroup>
                         <FormGroup>

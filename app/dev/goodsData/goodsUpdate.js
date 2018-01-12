@@ -1,4 +1,4 @@
-webpackJsonp([23],{
+webpackJsonp([28],{
 
 /***/ "./app/component/container/Container.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -453,6 +453,85 @@ var ApiMap = {
   updateShopCrowd: {
     url: '/hca/web/admin/shop/prod/crowd/update',
     method: 'POST'
+  },
+
+  //1.3.1	(Web)理赔列表
+  adminOpinsReimList: {
+    url: '/hca/web/admin/opins/reim/list',
+    method: 'POST',
+    data: commonData
+  },
+
+  //1.3.1	(Web)理赔列表
+  reimDetail: {
+    url: '/hca/web/admin/opins/reim',
+    method: 'POST',
+    data: commonData
+  },
+  //理赔列表导出
+  reimExport: {
+    url: '/hca/web/admin/opins/reim/export',
+    method: 'POST',
+    data: commonData,
+    responseType: 'blob'
+  },
+
+  // 1.1.1(Web)保单导入
+  policyImport: {
+    url: '/hca/web/admin/opins/policy/import/<uid>/<authstr>',
+    method: 'PUT'
+  },
+
+  // 1.1.2(Web)保单列表
+  getPolicyList: {
+    url: '/hca/web/admin/opins/policy/list',
+    method: 'POST',
+    data: commonData
+  },
+
+  // 1.1.3(Web)保单详情
+  getPolicyDetails: {
+    url: '/hca/web/admin/opins/policy',
+    method: 'POST',
+    data: commonData
+  },
+
+  // 1.1.4(Web)保单删除
+  policyDelete: {
+    url: '/hca/web/admin/opins/policy/delete',
+    method: 'POST',
+    data: commonData
+  },
+
+  // 1.1.6(Web)保单导出
+  policyExport: {
+    url: '/hca/web/admin/opins/policy/export',
+    method: 'POST',
+    data: commonData
+  },
+  //理赔规则
+  reimSetting: {
+    url: '/hca/web/admin/opins/reim/setting',
+    method: 'POST',
+    data: commonData
+  },
+  //理赔规则更新设置
+  reimSettingUpdate: {
+    url: '/hca/web/admin/opins/reim/setting/update',
+    method: 'POST',
+    data: commonData
+  },
+
+  //1.3.2	理赔计算接口
+  claimCalculation: {
+    url: '/hca/p3/his/opins/reim/calc',
+    method: 'POST'
+  },
+
+  //1.3.4	退费计算接口
+  claimCalculationRefund: {
+    url: '/hca/p3/his/opins/reim/refund',
+    method: 'POST'
   }
 };
 
@@ -519,7 +598,9 @@ _axios2.default.interceptors.request.use(function (config) {
   var data = _extends({}, config.data, {
     auth_str: (0, _Util.getAuthStr)()
   });
-  config.data = data;
+  if (!config.data.auth_str) {
+    config.data = data;
+  }
   (0, _logger.logger)('参数：' + JSON.stringify(config.data) + '\n');
   $(document.body).mLoading({ mask: false }); //显示loading组件
   return config;
@@ -574,7 +655,7 @@ var httpServer = function httpServer() {
   }
   if (demo) {
     var key = _lodash2.default.findKey(_ApiMap2.default, { 'url': url });
-    return (0, _axios2.default)('./rss/' + key + '.json');
+    return (0, _axios2.default)('./app/rss/' + key + '.json');
   }
   if (url.indexOf("?") > 0) {
     url += '&_=' + +new Date();
@@ -608,7 +689,7 @@ exports.default = httpServer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchTemplate = exports.exportTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
+exports.insuredCredTypeMap = exports.ownerInsuredRelMap = exports.policyTypeMap = exports.sexTypeMap = exports.fetchTemplate = exports.exportTemplate = exports.payTypeMap = exports.Util = exports.common = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -964,8 +1045,11 @@ function downloadExcel(blobData, name) {
 /**
 * 时间戳转日期
 * @param timeStamp 时间戳
+* @param isHMS 是否需要时分秒，默认：true
 */
 function formatDateTime(timeStamp) {
+  var isHMS = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
   if (!timeStamp) {
     return;
   } else {
@@ -982,7 +1066,7 @@ function formatDateTime(timeStamp) {
     var second = date.getSeconds();
     minute = minute < 10 ? '0' + minute : minute;
     second = second < 10 ? '0' + second : second;
-    return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+    return isHMS ? y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second : y + '-' + m + '-' + d;
   }
 }
 
@@ -1156,7 +1240,10 @@ var fetchTemplate = exports.fetchTemplate = function fetchTemplate(apiData) {
   };
 };
 
-function amount_format(amount) {
+function amount_format(amount, showZero) {
+  if (showZero && amount == 0) {
+    return '0.00';
+  }
   if (amount && typeof amount === 'number') {
     return amount.toFixed(2);
   }
@@ -1183,6 +1270,46 @@ function toThousands(num, len) {
   }
   return t.split("").reverse().join("") + "." + r;
 }
+
+var sexTypeMap = exports.sexTypeMap = {
+  1: '男',
+  2: '女'
+};
+var policyTypeMap = exports.policyTypeMap = {
+  1: '首保',
+  2: '续保'
+};
+
+var ownerInsuredRelMap = exports.ownerInsuredRelMap = {
+  1: '本人',
+  2: '夫妻',
+  3: '父母',
+  4: '子女',
+  5: '雇佣',
+  6: '其他具有抚养或赡养关系的家庭成员或近亲属'
+};
+
+var insuredCredTypeMap = exports.insuredCredTypeMap = {
+  1: '居民身份证',
+  2: '居民户口薄',
+  3: '驾驶证',
+  4: '军官证',
+  5: '士兵证',
+  6: '军官离退休证',
+  7: '异常身份证',
+  8: '港澳台胞证',
+  9: '回乡证',
+  10: '组织机构代码证',
+  11: '税务登记证',
+  12: '营业执照',
+  13: '护照',
+  14: '外国护照',
+  15: '旅行证',
+  16: '居留证件',
+  17: '出生证明',
+  18: '其他证件',
+  19: '外国人永久居留证'
+};
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/process/browser.js")))
 
 /***/ }),
@@ -2777,6 +2904,104 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 exports.push([module.i, ".newGoodsData{padding:40px 0;width:1200px;}\r\n.newGoodsData .col-sm-1,.newGoodsData .col-sm-2,\r\n.newGoodsData .col-sm-3,.newGoodsData .col-sm-4,\r\n.newGoodsData .col-sm-5,.newGoodsData .col-sm-6,\r\n.newGoodsData .col-sm-7,.newGoodsData .col-sm-8,\r\n.newGoodsData .col-sm-9,.newGoodsData .col-sm-10,\r\n.newGoodsData .col-sm-11,.newGoodsData .col-sm-12,\r\n.newGoodsData .ke-statusbar{position:static;}\r\n.p20{padding:20px;}\r\n.btn-main{margin:0 10px;}\r\n.uploadImg{display:inline-block;vertical-align:middle;text-align:center;width:40px;height:40px;border:1px solid #e5e5e5;font-size:18px;margin:5px;border-radius:3px;cursor:pointer;}\r\n.tips{font-size:12px;color:gray;line-height:1.4;display:inline-block;}\r\n.control-label span{color:#ff0505;}\r\n.icon.icon-add{width:25px;padding:0;position: absolute;right:25px;top:5px;}\r\n.form-control-static{min-height:0;}\r\n.form-group{position:relative;}\r\n.normalLable{font-weight:normal;}\r\n.modal-dialog input[type=checkbox], .modal-dialog input[type=radio]{position: static !important;}\r\n.checkbox-inline:first-child, .radio-inline:first-child{margin-left:10px;}\r\n#goodsDetail .form-horizontal{border:1px solid #e5e5e5}\r\n#goodsDetail .form-group{border-bottom:1px solid #e5e5e5;margin:0;background:#f7f7f7;}\r\n#goodsDetail .form-group .col-sm-2,\r\n#goodsDetail .form-group .col-sm-10,\r\n#goodsDetail .form-group .col-sm-4{padding:10px 0;}\r\n#goodsDetail .form-group .col-sm-10,\r\n#goodsDetail .form-group .col-sm-4{border-left:1px solid #e5e5e5;padding-left:10px;background:#fff;min-height:54px;}\r\n#goodsDetail .form-group .col-sm-4{border-right:1px solid #e5e5e5;}\r\n#goodsDetail .form-group:last-child{border:none;}\r\n#goodsDetail .form-group .col-sm-4:last-child{border-right:none;}", ""]);
 
 // exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?{\"modules\":false}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\"}!./static/assets/jquery.mloading-master/src/jquery.mloading.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "/* Author：mingyuhisoft@163.com\n * Github:https://github.com/imingyu/jquery.mloading\n * Npm:npm install jquery.mloading.js\n * Date：2016-7-4\n */\n.mloading-container {\n  position: relative;\n  min-height: 70px;\n  -webkit-transition: height 0.6s ease-in-out;\n  -o-transition: height 0.6s ease-in-out;\n  transition: height 0.6s ease-in-out;\n}\n.mloading {\n  position: absolute;\n  background: #E9E9E8;\n  font: normal 12px/22px \"Microsoft Yahei\", \"\\5FAE\\8F6F\\96C5\\9ED1\", \"\\5B8B\\4F53\";\n  display: none;\n  z-index: 1600;\n  background: rgba(233, 233, 232, 0);\n}\n.mloading.active {\n  display: block;\n}\n.mloading.mloading-mask {\n  background: rgba(233, 233, 232, 0.75);\n  filter: progid:DXImageTransform.Microsoft.Alpha(opacity=75);\n}\n.mloading-full {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n}\n.mloading-container > .mloading {\n  top: 0px;\n  left: 0px;\n  width: 100%;\n  height: 100%;\n}\n.mloading-body {\n  width: 100%;\n  height: 100%;\n  position: relative;\n}\n.mloading-bar {\n  width: 250px;\n  min-height: 22px;\n  text-align: center;\n  background: #fff;\n  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.27);\n          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.27);\n  border-radius: 7px;\n  padding: 20px 15px;\n  font-size: 14px;\n  color: #999;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  margin-left: -140px;\n  margin-top: -30px;\n  word-break: break-all;\n}\n@media (max-width: 300px) {\n  .mloading-bar {\n    width: 62px;\n    height: 56px;\n    margin-left: -30px !important;\n    margin-top: -30px !important;\n    padding: 0;\n    line-height: 56px;\n  }\n  .mloading-bar > .mloading-text {\n    display: none;\n  }\n}\n.mloading-bar-sm {\n  width: 62px;\n  height: 56px;\n  margin-left: -30px !important;\n  margin-top: -30px !important;\n  padding: 0;\n  line-height: 56px;\n}\n.mloading-bar-sm > .mloading-text {\n  display: none;\n}\n.mloading-icon {\n  width: 16px;\n  height: 16px;\n  vertical-align: middle;\n}\n.mloading-text {\n  margin-left: 10px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/lib/css-base.js":
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
 
 
 /***/ }),
@@ -12827,10 +13052,490 @@ KindEditor.plugin('wordpaste', function(K) {
 
 /***/ }),
 
+/***/ "./node_modules/object-assign/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = (__webpack_require__("dll-reference lib"))(16);
+
+/***/ }),
+
+/***/ "./node_modules/process/browser.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = (__webpack_require__("dll-reference lib"))(1);
+
+/***/ }),
+
 /***/ "./node_modules/react-fileupload/dist/main.min.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 !function(e,t){ true?module.exports=t(__webpack_require__("./node_modules/react/react.js")):"function"==typeof define&&define.amd?define(["react"],t):"object"==typeof exports?exports["react-fileupload"]=t(require("react")):e["react-fileupload"]=t(e.React)}(this,function(__WEBPACK_EXTERNAL_MODULE_1__){return function(e){function t(i){if(o[i])return o[i].exports;var a=o[i]={exports:{},id:i,loaded:!1};return e[i].call(a.exports,a,a.exports,t),a.loaded=!0,a.exports}var o={};return t.m=e,t.c=o,t.p="",t(0)}([function(module,exports,__webpack_require__){"use strict";var _extends=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var o=arguments[t];for(var i in o)Object.prototype.hasOwnProperty.call(o,i)&&(e[i]=o[i])}return e},_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol?"symbol":typeof e},React=__webpack_require__(1),emptyFunction=function(){},currentIEID=0,IEFormGroup=[!0],xhrList=[],currentXHRID=0,PT=React.PropTypes,FileUpload=React.createClass({displayName:"FileUpload",propTypes:{options:PT.shape({baseUrl:PT.string.isRequired,param:PT.oneOfType([PT.object,PT.func]),dataType:PT.string,chooseAndUpload:PT.bool,paramAddToField:PT.oneOfType([PT.object,PT.func]),wrapperDisplay:PT.string,timeout:PT.number,accept:PT.string,multiple:PT.bool,numberLimit:PT.oneOfType([PT.number,PT.func]),fileFieldName:PT.oneOfType([PT.string,PT.func]),withCredentials:PT.bool,requestHeaders:PT.object,tag:PT.string,userAgent:PT.string,disabledIEChoose:PT.oneOfType([PT.bool,PT.func]),_withoutFileUpload:PT.bool,filesToUpload:PT.arrayOf(PT.object),textBeforeFiles:PT.bool,beforeChoose:PT.func,chooseFile:PT.func,beforeUpload:PT.func,doUpload:PT.func,uploading:PT.func,uploadSuccess:PT.func,uploadError:PT.func,uploadFail:PT.func,onabort:PT.func}).isRequired,style:PT.object,className:PT.string},_updateProps:function(e){var t=this;this.isIE=!(this.checkIE()<0||this.checkIE()>=10);var o=e.options;this.baseUrl=o.baseUrl,this.param=o.param,this.chooseAndUpload=o.chooseAndUpload||!1,this.paramAddToField=o.paramAddToField||void 0,this.dataType="json",o.dataType&&"text"==o.dataType.toLowerCase()&&(this.dataType="text"),this.wrapperDisplay=o.wrapperDisplay||"inline-block",this.timeout="number"==typeof o.timeout&&o.timeout>0?o.timeout:0,this.accept=o.accept||"",this.multiple=o.multiple||!1,this.numberLimit=o.numberLimit||!1,this.fileFieldName=o.fileFieldName||!1,this.withCredentials=o.withCredentials||!1,this.requestHeaders=o.requestHeaders||!1,this.beforeChoose=o.beforeChoose||emptyFunction,this.chooseFile=o.chooseFile||emptyFunction,this.beforeUpload=o.beforeUpload||emptyFunction,this.doUpload=o.doUpload||emptyFunction,this.uploading=o.uploading||emptyFunction,this.uploadSuccess=o.uploadSuccess||emptyFunction,this.uploadError=o.uploadError||emptyFunction,this.uploadFail=o.uploadFail||emptyFunction,this.onabort=o.onabort||emptyFunction,this.files=o.files||this.files||!1,this.disabledIEChoose=o.disabledIEChoose||!1,this._withoutFileUpload=o._withoutFileUpload||!1,this.filesToUpload=o.filesToUpload||[],this.textBeforeFiles=o.textBeforeFiles||!1,this.filesToUpload.length&&!this.isIE&&this.filesToUpload.forEach(function(e){t.files=[e],t.commonUpload()});var i=void 0,a=void 0,s=0,r=[],n=[],l=[];this.chooseAndUpload?React.Children.forEach(e.children,function(e){e&&"chooseAndUpload"==e.ref?(i=e,s++):0==s?r.push(e):1==s?n.push(e):""}):React.Children.forEach(e.children,function(e){e&&"chooseBtn"==e.ref?(i=e,s++):e&&"uploadBtn"==e.ref?(a=e,s++):0==s?r.push(e):1==s?n.push(e):l.push(e)}),this.setState({chooseBtn:i,uploadBtn:a,before:r,middle:n,after:l})},commonChooseFile:function(){var e=this.beforeChoose();1!=e&&void 0!=e||this.refs.ajax_upload_file_input.click()},commonChange:function(e){var t=void 0;e.dataTransfer?t=e.dataTransfer.files:e.target?t=e.target.files:"";var o="function"==typeof this.numberLimit?this.numberLimit():this.numberLimit;if(this.multiple&&o&&t.length>o){for(var i={},a=0;a<o;a++)i[a]=t[a];i.length=o,t=i}this.files=t,this.chooseFile(t),this.chooseAndUpload&&this.commonUpload()},commonUpload:function(){var e=this,t=this.files.length&&this.files[0].mill||(new Date).getTime(),o=this.beforeUpload(this.files,t);if(1!=o&&void 0!=o&&"object"!=("undefined"==typeof o?"undefined":_typeof(o)))return void(this.refs.ajax_upload_file_input.value="");if(this.files){if(!this.baseUrl)throw new Error("baseUrl missing in options");var i={},a=new FormData;this.textBeforeFiles&&(a=this.appendFieldsToFormData(a)),this._withoutFileUpload||!function(){var t=_typeof(e.fileFieldName);Object.keys(e.files).forEach(function(o){if("length"!=o)if("function"==t){var i=e.files[o],s=e.fileFieldName(i);a.append(s,i)}else if("string"==t){var r=e.files[o];a.append(e.fileFieldName,r)}else{var n=e.files[o];a.append(n.name,n)}})}(),this.textBeforeFiles||(a=this.appendFieldsToFormData(a));var s=this.baseUrl,r="function"==typeof this.param?this.param(this.files):this.param,n="";r&&!function(){var e=[];r._=t,Object.keys(r).forEach(function(t){return e.push(t+"="+r[t])}),n="?"+e.join("&")}();var l=s+n,p=new XMLHttpRequest;p.open("POST",l,!0),p.withCredentials=this.withCredentials;var d=this.requestHeaders;d&&Object.keys(d).forEach(function(e){return p.setRequestHeader(e,d[e])}),this.timeout&&(p.timeout=this.timeout,p.ontimeout=function(){e.uploadError({type:"TIMEOUTERROR",message:"timeout"}),i.isTimeout=!1},i.isTimeout=!1,setTimeout(function(){i.isTimeout=!0},this.timeout)),p.onreadystatechange=function(){try{if(4==p.readyState&&p.status>=200&&p.status<400){var t="json"==e.dataType?JSON.parse(p.responseText):p.responseText;e.uploadSuccess(t)}else if(4==p.readyState){var o="json"==e.dataType?JSON.parse(p.responseText):p.responseText;e.uploadFail(o)}}catch(a){!i.isTimeout&&e.uploadError({type:"FINISHERROR",message:a.message})}},p.onerror=function(){try{var t="json"==e.dataType?JSON.parse(p.responseText):p.responseText;e.uploadError({type:"XHRERROR",message:t})}catch(o){e.uploadError({type:"XHRERROR",message:o.message})}},p.onprogress=p.upload.onprogress=function(o){e.uploading(o,t)},this._withoutFileUpload?p.send(null):p.send(a),xhrList.push(p);var u=xhrList.length-1;currentXHRID=u,p.onabort=function(){return e.onabort(t,u)},this.doUpload(this.files,t,currentXHRID),this.refs.ajax_upload_file_input.value=""}},appendFieldsToFormData:function(e){var t="function"==typeof this.paramAddToField?this.paramAddToField():this.paramAddToField;return t&&Object.keys(t).map(function(o){return e.append(o,t[o])}),e},IEBeforeChoose:function(e){var t=this.beforeChoose();1!=t&&void 0!=t&&e.preventDefault()},IEChooseFile:function(e){this.fileName=e.target.value.substring(e.target.value.lastIndexOf("\\")+1),this.chooseFile(this.fileName),this.chooseAndUpload&&this.IEUpload()!==!1&&document.getElementById("ajax_upload_file_form_"+this.IETag+currentIEID).submit(),e.target.blur()},IEUpload:function(e){function t(){clearInterval(m);try{s.uploadSuccess(s.IECallback(s.dataType,_))}catch(e){s.uploadError(e)}finally{var t=document.getElementById("ajax_upload_hidden_input_"+s.IETag+_);t.outerHTML=t.outerHTML}}var o=this,i=(new Date).getTime(),a=this.beforeUpload(this.fileName,i);if(!this.fileName||1!=a&&void 0!=a)return e&&e.preventDefault(),!1;var s=this,r=this.baseUrl,n="function"==typeof this.param?this.param(this.fileName):this.param,l="";if(n){var p=[];n._=i,void 0===n.ie&&(n.ie="true");for(var d in n)void 0!=n[d]&&p.push(d+"="+n[d]);l="?"+p.join("&")}var u=r+l;document.getElementById("ajax_upload_file_form_"+this.IETag+currentIEID).setAttribute("action",u);var c=this.fakeProgress(),h=0,f=0,m=setInterval(function(){h=c(h),o.uploading({loaded:h,total:100},i),++f>=150&&clearInterval(m)},200),_=currentIEID;window.attachEvent?document.getElementById("ajax_upload_file_frame_"+this.IETag+_).attachEvent("onload",t):document.getElementById("ajax_upload_file_frame_"+this.IETag+_).addEventListener("load",t),this.doUpload(this.fileName,i),IEFormGroup[currentIEID]=!1},IECallback:function IECallback(dataType,frameId){IEFormGroup[frameId]=!0;var frame=document.getElementById("ajax_upload_file_frame_"+this.IETag+frameId),resp={},content=frame.contentWindow?frame.contentWindow.document.body:frame.contentDocument.document.body;if(!content)throw new Error("Your browser does not support async upload");try{resp.responseText=content.innerHTML||"null innerHTML",resp.json=JSON?JSON.parse(resp.responseText):eval("("+resp.responseText+")")}catch(e){if(e.message&&e.message.indexOf("Unexpected token")>=0){if(resp.responseText.indexOf("{")>=0){var msg=resp.responseText.substring(resp.responseText.indexOf("{"),resp.responseText.lastIndexOf("}")+1);return JSON?JSON.parse(msg):eval("("+msg+")")}return{type:"FINISHERROR",message:e.message}}throw e}return"json"==dataType?resp.json:resp.responseText},forwardChoose:function(){return!this.isIE&&void this.commonChooseFile()},fowardRemoveFile:function(e){this.files=e(this.files)},filesToUpload:function(e){this.isIE||(this.files=e,this.commonUpload())},abort:function(e){void 0===e?xhrList[currentXHRID].abort():xhrList[e].abort()},checkIE:function(){var e=this.userAgent,t=e.indexOf("MSIE");return t<0?-1:parseFloat(e.substring(t+5,e.indexOf(";",t)))},fakeProgress:function(){var e=6,t=.3,o=98,i=.2;return function(a){var s=a;return s>=o?s:(s+=e,e-=t,e<i&&(e=i),s)}},getUserAgent:function(){var e=this.props.options.userAgent,t="undefined"!=typeof navigator;if(!t&&!e)throw new Error("`options.userAgent` must be set rendering react-fileuploader in situations when `navigator` is not defined in the global namespace. (on the server, for example)");return t?navigator.userAgent:e},getInitialState:function(){return{chooseBtn:{},uploadBtn:{},before:[],middle:[],after:[]}},componentWillMount:function(){this.userAgent=this.getUserAgent(),this.isIE=!(this.checkIE()<0||this.checkIE()>=10);var e=this.props.options&&this.props.options.tag;this.IETag=e?e+"_":"",this._updateProps(this.props)},componentDidMount:function(){},componentWillReceiveProps:function(e){this._updateProps(e)},render:function(){return this._packRender()},_packRender:function(){var e="";if(this.isIE)e=this._multiIEForm();else{var t={accept:this.accept,multiple:this.multiple};e=React.createElement("div",{className:this.props.className,style:this.props.style},this.state.before,React.createElement("div",{onClick:this.commonChooseFile,style:{overflow:"hidden",postion:"relative",display:this.wrapperDisplay}},this.state.chooseBtn),this.state.middle,React.createElement("div",{onClick:this.commonUpload,style:{overflow:"hidden",postion:"relative",display:this.chooseAndUpload?"none":this.wrapperDisplay}},this.state.uploadBtn),this.state.after,React.createElement("input",_extends({type:"file",name:"ajax_upload_file_input",ref:"ajax_upload_file_input",style:{display:"none"},onChange:this.commonChange},t)))}return e},_multiIEForm:function(){function e(e,t){if(!IEFormGroup[t]||!o){var a=IEFormGroup[t],s={position:"absolute",left:"-30px",top:0,zIndex:"50",fontSize:"80px",width:"200px",opacity:0,filter:"alpha(opacity=0)"},r={accept:this.accept,disabled:i},n=React.createElement("input",_extends({type:"file",name:"ajax_upload_hidden_input_"+t,id:"ajax_upload_hidden_input_"+t,ref:"ajax_upload_hidden_input_"+t,onChange:this.IEChooseFile,onClick:this.IEBeforeChoose,style:s},r));t=""+this.IETag+t,e.push(React.createElement("form",{id:"ajax_upload_file_form_"+t,method:"post",target:"ajax_upload_file_frame_"+t,key:"ajax_upload_file_form_"+t,encType:"multipart/form-data",ref:"form_"+t,onSubmit:this.IEUpload,style:{display:a?"block":"none"}},this.state.before,React.createElement("div",{style:{overflow:"hidden",position:"relative",display:"inline-block"}},this.state.chooseBtn,n),this.state.middle,React.createElement("div",{style:{overflow:"hidden",position:"relative",display:this.chooseAndUpload?"none":this.wrapperDisplay}},this.state.uploadBtn,React.createElement("input",{type:"submit",style:{position:"absolute",left:0,top:0,fontSize:"50px",width:"200px",opacity:0}})),this.state.after)),e.push(React.createElement("iframe",{id:"ajax_upload_file_frame_"+t,name:"ajax_upload_file_frame_"+t,key:"ajax_upload_file_frame_"+t,className:"ajax_upload_file_frame",style:{display:"none",width:0,height:0,margin:0,border:0}}))}}for(var t=[],o=!1,i="function"==typeof this.disabledIEChoose?this.disabledIEChoose():this.disabledIEChoose,a=0;a<IEFormGroup.length;a++)e.call(this,t,a),IEFormGroup[a]&&!o&&(o=!0,currentIEID=a),a==IEFormGroup.length-1&&!o&&IEFormGroup.push(!0);return React.createElement("div",{className:this.props.className,style:this.props.style,id:"react-file-uploader"},t)}});module.exports=FileUpload},function(e,t){e.exports=__WEBPACK_EXTERNAL_MODULE_1__}])});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/lib/addStyles.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(selector) {
+		if (typeof memo[selector] === "undefined") {
+			memo[selector] = fn.call(this, selector);
+		}
+
+		return memo[selector]
+	};
+})(function (target) {
+	return document.querySelector(target)
+});
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__("./node_modules/style-loader/lib/urls.js");
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton) options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+	if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	options.attrs.type = "text/css";
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	options.attrs.type = "text/css";
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = options.transform(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/lib/urls.js":
+/***/ (function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/webpack/buildin/amd-define.js":
+/***/ (function(module, exports) {
+
+module.exports = function() {
+	throw new Error("define cannot be used indirect");
+};
+
 
 /***/ }),
 
@@ -12841,6 +13546,248 @@ KindEditor.plugin('wordpaste', function(K) {
 module.exports = __webpack_amd_options__;
 
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
+
+/***/ }),
+
+/***/ "./static/assets/jquery.mloading-master/src/jquery.mloading.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js?{\"modules\":false}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\"}!./static/assets/jquery.mloading-master/src/jquery.mloading.css");
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/style-loader/lib/addStyles.js")(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--2-1!../../../../node_modules/postcss-loader/lib/index.js??postcss!./jquery.mloading.css", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--2-1!../../../../node_modules/postcss-loader/lib/index.js??postcss!./jquery.mloading.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./static/assets/jquery.mloading-master/src/jquery.mloading.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* Author：mingyuhisoft@163.com
+ * Github:https://github.com/imingyu/jquery.mloading
+ * Npm:npm install jquery.mloading.js
+ * Date：2016-7-4
+ */
+
+;(function (root, factory) {
+    'use strict';
+
+    if (typeof module === 'object' && typeof module.exports === 'object') {
+        factory(__webpack_require__("./node_modules/jquery/dist/jquery.js"),root);
+    } if(true){
+        if(__webpack_require__("./node_modules/webpack/buildin/amd-define.js").cmd){
+            !(__WEBPACK_AMD_DEFINE_RESULT__ = function(require, exports, module){
+                var $ = __webpack_require__("./node_modules/jquery/dist/jquery.js");
+                factory($,root);
+            }.call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+        }else{
+            !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__("./node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_RESULT__ = function($){
+                factory($,root);
+            }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+        }
+    }else {
+        factory(root.jQuery,root);
+    }
+} (typeof window !=="undefined" ? window : this, function ($, root, undefined) {
+    'use strict';
+    if(!$){
+        $ = root.jQuery || null;
+    }
+    if(!$){
+        throw new TypeError("必须引入jquery库方可正常使用！");
+    }
+
+    var arraySlice = Array.prototype.slice,
+        comparison=function (obj1,obj2) {
+            var result=true;
+            for(var pro in obj1){
+                if(obj1[pro] !== obj2[obj1]){
+                    result=true;
+                    break;
+                }
+            }
+            return result;
+        }
+
+    function MLoading(dom,options) {
+        options=options||{};
+        this.dom=dom;
+        this.options=$.extend(true,{},MLoading.defaultOptions,options);
+        this.curtain=null;
+        this.render().show();
+    }
+    MLoading.prototype={
+        constructor:MLoading,
+        initElement:function () {
+            var dom=this.dom,
+                ops=this.options;
+            var curtainElement=dom.children(".mloading"),
+                bodyElement = curtainElement.children('.mloading-body'),
+                barElement = bodyElement.children('.mloading-bar'),
+                iconElement = barElement.children('.mloading-icon'),
+                textElement = barElement.find(".mloading-text");
+            if (curtainElement.length == 0) {
+                curtainElement = $('<div class="mloading"></div>');
+                dom.append(curtainElement);
+            }
+            if (bodyElement.length == 0) {
+                bodyElement = $('<div class="mloading-body"></div>');
+                curtainElement.append(bodyElement);
+            }
+            if (barElement.length == 0) {
+                barElement = $('<div class="mloading-bar"></div>');
+                bodyElement.append(barElement);
+            }
+            if (iconElement.length == 0) {
+                var _iconElement=document.createElement(ops.iconTag);
+                iconElement = $(_iconElement);
+                iconElement.addClass("mloading-icon");
+                barElement.append(iconElement);
+            }
+            if (textElement.length == 0) {
+                textElement = $('<span class="mloading-text"></span>');
+                barElement.append(textElement);
+            }
+            
+            this.curtainElement=curtainElement;
+            this.bodyElement = bodyElement;
+            this.barElement = barElement;
+            this.iconElement = iconElement;
+            this.textElement = textElement;
+            return this;
+        },
+        render:function () {
+            var dom=this.dom,
+                ops=this.options;
+            this.initElement();
+            if(dom.is("html") || dom.is("body")){
+                this.curtainElement.addClass("mloading-full");
+            }else{
+                this.curtainElement.removeClass("mloading-full");
+
+                if(!dom.hasClass("mloading-container")){
+                    dom.addClass("mloading-container");
+                }
+            }
+            if(ops.mask){
+                this.curtainElement.addClass("mloading-mask");
+            }else{
+                this.curtainElement.removeClass("mloading-mask");
+            }
+            if(ops.content!="" && typeof ops.content!="undefined"){
+                if(ops.html){
+                    this.bodyElement.html(ops.content);
+                }else{
+                    this.bodyElement.text(ops.content);
+                }
+            }else{
+                this.iconElement.attr("src",ops.icon);
+                if(ops.html){
+                    this.textElement.html(ops.text);
+                }else{
+                    this.textElement.text(ops.text);
+                }
+            }
+
+            return this;
+        },
+        setOptions:function (options) {
+            options=options||{};
+            var oldOptions = this.options;
+            this.options = $.extend(true,{},this.options,options);
+            if(!comparison(oldOptions,this.options)) this.render();
+        },
+        show:function () {
+            var dom=this.dom,
+                ops=this.options,
+                barElement=this.barElement;
+            this.curtainElement.addClass("active");
+            barElement.css({
+                "marginTop":"-"+barElement.outerHeight()/2+"px",
+                "marginLeft":"-"+barElement.outerWidth()/2+"px"
+            });
+
+            return this;
+        },
+        hide:function () {
+            var dom=this.dom,
+                ops=this.options;
+            this.curtainElement.removeClass("active");
+            if(!dom.is("html") && !dom.is("body")){
+                dom.removeClass("mloading-container");
+            }
+            return this;
+        },
+        destroy:function () {
+            var dom=this.dom,
+                ops=this.options;
+            this.curtainElement.remove();
+            if(!dom.is("html") && !dom.is("body")){
+                dom.removeClass("mloading-container");
+            }
+            dom.removeData(MLoading.dataKey);
+            return this;
+        }
+    };
+    MLoading.dataKey="MLoading";
+    MLoading.defaultOptions = {
+        text:"加载中...",
+        iconTag:"img",
+        icon:"data:image/gif;base64,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",
+        html:false,
+        content:"",//设置content后，text和icon设置将无效
+        mask:true//是否显示遮罩（半透明背景）
+    };
+
+    $.fn.mLoading=function (options) {
+        var ops={},
+            funName="",
+            funArgs=[];
+        if(typeof options==="object"){
+            ops = options;
+        }else if(typeof options ==="string"){
+            funName=options;
+            funArgs = arraySlice.call(arguments).splice(0,1);
+        }
+        return this.each(function (i,element) {
+            var dom = $(element),
+                plsInc=dom.data(MLoading.dataKey);
+            if(!plsInc){
+                plsInc=new MLoading(dom,ops);
+            }
+
+            if(funName){
+                var fun = plsInc[funName];
+                if(typeof fun==="function"){
+                    fun.apply(plsInc,funArgs);
+                }
+            }
+        });
+    }
+}));
 
 /***/ })
 

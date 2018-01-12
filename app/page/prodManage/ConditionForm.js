@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { Select } from 'antd';
 import {
   Form,
   FormGroup,
@@ -9,25 +10,22 @@ import {
   FormControl,
   Checkbox
 } from 'react-bootstrap';
+const Option = Select.Option;
 
 class Condition extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      prod_assist_code: '',
-      prod_name: '',
-      prod_src: '',
-      prod_cats: [],
-      prod_tags: [],
-      doc_crowds: [],
-      station_in_sale: 1
-    };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.checkProdCategory = this.checkProdCategory.bind(this);
+    this.doCatChange = this.doCatChange.bind(this);
+    this.radioChange = this.radioChange.bind(this);
+    this.state = {
+      lang: 1
+    };
   }
 
   handleSearch() {
@@ -35,8 +33,15 @@ class Condition extends Component {
     // this.props.handleSearch(this.state);
   }
 
-  getData() {
-    return this.state;
+  radioChange(e){
+    const target = e.target;
+    const value = Number(target.value);
+    this.setState({
+      lang: value
+    });
+  }
+
+  doCatChange(){
   }
 
   handleCheckboxChange(event) {
@@ -72,13 +77,6 @@ class Condition extends Component {
         item.classList.remove('active');
       }
     });
-// categories.forEach((item) => {
-//   if (target === item) {
-//     target.classList.add('active');
-//   } else {
-//     item.classList.remove('active');
-//   }
-// });
     _.forEach(category_info, (item) => {
       let id = item.dataset['id'];
       if (target_id === id) {
@@ -87,14 +85,6 @@ class Condition extends Component {
         item.classList.add('hide');
       }
     } );
-    // category_info.forEach((item) => {
-    //   let id = item.dataset['id'];
-    //   if (target_id === id) {
-    //     item.classList.remove('hide');
-    //   } else {
-    //     item.classList.add('hide');
-    //   }
-    // });
   }
 
   render() {
@@ -114,6 +104,73 @@ class Condition extends Component {
     if (this.props.modal) {
       station_in_sale_view = null;
     }
+
+
+    const TAGS = (
+      <FormGroup>
+        <Select
+          mode="multiple"
+          style={{ width: '100%' }}
+          placeholder=""
+          defaultValue={this.props['prod_tags']}
+          onChange={this.doCatChange}
+        >
+        {tags.map(tag => {
+          return (
+            <Option key={tag.tag_id} nvalue={tag.tag_id}>
+              {tag.tag_text}
+            </Option>
+          );
+        })}
+        </Select>
+      </FormGroup>
+    );
+
+
+    const CROWDS = (
+      <FormGroup>
+        <Select
+          mode="multiple"
+          style={{ width: '100%' }}
+          placeholder=""
+          defaultValue={this.props['doc_crowds']}
+          onChange={this.doCatChange}
+        >
+        {crowds.map(crowd => {
+          return (
+            <Option onChange={this.handleCheckboxChange} key={crowd.crowd_id} value={crowd.crowd_id}>
+              {crowd.crowd_text}
+            </Option>
+          );
+        })}
+        </Select>
+      </FormGroup>
+    );
+
+    const CATS = cats.map((cat) => {
+      const sub_cats = cat.sub_cats.map(sub_cat => {
+        return (
+          <Option title={sub_cat.cat_text} key={sub_cat.cat_id} value={sub_cat.cat_id}>
+            {sub_cat.cat_text}
+          </Option>
+        );
+      });
+      return (
+        <FormGroup key={cat.cat_id}>
+          <ControlLabel>{cat.cat_text}</ControlLabel>
+          <Select
+            mode="multiple"
+            style={{ width: '100%' }}
+            placeholder=""
+            defaultValue={this.props['prod_cats']}
+            onChange={this.doCatChange}
+          >
+            {sub_cats}
+          </Select>
+        </FormGroup>
+      );
+    });
+
     return (
       <Form inline>
         <FormGroup controlId="prod_assist_code">
@@ -141,80 +198,64 @@ class Condition extends Component {
             <Button bsClass={'btn btn-main'} onClick={this.handleSearch} type='button'>查询</Button>
           </FormGroup>)
         }
-
+        <FormGroup>
+          <ControlLabel>商品标签</ControlLabel>
+          <div className='mul-check'>
+            <input type='radio' name='radio' value={1} checked={this.state.lang === 1 ? true : false} onChange={this.radioChange}/>c
+            <input type='radio' name='radio' value={2} checked={this.state.lang === 2 ? true : false} onChange={this.radioChange}/>java
+          </div>
+        </FormGroup>
         <div className='mul-container'>
           <FormGroup>
             <ControlLabel>商品标签</ControlLabel>
             <div className='mul-check'>
-              {tags.map(tag => {
-                const state = this.props['prod_tags'].findIndex(item => {
-                  return item === tag.tag_id;
-                });
-                const checked = (state > -1)
-                  ? 'checked'
-                  : false;
-                return (
-                  <Checkbox title={tag.tag_text} key={tag.tag_id} name='prod_tags' onChange={this.handleCheckboxChange} value={tag.tag_id} checked={checked} inline>
-                    {tag.tag_text}
-                  </Checkbox>
-                );
-              })}
+              {TAGS}
             </div>
           </FormGroup>
           <FormGroup>
             <ControlLabel>档案人群分类</ControlLabel>
             <div className='mul-check'>
-              {crowds.map(crowd => {
-                const state = this.props['doc_crowds'].findIndex(item => {
-                  return item === crowd.crowd_id;
-                });
-                const checked = (state > -1)
-                  ? 'checked'
-                  : false;
-                return (
-                  <Checkbox title={crowd.crowd_text} name='doc_crowds' onChange={this.handleCheckboxChange} key={crowd.crowd_id} value={crowd.crowd_id} checked={checked} inline>
-                    {crowd.crowd_text}
-                  </Checkbox>
-                );
-              })}
+              {CROWDS}
             </div>
           </FormGroup>
           <FormGroup>
             <div>
               <ControlLabel>商品分类</ControlLabel>
             </div>
-            <div ref='categorys'>
-              {cats.map((cat, index) => {
-                let isActive = index === 0 ? 'active' : '';
-                return (
-                  <span onClick={this.checkProdCategory} data-id={cat.cat_id} className={isActive + ' prod-category js-prod-category'} key={cat.cat_id}>{cat.cat_text}</span>
-                );
-              })}
-            </div>
             <div ref='category_infos'>
-              {cats.map((cat, index) => {
-                const sub_cats = cat.sub_cats.map(sub_cat => {
-                  const state = this.props['prod_cats'].findIndex(item => {
-                    return item === sub_cat.cat_id;
-                  });
-                  const checked = (state > -1)
-                    ? 'checked'
-                    : false;
+              <div ref='categorys'>
+                {cats.map((cat, index) => {
+                  let isActive = index === 0 ? 'active' : '';
                   return (
-                    <Checkbox title={sub_cat.cat_text} key={sub_cat.cat_id} checked={checked} name='prod_cats' onChange={this.handleCheckboxChange} inline value={sub_cat.cat_id}>
-                      {sub_cat.cat_text}
-                    </Checkbox>
+                    <span onClick={this.checkProdCategory} data-id={cat.cat_id} className={isActive + ' prod-category js-prod-category'} key={cat.cat_id}>{cat.cat_text}</span>
                   );
-                });
-                const isHidden = index !== 0
-                  ? 'hide'
-                  : '';
-                return (
-                  <div className={isHidden + ' js-category-info'} data-id={cat.cat_id} key={cat.cat_id}>
-                    {sub_cats}
-                  </div>
-                );
-              })}
+                })}
+              </div>
+              <div ref='category_infos'>
+                {cats.map((cat, index) => {
+                  const sub_cats = cat.sub_cats.map(sub_cat => {
+                    const state = this.props['prod_cats'].findIndex(item => {
+                      return item === sub_cat.cat_id;
+                    });
+                    const checked = (state > -1)
+                      ? 'checked'
+                      : false;
+                    return (
+                      <Checkbox title={sub_cat.cat_text} key={sub_cat.cat_id} checked={checked} name='prod_cats' onChange={this.handleCheckboxChange} inline value={sub_cat.cat_id}>
+                        {sub_cat.cat_text}
+                      </Checkbox>
+                    );
+                  });
+                  const isHidden = index !== 0
+                    ? 'hide'
+                    : '';
+                  return (
+                    <div className={isHidden + ' js-category-info'} data-id={cat.cat_id} key={cat.cat_id}>
+                      {sub_cats}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </FormGroup>
           {

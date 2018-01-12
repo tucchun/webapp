@@ -34,7 +34,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		26: 0
+/******/ 		33: 0
 /******/ 	};this['installedModules'] = installedModules;//---------local-vars--------
 /******/
 /******/ 	// The require function
@@ -91,7 +91,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "" + ({"0":"vendor","1":"guestorder/Info","2":"shopOrder/Info","3":"guestorder/List","4":"shopOrder/List","5":"userStats/userStats","6":"userOrders/userOrders","7":"salesStats/salesStats4","8":"salesStats/salesStats3","9":"salesStats/salesStats2","10":"salesStats/salesStats","11":"jgssalesStats/jgssalesStats","12":"commodityStats/commodityStats","13":"prodManage/List","14":"jurisdictionOutsideAddrAdmin/addrAdmin","15":"priceManagent/priceManagent","16":"priceManagent/priceCheck","17":"priceManagent/priceRecord","18":"priceManagent/applyMgr","19":"goodsTag/goodsTag","20":"goodsData/goodsData","21":"filterCrowd/filterCrowd","22":"goodsData/newGoodsData","23":"goodsData/goodsUpdate","24":"goodsData/goodsDetail","25":"prodManage/Info"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "" + ({"0":"guestorder/Info","1":"shopOrder/Info","2":"guestorder/List","3":"shopOrder/List","4":"userStats/userStats","5":"userOrders/userOrders","6":"salesStats/salesStats4","7":"salesStats/salesStats3","8":"salesStats/salesStats2","9":"salesStats/salesStats","10":"jgssalesStats/jgssalesStats","11":"commodityStats/commodityStats","12":"claimsRecord/List","13":"prodManage/List","14":"jurisdictionOutsideAddrAdmin/addrAdmin","15":"priceManagent/priceManagent","16":"priceManagent/priceCheck","17":"insuranceRecord/index","18":"priceManagent/priceRecord","19":"priceManagent/applyMgr","20":"goodsTag/goodsTag","21":"goodsData/goodsData","22":"filterCrowd/filterCrowd","23":"claimCalculation/calculationRefund","24":"claimCalculation/calculation","25":"claimsRecord/Info","26":"insuranceRecord/Details","27":"goodsData/newGoodsData","28":"goodsData/goodsUpdate","29":"goodsData/goodsDetail","30":"prodManage/Info","31":"claimsRuls/claimsRuls","32":"vendor"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {

@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const modules = require('./app/modules.js');
 const ExamplePlugin = require("./app/lib/ExamplePlugin.js");
 const autoprefixer = require('autoprefixer');
+const lib = require('./app/config/lib.dependencies.js');
 const appDirectory = fs.realpathSync(process.cwd());
 
 let entry = {};
@@ -24,27 +25,7 @@ for (let i = 0; i < modules.length; i++) {
 module.exports = {
   entry: {
     ...entry,
-    vendor: [
-      "babel-polyfill",
-      'react',
-      'react-dom',
-      'jquery',
-      'dot',
-      'lodash',
-      'rc-table',
-      'node-forge',
-      'viewerjs',
-      'react-bootstrap-date-picker',
-      'es6-promise',
-      'react-bootstrap',
-      'prop-types',
-      'object-assign',
-      'axios',
-      'rc-table/assets/index.css',
-      './app/component/table/rc-table.css',
-      './static/assets/jquery.mloading-master/src/jquery.mloading.js',
-      './static/assets/jquery.mloading-master/src/jquery.mloading.css'
-    ]
+    vendor: lib
   },
 
   // resolve: {
@@ -92,7 +73,8 @@ module.exports = {
     // new ExtractTextPlugin('app.css'),
     ...htmls,
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor', minChunks: Infinity
+      name: 'vendor',
+      minChunks: Infinity
       // filename: 'vendor.[chunkhash].js'
     }),
     new webpack.optimize.CommonsChunkPlugin({

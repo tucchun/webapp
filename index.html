@@ -16,19 +16,53 @@
 </head>
 
 <body>
-  <div id="div">
-    <button id='button' type="button">button</button>
-  </div>
-  <script type="text/javascript">
-    document.getElementById('div').addEventListener('click', function(e) {
-      console.log('div', 'target', e.target)
-      console.log('div', 'currenttarget', e.currentTarget)
+  <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="height:200px;width: 400px;"></div>
+    <!-- ECharts单文件引入 -->
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <script type="text/javascript">
+    // 路径配置
+    require.config({
+      paths: {
+        echarts: 'http://echarts.baidu.com/build/dist'
+      }
     });
-    document.getElementById('button').addEventListener('click', function(e) {
-      console.log('button', 'target', e.target)
-      console.log('button', 'currenttarget', e.currentTarget)
-    });
-  </script>
+    // 使用
+    require(
+      [
+        'echarts',
+        'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+      ],
+      function(ec) {
+        // 基于准备好的dom，初始化echarts图表
+        var myChart = ec.init(document.getElementById('main'));
+
+        option = {
+          tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+          },
+          legend: {
+            bottom: 100,
+            left: 'center',
+            data: ['计划产量', '实际产出量', '实际投入量']
+          },
+          series: [{
+            type: 'pie',
+            radius: '35%',
+            center: ['50%', '50%'],
+            data: [
+              { value: 300, name: '计划产量' },
+              { value: 235, name: '实际产出量' },
+              { value: 1735, name: '实际投入量' }
+            ]
+          }]
+        };
+        // 为echarts对象加载数据
+        myChart.setOption(option);
+      }
+    );
+    </script>
 </body>
 
 </html>

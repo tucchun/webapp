@@ -14,8 +14,6 @@
         <div class="tb-wrap">
             <div class="opt clearfix">
                 <div class="pull-right">
-                    <input type="hidden" id="organizationId" name="organizationId" value="${organizationId }" />
-                    <input type="hidden" id="hecadreIdListStr" name="hecadreIdListStr" value="${hecadreIdListStr }" />
                     <button type="button" class="btn btn-main" id="btn-export">导出</button>
                 </div>
             </div>
@@ -39,7 +37,7 @@
                 <tbody>
                 <c:forEach items="${pages.content}" var="list" varStatus="status">
                 <tr>
-                    <td><a href="#" data-id="${list.user_id}" class="js-view">${list.userName }</a></td>
+                    <td><a href="#" data-id="${list.userId}" class="js-view">${list.userName }</a></td>
                     <td>${list.sexStr }</td>
                     <td>${list.age }</td>
                     <td>${list.personId }</td>
@@ -55,7 +53,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <tags:pagination page="${pages}" action="${ctx}/operationalData/spDetail?organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&hecadreIdListStr=${hecadreIdListStr}&organizId=${organizId}" pageId="operationalDataSPDetail" />
+            <tags:pagination page="${pages}" action="${ctx}/operationalData/spDetail?organizationId=${organizationId}&doctorUid=${doctorUid}&hecadreUid=${hecadreUid}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext=${noTeamNext}" pageId="operationalDataSPDetail" />
         </div>
     </div>
 </div>
@@ -66,7 +64,7 @@
 		var $self = $("#operationalDataSPDetail");
 		
 		$self.find("#btn-export").on('click',function(e){
-	        window.location.href="${ctx}/operationalData/spDetail?download=download&organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&hecadreIdListStr=${hecadreIdListStr}&organizId=${organizId}";
+	        window.location.href="${ctx}/operationalData/spDetail?download=download&organizationId=${organizationId}&doctorUid=${doctorUid}&hecadreUid=${hecadreUid}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext=${noTeamNext}";
 	    });
 		
 		$self.find(".js-itemDetail").on("click", function(e){

@@ -195,7 +195,7 @@ const ApiMap = {
   goodsPriceAdjustExport: {
     url: '/hca/web/admin/shop/prodprice/adjust/export',
     method: 'POST',
-    responseType: 'blob',
+    responseType: 'blob'
   },
 
   //1.1.15	(Web)商品详情
@@ -347,27 +347,106 @@ const ApiMap = {
   },
 
   //1.1.32	(Web)商品筛选人群列表
-  shopCrowd:{
-    url:'/hca/web/admin/shop/prod/crowd/list',
-    method:'POST'
+  shopCrowd: {
+    url: '/hca/web/admin/shop/prod/crowd/list',
+    method: 'POST'
   },
 
   //1.1.31	(Web)商品筛选人群新增
-  newShopCrowd:{
-    url:'/hca/web/admin/shop/prod/crowd/create',
-    method:'POST'
+  newShopCrowd: {
+    url: '/hca/web/admin/shop/prod/crowd/create',
+    method: 'POST'
   },
 
   //1.1.33	(Web)商品筛选人群删除
-  delShopCrowd:{
-    url:'/hca/web/admin/shop/prod/crowd/delete',
-    method:'POST'
+  delShopCrowd: {
+    url: '/hca/web/admin/shop/prod/crowd/delete',
+    method: 'POST'
   },
 
   //1.1.34	(Web)商品筛选人群修改
-  updateShopCrowd:{
-      url:'/hca/web/admin/shop/prod/crowd/update',
-      method:'POST'
+  updateShopCrowd: {
+    url: '/hca/web/admin/shop/prod/crowd/update',
+    method: 'POST'
+  },
+
+  //1.3.1	(Web)理赔列表
+  adminOpinsReimList: {
+    url: '/hca/web/admin/opins/reim/list',
+    method: 'POST',
+    data: commonData
+  },
+
+  //1.3.1	(Web)理赔列表
+  reimDetail: {
+    url: '/hca/web/admin/opins/reim',
+    method: 'POST',
+    data: commonData
+  },
+  //理赔列表导出
+  reimExport:{
+    url:'/hca/web/admin/opins/reim/export',
+    method:'POST',
+    data:commonData,
+    responseType: 'blob'
+  },
+
+  // 1.1.1(Web)保单导入
+  policyImport: {
+    url: '/hca/web/admin/opins/policy/import/<uid>/<authstr>',
+    method: 'PUT'
+  },
+
+  // 1.1.2(Web)保单列表
+  getPolicyList: {
+    url: '/hca/web/admin/opins/policy/list',
+    method: 'POST',
+    data: commonData
+  },
+
+  // 1.1.3(Web)保单详情
+  getPolicyDetails: {
+    url: '/hca/web/admin/opins/policy',
+    method: 'POST',
+    data: commonData
+  },
+
+  // 1.1.4(Web)保单删除
+  policyDelete: {
+    url: '/hca/web/admin/opins/policy/delete',
+    method: 'POST',
+    data: commonData
+  },
+
+  // 1.1.6(Web)保单导出
+  policyExport: {
+    url: '/hca/web/admin/opins/policy/export',
+    method: 'POST',
+    data: commonData
+  },
+  //理赔规则
+  reimSetting:{
+    url:'/hca/web/admin/opins/reim/setting',
+    method:'POST',
+    data:commonData
+  },
+  //理赔规则更新设置
+  reimSettingUpdate:{
+    url:'/hca/web/admin/opins/reim/setting/update',
+    method:'POST',
+    data:commonData
+  },
+
+  //1.3.2	理赔计算接口
+  claimCalculation:{
+    url:'/hca/p3/his/opins/reim/calc',
+    method:'POST'
+  },
+
+  //1.3.4	退费计算接口
+  claimCalculationRefund:{
+    url:'/hca/p3/his/opins/reim/refund',
+    method:'POST'
   }
 };
 

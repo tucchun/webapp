@@ -105,26 +105,27 @@ class NewGoodsData extends Component{
 
     //打开弹窗
     openDialog(type){
+        let lgShow = true,tagList = this.tags.tags,dialogName = '商品标签',dataKey = 'prod_tags',choseTag = this.state.goodsMsg.prod_tags ? this.state.goodsMsg.prod_tags : [];
         if(type === 'tags'){
             this.setState({
-                lgShow:true,
-                tagList:this.tags.tags,
-                dialogName:'商品标签',
-                dataKey:'prod_tags'
+                lgShow,tagList,dialogName,dataKey,choseTag
             });
         }else if(type === 'crowds'){
+            tagList = this.tags.crowds;
+            dialogName = '档案人群分类';
+            dataKey = 'doc_crowds';
+            choseTag = this.state.goodsMsg.doc_crowds ? this.state.goodsMsg.doc_crowds : [];
             this.setState({
-                lgShow:true,
-                tagList:this.tags.crowds,
-                dialogName:'档案人群分类',
-                dataKey:'doc_crowds'
+                lgShow,tagList,dataKey,dialogName,choseTag
+
             });
         }else{
+            tagList = this.tags.prod_crowds;
+            dialogName = '筛选人群分类';
+            dataKey = 'prod_crowds';
+            choseTag = this.state.goodsMsg.prod_crowds ? this.state.goodsMsg.prod_crowds : [];
             this.setState({
-                lgShow:true,
-                tagList:this.tags.prod_crowds,
-                dialogName:'筛选人群分类',
-                dataKey:'prod_crowds'
+                lgShow,tagList,dialogName,dataKey,choseTag
             });
         }
     }
@@ -137,7 +138,6 @@ class NewGoodsData extends Component{
             });
             this.setState({
                 tagsText:data.text,
-                choseTag:prod_tags,
                 goodsMsg:{
                 ...this.state.goodsMsg,
                 prod_tags
@@ -148,7 +148,6 @@ class NewGoodsData extends Component{
             });
             this.setState({
                 crowText:data.text,
-                choseTag:prod_crowds,
                 goodsMsg:{
                 ...this.state.goodsMsg,
                     prod_crowds:prod_crowds
@@ -159,7 +158,6 @@ class NewGoodsData extends Component{
             });
             this.setState({
                 crowsText:data.text,
-                choseTag:doc_crowds,
                 goodsMsg:{
                     ...this.state.goodsMsg,
                     doc_crowds:doc_crowds

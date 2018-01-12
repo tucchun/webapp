@@ -14,9 +14,9 @@
         <div class="tb-wrap">
             <div class="opt clearfix">
                 <div class="pull-right">
-                    <input type="hidden" id="organizationId" name="organizationId" value="${organizationId }" />
-                    <input type="hidden" id="hecadreIdListStr" name="hecadreIdListStr" value="${hecadreIdListStr }" />
+                    <c:if test="${orgLevel==4}">
                     <button type="button" class="btn btn-main" id="btn-export">导出</button>
+                    </c:if>
                 </div>
             </div>
             <table cellspacing="0" class="table table-striped table-hover table-bordered center">
@@ -38,7 +38,7 @@
                 <tbody>
                 <c:forEach items="${pages.content}" var="list" varStatus="status">
                 <tr>
-                    <td><a href="#" data-id="${list.user_id}" class="js-view">${list.userName }</a></td>
+                    <td><a href="#" data-id="${list.userId}" class="js-view">${list.userName }</a></td>
                     <td>${list.sexStr }</td>
                     <td>${list.age }</td>
                     <td>${list.residentMobile }</td>
@@ -53,7 +53,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <tags:pagination page="${pages}" action="${ctx}/operationalData/detail?organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&hecadreIdListStr=${hecadreIdListStr}&organizId=${organizId}" pageId="operationalDataDetail" />
+            <tags:pagination page="${pages}" action="${ctx}/operationalDataOwn/qyDetail?organizationId=${organizationId}&doctorUid=${doctorUid}&hecadreUid=${hecadreUid}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}" pageId="operationalDataOwnQYDetail" />
         </div>
     </div>
 </div>
@@ -61,10 +61,10 @@
 <script>
 
 	require([ 'jquery' ], function($) {
-		var $self = $("#operationalDataDetail");
+		var $self = $("#operationalDataOwnQYDetail");
 		
 		$self.find("#btn-export").on('click',function(e){
-	        window.location.href="${ctx}/operationalData/detail?download=download&organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&hecadreIdListStr=${hecadreIdListStr}&organizId=${organizId}";
+	        window.location.href="${ctx}/operationalDataOwn/qyDetail?download=download&organizationId=${organizationId}&doctorUid=${doctorUid}&hecadreUid=${hecadreUid}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}";
 	    });
 		
 		$self.find(".js-view").on("click", function(e){

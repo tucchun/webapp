@@ -23,10 +23,12 @@ axios.interceptors.request.use(config => {
   logger('===============请求接口开始===============\n');
   logger('请求接口：' + config.url + '\n');
   let data = {
-      ...config.data,
-      auth_str:getAuthStr()
+    ...config.data,
+    auth_str:getAuthStr()
   };
-  config.data = data;
+  if(!config.data.auth_str){
+    config.data = data;
+  }
   logger('参数：' + JSON.stringify(config.data) + '\n');
   $(document.body).mLoading({mask: false}); //显示loading组件
   return config;
@@ -83,7 +85,7 @@ const httpServer = function() {
   }
   if (demo) {
     let key = _.findKey(ApiMap, {'url': url});
-    return axios('./rss/' + key + '.json');
+    return axios('./app/rss/' + key + '.json');
   }
   if (url.indexOf("?") > 0) {
     url += ('&_=' + (+new Date()));

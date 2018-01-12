@@ -734,6 +734,7 @@ class ProdManage extends Component {
         addViewData: {
           ...addViewData,
           gridData: result.prod_list,
+          total: result.total,
           pageNumber: pageNumber,
           currentPage: 1,
           search_data
@@ -754,6 +755,7 @@ class ProdManage extends Component {
         addViewData: {
           ...addViewData,
           gridData: result.prod_list,
+          total: result.total,
           currentPage,
           pageNumber: pageNumber,
           search_data

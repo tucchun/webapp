@@ -637,4 +637,4 @@ class GuestorderList extends Component {
   }
 }
 ReactDOM.render(
-  <LocaleProvider locale={zh_CN}>< GuestorderList/></LocaleProvider>, document.getElementById('__guestorder/List__'));
+  < GuestorderList/>, document.getElementById('__guestorder/List__'));

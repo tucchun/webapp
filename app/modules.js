@@ -23,7 +23,14 @@ let components = [
   'priceManagent/applyMgr',
   'priceManagent/priceCheck',
   'priceManagent/priceRecord',
-  'filterCrowd/filterCrowd'
+  'filterCrowd/filterCrowd',
+  'claimsRecord/List',
+  'claimsRecord/Info',
+  'claimsRuls/claimsRuls',
+  'insuranceRecord/index',
+  'insuranceRecord/Details',
+  'claimCalculation/calculation',
+  'claimCalculation/calculationRefund'
 ];
 
 module.exports = components;

@@ -4,12 +4,12 @@ import {
     Checkbox
 } from 'react-bootstrap';
 import OperateForm from './Form';
-import {HealthManagerModal, AddrModifyModal, ComfirmModifyModal} from './Modal';
+import {HealthManagerModal, AddrModifyModal, ComfirmModifyModal, appendAddrModifyModal} from './Modal';
 import Gird from '../../component/table/Table';
 import PageNation from '../../component/pageNation/pageNation';
 import http from '../../lib/Api/http';
 import ApiMap from '../../lib/Api/ApiMap';
-import {formatDateTime, common} from '../../lib/Util';
+import {formatDateTime, common, confirm} from '../../lib/Util';
 import './style.css';
 import { fail } from 'assert';
 
@@ -124,9 +124,9 @@ class AddrAdmin extends Component {
     }
 
     handleAddrModifyModal(item){
+        appendAddrModifyModal(item, this.getAddrList);
         this.setState({
             needModifyItem: item,
-            showAddrModifyModal: true
         });
 
         common.Util.data('parms', {
@@ -368,11 +368,11 @@ class AddrAdmin extends Component {
                 getAddrList={this.getAddrList}
                 isShow={showHealthManagerModal}
                 hide={this.closeHealthManagerModal} />
-                <AddrModifyModal
+                {/* <AddrModifyModal
                 needModifyItem={needModifyItem}
                 getAddrList={this.getAddrList}
                 isShow={showAddrModifyModal}
-                hide={this.closeAddrModifyModal} />
+                hide={this.closeAddrModifyModal} /> */}
                 <ComfirmModifyModal
                 getAddrList={this.getAddrList}
                 isShow={showComfirmModifyModal}

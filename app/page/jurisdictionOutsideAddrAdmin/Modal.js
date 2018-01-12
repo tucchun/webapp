@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import http from '../../lib/Api/http';
 import ApiMap from '../../lib/Api/ApiMap';
@@ -105,16 +106,23 @@ export class AddrModifyModal extends Component {
 
     constructor(props) {
       super(props);
+      const {needModifyItem} = this.props;
       this.state = {
+        isShow: true,
         checkedProvince: '',
         checkedCity: '',
         checkedArea: '',
         checkedStreet: '',
         checkedCommittee: '',
-        buildingName: '',
-        buildingNo: '',
-        buildingUnit: '',
-        householdNo: '',
+        buildingName: needModifyItem.building_name,
+        buildingNo: needModifyItem.building_no === undefined ? '' : needModifyItem.building_no,
+        buildingUnit: needModifyItem.building_unit === undefined ? '' : needModifyItem.building_unit,
+        householdNo: needModifyItem.household_no,
+        checkedProvinceId: needModifyItem.province_area_id,
+        checkedCityId: needModifyItem.city_area_id,
+        checkedAreaId: needModifyItem.district_area_id,
+        checkedStreetId: needModifyItem.street_area_id,
+        checkedCommitteeId: needModifyItem.village_area_id,
         provinceList: [],
         cityList: [],
         areaList: [],
@@ -133,97 +141,149 @@ export class AddrModifyModal extends Component {
       this.changebuildingNo = this.changebuildingNo.bind(this);
       this.changebuildingUnit = this.changebuildingUnit.bind(this);
       this.changehouseholdNo = this.changehouseholdNo.bind(this);
+      this.handleHide = this.handleHide.bind(this);
+      this.doCancel = this.doCancel.bind(this);
 
     }
 
     componentWillMount() {
       console.log(this.state);
+      const {needModifyItem} = this.props;
 
       this.getPCAList('provinceList');
+      this.getPCAList('cityList', needModifyItem.province_area_id);
+      this.getPCAList('areaList', needModifyItem.city_area_id);
+      this.getPCAList('streetList', needModifyItem.district_area_id);
+      this.getPCAList('committeeList', needModifyItem.street_area_id);
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+    }
   
     // 确认修改地址
     comfirmModify() {
 
-      const {checkedProvince, checkedCity, checkedArea, checkedStreet, checkedCommittee, buildingName, buildingNo, buildingUnit, householdNo} = this.state;
+      const {provinceList, cityList, areaList, streetList, committeeList, checkedProvinceId, checkedCityId, checkedAreaId, checkedStreetId, checkedCommitteeId, buildingName, buildingNo, buildingUnit, householdNo} = this.state;
 
-      if (checkedProvince === '') {
-        common.alert('请选择省份');
-        return;
-      }
-      if (checkedCity === '') {
-        common.alert('请选择城市');
-        return;
-      }
-      if (checkedArea === '') {
-        common.alert('请选择地区');
-        return;
-      }
-      if (buildingName.trim() === '') {
-        common.alert('请填写小区名');
-        return;
-      }
-      // if (buildingNo.trim() === '') {
-      //   common.alert('请填写楼栋');
-      //   return;
-      // }
-      // if (buildingUnit.trim() === '') {
-      //   common.alert('请填写单元');
-      //   return;
-      // }
-      if (householdNo.trim() === '') {
-        common.alert('请填写门牌号');
-        return;
+      let checkedProvince = 0,
+        checkedCity = 0,
+        checkedArea = 0,
+        checkedStreet = 0,
+        checkedCommittee = 0;
+
+      for (let i = 0; i < provinceList.length; i++) {
+        if (provinceList[i].area_id === checkedProvinceId) {
+          checkedProvince = provinceList[i].area_code;
+        }
       }
 
+      for (let i = 0; i < cityList.length; i++) {
+        if (cityList[i].area_id === checkedCityId) {
+          checkedCity = cityList[i].area_code;
+        }
+      }
 
-      console.log(buildingUnit);
+      for (let i = 0; i < areaList.length; i++) {
+        if (areaList[i].area_id === checkedAreaId) {
+          checkedArea = areaList[i].area_code;
+        }
+      }
 
-      const parms = {
-        ...ApiMap.commonData,
-        detail_id: common.Util.data('parms').detailId, // 辖区外住户detail id
-        province_code: checkedProvince, //省份code
-        city_code: checkedCity, //市code
-        district_code: checkedArea, //区code
-        street_code: checkedStreet, //街道code
-        village_code: checkedCommittee, //村/居委会code
-        building_name: buildingName, //小区/建筑名
-        building_no: buildingNo, //楼栋, eg: A栋
-        buidling_unit: buildingUnit, //单元, eg: 1单元
-        household_no: householdNo //房号, eg: 301
-      };
+      for (let i = 0; i < streetList.length; i++) {
+        if (streetList[i].area_id === checkedStreetId) {
+          checkedStreet = streetList[i].area_code;
+        }
+      }
 
-      http({
-        url: ApiMap.stationNongridUpdate.url,
-        method: ApiMap.stationNongridUpdate.method,
-        data: parms
-      })
-      .then((res) => {
-          if (res.data.ret_code === 1) {
+      for (let i = 0; i < committeeList.length; i++) {
+        if (committeeList[i].area_id === checkedCommitteeId) {
+          checkedCommittee = committeeList[i].area_code;
+        }
+      }
+
+      this.setState({
+        checkedProvince,
+        checkedCity,
+        checkedArea,
+        checkedStreet,
+        checkedCommittee
+      }, () => {
+        // const {checkedProvince, checkedCity, checkedArea, checkedStreet, checkedCommittee, buildingName, buildingNo, buildingUnit, householdNo} = this.state;
+        
+        if (checkedProvince === '') {
+          common.alert('请选择省份');
+          return;
+        }
+        if (checkedCity === '') {
+          common.alert('请选择城市');
+          return;
+        }
+        if (checkedArea === '') {
+          common.alert('请选择地区');
+          return;
+        }
+        if (buildingName.trim() === '') {
+          common.alert('请填写小区名');
+          return;
+        }
+        // if (buildingNo.trim() === '') {
+        //   common.alert('请填写楼栋');
+        //   return;
+        // }
+        // if (buildingUnit.trim() === '') {
+        //   common.alert('请填写单元');
+        //   return;
+        // }
+        if (householdNo.trim() === '') {
+          common.alert('请填写门牌号');
+          return;
+        }
+  
+        const parms = {
+          ...ApiMap.commonData,
+          detail_id: common.Util.data('parms').detailId, // 辖区外住户detail id
+          province_code: checkedProvince, //省份code
+          city_code: checkedCity, //市code
+          district_code: checkedArea, //区code
+          street_code: checkedStreet, //街道code
+          village_code: checkedCommittee, //村/居委会code
+          building_name: buildingName, //小区/建筑名
+          building_no: buildingNo, //楼栋, eg: A栋
+          buidling_unit: buildingUnit, //单元, eg: 1单元
+          household_no: householdNo //房号, eg: 301
+        };
+  
+        http({
+          url: ApiMap.stationNongridUpdate.url,
+          method: ApiMap.stationNongridUpdate.method,
+          data: parms
+        })
+        .then((res) => {
+            if (res.data.ret_code === 1) {
+                common.alert(res.data.ret_msg);
+                // this.props.hide();
+                this.props.getAddrList();
+                this.setState({
+                  checkedProvince: "",
+                  checkedCity: "",
+                  checkedArea: "",
+                  checkedStreet: "",
+                  checkedCommittee: "",
+                  buildingName: "",
+                  buildingNo: "",
+                  buildingUnit: "",
+                  householdNo: "",
+                })
+            } else {
               common.alert(res.data.ret_msg);
-              this.props.hide();
-              this.props.getAddrList();
-              this.setState({
-                checkedProvince: "",
-                checkedCity: "",
-                checkedArea: "",
-                checkedStreet: "",
-                checkedCommittee: "",
-                buildingName: "",
-                buildingNo: "",
-                buildingUnit: "",
-                householdNo: "",
-              })
-          } else {
-            common.alert(res.data.ret_msg);
-          }
-      }, (error) => {
-        common.alert(error);
+            }
+        }, (error) => {
+          common.alert(error);
+        });
+  
+        this.setState({isShow: false});
       });
 
-      this.props.hide();
     }
 
     // 获取省市区级列表
@@ -273,6 +333,11 @@ export class AddrModifyModal extends Component {
         checkedArea: "",
         checkedStreet: "",
         checkedCommittee: "",
+        checkedProvinceId: id,
+        checkedCityId: "",
+        checkedAreaId: "",
+        checkedStreetId: "",
+        checkedCommitteeId: "",
         cityList: [],
         areaList: [],
         streetList: [],
@@ -297,6 +362,10 @@ export class AddrModifyModal extends Component {
         checkedArea: "",
         checkedStreet: "",
         checkedCommittee: "",
+        checkedCityId: id,
+        checkedAreaId: "",
+        checkedStreetId: "",
+        checkedCommitteeId: "",
         areaList: [],
         streetList: [],
         committeeList: []
@@ -320,6 +389,9 @@ export class AddrModifyModal extends Component {
         checkedArea: code,
         checkedStreet: "",
         checkedCommittee: "",
+        checkedAreaId: id,
+        checkedStreetId: "",
+        checkedCommitteeId: "",
         streetList: [],
         committeeList: []
       });
@@ -341,6 +413,8 @@ export class AddrModifyModal extends Component {
       this.setState({
         checkedStreet: code,
         checkedCommittee: "",
+        checkedStreetId: id,
+        checkedCommitteeId: "",
         committeeList: []
       });
 
@@ -359,7 +433,8 @@ export class AddrModifyModal extends Component {
       }
 
       this.setState({
-        checkedCommittee: code
+        checkedCommittee: code,
+        checkedCommitteeId: id
       });
     }
 
@@ -393,12 +468,24 @@ export class AddrModifyModal extends Component {
       });
     }
 
+    handleHide() {
+      document.body.removeChild(this.props.container);
+    }
+  
+    doCancel() {
+      this.setState({isShow: false});
+    }
+  
+    doEnter() {
+      this.setState({isShow: false});
+    }
+
     render() {
-      const {isShow, hide, needModifyItem} = this.props;
-      const {provinceList, cityList, areaList, streetList, committeeList} = this.state;
+      // const {needModifyItem} = this.props;
+      const {isShow, provinceList, cityList, areaList, streetList, committeeList, checkedProvinceId, checkedCityId, checkedAreaId, checkedStreetId, checkedCommitteeId, buildingName, buildingNo, buildingUnit, householdNo} = this.state;
       return (
-        <Modal show={isShow} onHide={hide}>
-          <Modal.Header closeButton>
+        <Modal show={isShow} onExiting={this.handleHide}>
+          <Modal.Header>
             <Modal.Title>修改地址</Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -409,7 +496,7 @@ export class AddrModifyModal extends Component {
                       <FormControl
                           componentClass="select"
                           name='station_in_sale'
-                          // value={needModifyItem.province_area_id}
+                          value={checkedProvinceId}
                           placeholder="省"
                           style={{marginLeft: 0}}
                           onChange={this.changeProvince}>
@@ -421,7 +508,7 @@ export class AddrModifyModal extends Component {
                       <FormControl
                           componentClass="select"
                           name='station_in_sale'
-                          // value={needModifyItem.city_area_id}
+                          value={checkedCityId}
                           placeholder="市"
                           onChange={this.changeCity}>
                           <option value="">请选择市</option>
@@ -432,7 +519,7 @@ export class AddrModifyModal extends Component {
                       <FormControl
                           componentClass="select"
                           name='station_in_sale'
-                          // value={needModifyItem.district_area_id}
+                          value={checkedAreaId}
                           placeholder="区"
                           onChange={this.changeArea}>
                           <option value="">请选择区</option>
@@ -448,7 +535,7 @@ export class AddrModifyModal extends Component {
                       <FormControl
                           componentClass="select"
                           name='station_in_sale'
-                          // value={needModifyItem.street_area_id}
+                          value={checkedStreetId}
                           placeholder="街道"
                           style={{marginLeft: 0}}
                           onChange={this.changeStreet}>
@@ -465,7 +552,7 @@ export class AddrModifyModal extends Component {
                       <FormControl
                           componentClass="select"
                           name='station_in_sale'
-                          // value={needModifyItem.village_area_id}
+                          value={checkedCommitteeId}
                           placeholder="居委会"
                           style={{marginLeft: 0}}
                           onChange={this.changeCommittee}>
@@ -480,7 +567,7 @@ export class AddrModifyModal extends Component {
                     <div className="col-sm-2 control-label">小区:</div>
                     <div className="col-sm-7">
                       <FormControl type="text" placeholder="小区"
-                        // value={needModifyItem.building_name}
+                        value={buildingName}
                         onChange={this.changebuildingName} />
                     </div>
                 </div>
@@ -488,7 +575,7 @@ export class AddrModifyModal extends Component {
                     <div className="col-sm-2 control-label">楼栋:</div>
                     <div className="col-sm-7">
                       <FormControl type="text" placeholder="楼栋"
-                        // value={needModifyItem.building_no}
+                        value={buildingNo}
                         onChange={this.changebuildingNo} />
                     </div>
                 </div>
@@ -496,7 +583,7 @@ export class AddrModifyModal extends Component {
                     <div className="col-sm-2 control-label">单元:</div>
                     <div className="col-sm-7">
                       <FormControl type="text" placeholder="单元"
-                        // value={needModifyItem.building_unit}
+                        value={buildingUnit}
                         onChange={this.changebuildingUnit} />
                     </div>
                 </div>
@@ -504,14 +591,14 @@ export class AddrModifyModal extends Component {
                     <div className="col-sm-2 control-label">门牌号:</div>
                     <div className="col-sm-7">
                       <FormControl type="text" placeholder="门牌号"
-                        // value={needModifyItem.household_no}
+                        value={householdNo}
                         onChange={this.changehouseholdNo} />
                     </div>
                 </div>
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={hide}>取消</Button>
+            <Button onClick={this.doCancel}>取消</Button>
             <Button bsStyle="primary" onClick={this.comfirmModify}>确定</Button>
           </Modal.Footer>
         </Modal>
@@ -570,4 +657,15 @@ export class ComfirmModifyModal extends Component {
       </Modal>
     );
   }
+}
+
+export function appendAddrModifyModal(needModifyItem, getList) {
+  const container = document.createElement('div');
+  document.body.appendChild(container);
+
+  ReactDOM.render(
+    <AddrModifyModal
+      container={container}
+      needModifyItem={needModifyItem}
+      getAddrList={getList} />, container);
 }

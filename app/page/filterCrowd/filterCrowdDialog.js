@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal,Button,FormGroup,ControlLabel,FormControl,Form,Col,HelpBlock } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import ApiMap from '../../lib/Api/ApiMap';
-import { alert } from '../../lib/Util';
+import { alert,trim } from '../../lib/Util';
 import http from '../../lib/Api/http';
 
 class FilterCrowdDialog extends React.Component{
@@ -36,14 +36,14 @@ class FilterCrowdDialog extends React.Component{
         for(let i = 0; i < fm.elements.length; i ++){
             let v = fm.elements[i];
             if(v.type === 'text'){
-                arr[v.name] = v.value;
-                v.value ? vState[v.name] = null : vState[v.name] = 'error';
-                flg = flg && v.value;
+                arr[v.name] = trim(v.value);
+                trim(v.value) ? vState[v.name] = null : vState[v.name] = 'error';
+                flg = flg && trim(v.value);
                 const reg = /[^\u4e00-\u9fa5]/gi;
                 const hanzi = v.value.replace(reg,'');
                 const vlen = (hanzi ? hanzi.length:0)+v.value.length;
                 if(vlen > 20){
-                    alert('标签名不能超过20个字符');
+                    alert('人群分类20个字符');
                     flg = false;
                 }
             }
@@ -145,15 +145,17 @@ class FilterCrowdDialog extends React.Component{
                 content =
                     <Form id="newGoodsTag" horizontal>
                         <FormGroup>
-                            <Col componentClass={ControlLabel} sm={2}>编号：</Col>
+                            <Col componentClass={ControlLabel} sm={3}>编号：</Col>
                             <Col sm={9}>
                                 <FormControl name="crowd_no" defaultValue={this.state.defaultValue.crowd_no} type="text" readOnly placeholder="编号"  />
                             </Col>
                         </FormGroup>
-                        <FormGroup>
-                            <Col componentClass={ControlLabel} sm={2}>人群筛选分类：</Col>
+                        <FormGroup validationState={this.state.vState.crowd_text}>
+                            <Col componentClass={ControlLabel} sm={3}>人群筛选分类：</Col>
                             <Col sm={9}>
-                                <FormControl name="crowd_text" type="text" defaultValue = {this.state.defaultValue.crowd_text} placeholder="人群筛选分类" />
+                                <FormControl name="crowd_text" type="text" defaultValue = {this.state.defaultValue.crowd_text}
+                                             placeholder="人群筛选分类" onChange={this.checkForm} />
+                                <HelpBlock className={ this.state.vState.crowd_text ? 'show' : 'hide'}>人群筛选分类不能为空</HelpBlock>
                             </Col>
                         </FormGroup>
                     </Form>;

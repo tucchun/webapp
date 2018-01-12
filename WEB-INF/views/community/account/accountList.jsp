@@ -12,15 +12,13 @@
         <div class="tb-wrap">
             <div class="opt clearfix">
                 <div class="pull-left">
-                    <form action="#" class="form-inline" id="js-searchForm" style="display: none;">
-                        <input type="text" class="form-control" placeholder="请输入姓名" name="staffName" value="${pages.searchMap['staffName']}"/>
-                        <tags:selectboxMapper name="position" list="${positions}" value="${pages.searchMap['position']}" emptyTitle="请选择职务" addNull="true"/>
+                    <form action="#" class="form-inline" id="js-searchForm">
+                        <input type="text" class="form-control" placeholder="请输入姓名/账户名" name="staffName" value="${pages.searchMap['staffName']}"/>
                         <tags:selectboxMapper name="staffRole" list="${staffRoles}" value="${pages.searchMap['staffRole']}" emptyTitle="请选择角色" addNull="true"/>
-                        <tags:selectboxMapper name="stationId" list="${stations}" value="${pages.searchMap['stationId']}" emptyTitle="请选择社区卫生站" addNull="true"/>
                         <input type="button" class="btn btn-main" value="查询" id="btn-search"/>
                     </form>
                 </div>
-                <div class="pull-left">
+                <div class="pull-right">
                     <button type="button" class="btn btn-main" id="js-create">添加</button>
                 </div>
             </div>

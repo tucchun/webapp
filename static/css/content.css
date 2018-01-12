@@ -407,6 +407,12 @@ label.error {
         width:750px;
     }
 }
+
+@media (min-width: 768px){
+    .bg-modal .modal-dialog{
+        width:980px;
+    }
+}
 #resident .modal-dialog label{padding:0;}
 #newHousehold .modal-content a.del{margin-right:10px;}
 #newHousehold .modal-body>div{height:550px;overflow:auto;}
@@ -596,6 +602,75 @@ body>div.modal>div.modal-dialog label.error{text-align:left;}
   padding: 20px 0;
 }
 
-.flex-auto .prod-payType{
+.flex-auto .prod-payType,.claimsRecord {
   padding: 20px;
+}
+
+.claimsRecord .girdlist{
+    margin-bottom:20px;
+}
+.claimsRecord .fileOpt .btn{
+    margin-right:10px;
+}
+
+.claimsRecord .fileOpt .btn:first-child{
+    margin:0;
+}
+.claimsRecord .girdlist .rc-table-body{
+    margin-bottom:0;
+}
+.claimsRecord .expednMsg{
+    border:1px solid #ddd;
+    border-top:none;
+}
+.claimsRecord .expednMsg span{
+    display:inline-block;
+    height:38px;
+    line-height: 38px;
+    padding:0 15px;
+}
+.claimsRecord .detailmsg{
+    background:#f7f7f7;
+    height:38px;
+    line-height: 38px;
+    padding:0 8px;
+    border:1px solid #ddd;
+    border-bottom:none;
+}
+
+
+.onSale{color:#3155f9;}
+.stopSale{color:#cf0d01;}
+
+.claimsRuls .form-control-static{
+    display:inline-block;
+}
+.claimsRuls input.form-control{
+    display:inline-block;
+    width:200px;
+    margin-right:10px;
+}
+.claimsRuls button.btn-main,.claimsRuls span.form-control-static{
+    margin-right:15px;
+}
+.claimsRuls .form-horizontal{border:1px solid #e5e5e5}
+.claimsRuls .form-horizontal >.form-group{border-bottom:1px solid #e5e5e5;margin:0;background:#f7f7f7;margin:0;}
+.claimsRuls .form-group .col-sm-2,
+.claimsRuls .form-group .col-sm-10,
+.claimsRuls .form-group .col-sm-4{padding:10px;}
+.claimsRuls .form-group .col-sm-10,
+.claimsRuls .form-group .col-sm-4{border-left:1px solid #e5e5e5;padding-left:10px;background:#fff;min-height:54px;}
+.claimsRuls .form-group .col-sm-4{border-right:1px solid #e5e5e5;}
+.claimsRuls .form-group:last-child{border:none;}
+.claimsRuls .form-group .col-sm-4:last-child{border-right:none;}
+.claimsRuls .form-group label.col-sm-2{height:54px;line-height:54px;padding:0 10px;}
+
+.claimCalculation,#itemContent .modal-body .center{
+    padding:20px;
+}
+.claimCalculation .showRes{
+    margin-top:40px;
+}
+#itemContent input[type=radio]{
+    margin-top:4px;
 }

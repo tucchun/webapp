@@ -8,10 +8,19 @@
     <div class="tb-head">组织机构管理</div>
     <div class="tb-content">
         <div class="tb-wrap">
-            <div class="opt">
+            <div class="opt clearfix">
+                <div class="pull-left">
+                    <form action="#" class="form-inline" id="js-searchForm">
+                        <input type="text" class="form-control" placeholder="请输入组织机构名" name="organizationName" value="${pages.searchMap['organizationName']}"/>
+                        <input type="button" class="btn btn-main" value="查询" id="btn-search"/>
+                    </form>
+                </div>
+
+                <div class="pull-right">
             	<c:if test="${currentPrganization.organizationLevel < 4}">
                 	<button class="btn btn-main" type="button" id="js-create">添加</button>
                 </c:if>
+                </div>
             </div>
             <table class="table table-striped table-hover table-bordered">
                 <thead>
@@ -67,6 +76,15 @@ require([
 	    $self.find("#modal_title").modal("show");
 		},"html");
 	});
+
+    // 搜索
+    $self.find("#btn-search").on('click',function(){
+        common.load({
+            container: 'organization',
+            url: '${ctx}/organization',
+            data: $self.find("#js-searchForm").serialize()
+        });
+    });
 	
 	$self.find(".js-delete").on("click", function(e){
 		var id = $(this).attr('data-id');

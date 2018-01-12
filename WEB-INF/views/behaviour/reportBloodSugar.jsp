@@ -58,7 +58,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <tags:pagination page="${pages}" action="${ctx}/behaviour/bloodSugar?organizationId=${pages.searchMap['organizationId']}&healthsId=${pages.searchMap['healthsId']}&teamId=${pages.searchMap['teamId']}&date_startStr=${pages.searchMap['date_startStr']}&date_endStr=${pages.searchMap['date_endStr']}&hecadreUidList=${pages.searchMap['hecadreUidList']}&organizationIdSingle=${pages.searchMap['organizationIdSingle']}" pageId="behaviourXTDetail" />
+            <tags:pagination page="${pages}" action="${ctx}/behaviour/bloodSugar?organizationId=${pages.searchMap['organizationId']}&healthsId=${pages.searchMap['healthsId']}&doctorUid=${pages.searchMap['doctorUid']}&date_startStr=${pages.searchMap['date_startStr']}&date_endStr=${pages.searchMap['date_endStr']}&organizationIdNoTeam=${pages.searchMap['organizationIdNoTeam']}&organizationIdSingle=${pages.searchMap['organizationIdSingle']}" pageId="behaviourXTDetail" />
         </div>
     </div>
 </div>
@@ -69,7 +69,7 @@
         
         $self.find("#btn-export").on('click',function(e){
             common.download({
-            	url:"${ctx}/behaviour/bloodSugar?organizationId=${pages.searchMap['organizationId']}&healthsId=${pages.searchMap['healthsId']}&teamId=${pages.searchMap['teamId']}&date_startStr=${pages.searchMap['date_startStr']}&date_endStr=${pages.searchMap['date_endStr']}&hecadreUidList=${pages.searchMap['hecadreUidList']}&organizationIdSingle=${pages.searchMap['organizationIdSingle']}&download=download"
+            	url:"${ctx}/behaviour/bloodSugar?organizationId=${pages.searchMap['organizationId']}&healthsId=${pages.searchMap['healthsId']}&doctorUid=${pages.searchMap['doctorUid']}&date_startStr=${pages.searchMap['date_startStr']}&date_endStr=${pages.searchMap['date_endStr']}&organizationIdNoTeam=${pages.searchMap['organizationIdNoTeam']}&organizationIdSingle=${pages.searchMap['organizationIdSingle']}&download=download"
             });
         });
         

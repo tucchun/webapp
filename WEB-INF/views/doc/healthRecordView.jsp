@@ -289,7 +289,7 @@ require(['jquery', 'js/printForm/print_form'], function($, print_form) {
 	}
 
 	// 定时刷新
-/* 	setInterval("refresh()",8*60*1000); */
+/* 	setInterval("refresh()",8*60*1000);
 	var time = 8*60*1000;
 	setTimeout(function(){
 		console.log('settimeout run');
@@ -298,7 +298,7 @@ require(['jquery', 'js/printForm/print_form'], function($, print_form) {
 	        data: {},
 	        container: 'healthRecord'
 	    });
-	}, time)
+	}, time)*/
 });
 
 function view(userIdParam,authStrParam){

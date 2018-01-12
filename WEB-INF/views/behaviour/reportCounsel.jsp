@@ -54,7 +54,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <tags:pagination page="${pages}" action="${ctx}/behaviour/counsel?userIdList=${user}&date_startStr=${pages.searchMap['date_startStr']}&date_endStr=${pages.searchMap['date_endStr']}" pageId="behaviourZXDetail" />
+            <tags:pagination page="${pages}" action="${ctx}/behaviour/counsel?organizationId=${pages.searchMap['organizationId']}&healthsId=${pages.searchMap['healthsId']}&doctorUid=${pages.searchMap['doctorUid']}&date_startStr=${pages.searchMap['date_startStr']}&date_endStr=${pages.searchMap['date_endStr']}&organizationIdNoTeam=${pages.searchMap['organizationIdNoTeam']}&organizationIdSingle=${pages.searchMap['organizationIdSingle']}" pageId="behaviourZXDetail" />
         </div>
     </div>
 </div>
@@ -65,7 +65,7 @@ require([ 'jquery' ],function($,cascade){
         
         $self.find("#btn-export").on('click',function(e){
             common.download({
-            	url:"${ctx}/behaviour/counsel?userIdList=${user}&date_startStr=${pages.searchMap['date_startStr']}&date_endStr=${pages.searchMap['date_endStr']}&download=download"
+            	url:"${ctx}/behaviour/counsel?organizationId=${pages.searchMap['organizationId']}&healthsId=${pages.searchMap['healthsId']}&doctorUid=${pages.searchMap['doctorUid']}&date_startStr=${pages.searchMap['date_startStr']}&date_endStr=${pages.searchMap['date_endStr']}&organizationIdNoTeam=${pages.searchMap['organizationIdNoTeam']}&organizationIdSingle=${pages.searchMap['organizationIdSingle']}&download=download"
             });
         });
         

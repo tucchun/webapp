@@ -242,8 +242,9 @@ export function downloadExcel(blobData, name) {
 /**
 * 时间戳转日期
 * @param timeStamp 时间戳
+* @param isHMS 是否需要时分秒，默认：true
 */
-export function formatDateTime(timeStamp) {
+export function formatDateTime(timeStamp, isHMS = true) {
   if (!timeStamp) {
     return;
   } else {
@@ -270,7 +271,9 @@ export function formatDateTime(timeStamp) {
     second = second < 10
       ? ('0' + second)
       : second;
-    return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+    return isHMS
+            ? y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second
+            : y + '-' + m + '-' + d;
   }
 }
 
@@ -450,7 +453,10 @@ export const fetchTemplate = apiData => args => {
   });
 };
 
-export function amount_format(amount) {
+export function amount_format(amount,showZero) {
+  if(showZero&&amount==0){
+    return '0.00'
+  }
   if (amount && typeof amount === 'number') {
     return amount.toFixed(2);
   }
@@ -481,3 +487,45 @@ export function toThousands(num, len) {
   }
   return t.split("").reverse().join("") + "." + r;
 }
+
+export const sexTypeMap = {
+  1: '男',
+  2: '女'
+};
+export const policyTypeMap = {
+  1: '首保',
+  2: '续保'
+};
+
+export const ownerInsuredRelMap = {
+  1: '本人',
+  2: '夫妻',
+  3: '父母',
+  4: '子女',
+  5: '雇佣',
+  6: '其他具有抚养或赡养关系的家庭成员或近亲属'
+};
+
+export const insuredCredTypeMap = {
+  1: '居民身份证',
+  2: '居民户口薄',
+  3: '驾驶证',
+  4: '军官证',
+  5: '士兵证',
+  6: '军官离退休证',
+  7: '异常身份证',
+  8: '港澳台胞证',
+  9: '回乡证',
+  10: '组织机构代码证',
+  11: '税务登记证',
+  12: '营业执照',
+  13: '护照',
+  14: '外国护照',
+  15: '旅行证',
+  16: '居留证件',
+  17: '出生证明',
+  18: '其他证件',
+  19: '外国人永久居留证'
+};
+
+

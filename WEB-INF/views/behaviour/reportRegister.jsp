@@ -42,7 +42,7 @@
                 <tbody>
                 <c:forEach items="${pages.content}" var="list" varStatus="status">
                     <tr>
-                        <td><a href="#" data-id="${list.user_id}" class="js-view">${list.userName }</a></td>
+                        <td><a href="#" data-id="${list.userId}" class="js-view">${list.userName }</a></td>
 	                    <td>${list.sexStr }</td>
 	                    <td>${list.age }</td>
 	                    <td>${list.residentNation }</td>
@@ -58,7 +58,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <tags:pagination page="${pages}" action="${ctx}/behaviour/register?organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}&userIdList=${userIdList}" pageId="behaviourZCDetail" />
+            <tags:pagination page="${pages}" action="${ctx}/behaviour/register?organizationId=${organizationId}&doctorUid=${doctorUid}&hecadreUid=${hecadreUid}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}" pageId="behaviourZCDetail" />
         </div>
     </div>
 </div>
@@ -69,7 +69,7 @@
         
         $self.find("#btn-export").on('click',function(e){
             common.download({
-            	url:"${ctx}/behaviour/register?download=download&organizationId=${organizationId}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&hecadreId=${hecadreId}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}&userIdList=${userIdList}"
+            	url:"${ctx}/behaviour/register?download=download&organizationId=${organizationId}&doctorUid=${doctorUid}&hecadreUid=${hecadreUid}&date_startStr=${date_startStr}&date_endStr=${date_endStr}&orgLevel=${orgLevel}&isTeam=${isTeam}&noTeamNext=${noTeamNext}&noHecadreNext=${noHecadreNext}"
             });
         });
         

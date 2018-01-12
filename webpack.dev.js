@@ -1,4 +1,4 @@
-const Merge = require('webpack-merge');
+const merge = require('webpack-merge');
 const CommonConfig = require('./webpack.common.js');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -6,7 +6,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Plugin = require("./app/lib/HashMapPlugin.js");
 const path = require('path');
 
-module.exports = Merge(CommonConfig, {
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+module.exports = merge(CommonConfig, {
   // devtool: 'cheap-module-source-map',
   /*module: {
     rules: [ {
@@ -19,7 +21,12 @@ module.exports = Merge(CommonConfig, {
     ]
   },*/
   plugins: [
-    new CleanWebpackPlugin('./app/dev/'),
+    new BundleAnalyzerPlugin(),
+    new webpack.DllReferencePlugin({
+      context: __dirname,
+      manifest: require('./app/common/dll/dev/manifest.json')
+    }),
+    // new CleanWebpackPlugin('./app/dev/'),
     // new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new Plugin()
