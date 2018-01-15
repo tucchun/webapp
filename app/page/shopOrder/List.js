@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import moment from 'moment';
-import {LocaleProvider} from 'antd';
-import zh_CN from 'antd/lib/locale-provider/zh_CN';
 // import _ from 'lodash';
 import Gird from '../../component/table/Table';
 import Container from '../../component/container/Container';
@@ -11,8 +8,6 @@ import PageNation from '../../component/pageNation/pageNation';
 import {alert, createTab, formatDateTime, payType, downloadExcel, amount_format} from '../../lib/Util';
 import ConditionForm from './ConditionForm';
 // import {logger} from '../../lib/logger';
-import 'moment/locale/zh-cn';
-moment.locale('zh-cn');
 import DB from './DB';
 
 let common = window.common;

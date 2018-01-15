@@ -4,8 +4,6 @@ const lib = require('./app/config/lib.dependencies.js');
 const isDev = process.env.NODE_ENV === 'development';
 const publicPath = './app/common/dll';
 const outputPath = isDev ? path.join(__dirname, `./${publicPath}/dev`) : path.join(__dirname, `./${publicPath}/dist`);
-console.log(process.env.NODE_ENV, isDev)
-
 
 const plugin = [
   new webpack.DllPlugin({
@@ -20,7 +18,7 @@ const plugin = [
      * dll bundle 输出到那个全局变量上
      * 和 output.library 一样即可。
      */
-    name: '[name]',
+    name: 'dll_11',
     context: __dirname
   })
   // new webpack.optimize.OccurenceOrderPlugin()
@@ -58,9 +56,8 @@ module.exports = {
     /**
      * output.library
      * 将会定义为 window.${output.library}
-     * 在这次的例子中，将会定义为`window.vendor_library`
      */
-    library: '[name]'
+    library: 'dll_11'
   },
   plugins: plugin
 };

@@ -2,7 +2,7 @@ const merge = require('webpack-merge');
 const CommonConfig = require('./webpack.common.js');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Plugin = require("./app/lib/HashMapPlugin.js");
 const path = require('path');
 
@@ -26,7 +26,7 @@ module.exports = merge(CommonConfig, {
       context: __dirname,
       manifest: require('./app/common/dll/dev/manifest.json')
     }),
-    // new CleanWebpackPlugin('./app/dev/'),
+    new CleanWebpackPlugin('./app/dev/'),
     // new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new Plugin()
@@ -45,7 +45,7 @@ module.exports = merge(CommonConfig, {
   output: {
     filename: '[name].js',
     chunkFilename: '[name].js',
-    publicPath: './app/dev/',
-    path: path.join(__dirname, './app/dev')
+    publicPath: './dev/',
+    path: path.join(__dirname, './dev')
   }
 });

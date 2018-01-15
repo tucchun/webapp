@@ -25,7 +25,7 @@ for (let i = 0; i < modules.length; i++) {
 module.exports = {
   entry: {
     ...entry,
-    vendor: lib
+    vendor: ['./app/component/table/Table']
   },
 
   // resolve: {

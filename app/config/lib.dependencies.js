@@ -9,6 +9,11 @@ const lib = [
   'axios',
   'es6-promise',
   'prop-types',
+  'mathjs',
+  'moment',
+  'antd',
+  'rc-table',
+  'kindeditor'
 ];
 
 
